@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Dimensions, Image } from 'react-native';
 import FormContainer from './FormContainer/FormContainer';
 import FormInput from './FormInput/FormInput';
 import FormSubmitButton from './FormButton/FormSubmitButton';
@@ -9,8 +9,15 @@ import { Formik, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import client from '../../assets/data/client';
+import { StackActions } from '@react-navigation/native';
 
-//Biến check lỗi Formik
+//Tạo biến chứa các icon,hình ảnh trong text input
+const iconName = require('../../assets/icon/profile.png');
+const iconEmail = require('../../assets/icon/mail.png');
+const iconPassowrd = require('../../assets/icon/lock.png');
+const iconConfirmPassword = require('../../assets/icon/lock.png');
+
+//Biến check lỗi thư viện Formik
 const validationSchema = Yup.object({
     fullname:
         Yup
@@ -34,14 +41,14 @@ const validationSchema = Yup.object({
             .equals([Yup.ref('password'), null], 'Password does not match!')
 })
 
-const RegisterForm = () => {
+const RegisterForm = props => {
     const userInfo = {
         fullname: '',
         email: '',
         password: '',
         confirmPassword: '',
     };
-    
+
     //Test connect React Native voi Server
     // const fetchApi = async ()=>{
     //     try{
@@ -55,13 +62,16 @@ const RegisterForm = () => {
     //     fetchApi()
     // },[])
 
-    const signUp= async (values,formikActions)=>{
-          const res = await client.post('/create-user',{
-                ...values
-            })
-            console.log(res.data);
-            formikActions.resetForm();
-            formikActions.setSubmitting(false);
+    //Biến đăng kí
+    const signUp = async (values, formikActions) => {
+        //POST đăng kí 
+        const res = await client.post('/create-user', {
+            ...values
+        })
+
+        console.log(res.data);
+        formikActions.resetForm();
+        formikActions.setSubmitting(false);
     }
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong
@@ -72,7 +82,8 @@ const RegisterForm = () => {
                 //OnSubmit trong Formik(Truyen vao values)
                 onSubmit={signUp}
             >
-                {({ values,
+                {({ 
+                    values,
                     errors,
                     touched,
                     isSubmitting,
@@ -82,9 +93,9 @@ const RegisterForm = () => {
                     const { fullname, email, password, confirmPassword } = values
                     return <>
                         {/* FormHeader trang tri phần header của screen đăng ky(ví dụ như text hoặc hình ảnh) */}
-                        <FormHeader Heading="Welcome SignUp" subHeading="Hello" />
+                        <FormHeader Heading="ArtWear" subHeading="Shop easy,shop happy" />
                         <FormInput
-                            // autoCapitalize='none' khi nhập chữ vào textinput, không che phép viết hoa chữ cái đầu
+                            // autoCapitalize='none' khi nhập chữ vào textinput, không cho phép viết hoa chữ cái đầu
                             autoCapitalize='none'
                             label='Full Name'
                             placeholder='Ly Cao Thang'
@@ -92,6 +103,7 @@ const RegisterForm = () => {
                             error={touched.fullname && errors.fullname}
                             onChangeText={handleChange('fullname')}
                             onBlur={handleBlur('fullname')}
+                            source={iconName}
                         />
                         <FormInput
                             autoCapitalize='none'
@@ -101,6 +113,7 @@ const RegisterForm = () => {
                             error={touched.email && errors.email}
                             onChangeText={handleChange('email')}
                             onBlur={handleBlur('email')}
+                            source={iconEmail}
                         />
                         <FormInput
                             autoCapitalize='none'
@@ -111,6 +124,7 @@ const RegisterForm = () => {
                             error={touched.password && errors.password}
                             onChangeText={handleChange('password')}
                             onBlur={handleBlur('password')}
+                            source={iconPassowrd}
                         />
                         <FormInput
                             autoCapitalize='none'
@@ -121,12 +135,13 @@ const RegisterForm = () => {
                             error={touched.confirmPassword && errors.confirmPassword}
                             onChangeText={handleChange('confirmPassword')}
                             onBlur={handleBlur('confirmPassword')}
+                            source={iconConfirmPassword}
                         />
                         <FormSubmitButton
                             submitting={isSubmitting}
                             onPress={handleSubmit}
                             title='Sign up'
-                        />
+                        />                    
                     </>
                 }}
             </Formik>
@@ -135,7 +150,6 @@ const RegisterForm = () => {
 };
 
 const styles = StyleSheet.create({
-
 });
 
 export default RegisterForm;

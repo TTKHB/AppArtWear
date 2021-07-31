@@ -18,18 +18,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 120
+        paddingTop: 50,
     },
     heading: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: '#1b1b33',
+        color: '#8B4C39',
     },
     subheading: {
         fontSize: 18,
         color: '#1b1b33',
         textAlign: 'center',
+        marginTop:-30,
+        paddingVertical:30
     },
 });
-
 export default FormHeader;

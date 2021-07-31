@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeNavigator from './HomeNavigator';
 import CartNavigator from './CartNavigator';
 import ProfileNavigator from './ProfileNavigator';
+import ProfileScreenTwo from '../Screens/Profile/ProfileScreenTwo';
 //stack
 const Tab = createBottomTabNavigator();
 
@@ -49,4 +50,9 @@ const Main = props => {
   );
 };
 
+
+
+
 export default Main;
+
+

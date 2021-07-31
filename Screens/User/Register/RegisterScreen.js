@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import RegisterForm from '../../../components/Login_Register/RegisterForm';
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
     return (
-        <View>
+        <View style={{flex: 1,backgroundColor: '#fff'}}>
             <ScrollView
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
             >
                 {/* Import From dang ki */}
-                <RegisterForm />
+                <RegisterForm/>
             </ScrollView>
            
         </View>
