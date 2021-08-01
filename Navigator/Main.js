@@ -3,12 +3,15 @@ import {View, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
 //Navigator
 import HomeNavigator from './HomeNavigator';
 import CartNavigator from './CartNavigator';
 import ProfileNavigator from './ProfileNavigator';
+
 //stack
 const Tab = createBottomTabNavigator();
+
 
 const Main = props => {
   return (
@@ -46,7 +49,10 @@ const Main = props => {
         }}
       />
     </Tab.Navigator>
+
   );
 };
 
 export default Main;
+
+
