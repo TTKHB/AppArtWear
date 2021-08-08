@@ -2,10 +2,9 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import LoginScreen from '../../Screens/User/LoginScreen';
 import Main from './../Main';
+import LoginScreen from '../../Screens/User/Login/LoginScreen';
 const Stack = createStackNavigator();
-
 const StackScreen = props => {
   return (
     <Stack.Navigator
