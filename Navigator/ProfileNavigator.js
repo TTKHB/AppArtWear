@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, Alert } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {useContext, useState} from 'react';
+import {View, Text, Alert} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 //Screens
 import ProfileScreen from './../Screens/Profile/ProfileScreen';
 import LoginScreen from '../Screens/User/Login/LoginScreen';
 import RegisterScreen from '../Screens/User/Register/RegisterScreen';
 import ProfileScreenTwo from '../Screens/Profile/ProfileScreenTwo';
-import { useLogin } from '../Context/LoginProvider';
+import {useLogin} from '../Context/LoginProvider';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import EditProfile from '../Screens/Profile/EditProfile';
@@ -33,11 +33,11 @@ const StackNavigator = () => {
           headerStyle: {
             backgroundColor: '#fff',
             borderColor: '#F5F5F5',
-            borderWidth: 1
+            borderWidth: 1,
           },
           headerTintColor: '#000',
           headerTitleStyle: {
-            marginLeft: 88
+            marginLeft: 88,
           },
         }}
       />
@@ -50,7 +50,7 @@ const StackNavigator = () => {
           headerStyle: {
             backgroundColor: '#fff',
             borderColor: '#F5F5F5',
-            borderWidth: 1
+            borderWidth: 1,
           },
           headerTintColor: '#000',
           headerTitleStyle: {
@@ -73,26 +73,24 @@ const StackNavigatortwo = ({navigation}) => {
           headerStyle: {
             backgroundColor: '#fff',
             borderColor: '#F5F5F5',
-            borderWidth: 1
+            borderWidth: 1,
           },
           headerLeft: () => (
-            <View style={{ marginLeft: 305 }}>
+            <View style={{marginLeft: 305}}>
               <MaterialCommunityIcons
                 name="cog-outline"
                 size={25}
-                onPress={() => 
-                  navigation.navigate("EditProfile")
-                }
+                onPress={() => navigation.navigate('EditProfile')}
               />
             </View>
           ),
-          headerRight: (navigation) => (
-            <View style={{ marginRight: 20 }}>
+          headerRight: navigation => (
+            <View style={{marginRight: 20}}>
               <MaterialCommunityIcons
                 name="cart-outline"
                 size={25}
                 color={'black'}
-              // onPress={() => navigation.navigate('')}
+                // onPress={() => navigation.navigate('')}
               />
             </View>
           ),
@@ -110,13 +108,10 @@ const StackNavigatortwo = ({navigation}) => {
 };
 
 const ProfileNavigator = () => {
-  const { isLoggedIn } = useLogin();
+  const {isLoggedIn} = useLogin();
   //Nếu chưa đăng nhập sẽ vào StackNavigator(Screen Profile chưa đăng nhập)
   //Nếu đã đăng nhập sẽ vào StackNavigatortwo(Screen Profile đã đăng nhập)
   return isLoggedIn ? <StackNavigatortwo /> : <StackNavigator />;
 };
 
-
 export default ProfileNavigator;
-
-
