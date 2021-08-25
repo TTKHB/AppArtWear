@@ -1,12 +1,10 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { useState, useEffect } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
+import CartScreen from '../Screens/Cart/CartScreen';
+import CheckoutScreen from '../Screens/User/Checkout/CheckoutScreen';
 
 const Stack = createStackNavigator();
-
-//screens
-import CartScreen from './../Screens/Cart/CartScreen';
 
 const CartNavigator = () => {
   return (
@@ -15,7 +13,44 @@ const CartNavigator = () => {
         name="Cart"
         component={CartScreen}
         options={{
-          headerShown: false,
+          // headerShown: false,
+          title: 'Ưu đãi hấp dẫn',
+          headerStyle: {
+            backgroundColor: '#fff',
+            borderColor: '#F5F5F5',
+            borderWidth: 1
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            textAlign: 'center',
+            flexGrow: 1,
+            alignSelf: 'center',
+          },
+          headerRight: ({ color }) => (
+            <IconCart />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Checkout"
+        component={CheckoutScreen}
+        options={{
+          // headerShown: false,
+          title: 'Thanh toán',
+          headerStyle: {
+            backgroundColor: '#fff',
+            borderColor: '#F5F5F5',
+            borderWidth: 1
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            textAlign: 'center',
+            flexGrow: 1,
+            alignSelf: 'center',
+          },
+          headerRight: ({ color }) => (
+            <IconCart />
+          ),
         }}
       />
     </Stack.Navigator>

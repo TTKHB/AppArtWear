@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 //Screens
-import ProfileScreen from '../Screens/Profile/ProfileScreen';
-
+import ChatScreen from '../Screens/User/Chat/ChatScreen';
 
 
 const Stack = createStackNavigator();
@@ -13,8 +11,8 @@ const ProfileNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
+        name="ChatScreen"
+        component={ChatScreen}
         options={{
           headerShown: false,
         }}
@@ -26,5 +24,3 @@ const ProfileNavigator = () => {
 
 
 export default ProfileNavigator;
-
-
