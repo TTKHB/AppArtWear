@@ -10,11 +10,10 @@ const RegisterScreen = ({navigation}) => {
                 showsHorizontalScrollIndicator={false}
             >
                 {/* Import From dang ki */}
-                <RegisterForm/>
+                <RegisterForm navigation={navigation}/>
             </ScrollView>
            
         </View>
     );
 };
-
 export default RegisterScreen;
