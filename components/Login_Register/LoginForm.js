@@ -9,12 +9,14 @@ import client from '../../assets/data/client';
 import { StackActions } from '@react-navigation/native';
 import { useLogin } from '../../Context/LoginProvider';
 import { signIn } from '../../assets/data/user';
+import Forgotpassword from './FormForgotPassword/Forgotpassword';
+import FormSMS from './FormSMS/FormSMS';
 
 const iconEmail = require('../../assets/icon/mail.png');
 const iconPassowrd = require('../../assets/icon/lock.png');
 
-const LoginForm = ({navigation}) => {
-    const {setIsLoggedIn,setProfile}=useLogin();
+const LoginForm = props => {
+    const { setIsLoggedIn, setProfile } = useLogin();
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
@@ -27,28 +29,33 @@ const LoginForm = ({navigation}) => {
     //Submit kiem tra loi
     const submitForm = async () => {
         if (isValidForm()) {
-           try{
-               const res= await 
-            //    signIn(userInfo.email,userInfo.password);
-               client.post('/sign-in',{
-                    ...userInfo
-               });
+            try {
+                //    const res= await 
+                //    client.post('/sign-in',{
+                //         ...userInfo
+                //    });
+                const res = await signIn(userInfo.email, userInfo.password);
 
-                if(res.data.success){
-                    // props.navigation.navigate('ProfileTwo');
+                if (res.data.success) {
+                    // props.navigation.navigate('ProfileNoAccount');
                     // console.log(res.data);
+                    setUserInfo({email:'',password:''})
                     setProfile(res.data.user);
+                    props.navigation.navigate('ProfileScreen');
                     setIsLoggedIn(true);
-                }else{
+                } else {
                     Alert.alert("Thất bại")
                 }
-            //    console.log('running');
-            //    console.log(res.data);    
-           }catch(error){
-               console.log(error.message);
+            } catch (error) {
+                console.log(error.message);
 
-           }
+            }
         }
+    }
+
+
+    const submitSMS = () => {
+        props.navigation.navigate('SMS');
     }
 
     const handleOnChangeText = (value, fieldName) => {
@@ -72,6 +79,7 @@ const LoginForm = ({navigation}) => {
         return true;
     }
 
+
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong
         <FormContainer>
@@ -91,15 +99,23 @@ const LoginForm = ({navigation}) => {
             <FormInput
                 autoCapitalize='none'
                 secureTextEntry
-                label='Password'
+                label='Mật Khẩu'
                 placeholder='...'
                 value={password}
                 onChangeText={(value) => handleOnChangeText(value, 'password')}
-                source={iconPassowrd }
+                source={iconPassowrd}
             />
+            <FormSubmitButton onPress={submitForm} title='Đăng Nhập' />
 
-            <FormSubmitButton onPress={submitForm} title='Login' />
+            <Forgotpassword forgotPass="Quên mật khẩu?"/>
+
+            {/* //Set onPress form FormSMS */}
+            <FormSMS SMS="Đăng nhập bằng SMS"  onPress={submitSMS}/>
+
         </FormContainer>
+
+
+
     );
 };
 

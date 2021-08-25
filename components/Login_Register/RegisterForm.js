@@ -49,30 +49,29 @@ const RegisterForm = props => {
         confirmPassword: '',
     };
 
-    //Test connect React Native voi Server
-    // const fetchApi = async ()=>{
-    //     try{
-    //         const res = await axios.get('http://10.0.2.2:3000/')
-    //         console.log(res.data);
-    //     }catch{
-    //         console.log(error.message);
-    //     }
-    // };
-    // useEffect(()=>{
-    //     fetchApi()
-    // },[])
-
     //Biến đăng kí
     const signUp = async (values, formikActions) => {
-        //POST đăng kí 
         const res = await client.post('/create-user', {
-            ...values
-        })
+            ...values,
+        });
 
-        console.log(res.data);
+        if (res.data.success) {
+            const signInRes = await client.post('/sign-in', {
+                email: values.email,
+                password: values.password,
+            });
+            if (signInRes.data.success) {
+                props.navigation.navigate('Login', {
+                    token: signInRes.data.token,
+                }
+                );
+            }
+        }
+        //Khi đăng kí xong sẽ resetForm
+        //Ví dụ lúc nãy ô fullname nhập abc khi bấm đăng kí ô full name sẽ trống và xoá abc 
         formikActions.resetForm();
         formikActions.setSubmitting(false);
-    }
+    };
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong
         <FormContainer>
@@ -82,7 +81,7 @@ const RegisterForm = props => {
                 //OnSubmit trong Formik(Truyen vao values)
                 onSubmit={signUp}
             >
-                {({ 
+                {({
                     values,
                     errors,
                     touched,
@@ -140,8 +139,34 @@ const RegisterForm = props => {
                         <FormSubmitButton
                             submitting={isSubmitting}
                             onPress={handleSubmit}
-                            title='Sign up'
-                        />                    
+                            title='Đăng Ký'
+                        />
+                        <View style={{ justifyContent: 'center', alignItems: 'center',marginTop:20 }}>
+                            <Text style={{fontSize:18}}>
+                                Bằng việc đăng ký, bạn đã đồng ý với
+                            </Text>
+                            <View style={{flexDirection:'row'}}>
+                            <Text style={{fontSize:18,color:'#1E90FF'}}>
+                                Điều khoản dịch vụ
+                            </Text>
+                            <Text style={{fontSize:18,color:'#000',marginLeft:10}}>
+                                &
+                            </Text>
+                            <Text style={{fontSize:18,color:'#1E90FF',marginLeft:10}}>
+                                Chính sách riêng tư
+                            </Text>
+                            </View>
+
+
+                            <View style={{flexDirection:'row'}}>
+                            <Text style={{fontSize:18,color:'#000'}}>
+                                của 
+                            </Text>
+                            <Text style={{fontSize:18,color:'#000',marginLeft:10,fontWeight:'bold'}}>
+                                Art Wear 
+                            </Text>
+                            </View>
+                        </View>
                     </>
                 }}
             </Formik>
