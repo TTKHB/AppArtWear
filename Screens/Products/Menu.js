@@ -37,13 +37,12 @@ const Menu = ({ navigation }) => {
 
     )
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingLeft: 10,
         paddingRight: 10,
-        backgroundColor: COLORS.light
+        backgroundColor: "#fff"
     },
     // Header Style
     headerContainer: {

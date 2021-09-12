@@ -13,8 +13,6 @@ import SettingItem from '../../components/Profile/SettingItem/SettingItem';
 import { signOut } from '../../assets/data/user';
 import { useLogin } from '../../Context/LoginProvider';
 
-
-
 const EditProfileScreen = props => {
     const { setIsLoggedIn, profile } = useLogin();
     const renderInner = () => (
@@ -24,17 +22,17 @@ const EditProfileScreen = props => {
                 <Text style={styles.panelSubtitle}>Bạn muốn đăng xuất tài khoản?</Text>
             </View>
             <TouchableOpacity style={styles.panelButton}
-              onPress={async() =>{
-                const isLoggedOut= await signOut()
-                if(isLoggedOut){
-                  setIsLoggedIn(false)
-                  props.navigation.navigate('Main');
+                onPress={async () => {
+                    const isLoggedOut = await signOut()
+                    if (isLoggedOut) {
+                        setIsLoggedIn(false)
+                        props.navigation.navigate('Main');
+                    }
                 }
-            } 
-              // setIsLoggedIn(false)
-            }
+                    // setIsLoggedIn(false)
+                }
             >
-            <Text style={styles.panelButtonTitle}>Đăng xuất</Text>
+                <Text style={styles.panelButtonTitle}>Đăng xuất</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.panelButton}
@@ -66,12 +64,12 @@ const EditProfileScreen = props => {
                 callbackNode={fall}
                 enabledGestureInteraction={true}
             />
-            <SettingItem  name="Tài khoản của tôi" />
-            <SettingItem  name="Địa chỉ" />
-            <SettingItem  name="Tuỳ chọn thanh toán của tôi" />
+            <SettingItem name="Tài khoản của tôi" />
+            <SettingItem name="Địa chỉ" />
+            <SettingItem name="Tuỳ chọn thanh toán của tôi" />
             <View style={styles.divider} />
-            <SettingItem  name="Sản phẩm yêu thích" />
-            <SettingItem  name="Sản phẩm mua sau" />
+            <SettingItem name="Lịch sử mua hàng" onPress={() => props.navigation.navigate('UserNavigator', { screen: 'MyOrDer' })} />
+            <SettingItem name="Sản phẩm mua sau" />
             <SettingItem name="Sản phẩm đánh giá" />
             <Animated.View style={{
                 margin: 20,
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
     },
-    commandText:{
+    commandText: {
         fontSize: 17,
         fontWeight: 'bold',
         color: '#000',
@@ -123,7 +121,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        marginTop:50
+        marginTop: 50
     },
     panelHeader: {
         alignItems: 'center',

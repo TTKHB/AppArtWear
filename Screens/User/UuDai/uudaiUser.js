@@ -19,7 +19,7 @@ import LottieView from 'lottie-react-native';
 
 const { width } = Dimensions.get('window');
 
-const uudaiUser = ({ navigation }) => {
+const UuDaiUser = ({ navigation }) => {
   const animation = useRef(new Animated.Value(0)).current;
   const scrollView = useRef();
   const voucherHeaderOpacity = animation.interpolate({
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
 
   },
 })
-export default uudaiUser;
+export default UuDaiUser;
 
 
 

@@ -16,6 +16,7 @@ import COLORS from '../../assets/data/colors';
 import Danhgia from '../../components/ProductMenu/Danhgia';
 import furnitures from '../../assets/data/furnitures';
 import { LogBox } from 'react-native';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 //  detail
 const ProductDetailsScreen = ({ item, navigation }) => {
   const background = item.background;
@@ -29,16 +30,15 @@ const ProductDetailsScreen = ({ item, navigation }) => {
   }).start();
 
   return (
-
     <View style={[styles.container, { backgroundColor: COLORS.white }]}>
       {/* Header */}
 
       <View style={styles.header}>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={() => navigation.goBack()} >
           <Icon name="keyboard-arrow-left" size={30} color={COLORS.black} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Icon name="shopping-cart" size={30} color={COLORS.black} />
+          <IconCart name="handbag" size={30} color={COLORS.black} />
         </TouchableOpacity>
       </View>
 
@@ -57,8 +57,12 @@ const ProductDetailsScreen = ({ item, navigation }) => {
 
           {/* đánh giá */}
           <TouchableOpacity style={{
-            flexDirection: 'row', left: 220, top: -45
-          }} onPress={() => navigation.navigate('Star_rating')} >
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            top: -45
+          }}
+            onPress={() => navigation.navigate('Star_rating')}
+          >
             <Danhgia />
             <Danhgia />
             <Danhgia />
@@ -120,7 +124,6 @@ const ProductDetailsScreen = ({ item, navigation }) => {
             key={item}
             style={styles.dropDownItem}
             contentVisible={false}
-
             header={
               <Text style={styles.mota}>Mô tả</Text>
             }
@@ -130,7 +133,7 @@ const ProductDetailsScreen = ({ item, navigation }) => {
           <Text style={styles.mota}>Sản phẩm </Text>
           <FlatList
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingLeft: 20 }}
+            contentContainerStyle={{ paddingLeft: 5 }}
             data={furnitures}
             horizontal
             renderItem={({ item }) => <SeacrchProduct furniture={item} navigation={navigation} />}
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    height: 70,
+    height: 80,
     padding: 20,
     flexDirection: 'row',
     alignItems: 'center',

@@ -5,7 +5,7 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-var logo = require('../../assets/banner/SplashScreen.png');
+var logo = require('../../assets/images/Banner/SplashScreen.png');
 
 export default class Splasscreen extends Component {
   constructor(props) {

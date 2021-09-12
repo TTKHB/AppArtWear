@@ -1,13 +1,12 @@
 import React from 'react';
-import {View, Text,TouchableOpacity} from 'react-native';
+import {View, Text} from 'react-native';
 
 const HotScreen = () => {
   return (
     <View>
-      <Text>HotScreen</Text>
+      <Text>Menu</Text>
     </View>
   );
 };
 
-export default HotScreen;
-
+export default HotScreen ;

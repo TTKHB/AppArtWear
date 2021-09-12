@@ -8,105 +8,118 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Alert
+  Alert,
+  Dimensions
 } from 'react-native';
-import COLORS from '../../assets/data/colors';
-import Swiper from 'react-native-swiper';
-import SearchBar from '../../components/Home/SearchBar';
 import Category from '../../components/Home/Category';
 import furnitures from '../../assets/data/furnitures';
 import Product from '../../components/Home/Product';
 import SeacrchProduct from '../../components/Home/SeacrchProduct';
-import PopularItemCard from '../../components/Home/PopularItemCard';
-import Danhmuc from '../../components/Home/Danhmuc';
 import CountDown from '../../components/Home/CountDown';
+import IconRight from 'react-native-vector-icons/Entypo';
+import { DATA } from '../../assets/data/PopularSearch';
+import SwiperHeader from '../../components/Home/SwiperHeader';
+import SwiperBody from '../../components/Home/SwiperBody';
+import SwiperItemBody from '../../components/Home/SwiperItemBody';
+
+const { height, width } = Dimensions.get('window');
 
 // trang home
-
 const ProductScreen = ({ navigation }) => {
+  const renderItemPhoBien = ({ item, index }) => {
+    return (
+      <View style={styles.viewPopSearch}>
+        <View style={{ flex: 2 }}>
+          <Image
+            style={{ flex: 1, width: null, height: null, resizeMode: 'cover' }}
+            source={item.image} />
+        </View>
+        <View style={{}}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'red' }}>{item.price}</Text>
+        </View>
+      </View>
+
+    );
+  }
   return (
     <>
       <SafeAreaView style={styles.container}>
-
-        <ScrollView style={styles.wrap} showsVerticalScrollIndicator={true}>
+        <ScrollView style={styles.wrap}>
           {/* thể loại */}
           <Category />
-          {/* banner */}
-          <View style={styles.slideConainer}>
-            <Swiper autoplay horizontal={true}>
-              <View style={styles.slide}>
-                <Image
-                  source={require('../../assets/data/banner1.jpg')}
-                  resizeMode="cover"
-                  style={styles.sliderImage}
-                />
-              </View>
-              <View style={styles.slide}>
-                <Image
-                  source={require('../../assets/data/banner2.jpg')}
-                  resizeMode="cover"
-                  style={styles.sliderImage}
-                />
-              </View>
-              <View style={styles.slide}>
-                <Image
-                  source={require('../../assets/data/banner3.jpg')}
-                  resizeMode="cover"
-                  style={styles.sliderImage}
-                />
-              </View>
-            </Swiper>
-          </View>
-
+          {/* banner Header */}
+          <SwiperHeader />
           {/* Flash Sales */}
-          <View style={styles.flashing}>
-            <Text style={styles.flashingTitle}>Flash Sales</Text>
-            <CountDown />
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Cart')}
-            >
-              <Text style={styles.flashingSubTitle}>Tất cả</Text>
-            </TouchableOpacity>
+          <View style={styles.contentGif}>
+            <View style={styles.itemContainer}>
+              {/* Gift Header */}
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={styles.itemHeader}>
+                  <Text style={styles.itemTextHeader} >Flash Sales</Text>
+                </View>
+                <View>
+                  <CountDown />
+                </View>
+                <View>
+                  <IconRight style={{ marginTop: 8 }} name="chevron-small-right" size={24} />
+                </View>
+              </View>
+              <FlatList
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingLeft: 5 }}
+                data={furnitures}
+                horizontal
+                renderItem={({ item }) => <Product furniture={item}
+                />}
+              />
+            </View>
           </View>
-
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingLeft: 20 }}
-            data={furnitures}
-            horizontal
-            renderItem={({ item }) => <Product furniture={item}
-            />}
-          />
-
+          {/* banner Body */}
+          <View style={styles.bannerGif}>
+            <SwiperBody />
+          </View>
+          {/* banner Body TWO */}
+          <View style={styles.bannerGifTwo}>
+            <SwiperItemBody />
+          </View>
           {/* Tìm kiếm hàng đầu */}
-          <View style={styles.flashing}>
+          <View style={{ marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.flashingTitlee}>Tìm kiếm hàng đầu</Text>
             <TouchableOpacity>
               <Text style={styles.flashingSubTitle}>Tất cả</Text>
             </TouchableOpacity>
           </View>
-
           <FlatList
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingLeft: 20 }}
+            contentContainerStyle={{ paddingLeft: 5 }}
             data={furnitures}
             horizontal
             renderItem={({ item }) => <SeacrchProduct furniture={item} navigation={navigation} />}
           />
-
-
           {/* Tim kiem pho bien */}
           <View style={styles.flashing}>
             <Text style={styles.flashingTitlee}>Tìm kiếm phổ biến</Text>
+            <TouchableOpacity>
+              <Text style={styles.allPopularSearch}>Tất cả</Text>
+            </TouchableOpacity>
           </View>
-
-          <FlatList
-            numColumns={2}
-            data={furnitures}
-            renderItem={({ item }) => <PopularItemCard furniture={item} />}
-          />
-          {/* Danh muc  */}
-          <Danhmuc />
+          <View style={styles.viewDanhMuc}>
+            <View style={{ marginTop: 10 }}>
+              <ScrollView
+                showsHorizontalScrollIndicator={false}
+                horizontal>
+                <FlatList
+                  numColumns={DATA.length / 2} // numColumns 2 nam ngang
+                  pagingEnabled={true}
+                  showsHorizontalScrollIndicator={false}
+                  data={DATA} //set Data
+                  renderItem={renderItemPhoBien}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              </ScrollView>
+            </View>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </>
@@ -120,7 +133,7 @@ const styles = StyleSheet.create({
   },
   wrap: {
     flex: 1,
-    padding: 14,
+    padding: 10,
   },
   headerTitle: {
     width: '70%',
@@ -148,50 +161,87 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: 'space-between',
   },
-
-  //baner
-  slideConainer: {
-    height: 190,
-    width: '100%',
-    marginTop: 7,
-    justifyContent: 'center',
-    borderRadius: 2,
-  },
-  wrapper: {},
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    borderRadius: 8,
-  },
-  sliderImage: {
-    height: '100%',
-    width: '100%',
-    alignSelf: 'center',
-    borderRadius: 8,
-  },
   listItemType: {
     flexDirection: 'row',
   },
-
   flashing: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   flashingTitle: {
-    fontSize: 24,
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
     fontWeight: 'bold',
-    color: COLORS.red,
+    fontSize: 24,
+    lineHeight: 37,
+    marginLeft: 4,
+    color: '#8D6E63'
   },
   flashingTitlee: {
-    fontSize: 20,
-    color: COLORS.red,
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginLeft: 4,
+    color: '#8D6E63'
   },
   flashingSubTitle: {
     fontSize: 15,
-    // fontWeight: 'bold',
+    color: 'black',
+    marginTop: 0,
+    marginRight: 10
   },
-});
+  contentGif: {
+    borderRadius: 15,
+    marginTop: 10,
+  },
+  itemContainer: {
+    paddingHorizontal: 0,
+    paddingVertical: 10,
+  },
+  itemHeader: {
+    flexDirection: 'row',
+  },
+  itemTextHeader: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginLeft: 4,
+    color: '#8D6E63'
+  },
+  bannerGif: {
+    height: height / 6,
+    resizeMode: 'contain',
+  },
+  bannerGifTwo: {
+    height: height / 6,
+    resizeMode: 'contain',
+    marginTop: 10
+  },
+  imageGif: {
+    width: width,
+    height: height / 3,
+  },
+  allPopularSearch: {
+    fontSize: 15,
+    color: 'black',
+    marginTop: 8,
+    marginRight: 14
+  },
 
+  viewDanhMuc: {
+    height: height / 1.7,
+    width: 500,
+    backgroundColor: '#fff',
+  },
+  textBox: {
+    marginLeft: 20,
+    marginTop: 10,
+    color: '#384F7D',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  viewPopSearch: {
+    height: 250,
+    width: 150,
+    margin: 10,
+  }
+});
 export default ProductScreen;
