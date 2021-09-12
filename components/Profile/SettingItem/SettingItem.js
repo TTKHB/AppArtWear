@@ -7,11 +7,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-const SettingItem = ({name }) => (
+const SettingItem = ({name,onPress }) => (
   <View style={styles.itemContainer}>
     {/* <MaterialCommunityIcons name={icon} size={26} color="#1e1e1e" /> */}
     <Text style={styles.itemText}>{name}</Text>
-    <FontAwesome name="angle-right" size={26} color="#1e1e1e" />
+    <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={onPress}/>
   </View>
 );
 

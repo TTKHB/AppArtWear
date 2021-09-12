@@ -21,27 +21,27 @@ const StarRating = (props) => {
     }
 
     return (
-        <View style={ styles.container }>
-            { stars }
+        <View style={styles.container}>
+            {stars}
             <Text style={styles.text}>({props.reviews})</Text>
         </View>
     );
-	
+
 }
 
 export default StarRating;
 
 const styles = StyleSheet.create({
-	container: {
-		flexDirection: 'row',
-		alignItems: 'center'
-	},
-	star: {
-		color: '#FF8C00'
-	},
-	text: {
-		fontSize: 12,
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    star: {
+        color: '#FF8C00'
+    },
+    text: {
+        fontSize: 12,
         marginLeft: 5,
         color: '#444',
-	}
+    }
 });

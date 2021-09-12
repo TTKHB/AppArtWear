@@ -10,16 +10,13 @@ import {
   Image,
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
-
-import Icon from 'react-native-vector-icons/MaterialIcons';
 const { width } = Dimensions.get('screen');
 
 // flash sale
 
 const Product = ({ furniture, navigation }) => {
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('DetailsScreen')}>
+    <TouchableOpacity>
       <View style={style.card}>
         <View style={{ flexDirection: 'row' }}>
           <Image
@@ -62,7 +59,7 @@ const style = StyleSheet.create({
     height: 40,
   },
   card: {
-    height: 220,
+    height: 250,
     backgroundColor: COLORS.white,
     elevation: 10,
     width: width / 2.5,
@@ -73,18 +70,19 @@ const style = StyleSheet.create({
   },
   cardName: {
     marginTop: 10,
-    fontSize: 12,
+    fontSize: 18,
     color: COLORS.black,
     fontWeight: 'bold',
   },
   price: { 
     color: COLORS.red, 
-    fontSize: 12 
+    fontSize: 16,
+    fontWeight:'bold' 
   },
   price1: {
-    color: COLORS.black,
+    color: '#808080',
     fontWeight: 'bold',
-    fontSize: 10,
+    fontSize: 14,
     textDecorationLine: 'line-through',
   },
   title: { 

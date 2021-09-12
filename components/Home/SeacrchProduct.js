@@ -36,32 +36,35 @@ const style = StyleSheet.create({
   iconContainer: {
     width: 40,
     height: 40,
-
     position: 'absolute',
     elevation: 2,
     right: 4,
-
-
   },
   card: {
     height: 220,
     backgroundColor: COLORS.white,
-    elevation: 10,
+    elevation: 7,
     width: width / 2.5,
     marginRight: 20,
-
     padding: 10,
-    marginVertical: 20,
+    marginVertical: 10,
     borderRadius: 5,
   },
   cardName: {
     marginTop: 10,
-    fontSize: 12,
+    fontSize: 16,
     color: COLORS.black,
     fontWeight: 'bold',
   },
-  price: { color: COLORS.black, fontSize: 12, },
+  price: { 
+    color: COLORS.black,
+     fontSize: 14, 
+    },
 
-  title: { fontSize: 18, fontWeight: 'bold', paddingHorizontal: 20 },
+  title: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    paddingHorizontal: 20 
+  },
 })
 export default Seacrh_Product;

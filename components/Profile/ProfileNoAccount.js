@@ -17,7 +17,7 @@ import { useLogin } from '../../Context/LoginProvider';
 import Service from './ServiceItem/Service';
 import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
-const artwear = require('../../assets/banner/SplashScreen.png');
+const artwear = require('../../assets/images/Banner/SplashScreen.png');
 
 
 const abc = () => {

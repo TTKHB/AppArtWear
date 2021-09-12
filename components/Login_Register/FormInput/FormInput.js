@@ -12,9 +12,9 @@ const FormInput = (props) => {
                 justifyContent: 'space-between',
                 marginBottom: 5,
             }}>
-                <Text style={{ }}>{label}</Text>
+                <Text style={styles.textname}>{label}</Text>
                 {error ? (
-                    <Text style={{ color: 'red' }}>{error}</Text>
+                    <Text style={styles.textError}>{error}</Text>
                 ) : null}
             </View>
 
@@ -62,6 +62,13 @@ const styles = StyleSheet.create({
         height: 50,
         flex: 1,
     },
+    textname:{
+        fontSize: 15,
+        color: '#000',
+    },
+    textError:{
+        color: 'red' 
+    }
 });
 
 export default FormInput;

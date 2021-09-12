@@ -1,16 +1,18 @@
 import React from 'react';
-import { View,Text,FlatList,StyleSheet,ScrollView,TouchableOpacity,Image} from 'react-native';
+import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import COLORS from '../../assets/data/colors';
 import categories from '../../assets/data/categories';
 
 
 // thể loại
 const Category = () => {
-    const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
-    return (
-      <ScrollView
-        horizontal
-        contentContainerStyle={style.categoriesListContainer}>
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
+  return (
+    <ScrollView 
+    showsVerticalScrollIndicator={false}
+    showsHorizontalScrollIndicator={false}
+    horizontal>
+      <View style={styles.categoriesListContainer}>
         {categories.map((category, index) => (
           <TouchableOpacity
             key={index}
@@ -18,18 +20,17 @@ const Category = () => {
             onPress={() => setSelectedCategoryIndex(index)}>
             {/* Button */}
             <View
-              style={style.categoryBtn}>
-              <View style={style.categoryBtnImgCon}>
+              style={styles.categoryBtn}>
+              <View style={styles.categoryBtnImgCon}>
                 <Image
                   source={category.image}
-                  style={{height: 35, width: 35, resizeMode: 'cover'}}
+                  style={{ height: 32, width: 32, resizeMode: 'cover' }}
                 />
               </View>
-
-            {/* chữ */}
+              {/* chữ */}
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 18,
                   fontWeight: 'bold',
                   marginLeft: 10,
                   color: COLORS.black
@@ -39,33 +40,33 @@ const Category = () => {
             </View>
           </TouchableOpacity>
         ))}
-      </ScrollView>
-    );
-  };
-
-const style = StyleSheet.create({
-    categoriesListContainer: {
-        paddingVertical: 5,
-        alignItems: 'center',
-        paddingHorizontal: 20,
-      },
-      categoryBtn: {
-        height: 45,
-        width: 120,
-        marginRight: 7,
-        backgroundColor: COLORS.grey,
-        borderRadius:5,
-        alignItems: 'center',
-        paddingHorizontal: 5,
-        flexDirection: 'row',
-      },
-      categoryBtnImgCon: {
-        height: 35,
-        width: 35,
-        // backgroundColor: COLORS.white,
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
+      </View>
+    </ScrollView>
+  );
+};
+const styles = StyleSheet.create({
+  categoriesListContainer: {
+    paddingVertical: 5,
+    flexDirection: 'row'
+  },
+  categoryBtn: {
+    height: 45,
+    width: 130,
+    marginRight: 10,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderColor: '#000',
+    borderWidth: 0.3,
+    justifyContent: 'center'
+  },
+  categoryBtnImgCon: {
+    height: 35,
+    width: 35,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 })
 export default Category;

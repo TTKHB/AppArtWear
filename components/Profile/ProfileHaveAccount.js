@@ -1,14 +1,14 @@
 import React from 'react';
-import { 
-  View, 
-  Text, 
-  SafeAreaView, 
-  StyleSheet, 
-  StatusBar, 
-  Alert, 
-  ScrollView, 
-  Image, 
-  TouchableOpacity 
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
+  Alert,
+  ScrollView,
+  Image,
+  TouchableOpacity
 } from 'react-native';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import IconSetting from 'react-native-vector-icons/Feather';
@@ -24,22 +24,21 @@ import { useLogin } from '../../Context/LoginProvider';
 import Service from './ServiceItem/Service';
 import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
-const artwear = require('../../assets/banner/SplashScreen.png');
-
-const abc = () => {
-  Alert.alert("Hello")
-}
+const artwear = require('../../assets/images/Banner/SplashScreen.png');
 
 const ProfileHaveAccount = props => {
   const { setIsLoggedIn, profile } = useLogin();
   const setting = () => {
-    props.navigation.navigate('UserNavigator', {screen: 'Setting'})
+    props.navigation.navigate('UserNavigator', { screen: 'Setting' })
   }
   const Cart = () => {
-    props.navigation.navigate('CartNavigator', {screen: 'Cart'})
+    props.navigation.navigate('CartNavigator', { screen: 'Cart' })
   }
   const UuDai = () => {
-    props.navigation.navigate('UserNavigator', {screen: 'uudaiUser'})
+    props.navigation.navigate('UserNavigator', { screen: 'uudaiUser' })
+  }
+  const MyOrDer = () => {
+    props.navigation.navigate('UserNavigator', { screen: 'TrackOrders' })
   }
   return (
     <ScrollView>
@@ -76,7 +75,7 @@ const ProfileHaveAccount = props => {
         {/* MyOrder */}
         <View style={styles.content}>
           {/* Đơn hàng của tôi */}
-          <ProfileItem icon="form-select" name="Đơn hàng của tôi" iconright="angle-right" onPress={abc} />
+          <ProfileItem icon="form-select" name="Đơn hàng của tôi" iconright="angle-right" onPress={MyOrDer} />
           {/* Line gạch ngang */}
           <View style={styles.divider} />
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -101,7 +100,7 @@ const ProfileHaveAccount = props => {
 
         {/* Gift */}
         <View style={styles.contentGif}>
-          <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift" onPress={UuDai}/>
+          <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift" onPress={UuDai} />
         </View>
 
         {/* Dịch vụ của tôi */}
@@ -156,11 +155,9 @@ const ProfileHaveAccount = props => {
     </ScrollView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f7f7f7',
-
   },
   headerWrapper: {
     backgroundColor: '#FFFCF2',
