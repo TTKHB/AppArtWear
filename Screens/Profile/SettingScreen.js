@@ -13,7 +13,7 @@ import SettingItem from '../../components/Profile/SettingItem/SettingItem';
 import { signOut } from '../../assets/data/user';
 import { useLogin } from '../../Context/LoginProvider';
 
-const EditProfileScreen = props => {
+const SettingScreen = props => {
     const { setIsLoggedIn, profile } = useLogin();
     const renderInner = () => (
         <View style={styles.panel}>
@@ -83,7 +83,7 @@ const EditProfileScreen = props => {
     );
 };
 
-export default EditProfileScreen;
+export default SettingScreen;
 
 const styles = StyleSheet.create({
     container: {
