@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import RegisterScreen from '../Screens/User/Register/RegisterScreen';
-import LoginScreen from '../Screens/User/Login/LoginScreen';
+import RegisterScreen from '../../Screens/User/Register/RegisterScreen';
+import LoginScreen from '../../Screens/User/Login/LoginScreen';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
-import LoginScreenSMS from '../Screens/User/Login/LoginScreenSMS';
-import SettingScreen from '../Screens/Profile/SettingScreen';
-import uudaiUser from '../Screens/User/UuDai/uudaiUser';
+import LoginScreenSMS from '../../Screens/User/Login/LoginScreenSMS';
+import SettingScreen from '../../Screens/Profile/SettingScreen';
+import MyOrDerScreen from '../../Screens/User/MyOrDer/MyOrDerScreen';
+import TrackOrdersScreen from '../../Screens/User/MyOrDer/TrackOrdersScreen';
+import UuDaiUser from '../../Screens/User/UuDai/UuDaiUser';
 
 const Stack = createStackNavigator();
 
@@ -26,9 +28,9 @@ const UserNavigator = () => {
                     headerTintColor: '#000',
                     headerTitleStyle: {
                         textAlign: 'center',
-                        flexGrow: 1,
                         alignSelf: 'center',
                     },
+                    headerTitleAlign:'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),
@@ -48,9 +50,9 @@ const UserNavigator = () => {
                     headerTintColor: '#000',
                     headerTitleStyle: {
                         textAlign: 'center',
-                        flexGrow: 1,
                         alignSelf: 'center',
                     },
+                    headerTitleAlign:'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),
@@ -83,9 +85,9 @@ const UserNavigator = () => {
                     headerTintColor: '#000',
                     headerTitleStyle: {
                         textAlign: 'center',
-                        flexGrow: 1,
                         alignSelf: 'center',
                     },
+                    headerTitleAlign:'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),
@@ -93,7 +95,7 @@ const UserNavigator = () => {
             />
             <Stack.Screen
                 name="uudaiUser"
-                component={uudaiUser}
+                component={UuDaiUser}
                 options={{
                     // headerShown: false,
                     title: 'Ưu đãi hấp dẫn',
@@ -105,12 +107,26 @@ const UserNavigator = () => {
                     headerTintColor: '#000',
                     headerTitleStyle: {
                         textAlign: 'center',
-                        flexGrow: 1,
                         alignSelf: 'center',
                     },
+                    headerTitleAlign:'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),
+                }}
+            />
+            <Stack.Screen
+                name="TrackOrders"
+                component={TrackOrdersScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="MyOrDer"
+                component={MyOrDerScreen}
+                options={{
+                    headerShown: false,
                 }}
             />
         </Stack.Navigator>

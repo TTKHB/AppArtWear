@@ -12,7 +12,7 @@ const HotNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Hot"
+        name="HotScreen"
         component={HotScreen}
         options={{
           headerShown: false,

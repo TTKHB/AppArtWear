@@ -32,47 +32,55 @@ const MyStack = () => {
           headerTintColor: '#8D6E63',
           headerTitleStyle: {
             textAlign: 'center',
-            flexGrow: 1,
             alignSelf: 'center',
             fontSize: 28,
             fontWeight: 'bold'
           },
+          headerTitleAlign: 'center',
           headerLeft: ({ color }) => (
-            <TouchableOpacity
+            <View
               style={{
                 flexDirection: 'row',
                 marginLeft: 10
               }}>
-              <IconNotification
-                name="notification"
-                size={24}
-                style={{
-                  marginRight: 10
-                }}
-              />
-              <IconSearch
-                name="search"
-                size={24}
-                style={{
-                  marginTop: 2
-                }}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity>
+                <IconNotification
+                  name="notification"
+                  size={24}
+                  style={{
+                    marginRight: 10
+                  }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <IconSearch
+                  name="search"
+                  size={24}
+                  style={{
+                    marginTop: 2
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           ),
           headerRight: ({ color }) => (
-            <TouchableOpacity
+            <View
               style={{
                 flexDirection: 'row',
                 marginRight: 10
               }}>
-              <IconFavorite
-                name="favorite-outline"
-                size={28}
-                style={{
-                  marginRight: 10
-                }} />
-              <IconCart name="handbag" size={24} />
-            </TouchableOpacity>
+              <TouchableOpacity>
+                <IconFavorite
+                  name="favorite-outline"
+                  size={28}
+                  style={{
+                    marginRight: 10
+                  }} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <IconCart name="handbag" size={24} />
+              </TouchableOpacity>
+            </View>
           ),
         }}
       />
@@ -87,7 +95,7 @@ const MyStack = () => {
         name="Menuu"
         component={Menu}
         options={{
-          title: 'Menu',
+          title: 'Tìm kiếm hàng đầu',
           headerStyle: {
             backgroundColor: '#fff',
             borderColor: '#F5F5F5',
@@ -96,11 +104,11 @@ const MyStack = () => {
           headerTintColor: '#8D6E63',
           headerTitleStyle: {
             textAlign: 'center',
-            flexGrow: 1,
             alignSelf: 'center',
             fontSize: 28,
             fontWeight: 'bold'
           },
+          headerTitleAlign:'center',
           headerRight: ({ color }) => (
             <TouchableOpacity
               style={{

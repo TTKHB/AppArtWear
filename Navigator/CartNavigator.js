@@ -14,7 +14,7 @@ const CartNavigator = () => {
         component={CartScreen}
         options={{
           // headerShown: false,
-          title: 'Ưu đãi hấp dẫn',
+          title: 'Giỏ hàng của tôi',
           headerStyle: {
             backgroundColor: '#fff',
             borderColor: '#F5F5F5',
@@ -23,9 +23,9 @@ const CartNavigator = () => {
           headerTintColor: '#000',
           headerTitleStyle: {
             textAlign: 'center',
-            flexGrow: 1,
             alignSelf: 'center',
           },
+          headerTitleAlign:'center',
           headerRight: ({ color }) => (
             <IconCart />
           ),
@@ -45,9 +45,9 @@ const CartNavigator = () => {
           headerTintColor: '#000',
           headerTitleStyle: {
             textAlign: 'center',
-            flexGrow: 1,
             alignSelf: 'center',
           },
+          headerTitleAlign:'center',
           headerRight: ({ color }) => (
             <IconCart />
           ),
