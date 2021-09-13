@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     width: 140,
     height: 130,
     borderRadius: 15,
-    borderWidth:1
+    borderWidth:1,
   },
   imageItemOne: {
     width: '100%',

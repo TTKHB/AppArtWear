@@ -28,7 +28,7 @@ const TimeSale = () => {
 
     // Getting the current date-time
     // You can set your own date-time
-    let expirydate = '2021-09-05 04:00:45';
+    let expirydate = '2021-09-14 04:00:45';
 
     let diffr =
       moment
