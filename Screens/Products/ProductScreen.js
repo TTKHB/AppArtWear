@@ -22,6 +22,11 @@ import SwiperHeader from '../../components/Home/SwiperHeader';
 import SwiperBody from '../../components/Home/SwiperBody';
 import SwiperItemBody from '../../components/Home/SwiperItemBody';
 
+import Carousel from 'react-native-snap-carousel';
+import { DataQuangCao } from '../../components/Home/ItemHome';
+const SLIDER_WIDTH = Dimensions.get('window').width + 10
+const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7)
+
 const { height, width } = Dimensions.get('window');
 
 // trang home
@@ -40,6 +45,24 @@ const ProductScreen = ({ navigation }) => {
         </View>
       </View>
 
+    );
+  }
+
+  const renderItemImage = ({ item, index }) => {
+    return (
+      <View style={{ marginLeft: '-17%' }}>
+        <View style={styles.viewPop}>
+          <View style={{ flex: 1 }}>
+            <Image
+              style={{ flex: 1, width: null, height: null, resizeMode: 'cover', borderTopLeftRadius: 15, borderTopRightRadius: 15 }}
+              source={item.image} />
+          </View>
+          <View style={{ margin: 7 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
+            <Text style={{ fontSize: 16 }}>{item.description}</Text>
+          </View>
+        </View>
+      </View>
     );
   }
   return (
@@ -118,6 +141,20 @@ const ProductScreen = ({ navigation }) => {
                   keyExtractor={(item, index) => index.toString()}
                 />
               </ScrollView>
+            </View>
+          </View>
+
+          <View style={{ backgroundColor: '#fff', height: 270 }}>
+            <View>
+              <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
+            </View>
+            <View >
+              <Carousel
+                data={DataQuangCao}
+                renderItem={renderItemImage}
+                sliderWidth={SLIDER_WIDTH}
+                itemWidth={ITEM_WIDTH}
+              />
             </View>
           </View>
         </ScrollView>
@@ -242,6 +279,21 @@ const styles = StyleSheet.create({
     height: 250,
     width: 150,
     margin: 10,
-  }
+  },
+  viewPop: {
+    height: height / 4.8,
+    width: width / 1.5,
+    elevation: 5,
+    marginVertical: 10,
+    borderRadius: 15,
+    backgroundColor: '#fff'
+  },
+  textBox: {
+    marginTop: 10,
+    fontWeight: 'bold',
+    fontSize: 24,
+    marginLeft: 10,
+    color: '#8D6E63'
+  },
 });
 export default ProductScreen;
