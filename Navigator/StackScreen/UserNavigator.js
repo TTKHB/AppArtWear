@@ -7,7 +7,7 @@ import LoginScreenSMS from '../../Screens/User/Login/LoginScreenSMS';
 import SettingScreen from '../../Screens/Profile/SettingScreen';
 import MyOrDerScreen from '../../Screens/User/MyOrDer/MyOrDerScreen';
 import TrackOrdersScreen from '../../Screens/User/MyOrDer/TrackOrdersScreen';
-import UuDaiUser from '../../Screens/User/UuDai/UuDaiUser';
+import UuDaiUser from '../../Screens/User/UuDai/uudaiUser';
 
 const Stack = createStackNavigator();
 
