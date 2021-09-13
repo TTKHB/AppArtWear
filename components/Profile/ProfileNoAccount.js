@@ -19,7 +19,6 @@ import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
 const artwear = require('../../assets/images/Banner/SplashScreen.png');
 
-
 const abc = () => {
     Alert.alert("Hello")
 }
@@ -215,7 +214,7 @@ const styles = StyleSheet.create({
     contentGif: {
         marginHorizontal: 15,
         paddingHorizontal: 15,
-        backgroundColor: '#FFEFEA',
+        backgroundColor: '#fff',
         borderRadius: 15,
         marginTop: 15,
         borderWidth: 0.5,

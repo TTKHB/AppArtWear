@@ -1,10 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView,Image } from 'react-native';
-
-
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const infomationArtWear = ({img, name, onPress ,iconright}) => (
     <View style={styles.itemContainer}>
       <Image source={img} style={{height:80,width:80,marginTop:15}}/>

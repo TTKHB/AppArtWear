@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Dash from 'react-native-dash';
-const logo = require('../../../assets/images/sweater2.png');
-const logotwo = require('../../../assets/images/varsity.png');
+const logo = require('../../../assets/images/Ao/AoKhoac/aokhoac1.png');
+const logotwo = require('../../../assets/images/Ao/VarsityJacket/varsity1.png');
 const iconGift = require('../../../assets/images/giftbox.png');
 
 const Gift = ({ textHeader, iconGif,onPress }) => (
@@ -64,7 +64,7 @@ const Gift = ({ textHeader, iconGif,onPress }) => (
 const styles = StyleSheet.create({
   //ProfileItem
   itemContainer: {
-    backgroundColor: '#FFEFEA',
+    backgroundColor: '#fff',
     paddingHorizontal: 0,
     paddingVertical: 10,
   },
@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     width: 140,
     height: 130,
-    borderRadius: 15
+    borderRadius: 15,
+    borderWidth:1
   },
   imageItemOne: {
     width: '100%',
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     borderRadius: 15
   },
   btnItemOne: {
-    backgroundColor: '#FD2B6C',
+    backgroundColor: '#000',
     borderRadius: 15,
     width: 80,
     height: 30,
@@ -119,7 +120,8 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     marginLeft: 15,
-    borderRadius: 15
+    borderRadius: 15,
+    borderWidth:1
   },
   imageItemTwo: {
     width: '100%',
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   btnItemTwo: {
-    backgroundColor: '#FD2B6C',
+    backgroundColor: '#000',
     borderRadius: 15,
     width: 80,
     height: 30,
