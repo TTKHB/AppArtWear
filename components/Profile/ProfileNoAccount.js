@@ -102,42 +102,42 @@ const ProfileNoAccount = props => {
                 {/* Dịch vụ của tôi */}
                 <View style={styles.Service}>
                     <MyService icon="charity" name="Dịch vụ của tôi" />
-                        {/* hàng 1 */}
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Service icon="help-circle-outline"
-                                name={`Trợ giúp `}
-                            />
-                            <Service icon="brightness-percent"
-                                name={`Voucher`}
-                            />
-                            <Service icon="wallet-outline"
-                                name={`Ví tiền `}
-                            />
-                            <Service icon="cash-usd-outline"
-                                name={`Nạp thẻ `}
-                            />
-                            <Service icon="card-text-outline"
-                                name={`Đánh giá `}
-                            />
-                        </View>
-                        {/* hàng 2 */}
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-                            <Service icon="assistant"
-                                name={`Ưu đãi `}
-                            />
-                            <Service icon="diamond-stone"
-                                name={`Săn kim\n cương`}
-                            />
-                            <Service icon="headphones"
-                                name={`Chăm sóc`}
-                            />
-                            <Service icon="form-select"
-                                name={`Bán cùng\n ArtWear `}
-                            />
-                            <Service icon="share-variant"
-                                name={`Chia sẻ `}
-                            />
-                        </View>
+                    {/* hàng 1 */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Service icon="help-circle-outline"
+                            name={`Trợ giúp `}
+                        />
+                        <Service icon="brightness-percent"
+                            name={`Voucher`}
+                        />
+                        <Service icon="wallet-outline"
+                            name={`Ví tiền `}
+                        />
+                        <Service icon="cash-usd-outline"
+                            name={`Nạp thẻ `}
+                        />
+                        <Service icon="card-text-outline"
+                            name={`Đánh giá `}
+                        />
+                    </View>
+                    {/* hàng 2 */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
+                        <Service icon="assistant"
+                            name={`Ưu đãi `}
+                        />
+                        <Service icon="diamond-stone"
+                            name={`Săn kim\n cương`}
+                        />
+                        <Service icon="headphones"
+                            name={`Chăm sóc`}
+                        />
+                        <Service icon="form-select"
+                            name={`Bán cùng\n ArtWear `}
+                        />
+                        <Service icon="share-variant"
+                            name={`Chia sẻ `}
+                        />
+                    </View>
                 </View>
                 {/* Thông tin về Art Wear */}
                 <View style={styles.contentArtWear}>
@@ -212,8 +212,8 @@ const styles = StyleSheet.create({
         marginTop: 15,
         borderWidth: 0.5,
         borderColor: '#E0E0E0',
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        height: height / 4.5
     },
     contentArtWear: {
         marginHorizontal: 15,

@@ -8,7 +8,8 @@ import {
   Alert,
   ScrollView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import IconSetting from 'react-native-vector-icons/Feather';
@@ -25,7 +26,7 @@ import Service from './ServiceItem/Service';
 import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
 const artwear = require('../../assets/images/Banner/SplashScreen.png');
-
+const { height, width } = Dimensions.get('window');
 const ProfileHaveAccount = props => {
   const { setIsLoggedIn, profile } = useLogin();
   const setting = () => {
@@ -214,13 +215,15 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0'
   },
   contentGif: {
+    backgroundColor: '#fff',
     marginHorizontal: 15,
     paddingHorizontal: 15,
-    backgroundColor: '#fff',
     borderRadius: 15,
     marginTop: 15,
     borderWidth: 0.5,
-    borderColor: '#E0E0E0'
+    borderColor: '#E0E0E0',
+    alignItems: 'center',
+    height: height / 4.5
   },
   contentArtWear: {
     marginHorizontal: 15,
