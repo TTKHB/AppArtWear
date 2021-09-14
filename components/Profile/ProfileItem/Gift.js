@@ -64,9 +64,8 @@ const Gift = ({ textHeader, iconGif,onPress }) => (
 const styles = StyleSheet.create({
   //ProfileItem
   itemContainer: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 0,
-    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent:'center'
   },
   itemHeader: {
     flexDirection: 'row',
@@ -81,14 +80,15 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   box: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent:'center',
   },
   itemmone: {
     backgroundColor: '#A790C8',
     marginVertical: 15,
     paddingHorizontal: 0,
     paddingVertical: 0,
-    width: 140,
+    width: 130,
     height: 130,
     borderRadius: 15,
     borderWidth:1,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 80,
     height: 30,
-    marginLeft: 32,
+    marginLeft: 27,
     marginTop: -12,
   },
   textItemOne: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0,
     width: 120,
-    height: 150,
+    height: 145,
     marginLeft: 15,
     borderRadius: 10,
   },
