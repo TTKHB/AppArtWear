@@ -82,7 +82,7 @@ const ProductScreen = ({ navigation }) => {
                   <Text style={styles.itemTextHeader} >Flash Sales</Text>
                 </View>
               </View>
-              <View style={{ marginLeft: '30%' }}>
+              <View style={{ marginLeft: '18%' }}>
                 <CountDown />
               </View>
               <View>
