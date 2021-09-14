@@ -140,7 +140,7 @@ const ProductScreen = ({ navigation }) => {
             </View>
           </View>
           {/* Có thể bạn quan tâm */}
-          <View style={{ height: 270, marginTop: 5 }}>
+          <View style={{ height: 280, marginTop: 5 }}>
             <View>
               <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
             </View>
