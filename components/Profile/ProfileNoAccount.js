@@ -102,7 +102,6 @@ const ProfileNoAccount = props => {
                 {/* Dịch vụ của tôi */}
                 <View style={styles.Service}>
                     <MyService icon="charity" name="Dịch vụ của tôi" />
-                    <View style={{}}>
                         {/* hàng 1 */}
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Service icon="help-circle-outline"
@@ -139,7 +138,6 @@ const ProfileNoAccount = props => {
                                 name={`Chia sẻ `}
                             />
                         </View>
-                    </View>
                 </View>
                 {/* Thông tin về Art Wear */}
                 <View style={styles.contentArtWear}>
@@ -234,7 +232,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
         borderWidth: 0.5,
         borderColor: '#E0E0E0',
-        height: height / 3.8
     },
     title: {
         fontWeight: 'bold',
