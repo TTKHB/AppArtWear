@@ -30,7 +30,7 @@ const UserNavigator = () => {
                         textAlign: 'center',
                         alignSelf: 'center',
                     },
-                    headerTitleAlign:'center',
+                    headerTitleAlign: 'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),
@@ -52,7 +52,7 @@ const UserNavigator = () => {
                         textAlign: 'center',
                         alignSelf: 'center',
                     },
-                    headerTitleAlign:'center',
+                    headerTitleAlign: 'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),
@@ -87,7 +87,7 @@ const UserNavigator = () => {
                         textAlign: 'center',
                         alignSelf: 'center',
                     },
-                    headerTitleAlign:'center',
+                    headerTitleAlign: 'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),
@@ -109,7 +109,7 @@ const UserNavigator = () => {
                         textAlign: 'center',
                         alignSelf: 'center',
                     },
-                    headerTitleAlign:'center',
+                    headerTitleAlign: 'center',
                     headerRight: ({ color }) => (
                         <IconCart />
                     ),

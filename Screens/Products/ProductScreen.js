@@ -8,7 +8,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Alert,
   Dimensions
 } from 'react-native';
 import Category from '../../components/Home/Category';
@@ -47,7 +46,6 @@ const ProductScreen = ({ navigation }) => {
 
     );
   }
-
   const renderItemImage = ({ item, index }) => {
     return (
       <View style={{ marginLeft: '-17%' }}>
@@ -131,24 +129,18 @@ const ProductScreen = ({ navigation }) => {
           </View>
           <View style={styles.viewDanhMuc}>
             <View style={{ marginTop: 5 }}>
-              <ScrollView
-                showsHorizontalScrollIndicator={false}
+              <FlatList
                 horizontal
-                style={{ height: height / 1.7 }}
-              >
-                <FlatList
-                  numColumns={DATA.length / 2} // numColumns 2 nam ngang
-                  pagingEnabled={true}
-                  showsHorizontalScrollIndicator={false}
-                  data={DATA} //set Data
-                  renderItem={renderItemPhoBien}
-                  keyExtractor={(item, index) => index.toString()}
-                />
-              </ScrollView>
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                data={DATA} //set Data
+                renderItem={renderItemPhoBien}
+                keyExtractor={(item, index) => index.toString()}
+              />
             </View>
           </View>
           {/* Có thể bạn quan tâm */}
-          <View style={{ height: 270, marginTop: 10 }}>
+          <View style={{ height: 270, marginTop: 5 }}>
             <View>
               <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
             </View>
@@ -166,7 +158,6 @@ const ProductScreen = ({ navigation }) => {
     </>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -269,7 +260,6 @@ const styles = StyleSheet.create({
   },
 
   viewDanhMuc: {
-    height: height / 1.7,
     width: 500,
   },
   textBox: {
