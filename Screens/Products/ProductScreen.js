@@ -87,6 +87,7 @@ const ProductScreen = ({ navigation }) => {
               </View>
               <View>
                 <IconRight style={{ marginTop: 8 }} name="chevron-small-right" size={24} />
+                <Text>abc</Text>
               </View>
             </View>
             <View style={styles.itemContainer}>
