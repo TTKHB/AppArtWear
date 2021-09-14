@@ -1,30 +1,30 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView, Image } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView, Image,Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Dash from 'react-native-dash';
 const logo = require('../../../assets/images/Ao/AoKhoac/aokhoac1.png');
 const logotwo = require('../../../assets/images/Ao/VarsityJacket/varsity1.png');
 const iconGift = require('../../../assets/images/giftbox.png');
-
-const Gift = ({ textHeader, iconGif,onPress }) => (
+const { height, width } = Dimensions.get('window');
+const Gift = ({ textHeader, iconGif, onPress }) => (
   <View style={styles.itemContainer}>
     {/* Gift Header */}
     <View style={styles.itemHeader}>
-      <Icon name={iconGif} size={30} color="#E93B39" style={styles.iconHeader} onPress={onPress}/>
+      <Icon name={iconGif} size={30} color="#E93B39" style={styles.iconHeader} onPress={onPress} />
       <Text style={styles.itemTextHeader} onPress={onPress}>{textHeader}</Text>
     </View>
     {/* BOX */}
     <View style={styles.box}>
       {/* BOX Item One */}
       <View style={styles.itemmone}>
-        <Image source={logo} style={styles.imageItemOne} onPress={onPress}/>
+        <Image source={logo} style={styles.imageItemOne} onPress={onPress} />
         <View style={styles.btnItemOne}>
           <Text style={styles.textItemOne} onPress={onPress}>-79%</Text>
         </View>
       </View>
       {/* BOX Item Two */}
       <View style={styles.itemmtwo}>
-        <Image source={logotwo} style={styles.imageItemTwo} onPress={onPress}/>
+        <Image source={logotwo} style={styles.imageItemTwo} onPress={onPress} />
         <View style={styles.btnItemTwo}>
           <Text style={styles.textItemTwo} onPress={onPress}>-99%</Text>
         </View>
@@ -40,7 +40,6 @@ const Gift = ({ textHeader, iconGif,onPress }) => (
         <View style={styles.viewDash}>
           <Dash dashLength={5} dashColor="#FFFCF2" />
         </View>
-
         {/*  Hình tròn bên trái bị cắt 1 nửa ngay đường line */}
         <View style={styles.viewCustomOne}>
           <View style={styles.customborderTopOne} />
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
   //ProfileItem
   itemContainer: {
     alignItems: 'center',
-    justifyContent:'center'
+    justifyContent: 'center'
   },
   itemHeader: {
     flexDirection: 'row',
@@ -80,18 +79,18 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   box: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent:'center',
+    width:width/1.2,
   },
   itemmone: {
     backgroundColor: '#A790C8',
-    marginVertical: 15,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    width: 130,
-    height: 130,
+    width: 100,
+    height: 125,
     borderRadius: 15,
-    borderWidth:1,
+    borderWidth: 1,
+    alignItems: 'center'
   },
   imageItemOne: {
     width: '100%',
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 80,
     height: 30,
-    marginLeft: 27,
     marginTop: -12,
   },
   textItemOne: {
@@ -114,14 +112,12 @@ const styles = StyleSheet.create({
   },
   itemmtwo: {
     backgroundColor: '#fff',
-    marginVertical: 15,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    width: 130,
-    height: 130,
+    width: 100,
+    height: 125,
     marginLeft: 15,
     borderRadius: 15,
-    borderWidth:1
+    borderWidth: 1,
+    alignItems: 'center'
   },
   imageItemTwo: {
     width: '100%',
@@ -133,7 +129,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 80,
     height: 30,
-    marginLeft: 27,
     marginTop: -12,
   },
   textItemTwo: {
@@ -144,13 +139,12 @@ const styles = StyleSheet.create({
   },
   itemmthree: {
     backgroundColor: '#FD4545',
-    marginVertical: 15,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    width: 120,
-    height: 145,
+    marginTop:15,
+    width: 100,
+    height: 140,
     marginLeft: 15,
     borderRadius: 10,
+    alignItems: 'center',
   },
   headerItemThree: {
     alignItems: 'center',
@@ -170,13 +164,13 @@ const styles = StyleSheet.create({
   },
   viewDash: {
     marginVertical: 0,
-    marginLeft: -2,
   },
   viewCustomOne: {
-    marginTop: -7
+    marginTop: -7,
+    marginRight: 97,
   },
   customborderTopOne: {
-    backgroundColor: '#FFFCF2',
+    backgroundColor: '#fff',
     height: 5,
     width: 5,
     borderTopRightRadius: 50
@@ -189,7 +183,7 @@ const styles = StyleSheet.create({
   },
   viewCustomTwo: {
     marginTop: -9,
-    marginLeft: 116,
+    marginLeft: 97,
   },
   customborderTopTwo: {
     backgroundColor: '#FFFCF2',
@@ -207,10 +201,9 @@ const styles = StyleSheet.create({
   viewGetIt: {
     backgroundColor: '#fff',
     borderRadius: 15,
-    width: 100,
+    width: 80,
     height: 22,
-    marginLeft: 10,
-    marginTop: 15
+    marginTop:7,
   },
   textGetIt: {
     textAlign: 'center',
