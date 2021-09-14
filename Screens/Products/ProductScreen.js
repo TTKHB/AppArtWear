@@ -75,19 +75,21 @@ const ProductScreen = ({ navigation }) => {
           <SwiperHeader />
           {/* Flash Sales */}
           <View style={styles.contentGif}>
-            <View style={styles.itemContainer}>
-              {/* Gift Header */}
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            {/* Gift Header */}
+            <View style={styles.viewBody}>
+              <View style={styles.itemBody}>
                 <View style={styles.itemHeader}>
                   <Text style={styles.itemTextHeader} >Flash Sales</Text>
                 </View>
-                <View>
-                  <CountDown />
-                </View>
-                <View>
-                  <IconRight style={{ marginTop: 8 }} name="chevron-small-right" size={24} />
-                </View>
               </View>
+              <View style={{ marginLeft: '30%' }}>
+                <CountDown />
+              </View>
+              <View>
+                <IconRight style={{ marginTop: 8 }} name="chevron-small-right" size={24} />
+              </View>
+            </View>
+            <View style={styles.itemContainer}>
               <FlatList
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingLeft: 5 }}
@@ -107,7 +109,7 @@ const ProductScreen = ({ navigation }) => {
             <SwiperItemBody />
           </View>
           {/* Tìm kiếm hàng đầu */}
-          <View style={{ marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <View style={{ marginTop: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={styles.flashingTitlee}>Tìm kiếm hàng đầu</Text>
             <TouchableOpacity>
               <Text style={styles.flashingSubTitle}>Tất cả</Text>
@@ -128,10 +130,12 @@ const ProductScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.viewDanhMuc}>
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 5 }}>
               <ScrollView
                 showsHorizontalScrollIndicator={false}
-                horizontal>
+                horizontal
+                style={{ height: height / 1.7 }}
+              >
                 <FlatList
                   numColumns={DATA.length / 2} // numColumns 2 nam ngang
                   pagingEnabled={true}
@@ -143,8 +147,8 @@ const ProductScreen = ({ navigation }) => {
               </ScrollView>
             </View>
           </View>
-
-          <View style={{ backgroundColor: '#fff', height: 270 }}>
+          {/* Có thể bạn quan tâm */}
+          <View style={{ height: 270, marginTop: 10 }}>
             <View>
               <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
             </View>
@@ -204,6 +208,7 @@ const styles = StyleSheet.create({
   flashing: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 15
   },
   flashingTitle: {
     fontFamily: 'Roboto',
@@ -228,7 +233,7 @@ const styles = StyleSheet.create({
   },
   contentGif: {
     borderRadius: 15,
-    marginTop: 10,
+    marginTop: 15,
   },
   itemContainer: {
     paddingHorizontal: 0,
@@ -266,7 +271,6 @@ const styles = StyleSheet.create({
   viewDanhMuc: {
     height: height / 1.7,
     width: 500,
-    backgroundColor: '#fff',
   },
   textBox: {
     marginLeft: 20,
@@ -294,6 +298,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginLeft: 10,
     color: '#8D6E63'
+  },
+  viewBody: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  itemBody: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+
   },
 });
 export default ProductScreen;

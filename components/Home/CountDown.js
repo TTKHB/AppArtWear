@@ -47,8 +47,7 @@ const TimeSale = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ marginLeft:150 }}>
+    // <SafeAreaView style={styles.container}>
         <CountDown
           until={totalDuration}
           //duration of countdown in seconds
@@ -64,8 +63,7 @@ const TimeSale = () => {
           //Show :
           showSeparator
         />
-      </View>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 };
 
