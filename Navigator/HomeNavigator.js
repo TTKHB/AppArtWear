@@ -12,11 +12,15 @@ import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import IconFavorite from 'react-native-vector-icons/MaterialIcons';
 import IconSearch from 'react-native-vector-icons/Octicons';
 import IconNotification from 'react-native-vector-icons/AntDesign';
+import Notification from '../Screens/Notification/Notification';
 /**
  * Muốn thêm màn hình ở home thì them stack.screen ở dưới
  *
  */
-const MyStack = () => {
+
+
+
+const MyStack = ({navigation}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -43,13 +47,19 @@ const MyStack = () => {
                 flexDirection: 'row',
                 marginLeft: 10
               }}>
-              <TouchableOpacity>
+              <TouchableOpacity >
                 <IconNotification
                   name="notification"
                   size={24}
+                  onPress={() => 
+                    {
+                    alert('You tapped the button!');
+                  }
+                }
                   style={{
                     marginRight: 10
                   }}
+
                 />
               </TouchableOpacity>
               <TouchableOpacity>
@@ -108,7 +118,7 @@ const MyStack = () => {
             fontSize: 28,
             fontWeight: 'bold'
           },
-          headerTitleAlign:'center',
+          headerTitleAlign: 'center',
           headerRight: ({ color }) => (
             <TouchableOpacity
               style={{
