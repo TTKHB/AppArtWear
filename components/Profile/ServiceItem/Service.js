@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView,Share,TouchableOpacity, StyleSheet, StatusBar, Alert, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Service = ({ icon, name, onPress, iconright }) => (
   <View style={styles.item}>
-    <View style={styles.btnItemOne}>
+    <View  style={styles.btnItemOne}>
       <Icon name={icon} size={30} color="#8D6E63" />
     </View>
     <View>
