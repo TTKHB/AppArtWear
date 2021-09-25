@@ -8,6 +8,9 @@ import SettingScreen from '../../Screens/Profile/SettingScreen';
 import MyOrDerScreen from '../../Screens/User/MyOrDer/MyOrDerScreen';
 import TrackOrdersScreen from '../../Screens/User/MyOrDer/TrackOrdersScreen';
 import UuDaiUser from '../../Screens/User/UuDai/uudaiUser';
+import SearchScreen from '../../Screens/Products/SearchScreen';
+import Notification from '../../Screens/Notification/Notification';
+import ProductFoundScreen from '../../Screens/Products/ProductFoundScreen';
 
 const Stack = createStackNavigator();
 
@@ -125,6 +128,28 @@ const UserNavigator = () => {
             <Stack.Screen
                 name="MyOrDer"
                 component={MyOrDerScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="SearchScreen"
+                component={SearchScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="ProductFoundScreen"
+                component={ProductFoundScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+
+            <Stack.Screen
+                name="Notification"
+                component={Notification}
                 options={{
                     headerShown: false,
                 }}
