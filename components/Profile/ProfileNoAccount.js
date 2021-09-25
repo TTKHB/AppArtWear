@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet,Share, StatusBar, Alert, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import ProfileItem from './ProfileItem/ProfileItem';
@@ -16,6 +16,22 @@ import InfomationArtWear from './ProfileItem/infomationArtWear';
 const artwear = require('../../assets/images/Banner/SplashScreen.png');
 
 const { height, width } = Dimensions.get('window');
+const onShare =  () => {
+    try {
+      const result =  Share.share({
+        message:
+          'React Native | A framework for building native apps using React',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+        } else {     
+        }
+      } else if (result.action === Share.dismissedAction) {
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
 const abc = () => {
     Alert.alert("Hello")
@@ -134,9 +150,11 @@ const ProfileNoAccount = props => {
                         <Service icon="form-select"
                             name={`Bán cùng\n ArtWear `}
                         />
-                        <Service icon="share-variant"
+                      <TouchableOpacity onPress={onShare}>
+                      <Service icon="share-variant"
                             name={`Chia sẻ `}
                         />
+                      </TouchableOpacity>
                     </View>
                 </View>
                 {/* Thông tin về Art Wear */}
