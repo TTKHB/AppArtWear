@@ -11,7 +11,7 @@ import IconSearch from 'react-native-vector-icons/Octicons';
 
 const Stack = createStackNavigator();
 
-const MenuNavigator = () => {
+const MenuNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -29,7 +29,7 @@ const MenuNavigator = () => {
             alignSelf: 'center',
             fontSize: 28,
           },
-          headerTitleAlign:'center',
+          headerTitleAlign: 'center',
           headerLeft: ({ color }) => (
             <TouchableOpacity
               style={{
@@ -42,6 +42,7 @@ const MenuNavigator = () => {
                 style={{
                   marginTop: 2
                 }}
+                onPress={() => navigation.navigate('UserNavigator', { screen: 'SearchScreen' })}
               />
             </TouchableOpacity>
           ),
