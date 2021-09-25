@@ -20,7 +20,7 @@ import Notification from '../Screens/Notification/Notification';
 
 
 
-const MyStack = ({navigation}) => {
+const HomeNavigator = ({navigation}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -51,11 +51,7 @@ const MyStack = ({navigation}) => {
                 <IconNotification
                   name="notification"
                   size={24}
-                  onPress={() => 
-                    {
-                    alert('You tapped the button!');
-                  }
-                }
+                  onPress={() => navigation.navigate('UserNavigator', { screen: 'Notification' })}
                   style={{
                     marginRight: 10
                   }}
@@ -144,6 +140,8 @@ const MyStack = ({navigation}) => {
     </Stack.Navigator>
   );
 };
-export default function HomeNavigator() {
-  return <MyStack />;
-}
+// export default function HomeNavigator({navigation}) {
+//   return <MyStack />;
+// }
+
+export default HomeNavigator;
