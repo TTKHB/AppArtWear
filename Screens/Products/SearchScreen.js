@@ -40,7 +40,7 @@ const DATACategory = [
   },
 ];
 
-const SearchScreen = () => {
+const SearchScreen = ({navigation}) => {
   const [search, setSearcher] = useState(null);
   const [category, setCategory] = useState(DATACategory);
 
@@ -115,6 +115,7 @@ const SearchScreen = () => {
               height: 50,
             }}
             searchIcon={{type: 'font-awesome', name: 'search', size: 18}}
+            onPressIn={() => navigation.navigate('UserNavigator', { screen: 'ProductFoundScreen' })}
           />
         } //centerComponent
       />
