@@ -67,7 +67,9 @@ const ProfileHaveAccount = ({ navigation, route }) => {
                 {profile ? (
                   <Avatar.Image
                     source={{
-                      uri: profile ? profile.avatar || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+                      uri: profile ? profile.avatar ||
+                        'https://res.cloudinary.com/artwear/image/upload/v1632695686/imageUser/LogoUser_khxsbc.jpg'
+                        : 'https://res.cloudinary.com/artwear/image/upload/v1632695686/imageUser/LogoUser_khxsbc.jpg'
                     }}
                     size={90}
                   />
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
   },
   userText: {
     marginLeft: 120,
-    marginTop: -57,
+    marginTop: -70,
   },
   userName: {
     color: "#000",

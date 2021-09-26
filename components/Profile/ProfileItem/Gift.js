@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView, Image,Dimensions } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView, Image, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Dash from 'react-native-dash';
 const logo = require('../../../assets/images/Ao/AoKhoac/aokhoac1.png');
@@ -54,6 +54,7 @@ const Gift = ({ textHeader, iconGif, onPress }) => (
         <View style={styles.viewGetIt}>
           <Text style={styles.textGetIt} onPress={onPress}>Nhận ngay</Text>
         </View>
+
       </View>
     </View>
   </View>
@@ -64,11 +65,12 @@ const styles = StyleSheet.create({
   //ProfileItem
   itemContainer: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   itemHeader: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 15
   },
   itemTextHeader: {
     color: '#E93B39',
@@ -82,12 +84,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    width:width/1.2,
+    width: width / 1.2,
+    paddingHorizontal: 10
   },
   itemmone: {
     backgroundColor: '#A790C8',
-    width: 100,
-    height: 125,
+    width: width / 4.5,
+    height: height / 8.0,
     borderRadius: 15,
     borderWidth: 1,
     alignItems: 'center'
@@ -100,20 +103,20 @@ const styles = StyleSheet.create({
   btnItemOne: {
     backgroundColor: '#000',
     borderRadius: 15,
-    width: 80,
-    height: 30,
+    width: 70,
+    height: 27,
     marginTop: -12,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   textItemOne: {
-    textAlign: 'center',
     fontWeight: 'bold',
     color: '#fff',
-    marginTop: 5
   },
   itemmtwo: {
     backgroundColor: '#fff',
-    width: 100,
-    height: 125,
+    width: width / 4.5,
+    height: height / 8.0,
     marginLeft: 15,
     borderRadius: 15,
     borderWidth: 1,
@@ -127,21 +130,21 @@ const styles = StyleSheet.create({
   btnItemTwo: {
     backgroundColor: '#000',
     borderRadius: 15,
-    width: 80,
-    height: 30,
+    width: 70,
+    height: 27,
     marginTop: -12,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   textItemTwo: {
-    textAlign: 'center',
     fontWeight: 'bold',
     color: '#fff',
-    marginTop: 5,
   },
   itemmthree: {
     backgroundColor: '#FD4545',
-    marginTop:15,
-    width: 100,
-    height: 140,
+    marginTop: 15,
+    width: width / 5.0,
+    height: height / 7.0,
     marginLeft: 15,
     borderRadius: 10,
     alignItems: 'center',
@@ -163,39 +166,41 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   viewDash: {
-    marginVertical: 0,
+    marginVertical: 2,
+    height: 2,
+    width: width / 5.0,
   },
   viewCustomOne: {
-    marginTop: -7,
+    marginTop: -8,
     marginRight: 97,
   },
   customborderTopOne: {
     backgroundColor: '#fff',
     height: 5,
-    width: 5,
+    width: 10,
     borderTopRightRadius: 50
   },
   customborderBottomOne: {
     backgroundColor: '#FFFCF2',
     height: 5,
-    width: 5,
+    width: 10,
     borderBottomRightRadius: 50,
   },
   viewCustomTwo: {
-    marginTop: -9,
-    marginLeft: 97,
+    marginTop: -10,
+    marginLeft: 96,
   },
   customborderTopTwo: {
     backgroundColor: '#FFFCF2',
     height: 5,
-    width: 5,
+    width: 10,
     borderTopLeftRadius: 50,
     justifyContent: 'flex-end'
   },
   customborderBottomTwo: {
     backgroundColor: '#FFFCF2',
     height: 5,
-    width: 5,
+    width: 10,
     borderBottomLeftRadius: 50,
   },
   viewGetIt: {
@@ -203,14 +208,18 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 80,
     height: 22,
-    marginTop:7,
+    marginTop: 3
   },
   textGetIt: {
     textAlign: 'center',
     fontWeight: 'bold',
-  }
-
-
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#fff',
+    marginLeft: 1,
+    margin: 5
+  },
 })
 
 export default Gift;

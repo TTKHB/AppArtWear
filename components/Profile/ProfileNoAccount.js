@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     Dimensions
 }
-    from 'react-native';
+from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import ProfileItem from './ProfileItem/ProfileItem';
@@ -65,10 +65,7 @@ const ProfileNoAccount = props => {
                         <View style={styles.userInfoSection}>
                             <View style={styles.row}>
                                 <Avatar.Image
-                                    source={{
-                                        uri:
-                                            'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-                                    }}
+                                    source={require('../../assets/images/users/LogoUser.jpg')}
                                     size={90}
                                 />
                                 <View style={styles.userText} >
@@ -241,7 +238,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: '#E0E0E0',
         alignItems: 'center',
-        height: height / 4.5
+        height: height / 4.2
     },
     contentArtWear: {
         marginHorizontal: 15,
