@@ -6,11 +6,11 @@ import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import LoginScreenSMS from '../../Screens/User/Login/LoginScreenSMS';
 import SettingScreen from '../../Screens/Profile/SettingScreen';
 import MyOrDerScreen from '../../Screens/User/MyOrDer/MyOrDerScreen';
-import TrackOrdersScreen from '../../Screens/User/MyOrDer/TrackOrdersScreen';
 import UuDaiUser from '../../Screens/User/UuDai/uudaiUser';
 import SearchScreen from '../../Screens/Products/SearchScreen';
 import Notification from '../../Screens/Notification/Notification';
 import ProductFoundScreen from '../../Screens/Products/ProductFoundScreen';
+import PurchaseOrder from '../../Screens/User/PurchaseOrder/PurchaseOrder';
 
 const Stack = createStackNavigator();
 
@@ -119,8 +119,8 @@ const UserNavigator = () => {
                 }}
             />
             <Stack.Screen
-                name="TrackOrders"
-                component={TrackOrdersScreen}
+                name="PurchaseOrder"
+                component={PurchaseOrder}
                 options={{
                     headerShown: false,
                 }}
