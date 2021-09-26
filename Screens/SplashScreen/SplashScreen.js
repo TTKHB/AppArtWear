@@ -5,7 +5,7 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-var logo = require('../../assets/images/Banner/SplashScreen.png');
+var logo = require('../../assets/images/Banner/LogoArtWear.jpg');
 
 export default class Splasscreen extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class Splasscreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={logo} />
+        <Image style={styles.logo} source={logo} />
       </View>
     );
   };
@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff'
+  },
+  logo: {
+    height: '70%',
+    width: '70%'
   }
 })
 
