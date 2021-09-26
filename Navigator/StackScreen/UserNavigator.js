@@ -11,6 +11,7 @@ import SearchScreen from '../../Screens/Products/SearchScreen';
 import Notification from '../../Screens/Notification/Notification';
 import ProductFoundScreen from '../../Screens/Products/ProductFoundScreen';
 import PurchaseOrder from '../../Screens/User/PurchaseOrder/PurchaseOrder';
+import SuccessScreen from '../../Screens/User/Register/SuccessScreen';
 
 const Stack = createStackNavigator();
 
@@ -120,6 +121,13 @@ const UserNavigator = () => {
             <Stack.Screen
                 name="Notification"
                 component={Notification}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Success"
+                component={SuccessScreen}
                 options={{
                     headerShown: false,
                 }}
