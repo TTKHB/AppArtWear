@@ -39,7 +39,7 @@ const ProfileHaveAccount = props => {
     props.navigation.navigate('UserNavigator', { screen: 'uudaiUser' })
   }
   const MyOrDer = () => {
-    props.navigation.navigate('UserNavigator', { screen: 'TrackOrders' })
+    props.navigation.navigate('UserNavigator', { screen: 'PurchaseOrder' })
   }
   return (
     <ScrollView>
