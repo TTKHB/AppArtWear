@@ -1,7 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, TextInput } from 'react-native';
-
-
+import { StyleSheet, View, Text, Dimensions, TextInput, Image } from 'react-native';
 const FormHeader = ({ Heading, subHeading }) => {
     return (
         <>
@@ -18,19 +16,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 50,
+        paddingTop: 40,
     },
     heading: {
-        fontSize: 30,
+        fontSize: 50,
         fontWeight: 'bold',
         color: '#8B4C39',
     },
     subheading: {
-        fontSize: 18,
+        fontSize: 28,
         color: '#1b1b33',
         textAlign: 'center',
-        marginTop:-30,
-        paddingVertical:30
+        marginTop: -30,
+        paddingVertical: 28,
     },
 });
 export default FormHeader;

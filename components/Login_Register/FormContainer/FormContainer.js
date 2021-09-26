@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     container: {
         width: Dimensions.get('window').width,
         paddingHorizontal: 20,
-        backgroundColor:'#fff'
-        
+        backgroundColor: '#F4EEEA'
+
     }
 });
 

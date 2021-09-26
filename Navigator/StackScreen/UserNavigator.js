@@ -21,44 +21,14 @@ const UserNavigator = () => {
                 name="Login"
                 component={LoginScreen}
                 options={{
-                    // headerShown: false,
-                    title: 'Đăng Nhập',
-                    headerStyle: {
-                        backgroundColor: '#fff',
-                        borderColor: '#F5F5F5',
-                        borderWidth: 1
-                    },
-                    headerTintColor: '#000',
-                    headerTitleStyle: {
-                        textAlign: 'center',
-                        alignSelf: 'center',
-                    },
-                    headerTitleAlign: 'center',
-                    headerRight: ({ color }) => (
-                        <IconCart />
-                    ),
+                    headerShown: false,
                 }}
             />
             <Stack.Screen
                 name="Register"
                 component={RegisterScreen}
                 options={{
-                    // headerShown: false,
-                    title: 'Đăng Ký',
-                    headerStyle: {
-                        backgroundColor: '#fff',
-                        borderColor: '#F5F5F5',
-                        borderWidth: 1
-                    },
-                    headerTintColor: '#000',
-                    headerTitleStyle: {
-                        textAlign: 'center',
-                        alignSelf: 'center',
-                    },
-                    headerTitleAlign: 'center',
-                    headerRight: ({ color }) => (
-                        <IconCart />
-                    ),
+                    headerShown: false,
                 }}
             />
             <Stack.Screen

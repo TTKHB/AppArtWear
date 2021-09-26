@@ -16,6 +16,7 @@ const iconName = require('../../assets/icon/profile.png');
 const iconEmail = require('../../assets/icon/mail.png');
 const iconPassowrd = require('../../assets/icon/lock.png');
 const iconConfirmPassword = require('../../assets/icon/lock.png');
+import IconBack from 'react-native-vector-icons/Ionicons';
 
 //Biến check lỗi thư viện Formik
 const validationSchema = Yup.object({
@@ -23,22 +24,23 @@ const validationSchema = Yup.object({
         Yup
             .string()
             .trim()
-            .min(3, 'Invalid Name!').required('Name is required!'),
+            .min(3, 'Tên phải trên 3 ký tự')
+            .required('Chưa nhập tên!'),
     email:
         Yup
             .string()
-            .email('Invalid email')
-            .required('Email is required!'),
+            .email('Email không đúng định dạng')
+            .required('Chưa nhập Email!'),
     password:
         Yup
             .string()
             .trim()
-            .min(8, 'Password is too short!')
-            .required('Password is required!'),
+            .min(8, 'Mật khẩu phải trên 8 ký tự')
+            .required('Chưa nhập mật khẩu!'),
     confirmPassword:
         Yup
             .string()
-            .equals([Yup.ref('password'), null], 'Password does not match!')
+            .equals([Yup.ref('password'), null], 'Xác nhận mật khẩu không trùng khớp!')
 })
 
 const RegisterForm = props => {
@@ -61,9 +63,10 @@ const RegisterForm = props => {
                 password: values.password,
             });
             if (signInRes.data.success) {
-                props.navigation.navigate('Login', {
-                    token: signInRes.data.token,
-                }
+                // props.navigation.navigate('Login', {
+                //     token: signInRes.data.token,
+                // });
+                props.navigation.navigate('UserNavigator', { screen: 'Login' }
                 );
             }
         }
@@ -91,80 +94,85 @@ const RegisterForm = props => {
                     handleSubmit }) => {
                     const { fullname, email, password, confirmPassword } = values
                     return <>
+                        <View style={{ marginVertical: 10 }}>
+                            <IconBack name="chevron-back-outline" size={30} />
+                        </View>
                         {/* FormHeader trang tri phần header của screen đăng ky(ví dụ như text hoặc hình ảnh) */}
-                        <FormHeader Heading="ArtWear" subHeading="Shop easy,shop happy" />
-                        <FormInput
-                            // autoCapitalize='none' khi nhập chữ vào textinput, không cho phép viết hoa chữ cái đầu
-                            autoCapitalize='none'
-                            label='Full Name'
-                            placeholder='Ly Cao Thang'
-                            value={fullname}
-                            error={touched.fullname && errors.fullname}
-                            onChangeText={handleChange('fullname')}
-                            onBlur={handleBlur('fullname')}
-                            source={iconName}
-                        />
-                        <FormInput
-                            autoCapitalize='none'
-                            label='Email'
-                            placeholder='example@gmail.com'
-                            value={email}
-                            error={touched.email && errors.email}
-                            onChangeText={handleChange('email')}
-                            onBlur={handleBlur('email')}
-                            source={iconEmail}
-                        />
-                        <FormInput
-                            autoCapitalize='none'
-                            secureTextEntry
-                            label='Password'
-                            placeholder='...'
-                            value={password}
-                            error={touched.password && errors.password}
-                            onChangeText={handleChange('password')}
-                            onBlur={handleBlur('password')}
-                            source={iconPassowrd}
-                        />
-                        <FormInput
-                            autoCapitalize='none'
-                            secureTextEntry
-                            label='Confirm Password'
-                            placeholder='...'
-                            value={confirmPassword}
-                            error={touched.confirmPassword && errors.confirmPassword}
-                            onChangeText={handleChange('confirmPassword')}
-                            onBlur={handleBlur('confirmPassword')}
-                            source={iconConfirmPassword}
-                        />
+                        <FormHeader Heading="ArtWear" subHeading="Shop easy, shop happy" />
+                        <View style={{ backgroundColor: '#fff', borderRadius: 10 }}>
+                            <FormInput
+                                // autoCapitalize='none' khi nhập chữ vào textinput, không cho phép viết hoa chữ cái đầu
+                                autoCapitalize='none'
+                                label='Họ và tên'
+                                placeholder='Họ và tên'
+                                value={fullname}
+                                error={touched.fullname && errors.fullname}
+                                onChangeText={handleChange('fullname')}
+                                onBlur={handleBlur('fullname')}
+                                source={iconName}
+                            />
+                            <FormInput
+                                autoCapitalize='none'
+                                label='Email'
+                                placeholder='example@gmail.com'
+                                value={email}
+                                error={touched.email && errors.email}
+                                onChangeText={handleChange('email')}
+                                onBlur={handleBlur('email')}
+                                source={iconEmail}
+                            />
+                            <FormInput
+                                autoCapitalize='none'
+                                secureTextEntry
+                                label='Mật khẩu'
+                                placeholder='...'
+                                value={password}
+                                error={touched.password && errors.password}
+                                onChangeText={handleChange('password')}
+                                onBlur={handleBlur('password')}
+                                source={iconPassowrd}
+                            />
+                            <FormInput
+                                autoCapitalize='none'
+                                secureTextEntry
+                                label='Nhập lại mật khẩu'
+                                placeholder='...'
+                                value={confirmPassword}
+                                error={touched.confirmPassword && errors.confirmPassword}
+                                onChangeText={handleChange('confirmPassword')}
+                                onBlur={handleBlur('confirmPassword')}
+                                source={iconConfirmPassword}
+                            />
+                        </View>
                         <FormSubmitButton
                             submitting={isSubmitting}
                             onPress={handleSubmit}
                             title='Đăng Ký'
                         />
-                        <View style={{ justifyContent: 'center', alignItems: 'center',marginTop:20 }}>
-                            <Text style={{fontSize:18}}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                            <Text style={{ fontSize: 18 }}>
                                 Bằng việc đăng ký, bạn đã đồng ý với
                             </Text>
-                            <View style={{flexDirection:'row'}}>
-                            <Text style={{fontSize:18,color:'#1E90FF'}}>
-                                Điều khoản dịch vụ
-                            </Text>
-                            <Text style={{fontSize:18,color:'#000',marginLeft:10}}>
-                                &
-                            </Text>
-                            <Text style={{fontSize:18,color:'#1E90FF',marginLeft:10}}>
-                                Chính sách riêng tư
-                            </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, color: '#1E90FF' }}>
+                                    Điều khoản dịch vụ
+                                </Text>
+                                <Text style={{ fontSize: 18, color: '#000', marginLeft: 10 }}>
+                                    &
+                                </Text>
+                                <Text style={{ fontSize: 18, color: '#1E90FF', marginLeft: 10 }}>
+                                    Chính sách riêng tư
+                                </Text>
                             </View>
 
 
-                            <View style={{flexDirection:'row'}}>
-                            <Text style={{fontSize:18,color:'#000'}}>
-                                của 
-                            </Text>
-                            <Text style={{fontSize:18,color:'#000',marginLeft:10,fontWeight:'bold'}}>
-                                Art Wear 
-                            </Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontSize: 18, color: '#000' }}>
+                                    của
+                                </Text>
+                                <Text style={{ fontSize: 18, color: '#000', marginLeft: 10, fontWeight: 'bold' }}>
+                                    Art Wear
+                                </Text>
                             </View>
                         </View>
                     </>

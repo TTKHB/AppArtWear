@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions, TextInput } from 'react-native';
 
-
 const Forgotpassword = ({ forgotPass }) => {
     return (
         <>
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     forgotPass : {
-        fontSize: 15,
+        fontSize: 18,
         color: '#000',
     },
 

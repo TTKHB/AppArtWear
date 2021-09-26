@@ -1,14 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions, TextInput } from 'react-native';
 
-
 const FormSMS = ({ SMS, about, onPress }) => {
     return (
         <>
             <View style={styles.container}>
                 <Text style={styles.SMS}
-                      //Call onPress
-                      onPress={onPress}>{SMS}
+                    //Call onPress
+                    onPress={onPress}>{SMS}
                 </Text>
             </View>
             <Text style={styles.about}>{about}</Text>
@@ -21,10 +20,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         //Cho container nằm bên phải màn hình
         justifyContent: 'flex-end',
-        marginTop: -20,
+        marginTop: -24,
     },
     SMS: {
-        fontSize: 15,
+        fontSize: 18,
         color: '#000',
     },
     about: {

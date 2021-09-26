@@ -14,8 +14,9 @@ import FormSMS from './FormSMS/FormSMS';
 
 const iconEmail = require('../../assets/icon/mail.png');
 const iconPassowrd = require('../../assets/icon/lock.png');
+import IconBack from 'react-native-vector-icons/Ionicons';
 
-const LoginForm = props => {
+const LoginForm = ({ navigation }) => {
     const { setIsLoggedIn, setProfile } = useLogin();
     const [userInfo, setUserInfo] = useState({
         email: '',
@@ -30,18 +31,11 @@ const LoginForm = props => {
     const submitForm = async () => {
         if (isValidForm()) {
             try {
-                //    const res= await 
-                //    client.post('/sign-in',{
-                //         ...userInfo
-                //    });
                 const res = await signIn(userInfo.email, userInfo.password);
-
                 if (res.data.success) {
-                    // props.navigation.navigate('ProfileNoAccount');
-                    // console.log(res.data);
-                    setUserInfo({email:'',password:''})
+                    setUserInfo({ email: '', password: '' })
                     setProfile(res.data.user);
-                    props.navigation.navigate('ProfileScreen');
+                    navigation.navigate('ProfileScreen');
                     setIsLoggedIn(true);
                 } else {
                     Alert.alert("Thất bại")
@@ -55,7 +49,7 @@ const LoginForm = props => {
 
 
     const submitSMS = () => {
-        props.navigation.navigate('SMS');
+        navigation.navigate('SMS');
     }
 
     const handleOnChangeText = (value, fieldName) => {
@@ -66,11 +60,11 @@ const LoginForm = props => {
     const isValidForm = () => {
         //we will accept only if all of the fields have value
         if (!isValidObjField(userInfo)) {
-            return updateError('Required all fields!', setError);
+            return updateError('Xin mời nhập tài khoản và mật khẩu!', setError);
         }
         //only valid email id is allowed
         if (!isValidEmail(email)) {
-            return updateError('Invalid email!', setError);
+            return updateError('Email sai định dạng!', setError);
         }
         //Password must have 8 or more characters
         if (!password.trim() || password.length < 8) {
@@ -83,38 +77,41 @@ const LoginForm = props => {
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong
         <FormContainer>
+            <View style={{ marginVertical: 10 }}>
+                <IconBack name="chevron-back-outline" size={30} />
+            </View>
             {/* FormHeader trang tri phần header của screen đăng nhập(ví dụ như text hoặc hình ảnh) */}
-            <FormHeader Heading="ArtWear" subHeading='Shop easy,shop happy' />
+            <FormHeader Heading="ArtWear" subHeading='Đăng nhập tài khoản' />
             {error ? (
                 <Text style={{ color: 'red', textAlign: 'center' }}>{error}</Text>
             ) : null}
-            <FormInput
-                autoCapitalize='none'
-                label='Email'
-                placeholder='email'
-                value={email}
-                onChangeText={(value) => handleOnChangeText(value, 'email')}
-                source={iconEmail}
-            />
-            <FormInput
-                autoCapitalize='none'
-                secureTextEntry
-                label='Mật Khẩu'
-                placeholder='...'
-                value={password}
-                onChangeText={(value) => handleOnChangeText(value, 'password')}
-                source={iconPassowrd}
-            />
+            <View style={{ backgroundColor: '#fff', borderRadius: 10 }}>
+                <FormInput
+                    autoCapitalize='none'
+                    label='Email'
+                    placeholder='email'
+                    value={email}
+                    onChangeText={(value) => handleOnChangeText(value, 'email')}
+                    source={iconEmail}
+                />
+                <FormInput
+                    autoCapitalize='none'
+                    secureTextEntry
+                    label='Mật Khẩu'
+                    placeholder='...'
+                    value={password}
+                    onChangeText={(value) => handleOnChangeText(value, 'password')}
+                    source={iconPassowrd}
+                />
+            </View>
             <FormSubmitButton onPress={submitForm} title='Đăng Nhập' />
 
-            <Forgotpassword forgotPass="Quên mật khẩu?"/>
+            <Forgotpassword forgotPass="Quên mật khẩu?" />
 
             {/* //Set onPress form FormSMS */}
-            <FormSMS SMS="Đăng nhập bằng SMS"  onPress={submitSMS}/>
+            <FormSMS SMS="Đăng nhập bằng SMS" onPress={submitSMS} />
 
         </FormContainer>
-
-
 
     );
 };

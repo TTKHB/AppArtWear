@@ -5,7 +5,7 @@ import LoginForm from '../../../components/Login_Register/LoginForm';
 
 const LoginScreen = ({ navigation }) => {
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: '#F4EEEA' }}>
             <ScrollView
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}

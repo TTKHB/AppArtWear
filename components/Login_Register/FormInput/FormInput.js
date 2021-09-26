@@ -5,12 +5,14 @@ import FormContainer from '../FormContainer/FormContainer';
 const FormInput = (props) => {
     const { placeholder, label, error, source } = props
     return (
-        <>   
+        <>
             {/* View style header  */}
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginBottom: 5,
+                marginBottom: 10,
+                paddingHorizontal: 12,
+                marginTop: 15
             }}>
                 <Text style={styles.textname}>{label}</Text>
                 {error ? (
@@ -22,14 +24,14 @@ const FormInput = (props) => {
             <View style={styles.inputView}>
                 <Image
                     resizeMode="contain"
-                    style={styles.icon} 
-                    source={source} 
-                    />
+                    style={styles.icon}
+                    source={source}
+                />
                 <TextInput
                     {...props}
                     placeholder={placeholder}
-                    style={styles.input} 
-                    />
+                    style={styles.input}
+                />
             </View>
         </>
     );
@@ -55,19 +57,19 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         marginBottom: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
+        // borderWidth: 1,
+        // borderColor: 'gray',
     },
     TextInput: {
         height: 50,
         flex: 1,
     },
-    textname:{
-        fontSize: 15,
+    textname: {
+        fontSize: 18,
         color: '#000',
     },
-    textError:{
-        color: 'red' 
+    textError: {
+        color: 'red'
     }
 });
 
