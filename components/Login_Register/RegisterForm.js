@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Image,TouchableOpacity } from 'react-native';
 import FormContainer from './FormContainer/FormContainer';
 import FormInput from './FormInput/FormInput';
 import FormSubmitButton from './FormButton/FormSubmitButton';
@@ -66,7 +66,7 @@ const RegisterForm = props => {
                 // props.navigation.navigate('Login', {
                 //     token: signInRes.data.token,
                 // });
-                props.navigation.navigate('UserNavigator', { screen: 'Login' }
+                props.navigation.navigate('UserNavigator', { screen: 'Success' }
                 );
             }
         }
@@ -95,7 +95,9 @@ const RegisterForm = props => {
                     const { fullname, email, password, confirmPassword } = values
                     return <>
                         <View style={{ marginVertical: 10 }}>
-                            <IconBack name="chevron-back-outline" size={30} />
+                            <TouchableOpacity onPress={() => props.navigation.navigate("ProfileScreen")}>
+                                <IconBack name="chevron-back-outline" size={30} />
+                            </TouchableOpacity>
                         </View>
                         {/* FormHeader trang tri phần header của screen đăng ky(ví dụ như text hoặc hình ảnh) */}
                         <FormHeader Heading="ArtWear" subHeading="Shop easy, shop happy" />

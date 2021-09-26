@@ -15,6 +15,7 @@ import FormSMS from './FormSMS/FormSMS';
 const iconEmail = require('../../assets/icon/mail.png');
 const iconPassowrd = require('../../assets/icon/lock.png');
 import IconBack from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const LoginForm = ({ navigation }) => {
     const { setIsLoggedIn, setProfile } = useLogin();
@@ -78,7 +79,9 @@ const LoginForm = ({ navigation }) => {
         //FormContainer bao bọc toàn bộ các form con bên trong
         <FormContainer>
             <View style={{ marginVertical: 10 }}>
+                <TouchableOpacity onPress={()=>navigation.navigate("ProfileScreen")}>
                 <IconBack name="chevron-back-outline" size={30} />
+                </TouchableOpacity>
             </View>
             {/* FormHeader trang tri phần header của screen đăng nhập(ví dụ như text hoặc hình ảnh) */}
             <FormHeader Heading="ArtWear" subHeading='Đăng nhập tài khoản' />
