@@ -4,12 +4,9 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  StatusBar,
-  Alert,
   ScrollView,
-  Image,
-  TouchableOpacity,
-  Dimensions
+  Dimensions,
+  Share
 } from 'react-native';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import IconSetting from 'react-native-vector-icons/Feather';
@@ -27,28 +24,38 @@ import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
 const artwear = require('../../assets/images/Banner/SplashScreen.png');
 const { height, width } = Dimensions.get('window');
-const ProfileHaveAccount = props => {
+const ProfileHaveAccount = ({ navigation, route }) => {
   const { setIsLoggedIn, profile } = useLogin();
-  const setting = () => {
-    props.navigation.navigate('UserNavigator', { screen: 'Setting' })
-  }
-  const Cart = () => {
-    props.navigation.navigate('CartNavigator', { screen: 'Cart' })
-  }
-  const UuDai = () => {
-    props.navigation.navigate('UserNavigator', { screen: 'uudaiUser' })
-  }
-  const MyOrDer = () => {
-    props.navigation.navigate('UserNavigator', { screen: 'PurchaseOrder' })
-  }
+  const onShare = () => {
+    try {
+      const result = Share.share({
+        message:
+          'React Native | A framework for building native apps using React',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+        } else {
+        }
+      } else if (result.action === Share.dismissedAction) {
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <View style={{ flexDirection: 'row' }}>
-            <IconSetting name="settings" size={24} style={styles.iconSetting} onPress={setting} />
-            <IconCart name="handbag" size={24} style={styles.iconCart} onPress={Cart} />
+            <IconSetting name="settings" size={24} style={styles.iconSetting}
+              // onPress={setting} 
+              onPress={() => navigation.navigate('UserNavigator', { screen: 'Setting' })}
+            />
+            <IconCart name="handbag" size={24} style={styles.iconCart}
+              // onPress={Cart} 
+              onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
+            />
             <IconFavorite name="favorite-outline" size={28} style={styles.iconFavorite} />
           </View>
         </View>
@@ -57,13 +64,14 @@ const ProfileHaveAccount = props => {
           <View style={styles.splash}>
             <View style={styles.userInfoSection}>
               <View style={styles.row}>
-                <Avatar.Image
-                  source={{
-                    uri:
-                      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-                  }}
-                  size={90}
-                />
+                {profile ? (
+                  <Avatar.Image
+                    source={{
+                      uri: profile ? profile.avatar || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
+                    }}
+                    size={90}
+                  />
+                ) : null}
                 <View style={styles.userText} >
                   <Text style={styles.userName}>{profile.fullname}</Text>
                   <Text style={styles.userEmail}>{profile.email}</Text>
@@ -76,7 +84,9 @@ const ProfileHaveAccount = props => {
         {/* MyOrder */}
         <View style={styles.content}>
           {/* Đơn hàng của tôi */}
-          <ProfileItem icon="form-select" name="Đơn hàng của tôi" iconright="angle-right" onPress={MyOrDer} />
+          <ProfileItem icon="form-select" name="Đơn hàng của tôi" iconright="angle-right"
+          //  onPress={MyOrDer} 
+          />
           {/* Line gạch ngang */}
           <View style={styles.divider} />
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -101,7 +111,10 @@ const ProfileHaveAccount = props => {
 
         {/* Gift */}
         <View style={styles.contentGif}>
-          <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift" onPress={UuDai} />
+          <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift"
+            // onPress={UuDai} 
+            onPress={() => navigation.navigate('UserNavigator', { screen: 'uudaiUser' })}
+          />
         </View>
 
         {/* Dịch vụ của tôi */}
@@ -141,6 +154,7 @@ const ProfileHaveAccount = props => {
             />
             <Service icon="share-variant"
               name={`Chia sẻ `}
+              onPress={onShare}
             />
           </View>
         </View>

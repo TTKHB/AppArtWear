@@ -1,15 +1,18 @@
 import React from 'react';
-import { View, Text, SafeAreaView,Share,TouchableOpacity, StyleSheet, StatusBar, Alert, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Service = ({ icon, name, onPress, iconright }) => (
   <View style={styles.item}>
-    <View  style={styles.btnItemOne}>
+    <TouchableOpacity style={styles.box} onPress={onPress}>
+    <View style={styles.btnItemOne}>
       <Icon name={icon} size={30} color="#8D6E63" />
     </View>
     <View>
       <Text style={styles.itemText}>{name}</Text>
     </View>
+    </TouchableOpacity>
   </View>
 );
 
@@ -31,8 +34,12 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 14,
     color: '#000',
-    marginTop: 10
+    marginTop: 10,
   },
+  box:{
+    justifyContent:'center',
+    alignItems:'center'
+  }
 })
 
 export default Service;
