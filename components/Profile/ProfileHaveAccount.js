@@ -6,7 +6,8 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  Share
+  Share,
+  TouchableOpacity
 } from 'react-native';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import IconSetting from 'react-native-vector-icons/Feather';
@@ -160,11 +161,14 @@ const ProfileHaveAccount = ({ navigation, route }) => {
             />
           </View>
         </View>
-
         {/* Thông tin về Art Wear */}
-        <View style={styles.contentArtWear}>
-          <InfomationArtWear img={artwear} name="Thông tin về Art Wear" iconright="angle-right" />
-        </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('UserNavigator', { screen: 'InfomationArtWear' })}
+        >
+          <View style={styles.contentArtWear}>
+            <InfomationArtWear img={artwear} name="Thông tin về Art Wear" iconright="angle-right" />
+          </View>
+        </TouchableOpacity>
 
       </View>
     </ScrollView>

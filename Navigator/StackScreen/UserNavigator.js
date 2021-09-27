@@ -12,6 +12,7 @@ import Notification from '../../Screens/Notification/Notification';
 import ProductFoundScreen from '../../Screens/Products/ProductFoundScreen';
 import PurchaseOrder from '../../Screens/User/PurchaseOrder/PurchaseOrder';
 import SuccessScreen from '../../Screens/User/Register/SuccessScreen';
+import InfomationArtWear from '../../Screens/Profile/InfomationArtWear';
 
 const Stack = createStackNavigator();
 
@@ -130,6 +131,25 @@ const UserNavigator = () => {
                 component={SuccessScreen}
                 options={{
                     headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="InfomationArtWear"
+                component={InfomationArtWear}
+                options={{
+                    // headerShown: false,
+                    title: 'Giới thiệu',
+                    headerStyle: {
+                        backgroundColor: '#fff',
+                        borderColor: '#F5F5F5',
+                        borderWidth: 1
+                    },
+                    headerTintColor: '#000',
+                    headerTitleStyle: {
+                        textAlign: 'center',
+                        alignSelf: 'center',
+                    },
+                    headerTitleAlign: 'center',
                 }}
             />
         </Stack.Navigator>

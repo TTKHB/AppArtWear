@@ -165,9 +165,13 @@ const ProfileNoAccount = props => {
                     </View>
                 </View>
                 {/* Thông tin về Art Wear */}
-                <View style={styles.contentArtWear}>
-                    <InfomationArtWear img={artwear} name="Thông tin về Art Wear" iconright="angle-right" />
-                </View>
+                <TouchableOpacity
+                    onPress={() => props.navigation.navigate('UserNavigator', { screen: 'InfomationArtWear' })}
+                >
+                    <View style={styles.contentArtWear}>
+                        <InfomationArtWear img={artwear} name="Thông tin về Art Wear" iconright="angle-right" />
+                    </View>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
