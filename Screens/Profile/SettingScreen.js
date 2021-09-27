@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
     commandButton: {
         padding: 15,
         borderRadius: 10,
-        backgroundColor: '#FFFCF2',
+        backgroundColor: '#8E6E62',
         alignItems: 'center',
         marginTop: 10,
     },
     commandText: {
         fontSize: 17,
         fontWeight: 'bold',
-        color: '#000',
+        color: '#fff',
     },
     panel: {
         padding: 20,
