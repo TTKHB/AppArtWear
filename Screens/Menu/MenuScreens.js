@@ -14,6 +14,7 @@ import {
 import { sectionListData, listTab } from '../../assets/data/Menu/ItemMenu';
 const { height, width } = Dimensions.get('window');
 import Swiper from 'react-native-swiper';
+import { color } from 'react-native-reanimated';
 const MenuScreen = ({ navigation }) => {
   const [status, setStatus] = useState('Tất cả');
   const [datalist, setDataList] = useState(sectionListData);
@@ -112,25 +113,26 @@ const styles = StyleSheet.create({
   },
   listTab: {
     backgroundColor: '#F6F6F6',
-    padding: 15,
+    padding: 10,
     flex: 1
   },
   btnTab: {
-    width: Dimensions.get('window').width / 3.5,
-    flexDirection: 'row',
+    width: Dimensions.get('window').width / 3.2,
     padding: 10,
     justifyContent: 'center',
+    alignItems: 'center'
   },
   textTab: {
-    fontSize: 18,
-    color: 'black'
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
   },
   btnTabActive: {
-    backgroundColor: '#8D6E63'
+    backgroundColor: '#8D6E63',
   },
   textTabActive: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold'
   },
   itemContainer: {
@@ -139,9 +141,8 @@ const styles = StyleSheet.create({
     width: width / 4.9,
     justifyContent: 'center',
   },
-
   itemName: {
-    fontSize: 14,
+    fontSize: 16,
   },
   itemLogo: {
     backgroundColor: 'green',
@@ -153,8 +154,6 @@ const styles = StyleSheet.create({
     width: 82,
     resizeMode: 'cover'
   },
-
-
   slide: {
     flex: 1,
     justifyContent: 'center',

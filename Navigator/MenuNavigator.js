@@ -6,12 +6,12 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import MenuScreens from '../Screens/Menu/MenuScreens';
 
 //Icon
-import IconCart from 'react-native-vector-icons/SimpleLineIcons';
+import IconCart from 'react-native-vector-icons/Fontisto';
 import IconSearch from 'react-native-vector-icons/Octicons';
 
 const Stack = createStackNavigator();
 
-const MenuNavigator = ({ navigation }) => {
+const MenuNavigator = ({navigation}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -20,29 +20,31 @@ const MenuNavigator = ({ navigation }) => {
         options={{
           title: 'Art Wear Mall',
           headerStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: '#8D6E63',
             borderColor: '#F5F5F5',
-            borderWidth: 1
           },
-          headerTintColor: '#8D6E63',
+          headerTintColor: '#fff',
           headerTitleStyle: {
             alignSelf: 'center',
             fontSize: 28,
+            fontWeight:'bold'
           },
-          headerTitleAlign: 'center',
+          headerTitleAlign:'center',
           headerLeft: ({ color }) => (
             <TouchableOpacity
               style={{
                 flexDirection: 'row',
                 marginLeft: 15
-              }}>
+              }}
+              onPress={() => navigation.navigate('UserNavigator', { screen: 'SearchScreen' })}
+              >
               <IconSearch
                 name="search"
                 size={24}
+                color="#fff"
                 style={{
                   marginTop: 2
                 }}
-                onPress={() => navigation.navigate('UserNavigator', { screen: 'SearchScreen' })}
               />
             </TouchableOpacity>
           ),
@@ -52,7 +54,7 @@ const MenuNavigator = ({ navigation }) => {
                 flexDirection: 'row',
                 marginRight: 15
               }}>
-              <IconCart name="handbag" size={24} />
+              <IconCart name="shopping-bag" size={24} color="#fff"  />
             </TouchableOpacity>
           ),
         }}
