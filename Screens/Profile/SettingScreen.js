@@ -64,7 +64,7 @@ const SettingScreen = props => {
                 callbackNode={fall}
                 enabledGestureInteraction={true}
             />
-            <SettingItem name="Tài khoản của tôi" />
+            <SettingItem name="Tài khoản của tôi" onPress={() => props.navigation.navigate('UserNavigator', { screen: 'Infomation' })}/>
             <SettingItem name="Địa chỉ" />
             <SettingItem name="Tuỳ chọn thanh toán của tôi" />
             <View style={styles.divider} />

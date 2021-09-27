@@ -13,6 +13,7 @@ import ProductFoundScreen from '../../Screens/Products/ProductFoundScreen';
 import PurchaseOrder from '../../Screens/User/PurchaseOrder/PurchaseOrder';
 import SuccessScreen from '../../Screens/User/Register/SuccessScreen';
 import InfomationArtWear from '../../Screens/Profile/InfomationArtWear';
+import InfomationScreen from '../../Screens/Profile/InfomationScreen';
 
 const Stack = createStackNavigator();
 
@@ -131,6 +132,23 @@ const UserNavigator = () => {
                 component={SuccessScreen}
                 options={{
                     headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="Infomation"
+                component={InfomationScreen}
+                options={{
+                    // headerShown: false,
+                    title: 'Thông tin cá nhân',
+                    headerStyle: {
+                        backgroundColor: '#fff',
+                    },
+                    headerTintColor: '#000',
+                    headerTitleStyle: {
+                        textAlign: 'center',
+                        alignSelf: 'center',
+                    },
+                    headerTitleAlign: 'center',
                 }}
             />
             <Stack.Screen
