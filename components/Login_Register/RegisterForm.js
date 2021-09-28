@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Dimensions, Image,TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
 import FormContainer from './FormContainer/FormContainer';
 import FormInput from './FormInput/FormInput';
 import FormSubmitButton from './FormButton/FormSubmitButton';
 import FormHeader from './FormHeader/FormHeader';
-import { isValidObjField, updateError, isValidEmail } from '../../utils/Methods';
 import { Formik, validateYupSchema } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import client from '../../assets/data/client';
 import { StackActions } from '@react-navigation/native';
-
+import { useLogin } from '../../Context/LoginProvider';
 //Tạo biến chứa các icon,hình ảnh trong text input
 const iconName = require('../../assets/icon/profile.png');
 const iconEmail = require('../../assets/icon/mail.png');
@@ -51,8 +50,10 @@ const RegisterForm = props => {
         confirmPassword: '',
     };
 
+    const { loginPending, setLoginPending } = useLogin();
     //Biến đăng kí
     const signUp = async (values, formikActions) => {
+        setLoginPending(true)
         const res = await client.post('/create-user', {
             ...values,
         });
@@ -63,9 +64,6 @@ const RegisterForm = props => {
                 password: values.password,
             });
             if (signInRes.data.success) {
-                // props.navigation.navigate('Login', {
-                //     token: signInRes.data.token,
-                // });
                 props.navigation.navigate('UserNavigator', { screen: 'Success' }
                 );
             }
@@ -74,6 +72,7 @@ const RegisterForm = props => {
         //Ví dụ lúc nãy ô fullname nhập abc khi bấm đăng kí ô full name sẽ trống và xoá abc 
         formikActions.resetForm();
         formikActions.setSubmitting(false);
+        setLoginPending(false);
     };
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong
@@ -151,6 +150,7 @@ const RegisterForm = props => {
                             onPress={handleSubmit}
                             title='Đăng Ký'
                         />
+                        {/* Footer screen dang ky */}
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <Text style={{ fontSize: 18 }}>
                                 Bằng việc đăng ký, bạn đã đồng ý với
@@ -166,8 +166,6 @@ const RegisterForm = props => {
                                     Chính sách riêng tư
                                 </Text>
                             </View>
-
-
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ fontSize: 18, color: '#000' }}>
                                     của

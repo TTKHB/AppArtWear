@@ -5,8 +5,6 @@ import FormInput from './FormInput/FormInput';
 import FormSubmitButton from './FormButton/FormSubmitButton';
 import FormHeader from './FormHeader/FormHeader';
 import { isValidObjField, updateError, isValidEmail } from '../../utils/Methods';
-import client from '../../assets/data/client';
-import { StackActions } from '@react-navigation/native';
 import { useLogin } from '../../Context/LoginProvider';
 import { signIn } from '../../assets/data/user';
 import Forgotpassword from './FormForgotPassword/Forgotpassword';
@@ -18,18 +16,20 @@ import IconBack from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const LoginForm = ({ navigation }) => {
-    const { setIsLoggedIn, setProfile } = useLogin();
+    const { setIsLoggedIn, setProfile, setLoginPending } = useLogin();
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
     });
 
     const [error, setError] = useState('');
-
     const { email, password } = userInfo;
 
     //Submit kiem tra loi
     const submitForm = async () => {
+        //set Loading when submit dang nhap
+        setLoginPending(true)
+        //Xu ly dang nhap
         if (isValidForm()) {
             try {
                 const res = await signIn(userInfo.email, userInfo.password);
@@ -43,10 +43,10 @@ const LoginForm = ({ navigation }) => {
                 }
             } catch (error) {
                 console.log(error.message);
-
             }
         }
-    }
+        setLoginPending(false)
+    };
 
 
     const submitSMS = () => {
@@ -74,13 +74,12 @@ const LoginForm = ({ navigation }) => {
         return true;
     }
 
-
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong
         <FormContainer>
             <View style={{ marginVertical: 10 }}>
-                <TouchableOpacity onPress={()=>navigation.navigate("ProfileScreen")}>
-                <IconBack name="chevron-back-outline" size={30} />
+                <TouchableOpacity onPress={() => navigation.navigate("ProfileScreen")}>
+                    <IconBack name="chevron-back-outline" size={30} />
                 </TouchableOpacity>
             </View>
             {/* FormHeader trang tri phần header của screen đăng nhập(ví dụ như text hoặc hình ảnh) */}
@@ -113,9 +112,7 @@ const LoginForm = ({ navigation }) => {
 
             {/* //Set onPress form FormSMS */}
             <FormSMS SMS="Đăng nhập bằng SMS" onPress={submitSMS} />
-
         </FormContainer>
-
     );
 };
 
