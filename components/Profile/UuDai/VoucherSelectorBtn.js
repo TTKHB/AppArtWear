@@ -25,7 +25,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: { color: 'white', fontSize: 16 },
+  title: { 
+    color: 'white', 
+    fontSize: 21,
+    fontWeight:'bold' 
+  },
 });
 
 export default VoucherSelectorBtn;

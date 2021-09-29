@@ -3,8 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   StyleSheet,
   Dimensions,
   Animated,
@@ -34,7 +32,7 @@ const UuDaiUser = ({ navigation }) => {
 
   const giamgiaHeadingTranslateX = animation.interpolate({
     inputRange: [0, width],
-    outputRange: [0, -50],
+    outputRange: [0, -56],
   });
 
   const voucherHeaderTranslateY = animation.interpolate({
@@ -51,7 +49,7 @@ const UuDaiUser = ({ navigation }) => {
     outputRange: ['rgba(27,27,51,0.4)', 'rgba(27,27,51,1)'],
   });
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <SafeAreaView style={styles.headerWrapper}>
         <View style={styles.splash}>
           <VoucherHeader
@@ -116,7 +114,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     borderBottomRightRadius: 5,
   },
-
   SelectorBtn: {
     marginTop: -40,
     margin: 5,
@@ -130,7 +127,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     marginRight: 220
   },
-
   LottieViewVoucher: {
     margin: 5,
     position: "absolute",
@@ -138,7 +134,6 @@ const styles = StyleSheet.create({
     height: 70,
     marginTop: -55,
   },
-
   LottieViewGiamGia: {
     margin: 5,
     position: "absolute",
@@ -147,7 +142,6 @@ const styles = StyleSheet.create({
     marginTop: -55,
     marginLeft: 75
   },
-
   headerWrapper: {
     backgroundColor: '#FFFCF2',
     borderBottomLeftRadius: 30,
@@ -156,7 +150,6 @@ const styles = StyleSheet.create({
   splash: {
     paddingTop: 50,
     paddingBottom: 80,
-
   },
 })
 export default UuDaiUser;

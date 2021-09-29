@@ -1,9 +1,8 @@
 import React from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  Text, 
-  Animated 
+import {
+  View,
+  StyleSheet,
+  Animated
 } from 'react-native';
 
 const VoucherHeader = ({
@@ -59,9 +58,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    fontSize: 20,
+    fontSize: 21,
     fontWeight: 'bold',
-    color: '#1b1b33'
+    color: 'black'
   },
 });
 

@@ -19,8 +19,7 @@ import Notification from '../Screens/Notification/Notification';
  */
 
 
-
-const HomeNavigator = ({navigation}) => {
+const HomeNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -47,15 +46,15 @@ const HomeNavigator = ({navigation}) => {
                 flexDirection: 'row',
                 marginLeft: 10
               }}>
-              <TouchableOpacity >
+              <TouchableOpacity
+                onPress={() => navigation.navigate('UserNavigator', { screen: 'Notification' })}
+              >
                 <IconNotification
                   name="notification"
                   size={24}
-                  onPress={() => navigation.navigate('UserNavigator', { screen: 'Notification' })}
                   style={{
                     marginRight: 10
                   }}
-
                 />
               </TouchableOpacity>
               <TouchableOpacity>

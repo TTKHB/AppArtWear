@@ -67,6 +67,7 @@ const Main = props => {
             <IconChat name="chatbubble-ellipses-outline" color={color} size={30} />
           ),
           headerShown: false,
+          tabBarBadge: 3,
         }}
       />
       <Tab.Screen

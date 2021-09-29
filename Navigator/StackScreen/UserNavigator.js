@@ -6,7 +6,7 @@ import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import LoginScreenSMS from '../../Screens/User/Login/LoginScreenSMS';
 import SettingScreen from '../../Screens/Profile/SettingScreen';
 import MyOrDerScreen from '../../Screens/User/MyOrDer/MyOrDerScreen';
-import UuDaiUser from '../../Screens/User/UuDai/uudaiUser';
+import UuDaiUser from '../../Screens/User/UuDai/UuDaiUser';
 import SearchScreen from '../../Screens/Products/SearchScreen';
 import Notification from '../../Screens/Notification/Notification';
 import ProductFoundScreen from '../../Screens/Products/ProductFoundScreen';
@@ -76,19 +76,16 @@ const UserNavigator = () => {
                     // headerShown: false,
                     title: 'Ưu đãi hấp dẫn',
                     headerStyle: {
-                        backgroundColor: '#fff',
-                        borderColor: '#F5F5F5',
-                        borderWidth: 1
+                        backgroundColor: '#FFFCF2',
                     },
-                    headerTintColor: '#000',
                     headerTitleStyle: {
                         textAlign: 'center',
                         alignSelf: 'center',
+                        fontSize: 21,
+                        fontWeight: 'bold'
                     },
                     headerTitleAlign: 'center',
-                    headerRight: ({ color }) => (
-                        <IconCart />
-                    ),
+
                 }}
             />
             <Stack.Screen
