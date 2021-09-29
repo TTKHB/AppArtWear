@@ -112,15 +112,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   listTab: {
-    backgroundColor: '#F6F6F6',
+    backgroundColor: 'white',
     padding: 10,
-    flex: 1
+    flex: 1,
   },
   btnTab: {
     width: Dimensions.get('window').width / 3.2,
     padding: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottomWidth: 0.4,
+    borderColor: '#C0C0C0',
+    marginBottom: 15,
   },
   textTab: {
     fontSize: 20,
