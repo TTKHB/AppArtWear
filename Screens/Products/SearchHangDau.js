@@ -1,19 +1,38 @@
-import React, { useState } from 'react'
+import React, {useState, useEffect, useCallback} from 'react';
 import { StyleSheet, View, Modal, Text, TouchableOpacity, TextInput, FlatList } from 'react-native'
 import COLORS from '../../assets/data/colors';
 // import theme
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // import product component
-import ProductComponent from '../../components/ProductMenu/productsComponents';
+import ProductComponent from '../../components/ProductMenu/ProductsComponents';
 
-// import clothes from products
-import * as Products from '../../assets/data/products';
+// API
+import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
+import baseURL from '../../assets/common/baseUrl';
 
-// trang menu 
-const Menu = ({ navigation }) => {
+// trang hàng đầu
+const SearchHangDau = ({ navigation }) => {
+    const [products, setProducts] = useState([]);
+    useFocusEffect(
+      useCallback(() => {
+        // Products
+        axios
+          .get(`${baseURL}products`)
+          .then(res => {
+            setProducts(res.data);
+          })
+          .catch(error => {
+            console.log('Api call error');
+          });
+          return () => {
+            setProducts([]);
+          };
+        }, []),
+      );
+  
     return (
-
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
@@ -23,9 +42,9 @@ const Menu = ({ navigation }) => {
             <View style={styles.bodyContainer}>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    data={Products.clothes}
+                    data={products}
                     numColumns={2}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item._id}
                     renderItem={({ item }) => {
                         return (
                             <ProductComponent item={item} navigation={navigation} />
@@ -42,7 +61,9 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingLeft: 10,
         paddingRight: 10,
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
+        justifyContent: "center",
+        alignItems: "center"
     },
     // Header Style
     headerContainer: {
@@ -97,4 +118,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Menu;
+export default SearchHangDau;

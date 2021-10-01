@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProfileScreen from '../Screens/Profile/ProfileScreen';
 
 
-
 const Stack = createStackNavigator();
 
 const ProfileNavigator = () => {

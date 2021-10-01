@@ -1,19 +1,42 @@
-import React from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import COLORS from '../../assets/data/colors';
-import categories from '../../assets/data/categories';
-
+import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
+import baseURL from '../../assets/common/baseUrl';
 
 // thể loại
 const Category = () => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
+
+  const [categories, setCategories] = useState([]);
+  useFocusEffect(
+    useCallback(() => {
+      // Categories
+      axios
+        .get(`${baseURL}categories`)
+        .then(res => {
+          setCategories(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {;
+        setCategories([]);
+       
+      };
+    }, []),
+  );
+
   return (
     <ScrollView 
     showsVerticalScrollIndicator={false}
     showsHorizontalScrollIndicator={false}
+    categories={categories}
     horizontal>
       <View style={styles.categoriesListContainer}>
-        {categories.map((category, index) => (
+        {categories.map((item, index) => (
           <TouchableOpacity
             key={index}
             activeOpacity={0.8}
@@ -22,9 +45,8 @@ const Category = () => {
             <View
               style={styles.categoryBtn}>
               <View style={styles.categoryBtnImgCon}>
-                <Image
-                  source={category.image}
-                  style={{ height: 32, width: 32, resizeMode: 'cover' }}
+                <Image  source={{uri:item.image? item.image : null}}
+                  style={{ height: 30, width: 32, resizeMode: 'cover' }}
                 />
               </View>
               {/* chữ */}
@@ -35,8 +57,8 @@ const Category = () => {
                   marginLeft: 10,
                   color: COLORS.black
                 }}>
-                {category.name}
-              </Text>
+{item.name}      
+       </Text>
             </View>
           </TouchableOpacity>
         ))}

@@ -5,21 +5,22 @@ const Stack = createStackNavigator();
 //screen
 import ProductScreen from './../Screens/Products/ProductScreen';
 import ProductDetailsScreen from './../Screens/Products/ProductDetailsScreen';
-import Menu from '../Screens/Products/Menu';
-import Star_rating from '../components/ProductMenu/Star_rating';
+import StarRating from '../components/ProductMenu/StarRating';
 //Icon
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import IconFavorite from 'react-native-vector-icons/MaterialIcons';
 import IconSearch from 'react-native-vector-icons/Octicons';
 import IconNotification from 'react-native-vector-icons/AntDesign';
 import Notification from '../Screens/Notification/Notification';
+import SearchHangDau from '../Screens/Products/SearchHangDau';
 /**
  * Muốn thêm màn hình ở home thì them stack.screen ở dưới
  *
  */
 
 
-const HomeNavigator = ({ navigation }) => {
+
+const HomeNavigator = ({navigation}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -46,15 +47,15 @@ const HomeNavigator = ({ navigation }) => {
                 flexDirection: 'row',
                 marginLeft: 10
               }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('UserNavigator', { screen: 'Notification' })}
-              >
+              <TouchableOpacity >
                 <IconNotification
                   name="notification"
                   size={24}
+                  onPress={() => navigation.navigate('UserNavigator', { screen: 'Notification' })}
                   style={{
                     marginRight: 10
                   }}
+
                 />
               </TouchableOpacity>
               <TouchableOpacity>
@@ -92,13 +93,37 @@ const HomeNavigator = ({ navigation }) => {
       <Stack.Screen
         name="Product Detail"
         component={ProductDetailsScreen}
-        options={{
-          headerShown: false,
-        }}
+        options={{ 
+          headerBackTitleVisible: false,
+          title:null,
+          headerTransparent: true,
+          headerTintColor: 'black',
+          headerTitle:false,
+          
+          headerRight: ({ color }) => (
+            <View
+              style={{
+                flexDirection: 'row',
+                marginRight: 10
+              }}>
+              <TouchableOpacity>
+                <IconFavorite
+                  name="favorite-outline"
+                  size={28}
+                  style={{
+                    marginRight: 10
+                  }} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <IconCart name="handbag" size={24} />
+              </TouchableOpacity>
+            </View>
+          ),
+      }}
       />
       <Stack.Screen
-        name="Menuu"
-        component={Menu}
+        name="SearchHangDau"
+        component={SearchHangDau}
         options={{
           title: 'Tìm kiếm hàng đầu',
           headerStyle: {
@@ -124,7 +149,7 @@ const HomeNavigator = ({ navigation }) => {
                 name="favorite-outline"
                 size={28}
                 style={{
-                  marginRight: 10
+                  marginRight: 5
                 }} />
               <IconCart name="handbag" size={24} />
             </TouchableOpacity>
@@ -132,8 +157,8 @@ const HomeNavigator = ({ navigation }) => {
         }}
       />
       <Stack.Screen
-        name="Star_rating"
-        component={Star_rating}
+        name="StarRating"
+        component={StarRating}
         options={{ header: () => null }}
       />
     </Stack.Navigator>

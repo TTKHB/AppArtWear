@@ -1,33 +1,47 @@
-import React,{Component } from "react";
-import COLORS from '../../assets/data/colors';
-import StarRating from 'react-native-star-rating';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 
-// Ngôi sao trong phần đánh giá
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-class Star extends Component {
-  // Hiện sẵn đánh giá trang thái
-  constructor(props) {
-    super(props);
-    this.state = {
-      starCount: 0,
-    };
-  }
-  onStarRatingPress(rating) {
-    this.setState({
-      starCount: rating
-    });
-  }
-  render() {
+const StarRating = (props) => {
+
+    // This array will contain our star tags. We will include this
+    // array between the view tag.
+    let stars = [];
+    // Loop 5 times
+    for (var i = 1; i <= 5; i++) {
+        // set the path to filled stars
+        let name = 'ios-star';
+        // If ratings is lower, set the path to unfilled stars
+        if (i > props.ratings) {
+            name = 'ios-star-outline';
+        }
+
+        stars.push((<Ionicons name={name} size={15} style={styles.star} key={i} />));
+    }
+
     return (
-      <StarRating 
-        disabled={false}
-        maxStars={5}
-        rating={this.state.starCount}
-        selectedStar={(rating) => this.onStarRatingPress(rating)}
-        fullStarColor = {COLORS.yellow } 
-        starSize={30}
-      />
+        <View style={ styles.container }>
+            { stars }
+            <Text style={styles.text}>({props.reviews})</Text>
+        </View>
     );
-  }
+	
 }
-export default Star;
+
+export default StarRating;
+
+const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+	star: {
+		color: '#FF8C00'
+	},
+	text: {
+		fontSize: 12,
+        marginLeft: 5,
+        color: '#444',
+	}
+});

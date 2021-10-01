@@ -12,7 +12,7 @@ const Ship = ({ icon,iconship, name,nameship, onPress,iconright }) => (
       <Text style={[styles.iconright, { marginRight: iconright? 10 : 0,marginTop:3 }]}>20.000 đ</Text>
       <FontAwesome  name={iconright} size={26} color="#1e1e1e" onPress={onPress} />
         </View>
-        <View style={{flexDirection: 'row',marginTop:10,marginLeft:4}}>
+        <View style={{flexDirection: 'row',marginTop:10,marginLeft:2}}>
         <IconShip name={iconship} size={26} color="#A9A9A9" />
         <Text style={[styles.itemTextShip, { marginLeft: iconship ? 10 : 0,marginLeft:10 }]}>{nameship}</Text>
         </View>
@@ -24,14 +24,15 @@ const Ship = ({ icon,iconship, name,nameship, onPress,iconright }) => (
       //ProfileItem
     itemContainer: {
       backgroundColor: '#fff',
-      paddingHorizontal: 20,
-      paddingVertical: 15,
+      // paddingHorizontal: 20,
+      // paddingVertical: 1,
     },
     itemText: {
       flex: 1,
       color: '#1e1e1e',
       fontWeight:'bold',
-      fontSize: 22,
+      fontSize: 15,
+      marginTop:5
     },
     iconright: {
       color: '#1e1e1e',
@@ -40,7 +41,8 @@ const Ship = ({ icon,iconship, name,nameship, onPress,iconright }) => (
     itemTextShip: {
         flex: 1,
         color: '#1e1e1e',
-        fontSize: 18,
+        fontSize: 15,
+        marginTop:3
       },
   })
 

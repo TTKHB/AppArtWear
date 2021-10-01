@@ -2,53 +2,51 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
 import COLORS from '../../assets/data/colors';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
 const { width } = Dimensions.get('screen');
+import Star from'../../components/ProductMenu/Star';
+
 
 // tim kiếm hàng đầu
-const Seacrh_Product = ({ furniture, navigation }) => {
+const SeacrhProduct = ({ item, navigation }) => {
+
   return (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('HomeNavigator', { screen: 'Menuu' })}
-    >
-      <View style={style.card}>
+    <TouchableOpacity onPress={()=> navigation.navigate('HomeNavigator', {screen: 'Product Detail',params: {a:item}})}>
+      <View style={styles.card}>
         <Image
-          source={furniture.image}
-          style={{ height: 140, width: '100%', borderRadius: 10 }}
-        />
-        <Text style={style.cardName}>{furniture.name}</Text>
+            source={{uri:item.ThumbImg}}
+          style={{ height: 170, width: '100%'}}
+        /> 
+        <View style={{marginLeft:5}}>
+        <Text style={styles.cardName}>{item.ten}</Text>
+         <View style={styles.rate}>
+                  <Star
+                    ratings={4}
+                    reviews={10}
+                  />
+                </View>
         <View
           style={{
             marginTop: 5,
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={style.price}>{furniture.price}</Text>
-        </View>
-
+          <Text style={styles.price}>{item.gia} vnđ</Text>
+         </View> 
       </View>
+        </View>
+        
     </TouchableOpacity>
   );
 };
 
-const style = StyleSheet.create({
-  iconContainer: {
-    width: 40,
-    height: 40,
-    position: 'absolute',
-    elevation: 2,
-    right: 4,
-  },
+const styles = StyleSheet.create({
   card: {
-    height: 220,
+    height: 250,
     backgroundColor: COLORS.white,
     elevation: 7,
     width: width / 2.5,
     marginRight: 20,
-    padding: 10,
     marginVertical: 10,
-    borderRadius: 5,
   },
   cardName: {
     marginTop: 10,
@@ -60,11 +58,10 @@ const style = StyleSheet.create({
     color: COLORS.black,
      fontSize: 14, 
     },
-
-  title: { 
-    fontSize: 18, 
-    fontWeight: 'bold', 
-    paddingHorizontal: 20 
+  rate: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingBottom: 2,
   },
 })
-export default Seacrh_Product;
+export default SeacrhProduct;
