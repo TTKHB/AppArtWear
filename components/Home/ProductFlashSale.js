@@ -10,20 +10,20 @@ import {
   Image,
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 // flash sale
 
-const ProductFlashSale = ({item, navigation}) => {
+const ProductFlashSale = ({ item, navigation }) => {
   return (
     <TouchableOpacity>
       <View style={style.card}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Image
-            source={{uri:item.ThumbImg ? item.ThumbImg : null}}
-            style={{height: 170, width: '100%'}}
+            source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
+            style={{ height: 170, width: '100%' }}
           />
-          <View style={{marginLeft: -30, marginTop: -4}}>
+          <View style={{ marginLeft: -30, marginTop: -4 }}>
             <Image
               style={style.iconContainer}
               source={require('../../assets/icon/sale.png')}
@@ -31,10 +31,10 @@ const ProductFlashSale = ({item, navigation}) => {
           </View>
         </View>
 
-        <View style={{marginLeft: 4}}>
+        <View style={{ marginLeft: 4 }}>
           <Text style={style.cardName}>{item.ten}</Text>
-          <Text style={style.price}>{item.gia}</Text>
-          <Text style={style.price1}>{item.gia}</Text>
+          <Text style={style.price}>{item.gia} VNĐ</Text>
+          <Text style={style.price1}>{item.giacu} VNĐ</Text>
         </View>
       </View>
     </TouchableOpacity>

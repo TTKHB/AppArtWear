@@ -20,7 +20,7 @@ import SearchHangDau from '../Screens/Products/SearchHangDau';
 
 
 
-const HomeNavigator = ({navigation}) => {
+const HomeNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -93,13 +93,13 @@ const HomeNavigator = ({navigation}) => {
       <Stack.Screen
         name="Product Detail"
         component={ProductDetailsScreen}
-        options={{ 
+        options={{
           headerBackTitleVisible: false,
-          title:null,
+          title: null,
           headerTransparent: true,
           headerTintColor: 'black',
-          headerTitle:false,
-          
+          headerTitle: false,
+
           headerRight: ({ color }) => (
             <View
               style={{
@@ -119,7 +119,7 @@ const HomeNavigator = ({navigation}) => {
               </TouchableOpacity>
             </View>
           ),
-      }}
+        }}
       />
       <Stack.Screen
         name="SearchHangDau"

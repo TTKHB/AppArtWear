@@ -1,9 +1,9 @@
-import React, {useState,useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
   Image,
-    StyleSheet,
+  StyleSheet,
   FlatList,
   TouchableOpacity,
   Dimensions,
@@ -14,9 +14,9 @@ import SeacrchProduct from '../../components/Home/SeacrchProduct';
 import DropDownItem from 'react-native-drop-down-item';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../assets/data/colors';
-import {LogBox} from 'react-native';
+import { LogBox } from 'react-native';
 import axios from 'axios';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import Star from '../../components/ProductMenu/Star';
 import {
@@ -24,20 +24,20 @@ import {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
 import RoundedCheckbox from 'react-native-rounded-checkbox';
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 import StarRating from 'react-native-star-rating';
 const MIN_HEIGHT = Platform.OS === 'ios' ? 90 : 55;
 import Swiper from 'react-native-swiper';
 import Comment from '../../components/ProductMenu/Comment';
-import {List} from 'react-native-paper';
+import { List } from 'react-native-paper';
 import Ship from '../../components/Checkout/Ship';
 
 //  detail
-const ProductDetailsScreen = ({route, navigation}) => {
+const ProductDetailsScreen = ({ route, navigation }) => {
   const renderPagination = (index, total, context) => {
     return (
       <View style={styles.paginationStyle}>
-        <Text style={{color: 'grey'}}>
+        <Text style={{ color: 'black', fontSize: 20 }}>
           <Text style={styles.paginationText}>{index + 1}</Text>/{total}
         </Text>
       </View>
@@ -75,7 +75,7 @@ const ProductDetailsScreen = ({route, navigation}) => {
     }, []),
   );
   return (
-    <View style={[styles.container, {backgroundColor: COLORS.white}]}>
+    <View style={[styles.container, { backgroundColor: COLORS.white }]}>
       {/* Header */}
       {/* <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} >
@@ -86,7 +86,7 @@ const ProductDetailsScreen = ({route, navigation}) => {
         </TouchableOpacity>
       </View> */}
       <ImageHeaderScrollView
-        maxHeight={400}
+        maxHeight={500}
         minHeight={MIN_HEIGHT}
         minOverlayOpacity={0}
         useNativeDriver={false}
@@ -105,7 +105,8 @@ const ProductDetailsScreen = ({route, navigation}) => {
               }>
               <Image
                 style={styles.image}
-                source={{uri:item.ThumbImg}}
+                // source={{uri:item.ThumbImg}}
+                source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
               />
             </View>
             <View
@@ -115,7 +116,10 @@ const ProductDetailsScreen = ({route, navigation}) => {
               }>
               <Image
                 style={styles.image}
-                source={require('../../assets/images/Ao/AoThun/aothun2.png')}
+                // source={require('../../assets/images/Ao/AoThun/aothun2.png')}
+                source={{
+                  uri: 'https://shopgiayreplica.com/wp-content/uploads/2020/03/giay-nike-air-jordan-1-dior-replica.jpg'
+                }}
               />
             </View>
             <View
@@ -125,7 +129,8 @@ const ProductDetailsScreen = ({route, navigation}) => {
               }>
               <Image
                 style={styles.image}
-                source={require('../../assets/images/Ao/AoThun/aothun3.png')}
+                // source={require('../../assets/images/Ao/AoThun/aothun3.png')}
+                source={{ uri: 'https://fsport247.com/wp-content/uploads/2021/04/Giay-Jordan-1-Retro-Black-White-1.jpg' }}
               />
             </View>
             <View
@@ -135,14 +140,15 @@ const ProductDetailsScreen = ({route, navigation}) => {
               }>
               <Image
                 style={styles.image}
-                source={require('../../assets/images/Ao/AoThun/aothun4.png')}
+                // source={require('../../assets/images/Ao/AoThun/aothun4.png')}
+                source={{ uri: 'https://shopgiayreplica.com/wp-content/uploads/2019/02/nike-jordan-1-off-white-replica.jpg' }}
               />
             </View>
           </Swiper>
         )}>
-        <View style={{height: 1300}}>
+        <View style={{ height: 1300 }}>
           <TriggeringView onHide={() => console.log('text hidden')}>
-            <Animated.ScrollView style={{alignSelf: 'stretch'}}>
+            <Animated.ScrollView style={{ alignSelf: 'stretch' }}>
               {/* <View style={styles.imgContainer}>
           <Image source={{uri:item.ThumbImg}} style={{ width: 220, height: 220 }} />
         </View> */}
@@ -150,7 +156,7 @@ const ProductDetailsScreen = ({route, navigation}) => {
               {/* Body */}
               <View style={styles.detailsContainer}>
                 <Text style={styles.nameText}>{item.ten}</Text>
-                <Text style={styles.priceText}>{item.gia} vnđ</Text>
+                <Text style={styles.priceText}>{item.gia} VNĐ</Text>
 
                 {/* ngôi sao đánh giá sản phảm*/}
                 <View style={styles.rate}>
@@ -158,20 +164,20 @@ const ProductDetailsScreen = ({route, navigation}) => {
                 </View>
 
 
-                
+
                 <View style={styles.content}>
-                    {/*Chọn đơn vị giao hàng (ví dụ giao hàng tiết kiệm) */}
-                    <Ship icon="truck-fast-outline"
-                        iconship="truck-check-outline"
-                        name="Giao hàng tiêu chuẩn"
-                        nameship="Nhận hàng trong vòng 1 -> 3 ngày"
-                        iconright="angle-right" />
+                  {/*Chọn đơn vị giao hàng (ví dụ giao hàng tiết kiệm) */}
+                  <Ship icon="truck-fast-outline"
+                    iconship="truck-check-outline"
+                    name="Giao hàng tiêu chuẩn"
+                    nameship="Nhận hàng trong vòng 1 -> 3 ngày"
+                    iconright="angle-right" />
 
                 </View>
 
                 <View style={styles.flashing}>
-                  <Text style={{fontWeight: 'bold', fontSize: 20}}>Màu </Text>
-                  <Text style={{fontWeight: 'bold', fontSize: 20, left: -5}}>
+                  <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Màu </Text>
+                  <Text style={{ fontWeight: 'bold', fontSize: 20, left: -5 }}>
                     Kích cỡ
                   </Text>
                 </View>
@@ -207,8 +213,8 @@ const ProductDetailsScreen = ({route, navigation}) => {
                   </View>
                 </View>
 
-                  {/* Mô tả sản phẩm */}
-                  <List.Section>
+                {/* Mô tả sản phẩm */}
+                <List.Section>
                   <List.Accordion
                     titleStyle={{
                       marginLeft: -15,
@@ -216,18 +222,18 @@ const ProductDetailsScreen = ({route, navigation}) => {
                       fontSize: 20,
                       color: 'black',
                     }}
-                    style={{backgroundColor: 'white'}}
+                    style={{ backgroundColor: 'white' }}
                     title="Mô tả">
-                      <View>
-                      <Text style={styles.mota}>{item.mota}</Text>
+                    <View>
+                      <Text style={{ fontSize: 18 }}>{item.mota}</Text>
 
-                      </View>
-                    
+                    </View>
+
                   </List.Accordion>
                 </List.Section>
 
 
-                  {/* Đánh giá */}
+                {/* Đánh giá */}
                 <List.Section >
                   <List.Accordion
                     titleStyle={{
@@ -236,7 +242,7 @@ const ProductDetailsScreen = ({route, navigation}) => {
                       fontSize: 20,
                       color: 'black',
                     }}
-                    style={{backgroundColor: 'white'}}
+                    style={{ backgroundColor: 'white' }}
                     title="Đánh giá">
                     <View
                       style={{
@@ -244,7 +250,7 @@ const ProductDetailsScreen = ({route, navigation}) => {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                       }}>
-                      <Text style={{fontSize: 18}}>Nhận xét</Text>
+                      <Text style={{ fontSize: 18 }}>Nhận xét</Text>
 
                       <TouchableOpacity
                         onPress={() => navigation.navigate('StarRating')}>
@@ -259,7 +265,7 @@ const ProductDetailsScreen = ({route, navigation}) => {
                         reviews={88}
                         fullStarColor={'orange'}
                         starSize={13}></StarRating>
-                      <Text style={{left: 4, fontSize: 13, color: 'red'}}>
+                      <Text style={{ left: 4, fontSize: 13, color: 'red' }}>
                         4.7/5
                       </Text>
                       <Text style={styles.score}>(5 đánh giá)</Text>
@@ -270,14 +276,14 @@ const ProductDetailsScreen = ({route, navigation}) => {
                 </List.Section>
 
 
-                      {/* Sản phẩm đề xuất   */}
+                {/* Sản phẩm đề xuất   */}
 
-                <Text style={styles.mota}>Sản phẩm </Text>
+                <Text style={styles.mota}>Sản phẩm có thể bạn quan tâm</Text>
                 <FlatList
                   showsHorizontalScrollIndicator={false}
                   data={products}
                   horizontal
-                  renderItem={({item}) => (
+                  renderItem={({ item }) => (
                     <SeacrchProduct item={item} navigation={navigation} />
                   )}
                 />
@@ -293,14 +299,14 @@ const ProductDetailsScreen = ({route, navigation}) => {
         <TouchableOpacity
           style={[
             styles.btnContainer,
-            { marginRight: 10},
+            { marginRight: 10 },
           ]}>
           <Icon name="favorite" size={30} color={COLORS.white} />
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.btnContainer,
-            { flex: 1,},
+            { flex: 1, },
           ]}>
           <Text style={styles.btnText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
@@ -317,7 +323,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop:5
+    marginTop: 5
   },
   header: {
     height: 80,
@@ -385,7 +391,7 @@ const styles = StyleSheet.create({
   },
   priceText: {
     fontSize: 28,
-    color:"red",
+    color: "red",
   },
   descriptionText: {
     marginTop: 20,
@@ -399,7 +405,7 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     padding: 15,
-   borderRadius: 10,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#8D6E63',
@@ -411,7 +417,7 @@ const styles = StyleSheet.create({
   },
   mota: {
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 18,
     marginTop: 5,
   },
   image: {
@@ -445,8 +451,8 @@ const styles = StyleSheet.create({
     right: 10,
   },
   paginationText: {
-    color: 'red',
-    fontSize: 20,
+    color: 'orange',
+    fontSize: 28,
   },
   score: {
     fontSize: 13,
@@ -460,10 +466,10 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: '#fff',
     marginTop: 15,
-    borderWidth:0.5,
+    borderWidth: 0.5,
     borderColor: '#E0E0E0',
     flex: 1,
-},
+  },
 });
 
 export default ProductDetailsScreen;
