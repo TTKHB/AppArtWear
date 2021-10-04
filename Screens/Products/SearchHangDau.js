@@ -5,7 +5,7 @@ import COLORS from '../../assets/data/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // import product component
-import ProductComponent from '../../components/ProductMenu/productsComponents';
+import ProductComponent from '../../components/ProductMenu/ProductsComponents';
 
 // API
 import axios from 'axios';

@@ -1,6 +1,6 @@
 let baseURL = 'http://10.0.3.2:3000/api/v1/';
 
-//
+
 
 // {
 //   Platform.OS == 'android'

@@ -1,27 +1,60 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
   Modal,
   Text,
   TouchableOpacity,
-ScrollView,
-SafeAreaView,
+  ScrollView,
+  SafeAreaView,
   FlatList,
   SectionList,
   Image,
   Dimensions,
 } from 'react-native';
 import Star from '../../components/ProductMenu/Star';
+
+import IconSearch from 'react-native-vector-icons/Ionicons';
+
+import IconBack from 'react-native-vector-icons/Ionicons';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
+import IconFilter from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {clothes} from '../../assets/data/products';
 import COLORS from '../../assets/data/colors';
+
+import {DATA} from '../../assets/data/PopularSearch';
+import {List} from 'react-native-paper';
 const {height, width} = Dimensions.get('window');
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import SearchHangDau from '../../Screens/Products/SearchHangDau';
-import ProductComponent from '../../components/ProductMenu/ProductsComponents';
-import Animated from 'react-native-reanimated';
+const numColumns = 2;
 const FavoriteScreen = ({navigation, i}) => {
+  const renderItem = ({item, index}) => {
+    return (
+      <TouchableOpacity onPress={() => navigation.navigate('DetailMenu')}>
+        <View style={styles.view}>
+          <View style={{flex: 2}}>
+            <Image
+              style={{
+                flex: 1,
+                width: null,
+                height: null,
+                resizeMode: 'stretch',
+              }}
+              source={item.image}
+            />
+          </View>
+          <View style={{top: -4, marginLeft: 5}}>
+            <Text style={{fontSize: 18}}>{item.name}</Text>
+            <View style={styles.rate}>
+              <Star ratings={4} reviews={100} />
+            </View>
+
+            <Text style={{fontSize: 16, color: 'red'}}>{item.price}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   const renderItemFavorite = ({item, index}) => {
     return (
       <View style={styles.view}>
@@ -37,25 +70,22 @@ const FavoriteScreen = ({navigation, i}) => {
         <View style={{top: -4, marginLeft: 5}}>
           <Text style={{fontSize: 18}}>{item.name}</Text>
           <View style={styles.rate}>
-            <Star
-              ratings={4}
-              reviews={100}
-            />
+            <Star ratings={4} reviews={100} />
           </View>
           <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity style={styles.iconAddCart}>
-            <Image
-              style={{width: 20, height: 20}}
-              source={require('../../assets/icon/addcart.png')}
-            />
-          </TouchableOpacity>
-          <Text style={{fontSize: 16, color: 'red'}}>{item.price}</Text>
-        </View>
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity style={styles.iconAddCart}>
+              <Image
+                style={{width: 20, height: 20}}
+                source={require('../../assets/icon/addcart.png')}
+              />
+            </TouchableOpacity>
+            <Text style={{fontSize: 16, color: 'red'}}>{item.price}</Text>
+          </View>
         </View>
       </View>
     );
@@ -64,72 +94,98 @@ const FavoriteScreen = ({navigation, i}) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <View style={styles.iconHeader}>
-            {/* <Image style={{width:20,height:20}}
-                source={require('../../assets/icon/back.png')}
-              /> */}
-          </View>
-          <View style={{marginRight: 20, top: 10}}>
-            <IconCart name="handbag" color="white" size={25} />
-          </View>
-        </View>
-        <Text
-          style={{
-            fontSize: 25,
-            color: 'white',
-            fontWeight: 'bold',
-            marginLeft: 150,
-            top: -16,
-          }}>
-          Yêu thích
-        </Text>
+        <IconBack
+          name="chevron-back"
+          size={28}
+          onPress={() => navigation.goBack()}
+        />
+        <IconSearch
+          name="md-search-outline"
+          size={28}
+          style={{marginLeft: -85}}
+        />
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Yêu thích</Text>
+        <IconCart name="handbag" size={28} />
       </View>
 
-      {/* Body */}    
-       <SafeAreaView style={styles.bodyContainer}>
-            <ScrollView>
-          
-      
+      {/* Body */}
+      <SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.body}>
+          <View style={styles.viewBody}>
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <View style={styles.itemBody}>
+                <Text style={styles.itemText}>Sàng lọc</Text>
+                <IconFilter name="filter" size={28} style={{marginLeft: 10}} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <View style={{width: 140, marginTop: -8}}>
+                <List.Section>
+                  <List.Accordion
+                    title="Tình trạng"
+                    titleStyle={{
+                      color: 'black',
+                      fontWeight: 'bold',
+                      fontSize: 14,
+                    }}
+                    style={{backgroundColor: '#fff'}}></List.Accordion>
+                </List.Section>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <View style={{width: 140, marginTop: -8}}>
+                <List.Section>
+                  <List.Accordion
+                    title="Kiểu dáng"
+                    titleStyle={{
+                      color: 'black',
+                      fontWeight: 'bold',
+                      fontSize: 14,
+                    }}
+                    style={{backgroundColor: '#fff'}}></List.Accordion>
+                </List.Section>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView >
             <FlatList
-          showsVerticalScrollIndicator={false}
-          data={clothes}
-          numColumns={2}
-          keyExtractor={item => item.id}
-          renderItem={renderItemFavorite}
-        />
-       
-      <View><Text style={{
-            fontSize: 25,
-            color: 'black',
-            marginLeft:5,
-            marginTop:25,
-            fontWeight: 'bold',
-      
-          }}>Sản phẩm đề xuất</Text>
-    
-    <FlatList
-                  showsHorizontalScrollIndicator={false}
-                  data={clothes}
-                  numColumns={2}
-                  keyExtractor={item => item.id}
-                  renderItem={renderItemFavorite} />
-                 
-              
-          
-</View>
-        
-</ScrollView>
-  
-        
-                 </SafeAreaView>
-      </View>
-   
+              data={clothes}
+              numColumns={2}
+              scrollEnabled={false}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={item => item.id}
+              renderItem={renderItemFavorite}
+            />
+
+            <View>
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: 'black',
+                  marginLeft: 5,
+                  marginTop: 25,
+                  fontWeight: 'bold',
+                }}>
+                Sản phẩm đề xuất
+              </Text>
+
+              <FlatList
+                numColumns={numColumns} // numColumns 2 nam ngang
+                showsHorizontalScrollIndicator={false}
+                data={DATA} //set Data
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+          </ScrollView>
+        </View>
+      </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -138,9 +194,10 @@ const styles = StyleSheet.create({
   },
   // Header Style
   headerContainer: {
-    height: 50,
-    backgroundColor: '#8D6E63',
-    borderColor: '#F5F5F5',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    margin: 10,
   },
   iconHeader: {
     marginLeft: 2,
@@ -160,7 +217,7 @@ const styles = StyleSheet.create({
   },
 
   // Body Style
-  bodyContainer: { 
+  bodyContainer: {
     flex: 1,
   },
   view: {
@@ -191,7 +248,39 @@ const styles = StyleSheet.create({
     elevation: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    top:-20
+    top: -20,
+  },
+  textBox: {
+    marginLeft: 15,
+    marginTop: 10,
+    color: '#384F7D',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  viewBody: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+    paddingHorizontal: 5,
+    marginHorizontal: 10,
+  },
+  itemBody: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 0.5,
+    borderColor: '#C0C0C0',
+    height: height / 17.0,
+  },
+  itemText: {
+    fontSize: 16,
+    fontStyle: 'normal',
+    color: '#000000',
+    fontWeight: 'bold',
+  },
+  body: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
 });
 

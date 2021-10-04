@@ -77,21 +77,12 @@ const ProductDetailsScreen = ({ route, navigation }) => {
   return (
     <View style={[styles.container, { backgroundColor: COLORS.white }]}>
       {/* Header */}
-      {/* <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} >
-          <Icon name="keyboard-arrow-left" size={30} color={COLORS.black} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <IconCart name="handbag" size={30} color={COLORS.black} />
-        </TouchableOpacity>
-      </View> */}
       <ImageHeaderScrollView
         maxHeight={500}
         minHeight={MIN_HEIGHT}
         minOverlayOpacity={0}
         useNativeDriver={false}
         maxOverlayOpacity={0.1}
-        // headerImage={require("../../assets/images/Ao/AoThun/aothun2.png")}
 
         renderForeground={() => (
           <Swiper
@@ -149,10 +140,6 @@ const ProductDetailsScreen = ({ route, navigation }) => {
         <View style={{ height: 1300 }}>
           <TriggeringView onHide={() => console.log('text hidden')}>
             <Animated.ScrollView style={{ alignSelf: 'stretch' }}>
-              {/* <View style={styles.imgContainer}>
-          <Image source={{uri:item.ThumbImg}} style={{ width: 220, height: 220 }} />
-        </View> */}
-
               {/* Body */}
               <View style={styles.detailsContainer}>
                 <Text style={styles.nameText}>{item.ten}</Text>
@@ -172,16 +159,13 @@ const ProductDetailsScreen = ({ route, navigation }) => {
                     name="Giao hàng tiêu chuẩn"
                     nameship="Nhận hàng trong vòng 1 -> 3 ngày"
                     iconright="angle-right" />
-
                 </View>
-
                 <View style={styles.flashing}>
                   <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Màu </Text>
                   <Text style={{ fontWeight: 'bold', fontSize: 20, left: -5 }}>
                     Kích cỡ
                   </Text>
                 </View>
-
                 <View
                   style={{
                     flexDirection: 'row',
