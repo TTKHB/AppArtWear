@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
@@ -14,8 +14,21 @@ const HotNavigator = () => {
       <Stack.Screen
         name="HotScreen"
         component={HotScreen}
+        // options={{
+        //   headerShown: false,
+        // }
         options={{
-          headerShown: false,
+          headerTitleAlign: 'center',
+          headerTitle: () => (
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: "#dbb98f" }}>HOT ArtWear</Text>
+            // <Image source={logo} resizeMode="contain" style={{width: 135, height: 50}}/>
+          ),
+          headerLeft: () => (
+            <Feather name="camera" style={{ marginLeft: 15 }} size={25} color={"#000"} />
+          ),
+          headerRight: () => (
+            <Ionicons name="paper-plane-outline" style={{ marginRight: 15 }} size={25} color={"#545454"} />
+          )
         }}
       />
     </Stack.Navigator>
