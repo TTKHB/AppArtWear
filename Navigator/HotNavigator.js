@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
-
+import Feather from "react-native-vector-icons/Feather";
+import Ionicons from "react-native-vector-icons/Ionicons";
 const Stack = createStackNavigator();
 
 //screens
