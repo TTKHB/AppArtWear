@@ -13,6 +13,8 @@ import IconSearch from 'react-native-vector-icons/Octicons';
 import IconNotification from 'react-native-vector-icons/AntDesign';
 import Notification from '../Screens/Notification/Notification';
 import SearchHangDau from '../Screens/Products/SearchHangDau';
+
+import MenuFlashSale from '../Screens/Products/MenuFlashSaleScreen';
 /**
  * Muốn thêm màn hình ở home thì them stack.screen ở dưới
  *
@@ -126,6 +128,41 @@ const HomeNavigator = ({ navigation }) => {
         component={SearchHangDau}
         options={{
           title: 'Tìm kiếm hàng đầu',
+          headerStyle: {
+            backgroundColor: '#fff',
+            borderColor: '#F5F5F5',
+            borderWidth: 1
+          },
+          headerTintColor: '#8D6E63',
+          headerTitleStyle: {
+            textAlign: 'center',
+            alignSelf: 'center',
+            fontSize: 28,
+            fontWeight: 'bold'
+          },
+          headerTitleAlign: 'center',
+          headerRight: ({ color }) => (
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                marginRight: 15
+              }}>
+              <IconFavorite
+                name="favorite-outline"
+                size={28}
+                style={{
+                  marginRight: 5
+                }} />
+              <IconCart name="handbag" size={24} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="MenuFlashSale"
+        component={MenuFlashSale}
+        options={{
+          title: 'Flash Sale',
           headerStyle: {
             backgroundColor: '#fff',
             borderColor: '#F5F5F5',

@@ -11,7 +11,6 @@ import {
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated from 'react-native-reanimated';
 import SeacrchProduct from '../../components/Home/SeacrchProduct';
-import DropDownItem from 'react-native-drop-down-item';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../assets/data/colors';
 import { LogBox } from 'react-native';

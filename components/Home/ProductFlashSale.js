@@ -2,46 +2,50 @@ import React from 'react';
 import {
   View,
   Text,
-  FlatList,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   Dimensions,
   Image,
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
 // flash sale
-
-const ProductFlashSale = ({ item, navigation }) => {
+const ProductFlashSale = ({item, navigation}) => {
+  console.log('item cua flash sale',item);
   return (
-    <TouchableOpacity>
-      <View style={style.card}>
-        <View style={{ flexDirection: 'row' }}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('HomeNavigator', {
+          screen: 'Product Detail',
+          params: {a: item},
+        })
+      }>
+      <View style={styles.card}>
+        <View style={{flexDirection: 'row'}}>
           <Image
-            source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
-            style={{ height: 170, width: '100%' }}
+            source={{uri: item.ThumbImg ? item.ThumbImg : null}}
+            style={{height: 170, width: '100%'}}
           />
-          <View style={{ marginLeft: -30, marginTop: -4 }}>
+          <View style={{marginLeft: -35, marginTop: -4}}>
             <Image
-              style={style.iconContainer}
+              style={styles.iconContainer}
               source={require('../../assets/icon/sale.png')}
             />
           </View>
         </View>
 
-        <View style={{ marginLeft: 4 }}>
-          <Text style={style.cardName}>{item.ten}</Text>
-          <Text style={style.price}>{item.gia} VNĐ</Text>
-          <Text style={style.price1}>{item.giacu} VNĐ</Text>
+        <View style={{marginLeft: 4}}>
+          <Text style={styles.cardName}>{item.ten}</Text>
+          <Text style={styles.price}>{item.gia} VNĐ</Text>
+          <Text style={styles.price1}>{item.giacu} VNĐ</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   iconContainer: {
     width: 40,
     height: 40,
@@ -49,10 +53,10 @@ const style = StyleSheet.create({
   card: {
     height: 250,
     backgroundColor: COLORS.white,
-    elevation: 10,
-    width: width / 2.5,
-    marginRight: 20,
-    marginVertical: 20,
+    elevation: 2,
+    width: width / 2.29,
+    marginVertical: 5,
+    marginHorizontal: 5,
     borderRadius: 5,
   },
   cardName: {
@@ -71,11 +75,6 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     textDecorationLine: 'line-through',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    paddingHorizontal: 20,
   },
 });
 export default ProductFlashSale;

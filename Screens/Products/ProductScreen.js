@@ -22,7 +22,6 @@ import IconRight from 'react-native-vector-icons/Entypo';
 import SwiperHeader from '../../components/Home/SwiperHeader';
 import SwiperBody from '../../components/Home/SwiperBody';
 import SwiperItemBody from '../../components/Home/SwiperItemBody';
-
 import Carousel from 'react-native-snap-carousel';
 import { DataQuangCao } from '../../components/Home/ItemHome';
 const SLIDER_WIDTH = Dimensions.get('window').width + 10;
@@ -121,13 +120,15 @@ const ProductScreen = ({ item, navigation }) => {
               <View style={{ marginLeft: '18%' }}>
                 <CountDown />
               </View>
-              <View>
+              <TouchableOpacity onPress={() =>
+                navigation.navigate('HomeNavigator', { screen: 'MenuFlashSale'})
+              }>
                 <IconRight
                   style={{ marginTop: 8 }}
                   name="chevron-small-right"
                   size={24}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={styles.itemContainer}>
               <FlatList
@@ -135,7 +136,7 @@ const ProductScreen = ({ item, navigation }) => {
                 contentContainerStyle={{ paddingLeft: 5 }}
                 data={products}
                 horizontal
-                renderItem={({ item }) => <ProductFlashSale item={item} />}
+                renderItem={({ item }) => <ProductFlashSale item={item} navigation={navigation} />}
               />
             </View>
           </View>

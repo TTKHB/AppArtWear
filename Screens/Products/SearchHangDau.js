@@ -1,9 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import { StyleSheet, View, Modal, Text, TouchableOpacity, TextInput, FlatList } from 'react-native'
-import COLORS from '../../assets/data/colors';
-// import theme
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 // import product component
 import ProductComponent from '../../components/ProductMenu/ProductsComponents';
 
@@ -72,45 +68,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    badgeContainer: {
-        top: -4,
-        right: -4,
-        width: 18,
-        height: 18,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'absolute',
-        backgroundColor: COLORS.green
-    },
-    badgeText: {
-        color: COLORS.light
-    },
-    titleText: {
-        fontWeight: 'bold',
-        fontSize: 25
-    },
-    subTitleText: {
-        fontSize: 20,
-        color: COLORS.gray
-    },
-    iconCaontainer: {
-        padding: 10,
-        borderRadius: 30,
-        backgroundColor: COLORS.black
-    },
-    // Search Style
-    searchContainer: {
-        paddingLeft: 10,
-        marginTop: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderRadius: 5,
-        backgroundColor: COLORS.grey
-    },
-    textInputContainer: {
-        flex: 1
-    },
+    
     // Body Style
     bodyContainer: {
         flex: 1,

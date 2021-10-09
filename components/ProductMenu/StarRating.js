@@ -4,15 +4,15 @@ import {
   Text,
   View,
   Animated,
-  ScrollViewProperties,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-
+import IconBack from 'react-native-vector-icons/Ionicons';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
+import IconSearch from 'react-native-vector-icons/Ionicons';
 // đánh giá
 const PercentageBar = ({starText, percentage}) => {
   const [animation] = useState(new Animated.Value(0));
@@ -51,10 +51,27 @@ const PercentageBar = ({starText, percentage}) => {
 
 export default function StarRating(item) {
   return (
-    <ScrollView>
+  
       <View style={styles.container}>
+
+      <View style={styles.headerContainer}>
+        <IconBack
+          name="chevron-back"
+          size={28}
+      
+          onPress={() => navigation.goBack()}
+        />
+        <IconSearch
+          name="md-search-outline"
+          size={28}
+          style={{marginLeft: -115}}
+        />
+        <Text style={{fontSize: 20, fontWeight: 'bold',marginLeft: -35}}>Đánh giá</Text>
+        <IconCart name="handbag" size={28} />
+      </View>
+
+      <ScrollView>
         <View style={styles.reviewContainer}>
-          {/* <Text style={styles.title}>ĐÁNH GIÁ</Text> */}
           <View style={styles.totalWrap}>
             <View
               style={{
@@ -70,7 +87,13 @@ export default function StarRating(item) {
                   justifyContent: 'flex-end',
                   top: 10,
                   left: 72,
-                }}></View>
+                }}>
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                </View>
             </View>
           </View>
           <Text style={styles.amountText}> 40 đánh giá </Text>
@@ -146,8 +169,11 @@ export default function StarRating(item) {
           </Text>
           <Comment />
         </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+
+   
+
   );
 }
 
@@ -155,13 +181,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
   },
-
-  title: {
-    top: 20,
-    fontWeight: 'bold',
-    fontSize: 25,
-    textAlign: 'center',
-    color: COLORS.black,
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    margin: 10,
   },
   totalWrap: {
     marginTop: 30,

@@ -4,10 +4,10 @@
 // import React in our code
 import React, { useState, useEffect } from 'react';
 
-// import all the components we are going to use
+
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
-// import CountDown to show the timer
+
 import CountDown from 'react-native-countdown-component';
 
 // import moment to help you play with date and time
@@ -28,7 +28,7 @@ const TimeSale = () => {
 
     // Getting the current date-time
     // You can set your own date-time
-    let expirydate = '2021-10-04 04:00:45';
+    let expirydate = '2021-10-15 04:00:45';
 
     let diffr =
       moment
