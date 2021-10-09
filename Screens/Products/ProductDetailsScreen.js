@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, {useEffect, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,8 +6,10 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Dimensions,
 } from 'react-native';
+import AntIcon from "react-native-vector-icons/AntDesign"
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated from 'react-native-reanimated';
 import SeacrchProduct from '../../components/Home/SeacrchProduct';
@@ -32,7 +34,7 @@ import { List } from 'react-native-paper';
 import Ship from '../../components/Checkout/Ship';
 
 //  detail
-const ProductDetailsScreen = ({ route, navigation }) => {
+const ProductDetailsScreen = ({ route, navigation,likeCountProp }) => {
   const renderPagination = (index, total, context) => {
     return (
       <View style={styles.paginationStyle}>
@@ -51,6 +53,20 @@ const ProductDetailsScreen = ({ route, navigation }) => {
     duration: 2500,
     useNativeDriver: true, // Add this line
   }).start();
+
+  // tym
+  const [isLike, seiIsLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+
+  const onLikePressed = () => {
+    const amount = isLike ? -1 : 1;
+    setLikeCount(likeCount + amount);
+    seiIsLike(!isLike);
+  }
+
+  useEffect(() => {
+    setLikeCount(likeCountProp)
+  }, [])
 
   const [products, setProducts] = useState([]);
   const [expanded, setExpanded] = React.useState(true);
@@ -279,13 +295,13 @@ const ProductDetailsScreen = ({ route, navigation }) => {
 
       {/* Footer */}
       <View style={styles.footerContainer}>
-        <TouchableOpacity
-          style={[
-            styles.btnContainer,
-            { marginRight: 10 },
-          ]}>
-          <Icon name="favorite" size={30} color={COLORS.white} />
-        </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={onLikePressed}>
+            <View style={[styles.btnContainer, { marginRight: 10 }]} >{isLike ?
+                <AntIcon name="heart" size={25} color={"#c30000"} />
+                : <AntIcon name="hearto" size={25} color={"#fff"} />
+              }</View>
+          
+        </TouchableWithoutFeedback>
         <TouchableOpacity
           style={[
             styles.btnContainer,
