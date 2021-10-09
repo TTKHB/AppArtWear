@@ -36,7 +36,6 @@ const ProductScreen = ({ item, navigation }) => {
 
   useFocusEffect(
     useCallback(() => {
-
       // Products
       axios
         .get(`${baseURL}products`)

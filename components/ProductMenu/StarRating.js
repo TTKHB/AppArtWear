@@ -53,12 +53,10 @@ export default function StarRating(item) {
   return (
   
       <View style={styles.container}>
-
       <View style={styles.headerContainer}>
         <IconBack
           name="chevron-back"
           size={28}
-      
           onPress={() => navigation.goBack()}
         />
         <IconSearch
@@ -70,7 +68,7 @@ export default function StarRating(item) {
         <IconCart name="handbag" size={28} />
       </View>
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} >
         <View style={styles.reviewContainer}>
           <View style={styles.totalWrap}>
             <View
@@ -98,10 +96,7 @@ export default function StarRating(item) {
           </View>
           <Text style={styles.amountText}> 40 đánh giá </Text>
 
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            horizontal>
+          <ScrollView >
             <View style={styles.categoriesListContainer}>
               <TouchableOpacity activeOpacity={0.8}>
                 {/* Button */}

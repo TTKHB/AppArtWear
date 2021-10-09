@@ -1,86 +1,58 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View, Image, FlatList} from 'react-native';
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  ScrollView,
+  SafeAreaView
+} from 'react-native';
 import Star from '../../components/ProductMenu/Star';
+
+import {datauser} from '../../assets/data/ItemUserComment';
 // BÌnh luận
-export default class Comment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        {
-          id: 1,
-          image: 'https://bootdey.com/img/Content/avatar/avatar1.png',
-          name: 'Frank Odalthh',
-          comment:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        },
-        {
-          id: 2,
-          image: 'https://bootdey.com/img/Content/avatar/avatar6.png',
-          name: 'John DoeLink',
-          comment:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        },
-        {
-          id: 3,
-          image: 'https://bootdey.com/img/Content/avatar/avatar7.png',
-          name: 'March SoulLaComa',
-          comment:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        },
-        {
-          id: 4,
-          image: 'https://bootdey.com/img/Content/avatar/avatar2.png',
-          name: 'Finn DoRemiFaso',
-          comment:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        },
-      ],
-    };
-  }
 
-  render() {
+
+const Comment = () => {
+  const renderItemComment = ({item}) => {
     return (
-      <FlatList
-        style={styles.root}
-        data={this.state.data}
-        extraData={this.state}
-        ItemSeparatorComponent={() => {
-          return <View style={styles.separator} />;
-        }}
-        keyExtractor={item => {
-          return item.id;
-        }}
-        renderItem={item => {
-          const Notification = item.item;
-          return (
-            <View style={styles.container}>
-              <Image style={styles.image} source={{uri: Notification.image}} />
-              <View style={styles.content}>
-                <View style={styles.contentHeader}>
-                  <Text style={styles.name}>{Notification.name}</Text>
-
-                  <Text style={styles.time}>9:58 am</Text>
-                </View>
-                <View style={styles.rate}>
-                  <Star ratings={4} reviews={4} />
-                </View>
-
-                <Text>{Notification.comment}</Text>
-              </View>
-            </View>
-          );
-        }}
-      />
+      <View style={styles.container}>
+        <Image style={styles.image} source={{uri: item.image}} />
+        <View style={styles.content}>
+          <View style={styles.contentHeader}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.time}>9:58 am</Text>
+          </View>
+          <View style={styles.rate}>
+            <Star ratings={4} reviews={4} />
+          </View>
+          <Text>{item.comment}</Text>
+        </View>
+      </View>
     );
-  }
-}
+  };
+
+  return (
+  
+    <SafeAreaView>
+    <ScrollView showsVerticalScrollIndicator={false} vertical>
+      <View style={styles.Bodycontainer}>
+      <FlatList
+          data={datauser}
+          keyExtractor={item => item.id}
+          renderItem={renderItemComment}
+        />
+      </View>
+        
+    </ScrollView>
+    </SafeAreaView>
+   
+  
+  );
+};
 
 const styles = StyleSheet.create({
-  root: {
-    backgroundColor: '#ffffff',
-    marginTop: 10,
-  },
   container: {
     paddingRight: 16,
     paddingVertical: 12,
@@ -95,6 +67,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 6,
+  },
+  bodyContainer: {
+    flex: 1,
   },
   separator: {
     height: 1,
@@ -120,3 +95,4 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
   },
 });
+export default Comment;

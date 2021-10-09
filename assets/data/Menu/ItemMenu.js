@@ -95,7 +95,6 @@ const sectionListData = [
           {
             name: "Áo có cổ",
             image: require("../../../assets/images/Ao/AoThun/aothun3.png"),
-
           },
         ],
       },
