@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     btnTab:{
-        width:Dimensions.get('window').width/5.8,
+        width:Dimensions.get('window').width/5.7,
         flexDirection:"row",
         borderWidth:0.5,
         borderColor:"grey",

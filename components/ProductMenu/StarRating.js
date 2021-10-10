@@ -23,9 +23,6 @@ const PercentageBar = ({starText, percentage}) => {
     }).start();
   }, [percentage]);
 
-
-
-
   //thanh năng lượng đánh giá (%)
   return (
     <View
@@ -55,36 +52,25 @@ const PercentageBar = ({starText, percentage}) => {
 
 export default function StarRating(item) {
   return (
-  
+       <ScrollView showsVerticalScrollIndicator={false} > 
       <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <IconBack
-          name="chevron-back"
-          size={28}
-          onPress={() => navigation.goBack()}
-        />
-       
-        <Text style={{fontSize: 20, fontWeight: 'bold',marginLeft: -35}}>Đánh giá</Text>
-        <IconCart name="handbag" size={28} />
-      </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} >
         <View style={styles.reviewContainer}>
           <View style={styles.totalWrap}>
             <View
               style={{
                 flexDirection: 'row',
               }}>
-              <Text style={{left: -60, fontSize: 30, fontWeight: 'bold'}}>
+              <Text style={{left: -80, fontSize: 30, fontWeight: 'bold'}}>
                 4.7/{' '}
               </Text>
-              <Text style={{left: -60, top: 15, fontSize: 15}}>5</Text>
+              <Text style={{left: -75, top: 15, fontSize: 15}}>5</Text>
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
                   top: 10,
-                  left: 72,
+                  left: 82,
                 }}>
                   <Icon name="star" color="orange" size={25} />
                   <Icon name="star" color="orange" size={25} />
@@ -116,15 +102,14 @@ export default function StarRating(item) {
               <PercentageBar starText="1 " percentage={1} />
             </View>
           </View>
-          <Text style={{left: 25, fontSize: 15, fontWeight: 'bold'}}>
+          <Text style={{left: 20, fontSize: 15, fontWeight: 'bold'}}>
             Bình luận
           </Text>
           {/* Người dùng bình luận */}
           <Comment />
         </View>
-        </ScrollView>
       </View>
-
+      </ScrollView>
    
 
   );
@@ -133,12 +118,6 @@ export default function StarRating(item) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    margin: 10,
   },
   totalWrap: {
     marginTop: 30,
@@ -153,7 +132,7 @@ const styles = StyleSheet.create({
   amountText: {
     fontSize: 16,
     color: '#595B71',
-    left: 30,
+    left: 20,
   },
   howWeCalculate: {
     fontSize: 15,

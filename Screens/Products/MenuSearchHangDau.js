@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { StyleSheet, View, Modal, Text, TouchableOpacity, TextInput, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList,Dimensions } from 'react-native'
 // import product component
 import SearchHangDau from '../../components/Home/SearchHangDau';
 
@@ -27,12 +27,10 @@ const MenuSearchHangDau = ({ navigation }) => {
           };
         }, []),
       );
-  
     return (
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
-
             </View>
             {/* Body */}
             <View style={styles.bodyContainer}>
@@ -68,7 +66,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    
+
     // Body Style
     bodyContainer: {
         flex: 1,

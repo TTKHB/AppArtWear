@@ -5,7 +5,8 @@ import ProductFlashSale from '../../components/Home/ProductFlashSale';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-
+import Gift from '../../components/Profile/ProfileItem/Gift';
+const { height, width } = Dimensions.get('window');
 // menu flash sale
 
 const MenuFlashSale = ({navigation}) => {
@@ -27,8 +28,13 @@ const MenuFlashSale = ({navigation}) => {
     }, []),
   );
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <View style={styles.container}>
+       <View style={styles.contentGif}>
+                    <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift" />
+                </View>
       <View style={styles.bodyContainer}>
+        <ScrollView showsVerticalScrollIndicator={false} horizontal>
         <FlatList
           showsVerticalScrollIndicator={false}
           data={products}
@@ -38,8 +44,10 @@ const MenuFlashSale = ({navigation}) => {
             return <ProductFlashSale item={item} navigation={navigation} />;
           }}
         />
+        </ScrollView>
       </View>
     </View>
+    </ScrollView>
   );
 };
 
@@ -56,5 +64,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 15,
   },
+  contentGif: {
+    backgroundColor: '#fff',
+    elevation:2,
+    marginHorizontal: 15,
+    paddingHorizontal: 15,
+    borderRadius: 15,
+    marginTop: 15,
+    borderWidth: 0.5,
+    borderColor: '#E0E0E0',
+    alignItems: 'center',
+    height: height / 3.6
+},
 });
 export default MenuFlashSale;
