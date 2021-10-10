@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   itemmone: {
     backgroundColor: '#A790C8',
     width: width / 4.5,
-    height: height / 8.0,
+    height: height / 6.3,
     borderRadius: 15,
     borderWidth: 1,
     alignItems: 'center'
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   itemmtwo: {
     backgroundColor: '#fff',
     width: width / 4.5,
-    height: height / 8.0,
+    height: height / 6.3,
     marginLeft: 15,
     borderRadius: 15,
     borderWidth: 1,
@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
   itemmthree: {
     backgroundColor: '#FD4545',
     marginTop: 15,
-    width: width / 5.0,
-    height: height / 7.0,
+    width: width / 4.2,
+    height: height / 5.5,
     marginLeft: 15,
     borderRadius: 10,
     alignItems: 'center',
