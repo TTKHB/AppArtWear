@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -10,30 +10,28 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-
+//API
 import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
+
 import Category from '../../components/Home/Category';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
-import SeacrchProduct from '../../components/Home/SeacrchProduct';
+import SeacrchProduct from '../../components/Home/SearchHangDau';
 import CountDown from '../../components/Home/CountDown';
 import IconRight from 'react-native-vector-icons/Entypo';
 import SwiperHeader from '../../components/Home/SwiperHeader';
 import SwiperBody from '../../components/Home/SwiperBody';
 import SwiperItemBody from '../../components/Home/SwiperItemBody';
 import Carousel from 'react-native-snap-carousel';
-import { DataQuangCao } from '../../components/Home/ItemHome';
+import {DataQuangCao} from '../../components/Home/ItemHome';
 const SLIDER_WIDTH = Dimensions.get('window').width + 10;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
-
-const { height, width } = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 // trang home
-const ProductScreen = ({ item, navigation }) => {
+const ProductScreen = ({item, navigation}) => {
   const [products, setProducts] = useState([]);
-
-
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -41,7 +39,6 @@ const ProductScreen = ({ item, navigation }) => {
         .get(`${baseURL}products`)
         .then(res => {
           setProducts(res.data);
-
         })
         .catch(error => {
           console.log('Api call error');
@@ -49,36 +46,41 @@ const ProductScreen = ({ item, navigation }) => {
 
       return () => {
         setProducts([]);
-
       };
     }, []),
   );
-
-  const renderItemPhoBien = ({ item, index }) => {
+  const renderItemPhoBien = ({item, index}) => {
     return (
-      <View style={styles.viewPopSearch}>
-        <View style={{ flex: 2 }}>
-          <Image
-            style={{ flex: 1, width: null, height: null, resizeMode: 'cover' }}
-            // source={{uri: item.ThumbImg}}
-            source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
-
-          />
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('HomeNavigator', {
+            screen: 'Product Detail',
+            params: {a: item},
+          })
+        }>
+        <View style={styles.viewPopSearch}>
+          <View style={{flex: 2}}>
+            <Image
+              style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
+              // source={{uri: item.ThumbImg}}
+              source={{uri: item.ThumbImg ? item.ThumbImg : null}}
+            />
+          </View>
+          <View style={{}}>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.ten}</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold', color: 'red'}}>
+              {item.gia}
+            </Text>
+          </View>
         </View>
-        <View style={{}}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.ten}</Text>
-          <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'red' }}>
-            {item.gia}
-          </Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     );
   };
-  const renderItemImage = ({ item, index }) => {
+  const renderItemImage = ({item, index}) => {
     return (
-      <View style={{ marginLeft: '-17%' }}>
+      <View style={{marginLeft: '-17%'}}>
         <View style={styles.viewPop}>
-          <View style={{ flex: 1, }}>
+          <View style={{flex: 1}}>
             <Image
               style={{
                 flex: 1,
@@ -91,9 +93,9 @@ const ProductScreen = ({ item, navigation }) => {
               source={item.image}
             />
           </View>
-          <View style={{ margin: 7 }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
-            <Text style={{ fontSize: 16 }}>{item.description}</Text>
+          <View style={{margin: 7}}>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
+            <Text style={{fontSize: 16}}>{item.description}</Text>
           </View>
         </View>
       </View>
@@ -116,14 +118,17 @@ const ProductScreen = ({ item, navigation }) => {
                   <Text style={styles.itemTextHeader}>Flash Sales</Text>
                 </View>
               </View>
-              <View style={{ marginLeft: '18%' }}>
+              <View style={{marginLeft: '18%'}}>
                 <CountDown />
               </View>
-              <TouchableOpacity onPress={() =>
-                navigation.navigate('HomeNavigator', { screen: 'MenuFlashSale'})
-              }>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('HomeNavigator', {
+                    screen: 'MenuFlashSale',
+                  })
+                }>
                 <IconRight
-                  style={{ marginTop: 8 }}
+                  style={{marginTop: 8}}
                   name="chevron-small-right"
                   size={24}
                 />
@@ -132,10 +137,12 @@ const ProductScreen = ({ item, navigation }) => {
             <View style={styles.itemContainer}>
               <FlatList
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingLeft: 5 }}
+                contentContainerStyle={{paddingLeft: 5}}
                 data={products}
                 horizontal
-                renderItem={({ item }) => <ProductFlashSale item={item} navigation={navigation} />}
+                renderItem={({item}) => (
+                  <ProductFlashSale item={item} navigation={navigation} />
+                )}
               />
             </View>
           </View>
@@ -158,40 +165,46 @@ const ProductScreen = ({ item, navigation }) => {
             <Text style={styles.flashingTitlee}>Tìm kiếm hàng đầu</Text>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('HomeNavigator', { screen: 'SearchHangDau' })
+                navigation.navigate('HomeNavigator', {screen: 'MenuSearchHangDau'})
               }>
               <Text style={styles.flashingSubTitle}>Tất cả</Text>
             </TouchableOpacity>
           </View>
           <FlatList
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingLeft: 5 }}
+            contentContainerStyle={{paddingLeft: 5}}
             data={products}
             horizontal
-            renderItem={({ item }) => <SeacrchProduct item={item} navigation={navigation} />}
+            renderItem={({item}) => (
+              <SeacrchProduct item={item} navigation={navigation} />
+            )}
           />
 
           {/* Tim kiem pho bien */}
           <View style={styles.flashing}>
             <Text style={styles.flashingTitlee}>Tìm kiếm phổ biến</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('HomeNavigator', {
+                  screen: 'MenuSearchPhoBien',
+                })
+              }>
               <Text style={styles.allPopularSearch}>Tất cả</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.viewDanhMuc}>
-            <View style={{ marginTop: 5 }}>
+            <View style={{marginTop: 5}}>
               <FlatList
-                horizontal
-                pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
-                data={products} //set Data
+                data={products}
+                horizontal
+                keyExtractor={item => item._id}
                 renderItem={renderItemPhoBien}
-                keyExtractor={(item, index) => index.toString()}
               />
             </View>
           </View>
           {/* Có thể bạn quan tâm */}
-          <View style={{ height: 280, marginTop: 5 }}>
+          <View style={{height: 280, marginTop: 5}}>
             <View>
               <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
             </View>
@@ -283,7 +296,7 @@ const styles = StyleSheet.create({
   },
   itemHeader: {
     flexDirection: 'row',
-    marginTop: -10
+    marginTop: -10,
   },
   itemTextHeader: {
     fontWeight: 'bold',

@@ -23,6 +23,10 @@ const PercentageBar = ({starText, percentage}) => {
     }).start();
   }, [percentage]);
 
+
+
+
+  //thanh năng lượng đánh giá (%)
   return (
     <View
       style={{
@@ -59,11 +63,7 @@ export default function StarRating(item) {
           size={28}
           onPress={() => navigation.goBack()}
         />
-        <IconSearch
-          name="md-search-outline"
-          size={28}
-          style={{marginLeft: -115}}
-        />
+       
         <Text style={{fontSize: 20, fontWeight: 'bold',marginLeft: -35}}>Đánh giá</Text>
         <IconCart name="handbag" size={28} />
       </View>
@@ -96,51 +96,8 @@ export default function StarRating(item) {
           </View>
           <Text style={styles.amountText}> 40 đánh giá </Text>
 
-          <ScrollView >
-            <View style={styles.categoriesListContainer}>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-
+          
+          {/* //thanh năng lượng đánh giá (%) */}
           <View style={{marginTop: 40, width: 280, left: 68}}>
             <View style={styles.spacer}>
               {/* Ống năng lượng đánh giá từ 1 -> 100% */}
@@ -162,6 +119,7 @@ export default function StarRating(item) {
           <Text style={{left: 25, fontSize: 15, fontWeight: 'bold'}}>
             Bình luận
           </Text>
+          {/* Người dùng bình luận */}
           <Comment />
         </View>
         </ScrollView>
