@@ -10,30 +10,28 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-
+//API
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
+
 import Category from '../../components/Home/Category';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
-import SeacrchProduct from '../../components/Home/SeacrchProduct';
+import SeacrchProduct from '../../components/Home/SearchHangDau';
 import CountDown from '../../components/Home/CountDown';
 import IconRight from 'react-native-vector-icons/Entypo';
 import SwiperHeader from '../../components/Home/SwiperHeader';
 import SwiperBody from '../../components/Home/SwiperBody';
 import SwiperItemBody from '../../components/Home/SwiperItemBody';
-
 import Carousel from 'react-native-snap-carousel';
 import {DataQuangCao} from '../../components/Home/ItemHome';
 const SLIDER_WIDTH = Dimensions.get('window').width + 10;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
-
 const {height, width} = Dimensions.get('window');
 
 // trang home
 const ProductScreen = ({item, navigation}) => {
   const [products, setProducts] = useState([]);
-
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -68,7 +66,7 @@ const ProductScreen = ({item, navigation}) => {
             {item.gia}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   const renderItemImage = ({item, index}) => {
@@ -116,13 +114,18 @@ const ProductScreen = ({item, navigation}) => {
               <View style={{marginLeft: '18%'}}>
                 <CountDown />
               </View>
-              <View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('HomeNavigator', {
+                    screen: 'MenuFlashSale',
+                  })
+                }>
                 <IconRight
                   style={{marginTop: 8}}
                   name="chevron-small-right"
                   size={24}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={styles.itemContainer}>
               <FlatList
@@ -171,19 +174,23 @@ const ProductScreen = ({item, navigation}) => {
           {/* Tim kiem pho bien */}
           <View style={styles.flashing}>
             <Text style={styles.flashingTitlee}>Tìm kiếm phổ biến</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('HomeNavigator', {
+                  screen: 'MenuSearchPhoBien',
+                })
+              }>
               <Text style={styles.allPopularSearch}>Tất cả</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.viewDanhMuc}>
             <View style={{marginTop: 5}}>
               <FlatList
-                horizontal
-                pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
-                data={products} //set Data
+                data={products}
+                horizontal
+                keyExtractor={item => item._id}
                 renderItem={renderItemPhoBien}
-                keyExtractor={(item, index) => index.toString()}
               />
             </View>
           </View>

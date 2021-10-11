@@ -1,19 +1,14 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { StyleSheet, View, Modal, Text, TouchableOpacity, TextInput, FlatList } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions, FlatList,Image } from 'react-native'
 import COLORS from '../../assets/data/colors';
-// import theme
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-// import product component
-import ProductComponent from '../../components/ProductMenu/ProductsComponents';
-
 // API
+import SearchPhoBien from '../../components/Home/SearchPhoBien';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-
-// trang hàng đầu
-const SearchHangDau = ({ navigation }) => {
+const {height, width} = Dimensions.get('window');
+// Menu tìm kiếm phổ biến
+const MenuSearchPhoBien = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     useFocusEffect(
       useCallback(() => {
@@ -31,26 +26,29 @@ const SearchHangDau = ({ navigation }) => {
           };
         }, []),
       );
-  
+
     return (
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
-
             </View>
             {/* Body */}
             <View style={styles.bodyContainer}>
-                <FlatList
+            <View style={styles.viewDanhMuc}>
+            <View style={{ marginTop: 5 }}>
+            <FlatList
                     showsVerticalScrollIndicator={false}
                     data={products}
                     numColumns={2}
                     keyExtractor={item => item._id}
                     renderItem={({ item }) => {
                         return (
-                            <ProductComponent item={item} navigation={navigation} />
+                            <SearchPhoBien item={item} navigation={navigation} />
                         )
                     }}
                 />
+            </View>
+          </View>
             </View>
         </View>
 
@@ -63,7 +61,8 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         backgroundColor: "#fff",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+      
     },
     // Header Style
     headerContainer: {
@@ -72,50 +71,34 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    badgeContainer: {
-        top: -4,
-        right: -4,
-        width: 18,
-        height: 18,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'absolute',
-        backgroundColor: COLORS.green
-    },
-    badgeText: {
-        color: COLORS.light
-    },
-    titleText: {
-        fontWeight: 'bold',
-        fontSize: 25
-    },
-    subTitleText: {
-        fontSize: 20,
-        color: COLORS.gray
-    },
-    iconCaontainer: {
-        padding: 10,
-        borderRadius: 30,
-        backgroundColor: COLORS.black
-    },
-    // Search Style
-    searchContainer: {
-        paddingLeft: 10,
-        marginTop: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderRadius: 5,
-        backgroundColor: COLORS.grey
-    },
-    textInputContainer: {
-        flex: 1
-    },
+    
     // Body Style
     bodyContainer: {
         flex: 1,
         marginTop: 20,
-    }
+    },
+    viewPopSearch: {
+        height: 250,
+        backgroundColor: COLORS.white,
+        elevation: 2,
+        width: width / 2.29,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        borderRadius: 5,
+
+      },
+      cardName: {
+        marginTop: 10,
+        fontSize: 18,
+        color: COLORS.black,
+        fontWeight: 'bold',
+      },
+      price: {
+        color: COLORS.red,
+        fontSize: 16,
+        fontWeight: 'bold',
+      },
+    
 })
 
-export default SearchHangDau;
+export default MenuSearchPhoBien;

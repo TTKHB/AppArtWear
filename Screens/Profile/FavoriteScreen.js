@@ -110,57 +110,60 @@ const FavoriteScreen = ({navigation, i}) => {
 
       {/* Body */}
       <SafeAreaView>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.body}>
-          <View style={styles.viewBody}>
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <View style={styles.itemBody}>
-                <Text style={styles.itemText}>Sàng lọc</Text>
-                <IconFilter name="filter" size={28} style={{marginLeft: 10}} />
-              </View>
-            </TouchableOpacity>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.body}>
+            <View style={styles.viewBody}>
+              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+                <View style={styles.itemBody}>
+                  <Text style={styles.itemText}>Sàng lọc</Text>
+                  <IconFilter
+                    name="filter"
+                    size={28}
+                    style={{marginLeft: 10}}
+                  />
+                </View>
+              </TouchableOpacity>
 
-            <TouchableOpacity>
-              <View style={{width: 140, marginTop: -8}}>
-                <List.Section>
-                  <List.Accordion
-                    title="Tình trạng"
-                    titleStyle={{
-                      color: 'black',
-                      fontWeight: 'bold',
-                      fontSize: 14,
-                    }}
-                    style={{backgroundColor: '#fff'}}></List.Accordion>
-                </List.Section>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity>
+                <View style={{width: 140, marginTop: -8}}>
+                  <List.Section>
+                    <List.Accordion
+                      title="Tình trạng"
+                      titleStyle={{
+                        color: 'black',
+                        fontWeight: 'bold',
+                        fontSize: 14,
+                      }}
+                      style={{backgroundColor: '#fff'}}></List.Accordion>
+                  </List.Section>
+                </View>
+              </TouchableOpacity>
 
-            <TouchableOpacity>
-              <View style={{width: 140, marginTop: -8}}>
-                <List.Section>
-                  <List.Accordion
-                    title="Kiểu dáng"
-                    titleStyle={{
-                      color: 'black',
-                      fontWeight: 'bold',
-                      fontSize: 14,
-                    }}
-                    style={{backgroundColor: '#fff'}}></List.Accordion>
-                </List.Section>
-              </View>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity>
+                <View style={{width: 140, marginTop: -8}}>
+                  <List.Section>
+                    <List.Accordion
+                      title="Kiểu dáng"
+                      titleStyle={{
+                        color: 'black',
+                        fontWeight: 'bold',
+                        fontSize: 14,
+                      }}
+                      style={{backgroundColor: '#fff'}}></List.Accordion>
+                  </List.Section>
+                </View>
+              </TouchableOpacity>
+            </View>
 
-          <ScrollView >
-            <FlatList
-              data={clothes}
-              numColumns={2}
-              scrollEnabled={false}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={item => item.id}
-              renderItem={renderItemFavorite}
-            />
-
+            <ScrollView showsVerticalScrollIndicator={false} horizontal>
+              <FlatList
+                data={clothes}
+                numColumns={2}
+                scrollEnabled={false}
+                keyExtractor={item => item.id}
+                renderItem={renderItemFavorite}
+              />
+            </ScrollView>
             <View>
               <Text
                 style={{
@@ -172,18 +175,17 @@ const FavoriteScreen = ({navigation, i}) => {
                 }}>
                 Sản phẩm đề xuất
               </Text>
-
-              <FlatList
-                numColumns={numColumns} // numColumns 2 nam ngang
-                showsHorizontalScrollIndicator={false}
-                data={DATA} //set Data
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-              />
+              <ScrollView showsVerticalScrollIndicator={false} horizontal>
+                <FlatList
+                  numColumns={numColumns} // numColumns 2 nam ngang
+                  data={DATA} //set Data
+                  renderItem={renderItem}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              </ScrollView>
             </View>
-          </ScrollView>
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </View>
   );

@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#E0E0E0',
     alignItems: 'center',
-    height: height / 4.5
+    height: height / 3.6
   },
   contentArtWear: {
     marginHorizontal: 15,

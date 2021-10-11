@@ -3,11 +3,11 @@ import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, Dimensi
 import COLORS from '../../assets/data/colors';
 
 const { width } = Dimensions.get('screen');
-import Star from '../../components/ProductMenu/Star';
+import Star from '../ProductMenu/Star';
 
 
 // tim kiếm hàng đầu
-const SeacrhProduct = ({ item, navigation }) => {
+const SearchHangDau = ({ item, navigation }) => {
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate('HomeNavigator', { screen: 'Product Detail', params: { a: item } })}>
@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
   card: {
     height: 250,
     backgroundColor: COLORS.white,
-    elevation: 7,
-    width: width / 2.5,
-    marginRight: 20,
-    marginVertical: 10,
+    elevation: 2,
+    width: width / 2.24,
+    marginVertical: 5,
+    marginHorizontal:5
   },
   cardName: {
     marginTop: 10,
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
   },
 })
-export default SeacrhProduct;
+export default SearchHangDau;

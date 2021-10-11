@@ -4,15 +4,15 @@ import {
   Text,
   View,
   Animated,
-  ScrollViewProperties,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-
+import IconBack from 'react-native-vector-icons/Ionicons';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
+import IconSearch from 'react-native-vector-icons/Ionicons';
 // đánh giá
 const PercentageBar = ({starText, percentage}) => {
   const [animation] = useState(new Animated.Value(0));
@@ -23,6 +23,7 @@ const PercentageBar = ({starText, percentage}) => {
     }).start();
   }, [percentage]);
 
+  //thanh năng lượng đánh giá (%)
   return (
     <View
       style={{
@@ -51,78 +52,38 @@ const PercentageBar = ({starText, percentage}) => {
 
 export default function StarRating(item) {
   return (
-    <ScrollView>
+       <ScrollView showsVerticalScrollIndicator={false} > 
       <View style={styles.container}>
+
         <View style={styles.reviewContainer}>
-          {/* <Text style={styles.title}>ĐÁNH GIÁ</Text> */}
           <View style={styles.totalWrap}>
             <View
               style={{
                 flexDirection: 'row',
               }}>
-              <Text style={{left: -60, fontSize: 30, fontWeight: 'bold'}}>
+              <Text style={{left: -80, fontSize: 30, fontWeight: 'bold'}}>
                 4.7/{' '}
               </Text>
-              <Text style={{left: -60, top: 15, fontSize: 15}}>5</Text>
+              <Text style={{left: -75, top: 15, fontSize: 15}}>5</Text>
               <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
                   top: 10,
-                  left: 72,
-                }}></View>
+                  left: 82,
+                }}>
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                  <Icon name="star" color="orange" size={25} />
+                </View>
             </View>
           </View>
           <Text style={styles.amountText}> 40 đánh giá </Text>
 
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            horizontal>
-            <View style={styles.categoriesListContainer}>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.8}>
-                {/* Button */}
-                <View style={styles.categoryBtn}>
-                  <Icon name="star" color="orange" size={15} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-
+          
+          {/* //thanh năng lượng đánh giá (%) */}
           <View style={{marginTop: 40, width: 280, left: 68}}>
             <View style={styles.spacer}>
               {/* Ống năng lượng đánh giá từ 1 -> 100% */}
@@ -141,27 +102,22 @@ export default function StarRating(item) {
               <PercentageBar starText="1 " percentage={1} />
             </View>
           </View>
-          <Text style={{left: 25, fontSize: 15, fontWeight: 'bold'}}>
+          <Text style={{left: 20, fontSize: 15, fontWeight: 'bold'}}>
             Bình luận
           </Text>
+          {/* Người dùng bình luận */}
           <Comment />
         </View>
       </View>
-    </ScrollView>
+      </ScrollView>
+   
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
-  },
-
-  title: {
-    top: 20,
-    fontWeight: 'bold',
-    fontSize: 25,
-    textAlign: 'center',
-    color: COLORS.black,
   },
   totalWrap: {
     marginTop: 30,
@@ -176,7 +132,7 @@ const styles = StyleSheet.create({
   amountText: {
     fontSize: 16,
     color: '#595B71',
-    left: 30,
+    left: 20,
   },
   howWeCalculate: {
     fontSize: 15,
