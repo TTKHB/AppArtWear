@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,11 @@ import {Header, SearchBar, ListItem, Icon, Button} from 'react-native-elements';
 const {width, height} = Dimensions.get('window');
 import {List} from 'react-native-paper';
 import contents from './../../assets/data/contents';
+import ItemGrid from './../../components/Home/ItemGrid';
+import ItemList from './../../components/Home/ItemList';
+import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
+import axios from './../../assets/data/client';
+import baseURL from './../../assets/common/baseUrl';
 
 const DATA = [
   {
@@ -40,13 +45,75 @@ const DATA = [
   },
 ];
 
-const ProductFoundScreen = () => {
-  const [search, setSearcher] = useState(null);
+const DataMenuItem = [
+  {
+    id: 1,
+    title: 'Mặc định',
+  },
+  {
+    id: 2,
+    title: 'Phổ biến nhất',
+  },
+  {
+    id: 3,
+    title: 'Khuyến mãi tốt nhất',
+  },
+  {
+    id: 4,
+    title: 'Giá tăng dần',
+  },
+  {
+    id: 5,
+    title: 'Giá giảm dần',
+  },
+  {
+    id: 6,
+    title: 'Mới nhất',
+  },
+];
+
+const ProductFoundScreen = ({navigation, route}) => {
+  const title = route.params.title;
+
+  const [search, setSearcher] = useState(title);
+  const [products, setProducts] = useState([]);
+  const [productFiltered, setProductFiltered] = useState([]);
   const [content, setContent] = useState(contents);
   const [row, setRow] = useState(false);
+  const [selectedMenuItem, setSelectedMenuItem] = useState(DataMenuItem[0]);
   const drawer = useRef(null);
 
   const [drawerPosition, setDrawerPosition] = useState('right');
+  useEffect(() => {
+    const productSearch = products.filter(product => {
+      const categoryName = product.categories_id;
+      if (categoryName) {
+        return (
+          product.ten.includes(title) || product.ten.includes(categoryName.name)
+        );
+      } else {
+        return product.ten.includes(title);
+      }
+    });
+    setProductFiltered(productSearch);
+  }, [products]);
+
+  useEffect(() => {
+    axios
+      .get(`${baseURL}products`)
+      .then(function (response) {
+        // handle success
+        console.log('hello', response.data);
+        setProducts(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }, []);
 
   //click item and checked
   function CheckedItem(i, j) {
@@ -58,9 +125,7 @@ const ProductFoundScreen = () => {
 
   const searchedCategory = text => {
     setSearcher(text);
-    // let searchedData = DATACategory.filter(item => item.title.includes(text));
-    // setCategory(searchedData);
-    // console.log(searchedData);
+    console.log('test', text);
   };
   function ChangeNumList() {
     setRow(!row);
@@ -69,120 +134,16 @@ const ProductFoundScreen = () => {
   //render item
   const renderItemGrid = ({item}) => (
     <ScrollView>
-      <ItemGrid title={item.title} />
+      <ItemGrid item={item} styles={styles} />
     </ScrollView>
   );
   const renderItemList = ({item}) => (
     <ScrollView>
-      <ItemList title={item.title} />
+      <ItemList item={item} />
     </ScrollView>
   );
 
-  const ItemGrid = ({title}) => (
-    <TouchableOpacity>
-      <View style={styles.itemStyleTwoColumn}>
-        <Image
-          style={styles.tinyLogo}
-          source={{
-            uri: 'https://lh3.googleusercontent.com/mcbuQfAeNVUJn9CZAQ3Khn1AWFQWMX7yVRFrfUfEPRircDlahZbTL_enHINICNQzRGtYozhiTzHonHBNQVrjZfbMH68ilOmP=w300-rw',
-          }}
-          resizeMode={'stretch'}
-        />
-        <View
-          style={{
-            alignSelf: 'flex-start',
-            marginHorizontal: 5,
-            marginTop: 5,
-          }}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-            Máy xay sinh tố
-          </Text>
-          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'peru'}}>
-            600.000đ
-          </Text>
-          <Text
-            style={{
-              color: 'grey',
-              textDecorationLine: 'line-through',
-              textDecorationStyle: 'solid',
-              fontSize: 14,
-            }}>
-            1.200.000đ
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-
-  const ItemList = ({title}) => (
-    <TouchableOpacity>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          marginTop: 5,
-          backgroundColor: 'white',
-        }}>
-        <Image
-          style={{width: 120, height: 120}}
-          source={{
-            uri: 'https://lh3.googleusercontent.com/mcbuQfAeNVUJn9CZAQ3Khn1AWFQWMX7yVRFrfUfEPRircDlahZbTL_enHINICNQzRGtYozhiTzHonHBNQVrjZfbMH68ilOmP=w300-rw',
-          }}
-          resizeMode={'stretch'}
-        />
-        <View style={{flexDirection: 'column', margin: 5}}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 15,
-            }}>
-            Máy xay sinh tố
-          </Text>
-          <Text
-            style={{
-              color: 'peru',
-              fontWeight: 'bold',
-              fontSize: 18,
-              marginTop: 10,
-            }}>
-            600.000đ
-          </Text>
-          <Text
-            style={{
-              color: 'grey',
-              textDecorationLine: 'line-through',
-              textDecorationStyle: 'solid',
-              fontSize: 14,
-            }}>
-            1.200.000đ
-          </Text>
-        </View>
-        {/* <View
-          style={{
-            alignSelf: 'flex-start',
-            marginHorizontal: 5,
-            marginTop: 5,
-          }}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-            Máy xay sinh tố
-          </Text>
-          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'peru'}}>
-            600.000đ
-          </Text>
-          <Text
-            style={{
-              color: 'grey',
-              textDecorationLine: 'line-through',
-              textDecorationStyle: 'solid',
-              fontSize: 14,
-            }}>
-            1.200.000đ
-          </Text>
-        </View> */}
-      </View>
-    </TouchableOpacity>
-  );
-
+  // open when clicked into button filter
   const navigationView = () => (
     <View style={[styles.container, styles.navigationContainer]}>
       <ScrollView style={{alignSelf: 'stretch', marginTop: 20}}>
@@ -249,6 +210,19 @@ const ProductFoundScreen = () => {
     </View>
   );
 
+  const [visible, setVisible] = useState(false);
+
+  const hideMenu = data => {
+    // console.log('hide', data);
+
+    setVisible(false);
+    if (data) {
+      setSelectedMenuItem(data);
+    }
+  };
+
+  const showMenu = () => setVisible(true);
+
   return (
     <DrawerLayoutAndroid
       ref={drawer}
@@ -268,23 +242,50 @@ const ProductFoundScreen = () => {
             marginLeft: 5,
           }}
           centerComponent={
-            <SearchBar
-              autoFocus={true}
-              placeholder="Tìm kiếm"
-              onChangeText={searchedCategory}
-              value={search}
-              containerStyle={styles.searchBarStyle}
-              inputContainerStyle={styles.searchBarInputStyle}
-              inputStyle={{
-                height: 50,
-              }}
-              searchIcon={{type: 'font-awesome', name: 'search', size: 18}}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                console.log('clcik');
+                navigation.replace('UserNavigator', {
+                  screen: 'SearchScreen',
+                  params: {title: search},
+                });
+              }}>
+              <SearchBar
+                autoFocus={true}
+                placeholder="Tìm kiếm"
+                onChangeText={searchedCategory}
+                value={search}
+                disabled
+                autoFocus={false}
+                containerStyle={styles.searchBarStyle}
+                inputContainerStyle={styles.searchBarInputStyle}
+                inputStyle={{
+                  height: 50,
+                }}
+                searchIcon={{type: 'font-awesome', name: 'search', size: 18}}
+              />
+            </TouchableOpacity>
           } //centerComponent
         />
         {/* view dropdownbox */}
         <View style={styles.containerBellowHeader}>
-          <View style={{}}>{/* here */}</View>
+          {/* left */}
+          <View style={{}}>
+            <TouchableOpacity onPress={() => showMenu()}>
+              <View style={{marginHorizontal: 10, flexDirection: 'row'}}>
+                <Text style={{fontWeight: 'bold'}}>
+                  {selectedMenuItem.title ? selectedMenuItem.title : ''}
+                </Text>
+                <Icon
+                  style={{marginLeft: 5}}
+                  name={'caret-down'}
+                  size={18}
+                  type="font-awesome"
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+          {/* right */}
           <View
             style={{
               flexDirection: 'row',
@@ -308,13 +309,37 @@ const ProductFoundScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
+        <Menu
+          visible={visible}
+          style={{width: width}}
+          // anchor={<Text onPress={showMenu}>Show menu</Text>}
+          onRequestClose={hideMenu}>
+          {/* <MenuItem onPress={hideMenu}>Menu item 1</MenuItem> */}
+
+          {DataMenuItem.map((item, index) => {
+            return (
+              <MenuItem
+                key={item.id}
+                style={{width: width}}
+                textStyle={
+                  selectedMenuItem.id == item.id
+                    ? {color: '#8D6E63', fontWeight: 'bold'}
+                    : null
+                }
+                onPress={() => hideMenu(item)}>
+                {item.title}
+              </MenuItem>
+            );
+          })}
+        </Menu>
+
         {/*end view container dropdownbox*/}
         {/* container list products */}
         <View style={{marginTop: 10, flex: 1}}>
           {!row ? (
             <FlatList
               key={'_'}
-              data={DATA}
+              data={productFiltered}
               renderItem={renderItemGrid}
               keyExtractor={item => item.id}
               numColumns={2}
@@ -322,7 +347,7 @@ const ProductFoundScreen = () => {
           ) : (
             <FlatList
               key={'#'}
-              data={DATA}
+              data={productFiltered}
               renderItem={renderItemList}
               keyExtractor={item => item.id}
             />
