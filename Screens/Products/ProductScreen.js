@@ -52,7 +52,7 @@ const ProductScreen = ({item, navigation}) => {
 
   const renderItemPhoBien = ({item, index}) => {
     return (
-      <View style={styles.viewPopSearch}>
+      <TouchableOpacity style={styles.viewPopSearch}>
         <View style={{flex: 2}}>
           <Image
             style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
