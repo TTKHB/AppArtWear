@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 //Screens
 import ProfileScreen from '../Screens/Profile/ProfileScreen';
-
+import HelpScreen from '../Screens/User/Help/HelpScreen';
+import FeedbackScreens from '../Screens/User/Help/FeedbackScreens';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +18,22 @@ const ProfileNavigator = () => {
         options={{
           headerShown: false,
         }}
+        
       />
+      <Stack.Screen
+      name="Help Screen"
+      component={HelpScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+      <Stack.Screen
+      name="Phan hoi"
+      component={FeedbackScreens}
+      options={{
+        headerShown: false,
+      }}
+    />
     </Stack.Navigator>
   );
 };

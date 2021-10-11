@@ -48,7 +48,7 @@ const abc = () => {
     Alert.alert("Hello")
 }
 
-const ProfileNoAccount = props => {
+const ProfileNoAccount = ({props,navigation}) => {
     const { setIsLoggedIn, profile } = useLogin();
     return (
         <ScrollView>
@@ -130,6 +130,7 @@ const ProfileNoAccount = props => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Service icon="help-circle-outline"
                             name={`Trợ giúp `}
+                             onPress={() =>navigation.navigate('Help Screen')}
                         />
                         <Service icon="brightness-percent"
                             name={`Voucher`}

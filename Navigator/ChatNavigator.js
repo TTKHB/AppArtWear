@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 //Screens
 import ChatScreen from '../Screens/User/Chat/ChatScreen';
-
+import ChatDetail from '../Screens/User/Chat/ChatDetail'
 
 const Stack = createStackNavigator();
 
@@ -13,6 +13,13 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="ChatScreen"
         component={ChatScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="Chat detail"
+        component={ChatDetail}
         options={{
           headerShown: false,
         }}
