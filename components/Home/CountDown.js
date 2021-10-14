@@ -6,11 +6,7 @@ import React, { useState, useEffect } from 'react';
 
 
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-
-
 import CountDown from 'react-native-countdown-component';
-
-// import moment to help you play with date and time
 import moment from 'moment';
 
 

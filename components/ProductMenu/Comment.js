@@ -48,7 +48,7 @@ const Comment = () => {
                     <Text style={styles.time}>9:58 am</Text>
                   </View>
                   <View style={styles.rate}>
-                    <Star ratings={4} reviews={4} />
+                    <Star ratings={2} reviews={15} />
                   </View>
                   <Text>{item.comment}</Text>
                 </View>
@@ -85,10 +85,7 @@ const Comment = () => {
     )
 }
 
-
-
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         paddingHorizontal:10,

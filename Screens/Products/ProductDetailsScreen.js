@@ -183,7 +183,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
 
                 {/* ngôi sao đánh giá sản phảm*/}
                 <View style={styles.rate}>
-                  <Star rating={4} reviews={10}></Star>
+                  <Star rating={2} reviews={10}></Star>
                 </View>
                 <View style={styles.contentship}>
                   {/*Chọn đơn vị giao hàng (ví dụ giao hàng tiết kiệm) */}

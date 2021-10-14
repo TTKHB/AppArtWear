@@ -118,6 +118,7 @@ const ProductScreen = ({item, navigation}) => {
                   <Text style={styles.itemTextHeader}>Flash Sales</Text>
                 </View>
               </View>
+              {/* Giờ giảm giá */}
               <View style={{marginLeft: '18%'}}>
                 <CountDown />
               </View>

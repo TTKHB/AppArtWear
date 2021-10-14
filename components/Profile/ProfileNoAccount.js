@@ -74,14 +74,14 @@ const ProfileNoAccount = ({props,navigation}) => {
                                         <TouchableOpacity
                                             onPress={() =>
                                                 // props.navigation.navigate('Login')}
-                                                props.navigation.navigate('UserNavigator', { screen: 'Login' })}
+                                                navigation.navigate('UserNavigator', { screen: 'Login' })}
                                         >
                                             <Text style={{ fontSize: 18 }}>Đăng nhập/</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() =>
                                                 // props.navigation.navigate('Register')} 
-                                                props.navigation.navigate('UserNavigator', { screen: 'Register' })}
+                                                navigation.navigate('UserNavigator', { screen: 'Register' })}
                                         >
                                             <Text style={{ marginLeft: 2, fontSize: 18 }}>Đăng ký</Text>
                                         </TouchableOpacity>
@@ -167,7 +167,7 @@ const ProfileNoAccount = ({props,navigation}) => {
                 </View>
                 {/* Thông tin về Art Wear */}
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate('UserNavigator', { screen: 'InfomationArtWear' })}
+                    onPress={() => navigation.navigate('UserNavigator', { screen: 'InfomationArtWear' })}
                 >
                     <View style={styles.contentArtWear}>
                         <InfomationArtWear img={artwear} name="Thông tin về Art Wear" iconright="angle-right" />

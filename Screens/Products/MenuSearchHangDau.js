@@ -1,13 +1,13 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { StyleSheet, View, FlatList,Dimensions } from 'react-native'
+import { StyleSheet, View,Text, FlatList,Dimensions,ScrollView } from 'react-native'
 // import product component
 import SearchHangDau from '../../components/Home/SearchHangDau';
-
+import SwiperItemBody from '../../components/Home/SwiperItemBody';
 // API
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-
+const {height, width} = Dimensions.get('window');
 // Menu tìm kiếm hàng đầu
 const MenuSearchHangDau = ({ navigation }) => {
     const [products, setProducts] = useState([]);
@@ -28,12 +28,17 @@ const MenuSearchHangDau = ({ navigation }) => {
         }, []),
       );
     return (
+      <ScrollView showsVerticalScrollIndicator={false} >
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
+            <View style={styles.bannerGifTwo}>
+            <SwiperItemBody />
+          </View>
             </View>
             {/* Body */}
             <View style={styles.bodyContainer}>
+            <ScrollView showsVerticalScrollIndicator={false} horizontal>
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     data={products}
@@ -45,9 +50,10 @@ const MenuSearchHangDau = ({ navigation }) => {
                         )
                     }}
                 />
+                </ScrollView>
             </View>
         </View>
-
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({
@@ -66,11 +72,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
+    bannerGifTwo: {
+      height: height / 6,
+      resizeMode: 'contain',
+      marginTop: 10,
+    },
 
     // Body Style
     bodyContainer: {
         flex: 1,
         marginTop: 20,
+      
     }
 })
 
