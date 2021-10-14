@@ -49,29 +49,22 @@ const ProductScreen = ({item, navigation}) => {
       };
     }, []),
   );
+
   const renderItemPhoBien = ({item, index}) => {
     return (
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('HomeNavigator', {
-            screen: 'Product Detail',
-            params: {a: item},
-          })
-        }>
-        <View style={styles.viewPopSearch}>
-          <View style={{flex: 2}}>
-            <Image
-              style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
-              // source={{uri: item.ThumbImg}}
-              source={{uri: item.ThumbImg ? item.ThumbImg : null}}
-            />
-          </View>
-          <View style={{}}>
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.ten}</Text>
-            <Text style={{fontSize: 16, fontWeight: 'bold', color: 'red'}}>
-              {item.gia}
-            </Text>
-          </View>
+      <TouchableOpacity style={styles.viewPopSearch}>
+        <View style={{flex: 2}}>
+          <Image
+            style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
+            // source={{uri: item.ThumbImg}}
+            source={{uri: item.ThumbImg ? item.ThumbImg : null}}
+          />
+        </View>
+        <View style={{}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.ten}</Text>
+          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'red'}}>
+            {item.gia}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -141,9 +134,7 @@ const ProductScreen = ({item, navigation}) => {
                 contentContainerStyle={{paddingLeft: 5}}
                 data={products}
                 horizontal
-                renderItem={({item}) => (
-                  <ProductFlashSale item={item} navigation={navigation} />
-                )}
+                renderItem={({item}) => <ProductFlashSale item={item} />}
               />
             </View>
           </View>
@@ -166,7 +157,7 @@ const ProductScreen = ({item, navigation}) => {
             <Text style={styles.flashingTitlee}>Tìm kiếm hàng đầu</Text>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('HomeNavigator', {screen: 'MenuSearchHangDau'})
+                navigation.navigate('HomeNavigator', {screen: 'SearchHangDau'})
               }>
               <Text style={styles.flashingSubTitle}>Tất cả</Text>
             </TouchableOpacity>
