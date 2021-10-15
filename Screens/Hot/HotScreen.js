@@ -5,6 +5,7 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import LoaderHot from'../../components/Home/Loader/LoaderHot';
 
 const dataPost = [
   {
@@ -103,6 +104,8 @@ const Post = ({ item, likeCountProp }) => {
   const [isLike, seiIsLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
+
+
   const onLikePressed = () => {
     const amount = isLike ? -1 : 1;
     setLikeCount(likeCount + amount);
@@ -162,14 +165,30 @@ const Post = ({ item, likeCountProp }) => {
 }
 
 const HotScreen = () => {
+  const [loading, setLoading] = useState(true);
+  
+ 
+    useEffect(() => {
+          if (loading) {
+            setLoading(false);
+    }
+  }
+    )
+
   return (
     <SafeAreaView>
+    {loading ? (
+        <LoaderHot/>
+      ) : (
+  
       <FlatList
         data={dataPost}
         keyExtractor={({ id }) => id}
         ListHeaderComponent={Stories}
         renderItem={({ item }) => <Post item={item} />}
       />
+
+      )}
     </SafeAreaView>
   )
 }
@@ -210,8 +229,8 @@ const styles = StyleSheet.create({
 
   imageBody: {
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height,
-    // marginHorizontal: 50,
+    height: Dimensions.get('window').height/3,
+    marginHorizontal: 50,
     borderRadius: 10,
   },
 

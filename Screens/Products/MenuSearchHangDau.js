@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { StyleSheet, View,Text, FlatList,Dimensions,ScrollView } from 'react-native'
+import { StyleSheet, View,Text, FlatList,Dimensions,ScrollView,SafeAreaView } from 'react-native'
 // import product component
 import SearchHangDau from '../../components/Home/SearchHangDau';
 import SwiperItemBody from '../../components/Home/SwiperItemBody';
+import LoaderSearchHangDau from'../../components/Home/Loader/LoaderSearchHangDau';
 // API
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
@@ -11,6 +12,7 @@ const {height, width} = Dimensions.get('window');
 // Menu tìm kiếm hàng đầu
 const MenuSearchHangDau = ({ navigation }) => {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     useFocusEffect(
       useCallback(() => {
         // Products
@@ -18,6 +20,9 @@ const MenuSearchHangDau = ({ navigation }) => {
           .get(`${baseURL}products`)
           .then(res => {
             setProducts(res.data);
+            if (loading) {
+              setLoading(false);
+            }
           })
           .catch(error => {
             console.log('Api call error');
@@ -28,6 +33,10 @@ const MenuSearchHangDau = ({ navigation }) => {
         }, []),
       );
     return (
+      <SafeAreaView>
+      {loading ? (
+        <LoaderSearchHangDau/>
+      ) : (
       <ScrollView showsVerticalScrollIndicator={false} >
         <View style={styles.container}>
             {/* Header */}
@@ -54,6 +63,8 @@ const MenuSearchHangDau = ({ navigation }) => {
             </View>
         </View>
         </ScrollView>
+      )}
+        </SafeAreaView>
     )
 }
 const styles = StyleSheet.create({

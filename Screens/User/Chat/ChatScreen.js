@@ -1,14 +1,12 @@
-import React from 'react';
+import React ,{useEffect,useState}from 'react';
 import {
-  View,Text, StyleSheet,Image,TouchableOpacity,TextInput,FlatList
+  View,Text, StyleSheet,Image,TouchableOpacity,TextInput,FlatList,SafeAreaView
 } from 'react-native';
-
+import LoaderChat from'../../../components/Home/Loader/LoaderChat';
 export const ronaldo = require ('../../../assets/images/Cr7.jpg');
 export const SeeMore = require ('../../../assets/images/add-user.png');
 export const Search = require ('../../../assets/images/search1.png');
 export const Tuyen = require ('../../../assets/images/ngoctuyen.jpg');
-
-// onPress={()=>navigation.navigate('Thanh Toan')}
 
 const User = [
 {
@@ -27,8 +25,20 @@ const User = [
 ]
 
 const ChatScreen = ({navigation}) => {
-
+  const [loading, setLoading] = useState(true);
+  
+ 
+  useEffect(() => {
+        if (loading) {
+          setLoading(false);
+  }
+}
+  )
   return (
+    <SafeAreaView>
+    {loading ? (
+        <LoaderChat/>
+      ) : (
     <View>
       {/* Header */}
       <View style={Styles.Header}>
@@ -65,6 +75,8 @@ const ChatScreen = ({navigation}) => {
       />
       </View>
     </View>
+      )}
+    </SafeAreaView>
   );
 };
 

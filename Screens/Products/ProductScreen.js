@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-
+import LoaderHome from'../../components/Home/Loader/LoaderHome';
 import Category from '../../components/Home/Category';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
 import SeacrchProduct from '../../components/Home/SearchHangDau';
@@ -32,6 +32,8 @@ const {height, width} = Dimensions.get('window');
 // trang home
 const ProductScreen = ({item, navigation}) => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -39,6 +41,9 @@ const ProductScreen = ({item, navigation}) => {
         .get(`${baseURL}products`)
         .then(res => {
           setProducts(res.data);
+          if (loading) {
+            setLoading(false);
+          }
         })
         .catch(error => {
           console.log('Api call error');
@@ -46,8 +51,11 @@ const ProductScreen = ({item, navigation}) => {
 
       return () => {
         setProducts([]);
+   
       };
+     
     }, []),
+    
   );
 
   const renderItemPhoBien = ({item, index}) => {
@@ -97,6 +105,9 @@ const ProductScreen = ({item, navigation}) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
+      {loading ? (
+        <LoaderHome/>
+      ) : (
         <ScrollView style={styles.wrap}>
           {/* thể loại */}
           <Category />
@@ -134,7 +145,7 @@ const ProductScreen = ({item, navigation}) => {
                 contentContainerStyle={{paddingLeft: 5}}
                 data={products}
                 horizontal
-                renderItem={({item}) => <ProductFlashSale item={item} />}
+                renderItem={({item}) => <ProductFlashSale item={item} navigation={navigation}/>}
               />
             </View>
           </View>
@@ -157,7 +168,7 @@ const ProductScreen = ({item, navigation}) => {
             <Text style={styles.flashingTitlee}>Tìm kiếm hàng đầu</Text>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('HomeNavigator', {screen: 'SearchHangDau'})
+                navigation.navigate('HomeNavigator', {screen: 'MenuSearchHangDau'})
               }>
               <Text style={styles.flashingSubTitle}>Tất cả</Text>
             </TouchableOpacity>
@@ -210,6 +221,8 @@ const ProductScreen = ({item, navigation}) => {
             </View>
           </View>
         </ScrollView>
+      )
+      }
       </SafeAreaView>
     </>
   );

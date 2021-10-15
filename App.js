@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import Main from './Navigator/Main';
+
 import LoginProvider from './Context/LoginProvider';
 import StackScreen from './Navigator/ScreenNavigator/StackScreen';
-import FavoriteScreen from './Screens/Profile/FavoriteScreen'
+import FavoriteScreen from './components/Home/Loader/LoaderMenuFlashSale';
 const App = () => {
   return (
     <LoginProvider>

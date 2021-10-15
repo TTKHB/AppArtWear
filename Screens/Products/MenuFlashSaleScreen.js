@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, FlatList,Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {View, FlatList,Text, StyleSheet, ScrollView, Dimensions,SafeAreaView} from 'react-native';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
 import CountDown from '../../components/Home/CountDown';
 // API
@@ -9,9 +9,13 @@ import baseURL from '../../assets/common/baseUrl';
 import Gift from '../../components/Profile/ProfileItem/Gift';
 const {height, width} = Dimensions.get('window');
 // menu flash sale
-
+import LoaderMenuFlashSale from'../../components/Home/Loader/LoaderMenuFlashSale';
 const MenuFlashSale = ({navigation}) => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+ 
+
+ 
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -19,6 +23,8 @@ const MenuFlashSale = ({navigation}) => {
         .get(`${baseURL}products`)
         .then(res => {
           setProducts(res.data);
+          if (loading) {
+            setLoading(false)};
         })
         .catch(error => {
           console.log('Api call error');
@@ -29,6 +35,10 @@ const MenuFlashSale = ({navigation}) => {
     }, []),
   );
   return (
+    <SafeAreaView>
+    {loading ? (
+      <LoaderMenuFlashSale />
+    ) : (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <View style={{marginTop: 15,alignItems: 'center',justifyContent: 'center'}}>
@@ -37,6 +47,9 @@ const MenuFlashSale = ({navigation}) => {
         </View>
         <View style={styles.contentGif}>
           <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift" />
+        </View>
+        <View style={{marginTop: 15,alignItems: 'center',justifyContent: 'center'}}>
+          <Text style={{fontWeight: 'bold',color:'red',fontSize: 20}}>GỢI Ý SẢN PHẨM</Text>
         </View>
         <View style={styles.bodyContainer}>
           <ScrollView showsVerticalScrollIndicator={false} horizontal>
@@ -53,6 +66,8 @@ const MenuFlashSale = ({navigation}) => {
         </View>
       </View>
     </ScrollView>
+    )}
+    </SafeAreaView>
   );
 };
 
