@@ -14,7 +14,6 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated from 'react-native-reanimated';
 import SearchHangDau from '../../components/Home/SearchHangDau';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../assets/data/colors';
 import {LogBox} from 'react-native';
 import axios from 'axios';
@@ -61,9 +60,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
       </View>
     );
   };
-  const item = route.params.a;
-
-  console.log('gggggggg:', route.params.a);
+  const id = route.params.id;
   LogBox.ignoreAllLogs();
   Animated.timing(new Animated.Value(0), {
     toValue: 1,
@@ -74,20 +71,20 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
   // tym
   const [isLike, seiIsLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-
   const onLikePressed = () => {
     const amount = isLike ? -1 : 1;
     setLikeCount(likeCount + amount);
     seiIsLike(!isLike);
   };
-
   useEffect(() => {
     setLikeCount(likeCountProp);
   }, []);
-
   const [products, setProducts] = useState([]);
+
+  const [details, setDetails] = useState([]);
   const [expanded, setExpanded] = React.useState(true);
   const handlePress = () => setExpanded(!expanded);
+
 
   useFocusEffect(
     useCallback(() => {
@@ -96,13 +93,32 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
         .get(`${baseURL}products`)
         .then(res => {
           setProducts(res.data);
+          console.log("ff:",res.data);
         })
         .catch(error => {
           console.log('Api call error');
         });
-
       return () => {
         setProducts([]);
+      };
+    }, []),
+  );
+
+
+
+  useFocusEffect(
+    useCallback(() => {
+      // Products Detail
+      axios
+        .get(`${baseURL}products/`+id)
+        .then(res => {
+          setDetails(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+      return () => {
+        setDetails([]);
       };
     }, []),
   );
@@ -128,8 +144,8 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
               }>
               <Image
                 style={styles.image}
-                // source={{uri:item.ThumbImg}}
-                source={{uri: item.ThumbImg ? item.ThumbImg : null}}
+                source={{uri:details.ThumbImg}}
+                // source={{uri: item.ThumbImg ? item.ThumbImg : null}}
               />
             </View>
             <View
@@ -178,8 +194,8 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
             <Animated.ScrollView style={{alignSelf: 'stretch'}}>
               {/* Body */}
               <View style={styles.detailsContainer}>
-                <Text style={styles.nameText}>{item.ten}</Text>
-                <Text style={styles.priceText}>{item.gia} VNĐ</Text>
+                <Text style={styles.nameText}>{details.ten}</Text>
+                <Text style={styles.priceText}>{details.gia} VNĐ</Text>
 
                 {/* ngôi sao đánh giá sản phảm*/}
                 <View style={styles.rate}>
@@ -243,7 +259,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                     style={{backgroundColor: 'white'}}
                     title="Mô tả">
                     <View>
-                      <Text style={{fontSize: 18}}>{item.mota}</Text>
+                      <Text style={{fontSize: 18}}>{details.mota}</Text>
                     </View>
                   </List.Accordion>
                 </List.Section>

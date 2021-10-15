@@ -9,7 +9,7 @@ const SearchPhoBien = ({ item,navigation }) => {
               onPress={() =>
                 navigation.navigate('HomeNavigator', {
                   screen: 'Product Detail',
-                  params: {a: item},
+                  params: {id: item._id},
                 })
               }>
               <View style={styles.viewPopSearch}>

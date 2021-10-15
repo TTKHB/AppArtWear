@@ -48,19 +48,21 @@ const ProductScreen = ({item, navigation}) => {
         .catch(error => {
           console.log('Api call error');
         });
-
       return () => {
         setProducts([]);
    
       };
-     
-    }, []),
-    
-  );
 
+    }, []),
+  );
   const renderItemPhoBien = ({item, index}) => {
     return (
-      <TouchableOpacity style={styles.viewPopSearch}>
+      <TouchableOpacity style={styles.viewPopSearch}  onPress={() =>
+        navigation.navigate('HomeNavigator', {
+          screen: 'Product Detail',
+          params: {id: item._id},
+        })
+      }>
         <View style={{flex: 2}}>
           <Image
             style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
@@ -77,6 +79,8 @@ const ProductScreen = ({item, navigation}) => {
       </TouchableOpacity>
     );
   };
+
+
   const renderItemImage = ({item, index}) => {
     return (
       <View style={{marginLeft: '-17%'}}>

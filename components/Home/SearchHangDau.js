@@ -10,7 +10,7 @@ import Star from '../ProductMenu/Star';
 const SearchHangDau = ({ item, navigation }) => {
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('HomeNavigator', { screen: 'Product Detail', params: { a: item } })}>
+    <TouchableOpacity onPress={() => navigation.navigate('HomeNavigator', { screen: 'Product Detail',params: {id: item._id}})}>
       <View style={styles.card}>
         <Image
           // source={{uri:item.ThumbImg}}
