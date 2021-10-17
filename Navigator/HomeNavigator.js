@@ -84,7 +84,9 @@ const HomeNavigator = ({ navigation }) => {
                   size={28}
                   style={{
                     marginRight: 10
-                  }} />
+                  }}
+        
+                   />
               </TouchableOpacity>
               <TouchableOpacity>
                 <IconCart name="handbag" size={24} />

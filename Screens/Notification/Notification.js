@@ -1,15 +1,15 @@
 
-import React, { Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity,
+    SafeAreaView,
     Image,
     FlatList
 } from 'react-native';
 import { Appbar } from 'react-native-paper';
-
+import LoaderNotification from '../../components/Home/Loader/LoaderNotification';
 const Notifications = [
     { id: 3, image: require('../../assets/images/users/user-1.jpg'), name: "March SoulLaComa", text: "Like so many organizations these days, Auto is a company in trasition. It is until recently.", attachment: "https://icons.iconarchive.com/icons/custom-icon-design/flatastic-4/512/New-icon.png", time: "Ngày 26, Tháng 8" },
     { id: 2, image: require('../../assets/images/users/user-2.jpg'), name: "John DoeLink", text: "Like so many organizations these days, Auto is a company in trasition. It is until recently.", attachment: "https://icons.iconarchive.com/icons/custom-icon-design/flatastic-4/512/New-icon.png", time: "2 giờ trước" },
@@ -21,7 +21,15 @@ const Notifications = [
 ];
 
 const Notification = ({ navigation }) => {
+    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    }
+  });
     return (
+      
+    
         <View style={{ flex: 1 }}>
             <Appbar.Header style={{ backgroundColor: 'transparent' }}>
                 <Appbar.BackAction />
@@ -29,6 +37,9 @@ const Notification = ({ navigation }) => {
                 <Appbar.Action icon="magnify" />
                 <Appbar.Action icon="shopping" />
             </Appbar.Header>
+            {loading ? (
+        <LoaderNotification/>
+      ) : (
             <FlatList
                 style={styles.root}
                 data={Notifications}
@@ -65,8 +76,9 @@ const Notification = ({ navigation }) => {
                         </View>
                     );
                 }} />
-
+                )}
         </View>
+
     );
 }
 export default Notification;

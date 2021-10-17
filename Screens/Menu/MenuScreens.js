@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, {Component,useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,16 +12,23 @@ import {
   ScrollView
 } from 'react-native';
 import { sectionListData, listTab } from '../../assets/data/Menu/ItemMenu';
+import LoaderMenu from '../../components/Home/Loader/LoaderMenu';
 const { height, width } = Dimensions.get('window');
-import Swiper from 'react-native-swiper';
-import { color } from 'react-native-reanimated';
 const MenuScreen = ({ navigation }) => {
   const [status, setStatus] = useState('Tất cả');
   const [datalist, setDataList] = useState(sectionListData);
+//loader
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    }
+  });
   //Biến tìm và hiển thị sản phẩm theo loại sản phẩm (Filter)
   const setStatusFilter = status => {
     if (status !== 'Tất cả') { //trạng thái khác All hiển thị quần, áo, giày,..
       setDataList([...sectionListData.filter(e => e.status === status)]);
+      
     } else { //Ngược lại hiển thị tất cả
       setDataList(sectionListData)
     }
@@ -72,10 +79,10 @@ const MenuScreen = ({ navigation }) => {
   }
   return (
     <SafeAreaView style={styles.container}>
-      {/* Loại sản phẩm */}
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
+
+      <ScrollView 
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
         style={styles.listTab}>
         {
           listTab.map(e => (
@@ -88,18 +95,23 @@ const MenuScreen = ({ navigation }) => {
             </TouchableOpacity>
           ))
         }
-      </ScrollView>
-      {/* Sản phẩm sử dụng SectionList */}
-      <View style={{ width: 200, backgroundColor: '#fff', flex: 2 }}>
+    </ScrollView>
+ 
+    {loading ? (
+        <LoaderMenu/>
+      ) : (
 
-        {/* SectionList sản phẩm */}
+      <View style={{ width: 200, backgroundColor: '#fff', flex: 2 }}>
+  
         <SectionList
           keyExtractor={(item, index) => item.name}
           sections={datalist}
           renderSectionHeader={renderSectionHeader}
           renderItem={renderSection}
         />
+     
       </View>
+)}
     </SafeAreaView>
   );
 }

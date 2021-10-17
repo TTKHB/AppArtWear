@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProfileScreen from '../Screens/Profile/ProfileScreen';
 import HelpScreen from '../Screens/User/Help/HelpScreen';
 import FeedbackScreens from '../Screens/User/Help/FeedbackScreens';
-
+import FavoriteScreen from'../Screens/Profile/FavoriteScreen';
 const Stack = createStackNavigator();
 
 const ProfileNavigator = () => {
@@ -30,6 +30,13 @@ const ProfileNavigator = () => {
       <Stack.Screen
       name="Phan hoi"
       component={FeedbackScreens}
+      options={{
+        headerShown: false,
+      }}
+    />
+       <Stack.Screen
+      name="FavoriteScreen"
+      component={FavoriteScreen}
       options={{
         headerShown: false,
       }}

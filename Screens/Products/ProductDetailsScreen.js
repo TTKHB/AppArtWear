@@ -32,6 +32,7 @@ import Swiper from 'react-native-swiper';
 import {List} from 'react-native-paper';
 import Ship from '../../components/Checkout/Ship';
 import {datauser} from '../../assets/data/ItemUserComment';
+import LoaderProductDetail from'../../components/Home/Loader/LoaderProductDetail';
 //  detail
 const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
   const renderItemComment = ({item, index}) => {
@@ -84,7 +85,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
   const [details, setDetails] = useState([]);
   const [expanded, setExpanded] = React.useState(true);
   const handlePress = () => setExpanded(!expanded);
-
+  const [loading, setLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -93,7 +94,9 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
         .get(`${baseURL}products`)
         .then(res => {
           setProducts(res.data);
-          console.log("ff:",res.data);
+          if (loading) {
+            setLoading(false);
+          }
         })
         .catch(error => {
           console.log('Api call error');
@@ -113,6 +116,9 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
         .get(`${baseURL}products/`+id)
         .then(res => {
           setDetails(res.data);
+          if (loading) {
+            setLoading(false);
+          }
         })
         .catch(error => {
           console.log('Api call error');
@@ -123,8 +129,14 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
     }, []),
   );
   return (
+
     <View style={[styles.container, {backgroundColor: COLORS.white}]}>
-      {/* Header */}
+    
+
+    {loading ? (
+        <LoaderProductDetail/>
+      ) : (
+       //Header 
       <ImageHeaderScrollView
         showsVerticalScrollIndicator={false}
         maxHeight={500}
@@ -328,7 +340,8 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
           </TriggeringView>
         </View>
       </ImageHeaderScrollView>
-
+    
+      )}
       {/* Footer */}
       <View style={styles.footerContainer}>
         <TouchableWithoutFeedback onPress={onLikePressed}>
@@ -344,7 +357,10 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
           <Text style={styles.btnText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
       </View>
+    
     </View>
+
+
   );
 };
 

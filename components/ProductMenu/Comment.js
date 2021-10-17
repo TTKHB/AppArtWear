@@ -1,8 +1,9 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { StyleSheet, Text, View,SafeAreaView,TouchableOpacity,ScrollView,FlatList,Dimensions,Image } from 'react-native'
 import {datauser} from '../../assets/data/ItemUserComment';
 import Star from '../../components/ProductMenu/Star';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import LoaderComment from '../../components/Home/Loader/LoaderComment';
 const listTab=[
     {
         name :<Icon name="star" color="orange" size={20} />,
@@ -28,6 +29,13 @@ const listTab=[
 ]
 
 const Comment = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    }
+  });
+
     const [datalist,setDataList]=useState(datauser)
     const [status,setStatus]=useState('All')
     const setStatusFilter=status=>{
@@ -58,6 +66,9 @@ const Comment = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+                {loading ? (
+        <LoaderComment />
+      ) : (
           <ScrollView showsVerticalScrollIndicator={false} >
             <View style={styles.listTab}>
                 {
@@ -81,6 +92,7 @@ const Comment = () => {
             />
             </ScrollView>
             </ScrollView>
+      )}
         </SafeAreaView>
     )
 }

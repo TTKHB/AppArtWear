@@ -14,7 +14,7 @@ import { DATA } from '../../assets/data/PopularSearch';
 
 const ProductMenu = ({ navigation }) => {
 
-    
+    z
     const renderItem = ({ item, index }) => {
         return (
             <TouchableOpacity onPress={()=>navigation.navigate('DetailMenu')}>

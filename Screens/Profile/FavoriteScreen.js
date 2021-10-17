@@ -1,19 +1,17 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
-  Modal,
   Text,
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
   FlatList,
-  SectionList,
   Image,
   Dimensions,
 } from 'react-native';
 import Star from '../../components/ProductMenu/Star';
-
+import LoaderFavorite from '../../components/Home/Loader/LoaderFavorite';
 import IconSearch from 'react-native-vector-icons/Ionicons';
 
 import IconBack from 'react-native-vector-icons/Ionicons';
@@ -28,6 +26,12 @@ import {List} from 'react-native-paper';
 const {height, width} = Dimensions.get('window');
 const numColumns = 2;
 const FavoriteScreen = ({navigation, i}) => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    }
+  });
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('DetailMenu')}>
@@ -108,8 +112,10 @@ const FavoriteScreen = ({navigation, i}) => {
         <IconCart name="handbag" size={28} />
       </View>
 
-      {/* Body */}
-      <SafeAreaView>
+      <SafeAreaView> 
+  {loading ? (
+        <LoaderFavorite/>
+      ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.body}>
             <View style={styles.viewBody}>
@@ -186,7 +192,9 @@ const FavoriteScreen = ({navigation, i}) => {
             </View>
           </View>
         </ScrollView>
+         )}
       </SafeAreaView>
+         
     </View>
   );
 };

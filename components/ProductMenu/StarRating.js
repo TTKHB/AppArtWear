@@ -4,15 +4,13 @@ import {
   Text,
   View,
   Animated,
-  TouchableOpacity,
   ScrollView,
+  SafeAreaView
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import IconBack from 'react-native-vector-icons/Ionicons';
-import IconCart from 'react-native-vector-icons/SimpleLineIcons';
-import IconSearch from 'react-native-vector-icons/Ionicons';
+import LoaderStarRating from '../../components/Home/Loader/LoaderStarRating';
 // đánh giá
 const PercentageBar = ({starText, percentage}) => {
   const [animation] = useState(new Animated.Value(0));
@@ -50,11 +48,21 @@ const PercentageBar = ({starText, percentage}) => {
   );
 };
 
-export default function StarRating(item) {
+const StarRating = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+    }
+  });
   return (
-       <ScrollView showsVerticalScrollIndicator={false} > 
-      <View style={styles.container}>
+<SafeAreaView>
 
+       <ScrollView showsVerticalScrollIndicator={false} > 
+       {loading ? (
+        <LoaderStarRating/>
+      ) : (
+      <View style={styles.container}>
         <View style={styles.reviewContainer}>
           <View style={styles.totalWrap}>
             <View
@@ -102,6 +110,7 @@ export default function StarRating(item) {
               <PercentageBar starText="1 " percentage={1} />
             </View>
           </View>
+          
           <Text style={{left: 20, fontSize: 15, fontWeight: 'bold'}}>
             Bình luận
           </Text>
@@ -109,8 +118,10 @@ export default function StarRating(item) {
           <Comment />
         </View>
       </View>
+      )}
       </ScrollView>
    
+   </SafeAreaView>
 
   );
 }
@@ -168,7 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#cd853f',
   },
 
-  //
+
   categoriesListContainer: {
     paddingVertical: 5,
     flexDirection: 'row',
@@ -196,3 +207,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+export default StarRating;
