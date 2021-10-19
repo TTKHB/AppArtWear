@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import {ScrollView, TextInput} from 'react-native-gesture-handler';
 
 export const Back = require ('../../../assets/images/back1.png');
 export const more = require ('../../../assets/images/more.png');
@@ -17,6 +17,7 @@ const ChatDetail = ({navigation, route}) => {
   // const {navigation} = props;
   return (
     <View>
+ {/* header------------------------------------------------------------- */}
       <View style={Styles.Header}>
         <TouchableOpacity
           onPress={() => navigation.goBack ()}
@@ -32,8 +33,12 @@ const ChatDetail = ({navigation, route}) => {
           <Image style={Styles.backheader} source={more} />
         </TouchableOpacity>
       </View>
-      <View style={Styles.Body}>
-        <View style={Styles.ButtonChat}>
+      <ScrollView style={Styles.Body}>
+      <Text>abc</Text>
+      </ScrollView>
+{/* chat----------------------------------------------------------------- */}
+      <View style={{height: '12%', width: '100%'}}> 
+      <View style={Styles.ButtonChat}>
           <View style={Styles.ChatLeft}>
             <TouchableOpacity style={Styles.Touchat}>
               <Image style={Styles.backheader} source={Plus} />
@@ -77,10 +82,10 @@ export const Styles = StyleSheet.create ({
     height: 26,
     marginTop: 7,
   },
-  //--------------------------------------
+  //body--------------------------------------
   Body: {
     width: '100%',
-    height: '92%',
+    height: '86%',
     backgroundColor: 'white',
   },
   inner: {
@@ -110,7 +115,6 @@ export const Styles = StyleSheet.create ({
   ButtonChat: {
     width: '100%',
     height: 50,
-    marginTop: '154%',
     flexDirection: 'row',
     borderWidth: 0.5,
   },
