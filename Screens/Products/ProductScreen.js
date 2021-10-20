@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-import LoaderHome from'../../components/Home/Loader/LoaderHome';
+import LoaderHome from '../../components/Home/Loader/LoaderHome';
 import Category from '../../components/Home/Category';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
 import SeacrchProduct from '../../components/Home/SearchHangDau';
@@ -32,37 +32,37 @@ const {height, width} = Dimensions.get('window');
 // trang home
 const ProductScreen = ({item, navigation}) => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
+      setLoading(true);
       // Products
       axios
         .get(`${baseURL}products`)
         .then(res => {
           setProducts(res.data);
-          if (loading) {
-            setLoading(false);
-          }
+          setLoading(false);
         })
         .catch(error => {
           console.log('Api call error');
         });
+
       return () => {
         setProducts([]);
-   
       };
-
     }, []),
   );
   const renderItemPhoBien = ({item, index}) => {
     return (
-      <TouchableOpacity style={styles.viewPopSearch}  onPress={() =>
-        navigation.navigate('HomeNavigator', {
-          screen: 'Product Detail',
-          params: {id: item._id},
-        })
-      }>
+      <TouchableOpacity
+        style={styles.viewPopSearch}
+        onPress={() =>
+          navigation.navigate('HomeNavigator', {
+            screen: 'Product Detail',
+            params: {id: item._id},
+          })
+        }>
         <View style={{flex: 2}}>
           <Image
             style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
@@ -79,7 +79,6 @@ const ProductScreen = ({item, navigation}) => {
       </TouchableOpacity>
     );
   };
-
 
   const renderItemImage = ({item, index}) => {
     return (
@@ -109,124 +108,127 @@ const ProductScreen = ({item, navigation}) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-      {loading ? (
-        <LoaderHome/>
-      ) : (
-        <ScrollView style={styles.wrap}>
-          {/* thể loại */}
-          <Category />
-          {/* banner Header */}
-          <SwiperHeader />
-          {/* Flash Sales */}
-          <View style={styles.contentGif}>
-            {/* Gift Header */}
-            <View style={styles.viewBody}>
-              <View style={styles.itemBody}>
-                <View style={styles.itemHeader}>
-                  <Text style={styles.itemTextHeader}>Flash Sales</Text>
+        {loading ? (
+          <LoaderHome />
+        ) : (
+          <ScrollView style={styles.wrap}>
+            {/* thể loại */}
+            <Category />
+            {/* banner Header */}
+            <SwiperHeader />
+            {/* Flash Sales */}
+            <View style={styles.contentGif}>
+              {/* Gift Header */}
+              <View style={styles.viewBody}>
+                <View style={styles.itemBody}>
+                  <View style={styles.itemHeader}>
+                    <Text style={styles.itemTextHeader}>Flash Sales</Text>
+                  </View>
                 </View>
+                {/* Giờ giảm giá */}
+                <View style={{marginLeft: '18%'}}>
+                  <CountDown />
+                </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('HomeNavigator', {
+                      screen: 'MenuFlashSale',
+                    })
+                  }>
+                  <IconRight
+                    style={{marginTop: 8}}
+                    name="chevron-small-right"
+                    size={24}
+                  />
+                </TouchableOpacity>
               </View>
-              {/* Giờ giảm giá */}
-              <View style={{marginLeft: '18%'}}>
-                <CountDown />
+              <View style={styles.itemContainer}>
+                <FlatList
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{paddingLeft: 5}}
+                  data={products}
+                  horizontal
+                  renderItem={({item}) => (
+                    <ProductFlashSale item={item} navigation={navigation} />
+                  )}
+                />
               </View>
+            </View>
+            {/* banner Body */}
+            <View style={styles.bannerGif}>
+              <SwiperBody />
+            </View>
+            {/* banner Body TWO */}
+            <View style={styles.bannerGifTwo}>
+              <SwiperItemBody />
+            </View>
+            {/* Tìm kiếm hàng đầu */}
+            <View
+              style={{
+                marginTop: 15,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.flashingTitlee}>Tìm kiếm hàng đầu</Text>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('HomeNavigator', {
-                    screen: 'MenuFlashSale',
+                    screen: 'MenuSearchHangDau',
                   })
                 }>
-                <IconRight
-                  style={{marginTop: 8}}
-                  name="chevron-small-right"
-                  size={24}
-                />
+                <Text style={styles.flashingSubTitle}>Tất cả</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.itemContainer}>
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{paddingLeft: 5}}
-                data={products}
-                horizontal
-                renderItem={({item}) => <ProductFlashSale item={item} navigation={navigation}/>}
-              />
-            </View>
-          </View>
-          {/* banner Body */}
-          <View style={styles.bannerGif}>
-            <SwiperBody />
-          </View>
-          {/* banner Body TWO */}
-          <View style={styles.bannerGifTwo}>
-            <SwiperItemBody />
-          </View>
-          {/* Tìm kiếm hàng đầu */}
-          <View
-            style={{
-              marginTop: 15,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <Text style={styles.flashingTitlee}>Tìm kiếm hàng đầu</Text>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('HomeNavigator', {screen: 'MenuSearchHangDau'})
-              }>
-              <Text style={styles.flashingSubTitle}>Tất cả</Text>
-            </TouchableOpacity>
-          </View>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{paddingLeft: 5}}
-            data={products}
-            horizontal
-            renderItem={({item}) => (
-              <SeacrchProduct item={item} navigation={navigation} />
-            )}
-          />
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{paddingLeft: 5}}
+              data={products}
+              horizontal
+              renderItem={({item}) => (
+                <SeacrchProduct item={item} navigation={navigation} />
+              )}
+            />
 
-          {/* Tim kiem pho bien */}
-          <View style={styles.flashing}>
-            <Text style={styles.flashingTitlee}>Tìm kiếm phổ biến</Text>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('HomeNavigator', {
-                  screen: 'MenuSearchPhoBien',
-                })
-              }>
-              <Text style={styles.allPopularSearch}>Tất cả</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.viewDanhMuc}>
-            <View style={{marginTop: 5}}>
-              <FlatList
-                showsHorizontalScrollIndicator={false}
-                data={products}
-                horizontal
-                keyExtractor={item => item._id}
-                renderItem={renderItemPhoBien}
-              />
+            {/* Tim kiem pho bien */}
+            <View style={styles.flashing}>
+              <Text style={styles.flashingTitlee}>Tìm kiếm phổ biến</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('HomeNavigator', {
+                    screen: 'MenuSearchPhoBien',
+                  })
+                }>
+                <Text style={styles.allPopularSearch}>Tất cả</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-          {/* Có thể bạn quan tâm */}
-          <View style={{height: 280, marginTop: 5}}>
-            <View>
-              <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
+            <View style={styles.viewDanhMuc}>
+              <View style={{marginTop: 5}}>
+                <FlatList
+                  showsHorizontalScrollIndicator={false}
+                  data={products}
+                  horizontal
+                  keyExtractor={item => item._id}
+                  renderItem={renderItemPhoBien}
+                />
+              </View>
             </View>
-            <View>
-              <Carousel
-                data={DataQuangCao}
-                renderItem={renderItemImage}
-                sliderWidth={SLIDER_WIDTH}
-                itemWidth={ITEM_WIDTH}
-              />
+            {/* Có thể bạn quan tâm */}
+            <View style={{height: 280, marginTop: 5}}>
+              <View>
+                <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
+              </View>
+              <View>
+                <Carousel
+                  data={DataQuangCao}
+                  renderItem={renderItemImage}
+                  sliderWidth={SLIDER_WIDTH}
+                  itemWidth={ITEM_WIDTH}
+                />
+              </View>
             </View>
-          </View>
-        </ScrollView>
-      )
-      }
+          </ScrollView>
+        )}
       </SafeAreaView>
     </>
   );
