@@ -110,7 +110,7 @@ const SearchScreen = ({navigation, route}) => {
   useEffect(async () => {
     const dataWord = (await AsyncStorage.getItem('WORD_SEARCH')) || [];
 
-    const wordReversed = [...JSON.parse(dataWord)].reverse();
+    const wordReversed = await [...JSON.parse(dataWord)].reverse();
     const sliceWord = wordReversed.slice(0, 4);
     setHistory(wordReversed || []);
     setHistoryExpaned(sliceWord || []);
@@ -150,6 +150,7 @@ const SearchScreen = ({navigation, route}) => {
         for (let i = 0; i < arrHistory.length; i++) {
           if (arrHistory[i].title == title) {
             console.log('test', arrHistory[i]);
+            // xoa item tại index
             arrHistory.splice(i, 1);
 
             console.log('push concat', arrHistory);
