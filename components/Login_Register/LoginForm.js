@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Dimensions, TextInput, Alert } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Dimensions,
+    TextInput,
+    Alert,
+    Image
+} from 'react-native';
 import FormContainer from './FormContainer/FormContainer';
 import FormInput from './FormInput/FormInput';
 import FormSubmitButton from './FormButton/FormSubmitButton';
@@ -9,11 +17,14 @@ import { useLogin } from '../../Context/LoginProvider';
 import { signIn } from '../../assets/data/user';
 import Forgotpassword from './FormForgotPassword/Forgotpassword';
 import FormSMS from './FormSMS/FormSMS';
-
+//icon
 const iconEmail = require('../../assets/icon/mail.png');
 const iconPassowrd = require('../../assets/icon/lock.png');
 import IconBack from 'react-native-vector-icons/Ionicons';
+
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Dialog from "react-native-dialog";
+const { height, width } = Dimensions.get('window');
 
 const LoginForm = ({ navigation }) => {
     const { setIsLoggedIn, setProfile, setLoginPending } = useLogin();
@@ -36,10 +47,18 @@ const LoginForm = ({ navigation }) => {
                 if (res.data.success) {
                     setUserInfo({ email: '', password: '' })
                     setProfile(res.data.user);
-                    navigation.navigate('ProfileScreen');
-                    setIsLoggedIn(true);
-                } else {
-                    Alert.alert("Thất bại")
+                    if (res.data.user.role !== 'user') {
+                        setIsLoggedIn(false);
+                        showDialog()
+                    }
+                    else {
+                        navigation.navigate('ProfileScreen');
+                        setIsLoggedIn(true);
+                    }
+                }
+                else {
+                    setIsLoggedIn(false);
+                    showDialog()
                 }
             } catch (error) {
                 console.log(error.message);
@@ -69,10 +88,20 @@ const LoginForm = ({ navigation }) => {
         }
         //Password must have 8 or more characters
         if (!password.trim() || password.length < 8) {
-            return updateError('Password is less than 8 characters!', setError);
+            return updateError('Mật khẩu phải trên 8 ký tự!', setError);
         }
         return true;
     }
+
+    //Diglog onClick
+    const [visible, setVisible] = useState(false);
+    const showDialog = () => {
+        setVisible(true);
+    };
+    const handleContinue = () => {
+        setVisible(false);
+    };
+
 
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong
@@ -85,7 +114,7 @@ const LoginForm = ({ navigation }) => {
             {/* FormHeader trang tri phần header của screen đăng nhập(ví dụ như text hoặc hình ảnh) */}
             <FormHeader Heading="ArtWear" subHeading='Đăng nhập tài khoản' />
             {error ? (
-                <Text style={{ color: 'red', textAlign: 'center' }}>{error}</Text>
+                <Text style={{ color: 'red', textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>{error}</Text>
             ) : null}
             <View style={{ backgroundColor: '#fff', borderRadius: 10 }}>
                 <FormInput
@@ -107,6 +136,27 @@ const LoginForm = ({ navigation }) => {
                 />
             </View>
             <FormSubmitButton onPress={submitForm} title='Đăng Nhập' />
+
+            {/* DigLog When login error */}
+            <Dialog.Container
+                visible={visible}
+                contentStyle={{ borderRadius: 10, borderColor: 'white', width: width / 1.09 }}>
+                <Dialog.Title style={{ fontSize: 28, fontWeight: 'bold' }}>
+                    Đăng nhập thất bại {" "}
+                    <Image
+                        style={{ height: 25, width: 25 }}
+                        source={require('../../assets/images/Error/errorNotFound.jpg')}
+                    />
+                </Dialog.Title>
+                <Dialog.Description style={{ fontSize: 22, fontWeight: 'bold' }}>
+                    Vui lòng kiểm tra lại tài khoản và mật khẩu
+                </Dialog.Description>
+                <Dialog.Button
+                    style={{ color: 'brown', fontWeight: 'bold', fontSize: 20 }}
+                    label="Tiếp tục"
+                    onPress={handleContinue}
+                />
+            </Dialog.Container>
 
             <Forgotpassword forgotPass="Quên mật khẩu?" />
 

@@ -20,7 +20,11 @@ const LoginProvider = ({children}) => {
 
       if (res.data.success) {
         setProfile(res.data.profile);
-        setIsLoggedIn(true);
+        if(res.data.profile.role !== 'user'){
+          setIsLoggedIn(false);
+        }else{
+          setIsLoggedIn(true);
+        }
       } else {
         setProfile({});
         setIsLoggedIn(false);
