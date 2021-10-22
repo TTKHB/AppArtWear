@@ -135,7 +135,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
       );
 
       let img = [];
-      if (indexOfColor != -1) {
+      if (indexOfColor != -1 && images[indexOfColor].image != '') {
         const data = images[indexOfColor].image.forEach(image => {
           img.push(image);
         });
@@ -310,7 +310,11 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                         }}>
                         <Text style={{fontSize: 18}}>Nhận xét</Text>
                         <TouchableOpacity
-                          onPress={() => navigation.navigate('StarRating')}>
+                          onPress={() => {
+                            navigation.navigate('StarRating', {
+                              product_id: id,
+                            });
+                          }}>
                           <Text>Tất cả</Text>
                         </TouchableOpacity>
                       </View>

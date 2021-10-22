@@ -5,12 +5,19 @@ import {
   View,
   Animated,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
+  TextInput,
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
 import Comment from './Comment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoaderStarRating from '../../components/Home/Loader/LoaderStarRating';
+
+import {Rating, AirbnbRating} from 'react-native-elements';
+import useReviewByProductId from './../../hooks/Reviews/useReviewByProductId';
+import useReviewStatistic from './../../hooks/Reviews/useReviewStatistic';
+import {rate, average} from 'average-rating';
+
 // đánh giá
 const PercentageBar = ({starText, percentage}) => {
   const [animation] = useState(new Animated.Value(0));
@@ -48,7 +55,64 @@ const PercentageBar = ({starText, percentage}) => {
   );
 };
 
-const StarRating = () => {
+const StarRating = ({navigation, route}) => {
+  const {product_id} = route.params;
+  const {reviewsOfProduct} = useReviewByProductId(product_id);
+  const {reviewsStatistics} = useReviewStatistic(product_id);
+  const [rating, setRating] = useState(0);
+  console.log(
+    '🚀 ~ file: StarRating.js ~ line 62 ~ StarRating ~ rating',
+    rating,
+  );
+
+  // const [countOneStar, setcountOneStar] = useState('');
+  // const [countTwoStar, setcountTwoStar] = useState('');
+  // const [countThreeStar, setcountThreeStar] = useState('');
+  // const [countFourStar, setcountFourStar] = useState('');
+  // const [countFiveStar, setcountFiveStar] = useState('');
+
+  let totalReviews = 0;
+  let countOneStar = 0;
+  let countTwoStar = 0;
+  let countThreeStar = 0;
+  let countFourStar = 0;
+  let countFiveStar = 0;
+  let NumRating = 0;
+
+  //handle count star 1->5
+  if (typeof reviewsStatistics !== 'undefined') {
+    console.log(
+      '🚀 ~ file: StarRating.js ~ line 77 ~ StarRating ~ reviewsStatistics',
+      reviewsStatistics,
+    );
+    totalReviews = reviewsOfProduct.length;
+    if (totalReviews != 0) {
+      countOneStar = Math.round(
+        (reviewsStatistics.NumStar1 / totalReviews) * 100,
+      );
+      countTwoStar = Math.round(
+        (reviewsStatistics.NumStar2 / totalReviews) * 100,
+      );
+      countThreeStar = Math.round(
+        (reviewsStatistics.NumStar3 / totalReviews) * 100,
+      );
+      countFourStar = Math.round(
+        (reviewsStatistics.NumStar4 / totalReviews) * 100,
+      );
+      countFiveStar = Math.round(
+        (reviewsStatistics.NumStar5 / totalReviews) * 100,
+      );
+      const rating = [
+        countOneStar,
+        countTwoStar,
+        countThreeStar,
+        countFourStar,
+        countFiveStar,
+      ];
+      NumRating = average(rating);
+    }
+  }
+
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (loading) {
@@ -56,75 +120,77 @@ const StarRating = () => {
     }
   });
   return (
-<SafeAreaView>
-
-       <ScrollView showsVerticalScrollIndicator={false} > 
-       {loading ? (
-        <LoaderStarRating/>
-      ) : (
-      <View style={styles.container}>
-        <View style={styles.reviewContainer}>
-          <View style={styles.totalWrap}>
-            <View
-              style={{
-                flexDirection: 'row',
-              }}>
-              <Text style={{left: -80, fontSize: 30, fontWeight: 'bold'}}>
-                4.7/{' '}
-              </Text>
-              <Text style={{left: -75, top: 15, fontSize: 15}}>5</Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                  top: 10,
-                  left: 82,
-                }}>
-                  <Icon name="star" color="orange" size={25} />
-                  <Icon name="star" color="orange" size={25} />
-                  <Icon name="star" color="orange" size={25} />
-                  <Icon name="star" color="orange" size={25} />
-                  <Icon name="star" color="orange" size={25} />
+    <SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {loading ? (
+          <LoaderStarRating />
+        ) : (
+          <View style={styles.container}>
+            <View style={styles.reviewContainer}>
+              <View style={styles.totalWrap}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}>
+                  <Text style={{left: -80, fontSize: 30, fontWeight: 'bold'}}>
+                    {NumRating}/{' '}
+                  </Text>
+                  <Text style={{left: -75, top: 15, fontSize: 15}}>5</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end',
+                      top: 10,
+                      left: 82,
+                    }}>
+                    <Rating
+                      imageSize={30}
+                      readonly
+                      fractions={1}
+                      startingValue={NumRating}
+                    />
+                    {/* <Icon name="star" color="orange" size={25} />
+                    <Icon name="star" color="orange" size={25} />
+                    <Icon name="star" color="orange" size={25} />
+                    <Icon name="star" color="orange" size={25} />
+                    <Icon name="star" color="orange" size={25} /> */}
+                  </View>
                 </View>
-            </View>
-          </View>
-          <Text style={styles.amountText}> 40 đánh giá </Text>
+              </View>
+              <Text style={styles.amountText}>{totalReviews} đánh giá </Text>
 
-          
-          {/* //thanh năng lượng đánh giá (%) */}
-          <View style={{marginTop: 40, width: 280, left: 68}}>
-            <View style={styles.spacer}>
-              {/* Ống năng lượng đánh giá từ 1 -> 100% */}
-              <PercentageBar starText="5" percentage={84} />
-            </View>
-            <View style={styles.spacer}>
-              <PercentageBar starText="4" percentage={9} />
-            </View>
-            <View style={styles.spacer}>
-              <PercentageBar starText="3" percentage={4} />
-            </View>
-            <View style={styles.spacer}>
-              <PercentageBar starText="2  " percentage={50} />
-            </View>
-            <View style={styles.spacer}>
-              <PercentageBar starText="1 " percentage={1} />
+              {/* //thanh năng lượng đánh giá (%) */}
+              <View style={{marginTop: 40, width: 280, left: 68}}>
+                <View style={styles.spacer}>
+                  {/* Ống năng lượng đánh giá từ 1 -> 100% */}
+                  <PercentageBar starText="5" percentage={countFiveStar} />
+                </View>
+                <View style={styles.spacer}>
+                  <PercentageBar starText="4" percentage={countFourStar} />
+                </View>
+                <View style={styles.spacer}>
+                  <PercentageBar starText="3" percentage={countThreeStar} />
+                </View>
+                <View style={styles.spacer}>
+                  <PercentageBar starText="2  " percentage={countTwoStar} />
+                </View>
+                <View style={styles.spacer}>
+                  <PercentageBar starText="1 " percentage={countOneStar} />
+                </View>
+              </View>
+
+              <Text style={{left: 20, fontSize: 15, fontWeight: 'bold'}}>
+                Bình luận
+              </Text>
+              {/* Người dùng bình luận */}
+              <Comment reviews={reviewsOfProduct} />
             </View>
           </View>
-          
-          <Text style={{left: 20, fontSize: 15, fontWeight: 'bold'}}>
-            Bình luận
-          </Text>
-          {/* Người dùng bình luận */}
-          <Comment />
-        </View>
-      </View>
-      )}
+        )}
       </ScrollView>
-   
-   </SafeAreaView>
-
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -178,7 +244,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 100, height: 1},
     backgroundColor: '#cd853f',
   },
-
 
   categoriesListContainer: {
     paddingVertical: 5,
