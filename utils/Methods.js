@@ -13,6 +13,23 @@ export const isValidEmail = value => {
   const regx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   return regx.test(value);
 };
+
+export const formatDate = date => {
+  var date = new Date(date);
+  var dateStr =
+    ('00' + (date.getMonth() + 1)).slice(-2) +
+    '/' +
+    ('00' + date.getDate()).slice(-2) +
+    '/' +
+    date.getFullYear() +
+    ' ' +
+    ('00' + date.getHours()).slice(-2) +
+    ':' +
+    ('00' + date.getMinutes()).slice(-2) +
+    ':' +
+    ('00' + date.getSeconds()).slice(-2);
+  return dateStr;
+};
 export function nonAccentVietnamese(str) {
   str = str.toLowerCase();
   //     We can also use this instead of from line 11 to line 17

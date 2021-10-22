@@ -14,6 +14,8 @@ import {datauser} from '../../assets/data/ItemUserComment';
 import Star from '../../components/ProductMenu/Star';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoaderComment from '../../components/Home/Loader/LoaderComment';
+import {formatDate} from '../../utils/Methods';
+
 const listTab = [
   {
     name: <Icon name="star" color="orange" size={20} />,
@@ -95,7 +97,7 @@ const Comment = ({reviews}) => {
         <View style={styles.content}>
           <View style={styles.contentHeader}>
             <Text style={styles.name}>{item.UserId.fullname}</Text>
-            <Text style={styles.time}>{item.DateCreated}</Text>
+            <Text style={styles.time}>{formatDate(item.DateCreated)}</Text>
           </View>
           <View style={styles.rate}>
             <Star ratings={item.RatingValue} reviews={15} />
