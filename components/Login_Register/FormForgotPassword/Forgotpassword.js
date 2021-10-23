@@ -1,11 +1,20 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, TextInput } from 'react-native';
+import { 
+    StyleSheet, 
+    View, 
+    Text, 
+    Dimensions, 
+    TextInput, 
+    TouchableOpacity 
+} from 'react-native';
 
-const Forgotpassword = ({ forgotPass }) => {
+const Forgotpassword = ({ forgotPass, onPress }) => {
     return (
         <>
             <View style={styles.container}>
-                <Text style={styles.forgotPass }>{forgotPass}</Text>
+                <TouchableOpacity onPress={onPress}>
+                    <Text style={styles.forgotPass}>{forgotPass}</Text>
+                </TouchableOpacity>
             </View>
         </>
     );
@@ -15,7 +24,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
     },
-    forgotPass : {
+    forgotPass: {
         fontSize: 18,
         color: '#000',
     },

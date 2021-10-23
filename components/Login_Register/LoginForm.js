@@ -67,10 +67,14 @@ const LoginForm = ({ navigation }) => {
         setLoginPending(false)
     };
 
-
     const submitSMS = () => {
         navigation.navigate('SMS');
     }
+
+    const ResetPassword = () => {
+        navigation.navigate('ResetPassword');
+    }
+
 
     const handleOnChangeText = (value, fieldName) => {
         setUserInfo({ ...userInfo, [fieldName]: value });
@@ -158,7 +162,7 @@ const LoginForm = ({ navigation }) => {
                 />
             </Dialog.Container>
 
-            <Forgotpassword forgotPass="Quên mật khẩu?" />
+            <Forgotpassword forgotPass="Quên mật khẩu?" onPress={ResetPassword} />
 
             {/* //Set onPress form FormSMS */}
             <FormSMS SMS="Đăng nhập bằng SMS" onPress={submitSMS} />

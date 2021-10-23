@@ -14,6 +14,7 @@ import PurchaseOrder from '../../Screens/User/PurchaseOrder/PurchaseOrder';
 import SuccessScreen from '../../Screens/User/Register/SuccessScreen';
 import InfomationArtWear from '../../Screens/Profile/InfomationArtWear';
 import InfomationScreen from '../../Screens/Profile/InfomationScreen';
+import ResetPassword from '../../Screens/User/ResetPassword/ResetPassword';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,27 @@ const UserNavigator = () => {
                         borderColor: '#F5F5F5',
                         borderWidth: 1
                     },
+                }}
+            />
+            <Stack.Screen
+                name="ResetPassword"
+                component={ResetPassword}
+                options={{
+                    // headerShown: false,
+                    title: 'Quên mật khẩu',
+                    headerStyle: {
+                        backgroundColor: '#FFFCF2',
+                        borderBottomColor: '#C0C0C0',
+                        borderBottomWidth: 0.2,
+                    },
+                    headerTitleStyle: {
+                        textAlign: 'center',
+                        alignSelf: 'center',
+                        fontSize: 21,
+                        fontWeight: 'bold',
+                    },
+                    headerTitleAlign: 'center',
+
                 }}
             />
             <Stack.Screen

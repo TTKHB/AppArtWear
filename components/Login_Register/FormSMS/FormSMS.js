@@ -1,14 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, TextInput } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Dimensions,
+    TextInput,
+    TouchableOpacity
+}
+from 'react-native';
 
 const FormSMS = ({ SMS, about, onPress }) => {
     return (
         <>
             <View style={styles.container}>
-                <Text style={styles.SMS}
-                    //Call onPress
-                    onPress={onPress}>{SMS}
-                </Text>
+                <TouchableOpacity onPress={onPress}>
+                    <Text style={styles.SMS}>{SMS}</Text>
+                </TouchableOpacity>
             </View>
             <Text style={styles.about}>{about}</Text>
         </>

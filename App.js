@@ -1,6 +1,5 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-
 import LoginProvider from './Context/LoginProvider';
 import StackScreen from './Navigator/ScreenNavigator/StackScreen';
 const App = () => {
@@ -10,7 +9,6 @@ const App = () => {
         <StackScreen/>
       </NavigationContainer>
     </LoginProvider>
-
   );
 };
 
