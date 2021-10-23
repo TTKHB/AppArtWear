@@ -134,12 +134,12 @@ const ProductFoundScreen = ({navigation, route}) => {
   //render item
   const renderItemGrid = ({item}) => (
     <ScrollView>
-      <ItemGrid item={item} styles={styles} />
+      <ItemGrid navigation={navigation} item={item} styles={styles} />
     </ScrollView>
   );
   const renderItemList = ({item}) => (
     <ScrollView>
-      <ItemList item={item} />
+      <ItemList navigation={navigation} item={item} />
     </ScrollView>
   );
 

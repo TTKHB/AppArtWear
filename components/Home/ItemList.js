@@ -1,9 +1,15 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 
-const ItemList = ({item}) => {
+const ItemList = ({item, navigation}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('HomeNavigator', {
+          screen: 'Product Detail',
+          params: {id: item._id},
+        });
+      }}>
       <View
         style={{
           flex: 1,

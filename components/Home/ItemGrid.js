@@ -1,9 +1,15 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 
-const ItemGrid = ({item, styles}) => {
+const ItemGrid = ({item, styles, navigation}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('HomeNavigator', {
+          screen: 'Product Detail',
+          params: {id: item._id},
+        });
+      }}>
       <View style={styles.itemStyleTwoColumn}>
         <Image
           style={styles.tinyLogo}
