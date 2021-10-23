@@ -3,7 +3,16 @@ import {View, Text} from 'react-native';
 import axios from 'axios';
 import baseURL from './../../assets/common/baseUrl';
 
+/**
+ * lấy tất cả review có cùng id sản phẩm
+ * @param {*} product_id
+ * @returns object reviewsStatistics
+ */
 const useReviewByProductId = (product_id = '') => {
+  console.log(
+    '🚀 ~ file: useReviewByProductId.js ~ line 12 ~ useReviewByProductId ~ product_id',
+    product_id,
+  );
   const [reviews, setReviews] = React.useState([]);
 
   React.useEffect(async () => {

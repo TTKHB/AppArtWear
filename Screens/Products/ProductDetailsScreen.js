@@ -33,25 +33,47 @@ import {List} from 'react-native-paper';
 import Ship from '../../components/Checkout/Ship';
 import {datauser} from '../../assets/data/ItemUserComment';
 import LoaderProductDetail from '../../components/Home/Loader/LoaderProductDetail';
+import useReviewByProductId from './../../hooks/Reviews/useReviewByProductId';
+import {formatDate} from '../../utils/Methods';
+import useReviewStatistic from './../../hooks/Reviews/useReviewStatistic';
+import {rate, average} from 'average-rating';
 
-//  detail
+/**
+ *
+ * @param {id as product_id} param
+ */
 const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
+  const id = route.params.id;
+
   const renderItemComment = ({item, index}) => {
-    return (
-      <View style={styles.container1}>
-        <Image style={styles.image_user} source={{uri: item.image}} />
-        <View style={styles.content}>
-          <View style={styles.contentHeader}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.time}>9:58 am</Text>
-          </View>
-          <View style={styles.rate}>
-            <Star ratings={4} reviews={4} />
-          </View>
-          <Text>{item.comment}</Text>
-        </View>
-      </View>
+    console.log(
+      '🚀 ~ file: ProductDetailsScreen.js ~ line 46 ~ renderItemComment ~ item',
+      item,
     );
+    if (item.UserId) {
+      return (
+        <View style={styles.container1}>
+          <Image
+            style={styles.image_user}
+            source={{
+              uri: item.UserId
+                ? item.UserId.avatar
+                : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg',
+            }}
+          />
+          <View style={styles.content}>
+            <View style={styles.contentHeader}>
+              <Text style={styles.name}>{item.UserId.fullname}</Text>
+              <Text style={styles.time}>{formatDate(item.DateCreated)}</Text>
+            </View>
+            <View style={styles.rate}>
+              <Star ratings={item.RatingValue} reviews={item.RatingValue} />
+            </View>
+            <Text>{item.Review}</Text>
+          </View>
+        </View>
+      );
+    }
   };
   const renderPagination = (index, total, context) => {
     console.log(
@@ -66,7 +88,6 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
       </View>
     );
   };
-  const id = route.params.id;
   LogBox.ignoreAllLogs();
   Animated.timing(new Animated.Value(0), {
     toValue: 1,
@@ -93,26 +114,68 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
     details,
   );
   const [expanded, setExpanded] = React.useState(true);
+
   const handlePress = () => setExpanded(!expanded);
   const [loading, setLoading] = useState(true);
   const [checkboxColor, setCheckboxColor] = React.useState('');
   const [imagesFilter, setImagesFilter] = React.useState([]);
   const [images, setImages] = React.useState([]);
   const [colors, setColors] = React.useState([]);
-  console.log(
-    '🚀 ~ file: ProductDetailsScreen.js ~ line 118 ~ ProductDetailsScreen ~ colors',
-    colors,
-  );
+  const {reviewsOfProduct} = useReviewByProductId(id);
+  const {reviewsStatistics} = useReviewStatistic(id);
+  const [dataReviewOfProduct, setDataReviewOfProduct] = React.useState([]);
+  const [totalReviewOfProduct, setTotalReviewOfProduct] = React.useState(0);
+  const [NumRating, setNumRating] = useState(0);
 
   console.log(
-    '🚀 ~ file: ProductDetailsScreen.js ~ line 93 ~ ProductDetailsScreen ~ checkboxColor',
-    checkboxColor,
+    '🚀 ~ file: ProductDetailsScreen.js ~ line 109 ~ ProductDetailsScreen ~ reviewsStatistics',
+    reviewsOfProduct,
   );
 
   const selectedColor = (index, color) => {
     setCheckboxColor(color);
   };
 
+  //lắng nghe khi có reviewsOfProduct và set reviewsOfProduct
+  useEffect(() => {
+    const dataSlice = reviewsOfProduct.slice(0, 4);
+    setTotalReviewOfProduct(reviewsOfProduct.length);
+    setDataReviewOfProduct(dataSlice);
+
+    const totalReviews = reviewsOfProduct.length;
+    if (typeof reviewsStatistics !== 'undefined') {
+      if (totalReviews != 0) {
+        let countOneStar = Math.round(
+          (reviewsStatistics.NumStar1 / totalReviews) * 100,
+        );
+        let countTwoStar = Math.round(
+          (reviewsStatistics.NumStar2 / totalReviews) * 100,
+        );
+        let countThreeStar = Math.round(
+          (reviewsStatistics.NumStar3 / totalReviews) * 100,
+        );
+        let countFourStar = Math.round(
+          (reviewsStatistics.NumStar4 / totalReviews) * 100,
+        );
+        let countFiveStar = Math.round(
+          (reviewsStatistics.NumStar5 / totalReviews) * 100,
+        );
+
+        const rating = [
+          countOneStar,
+          countTwoStar,
+          countThreeStar,
+          countFourStar,
+          countFiveStar,
+        ];
+        let NumRating = average(rating);
+
+        setNumRating(NumRating);
+      }
+    }
+  }, [reviewsOfProduct, reviewsStatistics]);
+
+  //fetch colors
   useEffect(() => {
     let color = [];
     if (images) {
@@ -120,10 +183,13 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
         color.push(item.mau);
       });
       setColors([...color]);
+
+      //default value first color
       setCheckboxColor(color[0]);
     }
   }, [images]);
 
+  //lắng nghe khi chọn màu nó sẽ filter ảnh có value là màu
   useEffect(() => {
     if (images) {
       const indexOfColor = images.findIndex(item => {
@@ -327,15 +393,17 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                           fullStarColor={'orange'}
                           starSize={13}></StarRating>
                         <Text style={{left: 4, fontSize: 13, color: 'red'}}>
-                          4.7/5
+                          {NumRating}/5
                         </Text>
-                        <Text style={styles.score}>(5 đánh giá)</Text>
+                        <Text style={styles.score}>
+                          ({totalReviewOfProduct} đánh giá)
+                        </Text>
                       </View>
 
                       {/* Bình luận user*/}
                       <ScrollView showsVerticalScrollIndicator={false} vertical>
                         <FlatList
-                          data={datauser}
+                          data={dataReviewOfProduct}
                           keyExtractor={item => item.id}
                           renderItem={renderItemComment}
                         />
