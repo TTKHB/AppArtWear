@@ -60,65 +60,56 @@ const StarRating = ({navigation, route}) => {
   const {reviewsOfProduct} = useReviewByProductId(product_id);
   const {reviewsStatistics} = useReviewStatistic(product_id);
   const [rating, setRating] = useState(0);
-  console.log(
-    '🚀 ~ file: StarRating.js ~ line 62 ~ StarRating ~ rating',
-    rating,
-  );
+  const [loading, setLoading] = useState(false);
+  const [countOneStar, setcountOneStar] = useState(0);
+  const [countTwoStar, setcountTwoStar] = useState(0);
+  const [countThreeStar, setcountThreeStar] = useState(0);
+  const [countFourStar, setcountFourStar] = useState(0);
+  const [countFiveStar, setcountFiveStar] = useState(0);
+  const [NumRating, setNumRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
 
-  // const [countOneStar, setcountOneStar] = useState('');
-  // const [countTwoStar, setcountTwoStar] = useState('');
-  // const [countThreeStar, setcountThreeStar] = useState('');
-  // const [countFourStar, setcountFourStar] = useState('');
-  // const [countFiveStar, setcountFiveStar] = useState('');
-
-  let totalReviews = 0;
-  let countOneStar = 0;
-  let countTwoStar = 0;
-  let countThreeStar = 0;
-  let countFourStar = 0;
-  let countFiveStar = 0;
-  let NumRating = 0;
-
-  //handle count star 1->5
-  if (typeof reviewsStatistics !== 'undefined') {
-    console.log(
-      '🚀 ~ file: StarRating.js ~ line 77 ~ StarRating ~ reviewsStatistics',
-      reviewsStatistics,
-    );
-    totalReviews = reviewsOfProduct.length;
-    if (totalReviews != 0) {
-      countOneStar = Math.round(
-        (reviewsStatistics.NumStar1 / totalReviews) * 100,
-      );
-      countTwoStar = Math.round(
-        (reviewsStatistics.NumStar2 / totalReviews) * 100,
-      );
-      countThreeStar = Math.round(
-        (reviewsStatistics.NumStar3 / totalReviews) * 100,
-      );
-      countFourStar = Math.round(
-        (reviewsStatistics.NumStar4 / totalReviews) * 100,
-      );
-      countFiveStar = Math.round(
-        (reviewsStatistics.NumStar5 / totalReviews) * 100,
-      );
-      const rating = [
-        countOneStar,
-        countTwoStar,
-        countThreeStar,
-        countFourStar,
-        countFiveStar,
-      ];
-      NumRating = average(rating);
-    }
-  }
-
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (loading) {
-      setLoading(false);
+    setLoading(true);
+    if (typeof reviewsStatistics !== 'undefined') {
+      const totalReviews = reviewsOfProduct.length;
+
+      if (totalReviews != 0) {
+        let countOneStar = Math.round(
+          (reviewsStatistics.NumStar1 / totalReviews) * 100,
+        );
+        let countTwoStar = Math.round(
+          (reviewsStatistics.NumStar2 / totalReviews) * 100,
+        );
+        let countThreeStar = Math.round(
+          (reviewsStatistics.NumStar3 / totalReviews) * 100,
+        );
+        let countFourStar = Math.round(
+          (reviewsStatistics.NumStar4 / totalReviews) * 100,
+        );
+        let countFiveStar = Math.round(
+          (reviewsStatistics.NumStar5 / totalReviews) * 100,
+        );
+        const rating = [
+          countOneStar,
+          countTwoStar,
+          countThreeStar,
+          countFourStar,
+          countFiveStar,
+        ];
+        let NumRating = average(rating);
+        setcountOneStar(countOneStar);
+        setcountTwoStar(countTwoStar);
+        setcountThreeStar(countThreeStar);
+        setcountFourStar(countFourStar);
+        setcountFiveStar(countFiveStar);
+        setNumRating(NumRating);
+        setTotalReviews(totalReviews);
+        setLoading(false);
+      }
     }
-  });
+  }, [reviewsStatistics]);
+
   return (
     <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false}>

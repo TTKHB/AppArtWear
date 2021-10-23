@@ -88,24 +88,34 @@ const Comment = ({reviews}) => {
   }, [status]);
 
   const renderItemComment = ({item, index}) => {
-    if (item.UserId == null) {
-      console.trace('ERROR:userid null', item.UserId);
-    }
-    return (
-      <View style={styles.container1}>
-        <Image style={styles.image} source={{uri: item.UserId.avatar}} />
-        <View style={styles.content}>
-          <View style={styles.contentHeader}>
-            <Text style={styles.name}>{item.UserId.fullname}</Text>
-            <Text style={styles.time}>{formatDate(item.DateCreated)}</Text>
-          </View>
-          <View style={styles.rate}>
-            <Star ratings={item.RatingValue} reviews={15} />
-          </View>
-          <Text>{item.Review}</Text>
-        </View>
-      </View>
+    console.log(
+      '🚀 ~ file: Comment.js ~ line 91 ~ renderItemComment ~ item',
+      item,
     );
+    if (item.UserId) {
+      return (
+        <View style={styles.container1}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: item.UserId
+                ? item.UserId.avatar
+                : 'https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty-300x240.jpg',
+            }}
+          />
+          <View style={styles.content}>
+            <View style={styles.contentHeader}>
+              <Text style={styles.name}>{item.UserId.fullname}</Text>
+              <Text style={styles.time}>{formatDate(item.DateCreated)}</Text>
+            </View>
+            <View style={styles.rate}>
+              <Star ratings={item.RatingValue} reviews={15} />
+            </View>
+            <Text>{item.Review}</Text>
+          </View>
+        </View>
+      );
+    }
   };
 
   return (
