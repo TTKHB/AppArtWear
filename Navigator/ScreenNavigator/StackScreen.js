@@ -15,6 +15,7 @@ import IconSearch from 'react-native-vector-icons/Octicons';
 import IconNotification from 'react-native-vector-icons/AntDesign';
 import DrawerNavigator from '../DrawerNavigator';
 import DetailMenu from '../../Screens/Menu/DetailMenu';
+import TabView from '../TabView';
 
 const Stack = createStackNavigator();
 
@@ -54,12 +55,31 @@ const StackScreen = () => {
             <Stack.Screen
                 name="DetailMenu"
                 component={DetailMenu}
-                options={{ 
+                options={{
                     headerBackTitleVisible: false,
-                    title:null,
+                    title: null,
                     headerTransparent: true,
                     headerTintColor: '#fff',
-                    headerTitle:false,                   
+                    headerTitle: false,
+                }}
+            />
+            <Stack.Screen
+                name="TabView"
+                component={TabView}
+                options={{
+                    title: 'Đơn hàng của tôi',
+                    headerStyle: {
+                        backgroundColor: 'white',
+                        borderColor: '#F5F5F5',
+                    },
+                    headerTintColor: 'black',
+                    headerTitleStyle: {
+                        alignSelf: 'center',
+                        fontSize: 24,
+                        fontWeight: 'bold',
+                        color: 'black',
+                    },
+                    headerTitleAlign: 'center',
                 }}
             />
         </Stack.Navigator>

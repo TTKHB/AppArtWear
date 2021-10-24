@@ -88,7 +88,7 @@ const ProfileHaveAccount = ({ navigation, route }) => {
         <View style={styles.content}>
           {/* Đơn hàng của tôi */}
           <ProfileItem icon="form-select" name="Đơn hàng của tôi" iconright="angle-right"
-          //  onPress={MyOrDer} 
+           onPress={() => navigation.navigate('TabView')}
           />
           {/* Line gạch ngang */}
           <View style={styles.divider} />
