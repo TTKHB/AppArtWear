@@ -96,18 +96,22 @@ const ProfileHaveAccount = ({ navigation, route }) => {
             {/* Chờ thanh toán */}
             <FormOrder icon="wallet"
               name={`Chờ thanh \n     toán`}
+              onPress={() => navigation.navigate('TabView', { screen: 'Chờ thanh toán' })}
             />
             {/* Xử lý hàng */}
             <FormOrder icon="cube-outline"
               name={`Xử lý hàng`}
+              onPress={() => navigation.navigate('TabView', { screen: 'Xử lý hàng' })}
             />
             {/* Đang vận chuyển */}
             <FormOrder icon="truck-fast-outline"
               name={` Đang vận \n   chuyển`}
+              onPress={() => navigation.navigate('TabView', { screen: 'Đang vận chuyển' })}
             />
             {/* Đánh giá */}
             <FormOrder icon="emoticon-excited-outline"
               name={` Đánh giá`}
+              onPress={() => navigation.navigate('TabView', { screen: 'Đánh giá' })}
             />
           </View>
         </View>

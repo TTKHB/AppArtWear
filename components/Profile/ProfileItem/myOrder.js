@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const myOrder = ({ icon, name, onPress, iconright }) => (
-  <View style={styles.itemContainer}>
+const myOrder = ({ icon, name, onPress, iconrights }) => (
+  <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
     <Icon style={styles.icon} name={icon} size={30} color="#8D6E63" />
     <Text style={styles.itemText}>{name}</Text>
-  </View>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
