@@ -5,6 +5,7 @@ import WaitPayment from '../Screens/User/PurchaseOrder/WaitPayment';
 import HandleProduct from '../Screens/User/PurchaseOrder/HandleProduct';
 import TransPort from '../Screens/User/PurchaseOrder/TransPort';
 import StarRatingOrder from '../Screens/User/PurchaseOrder/StarRatingOrder';
+import CancelOrder from '../Screens/User/PurchaseOrder/CancelOrder';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -16,10 +17,9 @@ const TabView = () => {
                 tabBarActiveTintColor: 'brown',
                 tabBarStyle: {
                     height: 60,
-
                 },
                 tabBarLabelStyle: {
-                    fontSize: 15,
+                    fontSize: 18,
                     margin: 0,
                     fontWeight: 'bold',
                 },
@@ -27,14 +27,18 @@ const TabView = () => {
                 tabBarInactiveTintColor: 'black',
                 // khi bam vao text hien khung mau
                 tabBarPressColor: 'brown',
+                // Hỗ trợ scroll trượt
+                tabBarScrollEnabled: true,
+                 // Màu bottom line của tabview
+                tabBarIndicatorStyle:{
+                    backgroundColor:"brown",
+                    height:4,
+                }
             }}
         >
             <Tab.Screen
-                options={{
-                }}
                 component={WaitPayment}
                 name='Chờ thanh toán'
-
             />
             <Tab.Screen
                 component={HandleProduct}
@@ -47,6 +51,10 @@ const TabView = () => {
             <Tab.Screen
                 component={StarRatingOrder}
                 name='Đánh giá'
+            />
+            <Tab.Screen
+                component={CancelOrder}
+                name='Huỷ đơn hàng'
             />
         </Tab.Navigator>
     );
