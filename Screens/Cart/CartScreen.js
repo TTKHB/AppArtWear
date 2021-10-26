@@ -1,5 +1,14 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Image
+}
+  from 'react-native';
 import CheckOutItem from '../../components/Checkout/CheckOutItem';
 import MyCheckOut from '../../components/Checkout/myCheckOut';
 const artwear = require('../../assets/images/dragon.png');
@@ -19,15 +28,11 @@ export const nu5 = require('../../assets/images/Ao2.jpg');
 export const nu6 = require('../../assets/images/Ao3.jpg');
 export const nu7 = require('../../assets/images/aothun1.jpg');
 
-const product = [
-  {
-    id: 1,
-    image: nu3,
-    name: 'Trần Ngọc Tuyền Girl 2003',
-    price: '184.000đ',
-  },
 
-];
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import baseURL from '../../assets/common/baseUrl';
+import { useLogin } from '../../Context/LoginProvider';
 const sanpham = [
   {
     id: 1,
@@ -55,21 +60,43 @@ const sanpham = [
   },
 ];
 const CartScreen = ({ navigation }) => {
-  renderItem = ({ item }) => {
+  const { isLoggedIn, profile } = useLogin();
+  const [cartList, setcartList] = useState([]);
+  useFocusEffect(
+    useCallback(() => {
+      // Products
+      axios
+        .get(`${baseURL}carts/user/` + profile._id)
+        .then(res => {
+          setcartList(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        setcartList([]);
+      };
+    }, []),
+  );
+
+  const renderItem = ({ item }) => {
     return (
       <View
         style={{
           alignItems: 'center',
+          backgroundColor: 'white',
+          padding: 10
         }}
       >
-        <View
+        <TouchableOpacity
           style={{
-            width: '95%',
-            backgroundColor: 'white',
+            width: '100%',
+            backgroundColor: '#FFFCF2',
             height: 120,
-            marginTop: 10,
             alignContent: 'center',
             flexDirection: 'row',
+            elevation: 3
           }}
         >
           <View
@@ -84,7 +111,8 @@ const CartScreen = ({ navigation }) => {
                 width: 100,
                 height: 100,
               }}
-              source={item.image}
+              // source={item.image}
+              source={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
             />
           </View>
 
@@ -97,10 +125,11 @@ const CartScreen = ({ navigation }) => {
           >
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 24,
+                fontWeight: 'bold'
               }}
             >
-              {item.name}
+              {item.product_id ? item.product_id.ten : ' '}
             </Text>
             <Text
               style={{
@@ -109,108 +138,17 @@ const CartScreen = ({ navigation }) => {
                 fontWeight: 'bold',
               }}
             >
-              {item.price}
+              {item.product_id ? item.product_id.gia : ' '} VNĐ
             </Text>
           </View>
-
-          {/* Size */}
-          <View
-            style={{
-              marginTop: 75,
-              marginLeft: -207,
-              flexDirection: 'row',
-            }}
-          >
-            {/* Text Size */}
-            <TouchableOpacity
-              style={{
-                width: 50,
-                backgroundColor: '#FFFCF2',
-                height: 35,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 0.2
-              }}
-            >
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                }}
-              >
-                Size
-              </Text>
-            </TouchableOpacity>
-
-            {/* + - */}
-            <View
-              style={{
-                width: 120,
-                backgroundColor: '#FFFCF2',
-                height: 35,
-                marginLeft: 160,
-                borderRadius: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              {/* - */}
-              <TouchableOpacity style={{
-                width: 35,
-                height: 35,
-                borderBottomLeftRadius: 20,
-                borderTopLeftRadius: 20,
-                backgroundColor: '#FFFCF2',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 0.2
-              }}>
-                <Text style={{
-                  fontSize: 24,
-                  fontWeight: 'bold'
-                }}>-</Text>
-              </TouchableOpacity>
-
-              {/* 1 */}
-              <View style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 50,
-                height: 35,
-                backgroundColor: '#FFFCF2',
-                borderWidth: 0.2
-              }}>
-                <Text style={{
-                  fontSize: 20
-                }}>1</Text>
-              </View>
-
-              {/* + */}
-              <TouchableOpacity style={{
-                width: 35,
-                height: 35,
-                backgroundColor: '#FFFCF2',
-                borderBottomRightRadius: 20,
-                borderTopRightRadius: 20,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 0.2
-              }}>
-                <Text style={{
-                  fontSize: 24,
-                  fontWeight: 'bold'
-                }}>+</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+        </TouchableOpacity>
       </View>
     );
   };
   renderSanpham = ({ item }) => {
     return (
       <View style={{
-        marginTop: 10
+        marginTop: 10,
       }}>
         <TouchableOpacity style={{
           width: 150,
@@ -244,35 +182,48 @@ const CartScreen = ({ navigation }) => {
         color="#00008B"
         name="Mua thêm để tận hưởng vận chuyển miễn phí"
         iconright="angle-right" />
-      <View style={styles.content}>
-        {/* Sản phẩm thanh toán của tôi */}
-        <MyCheckOut icon="shop" name="Art Wear" />
-        {/* View san pham */}
-        <View>
-          <FlatList
-            data={product}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
+      <ScrollView>
+        <View style={styles.content}>
+          {/* Sản phẩm thanh toán của tôi */}
+          <MyCheckOut icon="shop" name="Art Wear" />
+          {/* View san pham */}
+          <View style={{
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 10,
+            elevation: 2
+          }}>
+            <FlatList
+              data={cartList}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+            />
+          </View>
+          {/* View san pham goi ý*/}
+          <View style={{
+            backgroundColor: 'white',
+            padding: 10,
+            marginTop: 15,
+            elevation: 2
+          }}>
+            {/* Line gạch ngang */}
+            <View style={styles.divider} />
+            <Text style={{
+              textAlign: 'center',
+              fontSize: 18,
+              fontWeight: 'bold'
+            }}>
+              Sản phẩm có thể bạn đang tìm kiếm
+            </Text>
+            <FlatList
+              data={sanpham}
+              renderItem={renderSanpham}
+              keyExtractor={item => item.id}
+              horizontal
+            />
+          </View>
         </View>
-        {/* View san pham goi ý*/}
-        <View style={{
-          marginHorizontal: 10,
-          marginLeft: 10,
-          backgroundColor: 'white',
-          padding: 10
-        }}>
-          {/* Line gạch ngang */}
-          <View style={styles.divider} />
-          <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Sản phẩm có thể bạn đang tìm kiếm</Text>
-          <FlatList
-            data={sanpham}
-            renderItem={renderSanpham}
-            keyExtractor={item => item.id}
-            horizontal
-          />
-        </View>
-      </View>
+      </ScrollView>
       {/*Footer Button Xác nhận thanh toán ngay bây giờ */}
       <View style={styles.footer}>
         <View>

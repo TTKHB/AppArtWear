@@ -24,9 +24,11 @@ import IconBack from 'react-native-vector-icons/Ionicons';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Dialog from "react-native-dialog";
+
 const { height, width } = Dimensions.get('window');
 
 const LoginForm = ({ navigation }) => {
+     
     const { setIsLoggedIn, setProfile, setLoginPending } = useLogin();
     const [userInfo, setUserInfo] = useState({
         email: '',
@@ -105,7 +107,6 @@ const LoginForm = ({ navigation }) => {
     const handleContinue = () => {
         setVisible(false);
     };
-
 
     return (
         //FormContainer bao bọc toàn bộ các form con bên trong

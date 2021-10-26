@@ -46,6 +46,7 @@
     "react-native-linear-gradient": "^2.5.6",
     "react-native-material-menu": "^2.0.0",
     "react-native-modal": "^13.0.0",
+    "react-native-numeric-input": "^1.9.0",
     "react-native-pager-view": "^5.4.7",
     "react-native-paper": "^4.9.2",
     "react-native-reanimated": "^2.2.0",

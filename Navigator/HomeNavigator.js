@@ -13,15 +13,12 @@ import IconSearch from 'react-native-vector-icons/Octicons';
 import IconNotification from 'react-native-vector-icons/AntDesign';
 import Notification from '../Screens/Notification/Notification';
 import MenuSearchHangDau from '../Screens/Products/MenuSearchHangDau';
-
 import MenuFlashSale from '../Screens/Products/MenuFlashSaleScreen';
 import MenuSearchPhoBien from '../Screens/Products/MenuSearchPhoBien';
 /**
  * Muốn thêm màn hình ở home thì them stack.screen ở dưới
  *
  */
-
-
 
 const HomeNavigator = ({ navigation }) => {
   return (
@@ -58,7 +55,6 @@ const HomeNavigator = ({ navigation }) => {
                   style={{
                     marginRight: 10
                   }}
-
                 />
               </TouchableOpacity>
               <TouchableOpacity>
@@ -85,8 +81,8 @@ const HomeNavigator = ({ navigation }) => {
                   style={{
                     marginRight: 10
                   }}
-        
-                   />
+
+                />
               </TouchableOpacity>
               <TouchableOpacity>
                 <IconCart name="handbag" size={24} />
@@ -119,7 +115,9 @@ const HomeNavigator = ({ navigation }) => {
                     marginRight: 10
                   }} />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
+              >
                 <IconCart name="handbag" size={24} />
               </TouchableOpacity>
             </View>
@@ -269,8 +267,5 @@ const HomeNavigator = ({ navigation }) => {
     </Stack.Navigator>
   );
 };
-// export default function HomeNavigator({navigation}) {
-//   return <MyStack />;
-// }
 
 export default HomeNavigator;

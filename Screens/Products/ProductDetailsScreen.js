@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -15,9 +15,9 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated from 'react-native-reanimated';
 import SearchHangDau from '../../components/Home/SearchHangDau';
 import COLORS from '../../assets/data/colors';
-import {LogBox} from 'react-native';
+import { LogBox } from 'react-native';
 import axios from 'axios';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import Star from '../../components/ProductMenu/Star';
 import {
@@ -25,27 +25,69 @@ import {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
 import RoundedCheckbox from 'react-native-rounded-checkbox';
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 import StarRating from 'react-native-star-rating';
 const MIN_HEIGHT = Platform.OS === 'ios' ? 90 : 55;
 import Swiper from 'react-native-swiper';
-import {List} from 'react-native-paper';
+import { List } from 'react-native-paper';
 import Ship from '../../components/Checkout/Ship';
-import {datauser} from '../../assets/data/ItemUserComment';
+import { datauser } from '../../assets/data/ItemUserComment';
 import LoaderProductDetail from '../../components/Home/Loader/LoaderProductDetail';
 import useReviewByProductId from './../../hooks/Reviews/useReviewByProductId';
-import {formatDate} from '../../utils/Methods';
+import { formatDate } from '../../utils/Methods';
 import useReviewStatistic from './../../hooks/Reviews/useReviewStatistic';
-import {rate, average} from 'average-rating';
-
+import { rate, average } from 'average-rating';
+import { useLogin } from '../../Context/LoginProvider';
+import Dialog from "react-native-dialog";
 /**
  *
  * @param {id as product_id} param
  */
-const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
+const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
+  const { isLoggedIn, profile } = useLogin();
+  //Biến add sp vào giỏ hàng
+  const updateData = async () => {
+    //Nếu khác isLoggedIn từ Authencontext (Tức là chưa có tài khoản)
+    //Phải vào login
+    if (!isLoggedIn) {
+      navigation.navigate('UserNavigator', { screen: 'Login' })
+    }
+    //Ngược lại thêm sp vào giỏ hàng
+    else {
+      fetch(`${baseURL}carts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          amount: '1',
+          product_id: details._id,
+          user_id: profile._id
+
+        })
+      }).then(res => res.json())
+        .then(data => {
+          console.log('is Update successffly!!')
+          //Show dialog thanh cong
+          showDialog();
+        }).catch(err => {
+          console.log("error", err)
+        })
+    }
+  }
+
+  //Diglog onClick
+  const [visible, setVisible] = useState(false);
+  const showDialog = () => {
+    setVisible(true);
+  };
+  const handleContinue = () => {
+    setVisible(false);
+  };
+
   const id = route.params.id;
 
-  const renderItemComment = ({item, index}) => {
+  const renderItemComment = ({ item, index }) => {
     console.log(
       '🚀 ~ file: ProductDetailsScreen.js ~ line 46 ~ renderItemComment ~ item',
       item,
@@ -82,7 +124,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
     );
     return (
       <View style={styles.paginationStyle}>
-        <Text style={{color: 'black', fontSize: 20}}>
+        <Text style={{ color: 'black', fontSize: 20 }}>
           <Text style={styles.paginationText}>{index + 1}</Text>/{total}
         </Text>
       </View>
@@ -121,8 +163,8 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
   const [imagesFilter, setImagesFilter] = React.useState([]);
   const [images, setImages] = React.useState([]);
   const [colors, setColors] = React.useState([]);
-  const {reviewsOfProduct} = useReviewByProductId(id);
-  const {reviewsStatistics} = useReviewStatistic(id);
+  const { reviewsOfProduct } = useReviewByProductId(id);
+  const { reviewsStatistics } = useReviewStatistic(id);
   const [dataReviewOfProduct, setDataReviewOfProduct] = React.useState([]);
   const [totalReviewOfProduct, setTotalReviewOfProduct] = React.useState(0);
   const [NumRating, setNumRating] = useState(0);
@@ -252,7 +294,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
     }, []),
   );
   return (
-    <View style={[styles.container, {backgroundColor: COLORS.white}]}>
+    <View style={[styles.container, { backgroundColor: COLORS.white }]}>
       {loading ? (
         <LoaderProductDetail />
       ) : (
@@ -274,17 +316,37 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                   <View style={styles.slide}>
                     <Image
                       style={styles.image}
-                      source={{uri: image}}
-                      // source={{uri: item.ThumbImg ? item.ThumbImg : null}}
+                      source={{ uri: image }}
+                    // source={{uri: item.ThumbImg ? item.ThumbImg : null}}
                     />
                   </View>
                 );
               })}
             </Swiper>
           )}>
-          <View style={{height: 1300}}>
+          <View style={{ height: 1300 }}>
             <TriggeringView onHide={() => console.log('text hidden')}>
-              <Animated.ScrollView style={{alignSelf: 'stretch'}}>
+              <Animated.ScrollView style={{ alignSelf: 'stretch' }}>
+                {/* Dialog thêm thành công giỏ hàng */}
+                <Dialog.Container
+                  visible={visible}
+                  contentStyle={{ borderRadius: 10, borderColor: 'white', width: width / 1.09 }}>
+                  <Dialog.Title style={{ fontSize: 28, fontWeight: 'bold' }}>
+                    Thêm thành công {" "}
+                    <Image
+                      style={{ height: 25, width: 25 }}
+                      source={require('../../assets/icon/checked.png')}
+                    />
+                  </Dialog.Title>
+                  <Dialog.Description style={{ fontSize: 22, fontWeight: 'bold' }}>
+                    Sản phẩm đã được thêm vào giỏ hàng
+                  </Dialog.Description>
+                  <Dialog.Button
+                    style={{ color: 'brown', fontWeight: 'bold', fontSize: 20 }}
+                    label="Tiếp tục"
+                    onPress={handleContinue}
+                  />
+                </Dialog.Container>
                 {/* Body */}
                 <View style={styles.detailsContainer}>
                   <Text style={styles.nameText}>{details.ten}</Text>
@@ -305,8 +367,8 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                     />
                   </View>
                   <View style={styles.flashing}>
-                    <Text style={{fontWeight: 'bold', fontSize: 20}}>Màu </Text>
-                    <Text style={{fontWeight: 'bold', fontSize: 20, left: -5}}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Màu </Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 20, left: -5 }}>
                       Kích cỡ
                     </Text>
                   </View>
@@ -325,7 +387,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                             isChecked={checkboxColor == color ? true : false}
                             onPress={() => selectedColor(i, color)}
                             unfillColor={color}
-                            iconStyle={{borderColor: 'brown'}}
+                            iconStyle={{ borderColor: 'brown' }}
                             disableBuiltInState={true}
                             fillColor={color}></BouncyCheckbox>
                         );
@@ -349,10 +411,10 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                         fontSize: 20,
                         color: 'black',
                       }}
-                      style={{backgroundColor: 'white'}}
+                      style={{ backgroundColor: 'white' }}
                       title="Mô tả">
                       <View>
-                        <Text style={{fontSize: 18}}>{details.mota}</Text>
+                        <Text style={{ fontSize: 18 }}>{details.mota}</Text>
                       </View>
                     </List.Accordion>
                   </List.Section>
@@ -366,7 +428,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                         fontSize: 20,
                         color: 'black',
                       }}
-                      style={{backgroundColor: 'white'}}
+                      style={{ backgroundColor: 'white' }}
                       title="Đánh giá">
                       <View
                         style={{
@@ -374,7 +436,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                           justifyContent: 'space-between',
                           alignItems: 'center',
                         }}>
-                        <Text style={{fontSize: 18}}>Nhận xét</Text>
+                        <Text style={{ fontSize: 18 }}>Nhận xét</Text>
                         <TouchableOpacity
                           onPress={() => {
                             navigation.navigate('StarRating', {
@@ -392,7 +454,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                           reviews={88}
                           fullStarColor={'orange'}
                           starSize={13}></StarRating>
-                        <Text style={{left: 4, fontSize: 13, color: 'red'}}>
+                        <Text style={{ left: 4, fontSize: 13, color: 'red' }}>
                           {NumRating}/5
                         </Text>
                         <Text style={styles.score}>
@@ -419,7 +481,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                     data={products}
                     horizontal
                     keyExtractor={item => item.id}
-                    renderItem={({item}) => (
+                    renderItem={({ item }) => (
                       <SearchHangDau item={item} navigation={navigation} />
                     )}
                   />
@@ -432,7 +494,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
       {/* Footer */}
       <View style={styles.footerContainer}>
         <TouchableWithoutFeedback onPress={onLikePressed}>
-          <View style={[styles.btnContainer, {marginRight: 10}]}>
+          <View style={[styles.btnContainer, { marginRight: 10 }]}>
             {isLike ? (
               <AntIcon name="heart" size={25} color={'#c30000'} />
             ) : (
@@ -440,7 +502,9 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
             )}
           </View>
         </TouchableWithoutFeedback>
-        <TouchableOpacity style={[styles.btnContainer, {flex: 1}]}>
+        <TouchableOpacity style={[styles.btnContainer, { flex: 1 }]}
+          onPress={updateData}
+        >
           <Text style={styles.btnText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
       </View>
