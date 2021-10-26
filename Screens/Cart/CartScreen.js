@@ -98,6 +98,7 @@ const CartScreen = ({ navigation }) => {
             flexDirection: 'row',
             elevation: 3
           }}
+          key={item.id}
         >
           <View
             style={{
