@@ -6,7 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  Image
+  Image,
+  Alert,
+  Dimensions
 }
   from 'react-native';
 import CheckOutItem from '../../components/Checkout/CheckOutItem';
@@ -28,11 +30,14 @@ export const nu5 = require('../../assets/images/Ao2.jpg');
 export const nu6 = require('../../assets/images/Ao3.jpg');
 export const nu7 = require('../../assets/images/aothun1.jpg');
 
-
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import { useLogin } from '../../Context/LoginProvider';
+
+import Dialog from "react-native-dialog";
+const { height, width } = Dimensions.get('window');
+
 const sanpham = [
   {
     id: 1,
@@ -80,68 +85,77 @@ const CartScreen = ({ navigation }) => {
     }, []),
   );
 
-  const renderItem = ({ item }) => {
-    return (
-      <View
-        style={{
-          alignItems: 'center',
-          backgroundColor: 'white',
-          padding: 10
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            width: '100%',
-            backgroundColor: '#FFFCF2',
-            height: 120,
-            alignContent: 'center',
-            flexDirection: 'row',
-            elevation: 3
-          }}
-          key={item.id}
-        >
-          <View
-            style={{
-              marginTop: 7.5,
-              marginLeft: 7.5,
-            }}
-          >
-            {/* Image */}
-            <Image
-              style={{
-                width: 100,
-                height: 100,
-              }}
-              // source={item.image}
-              source={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
-            />
-          </View>
 
-          {/* Tensp, price */}
-          <View
-            style={{
-              marginLeft: 10,
-              marginTop: 2.5,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: 'bold'
-              }}
-            >
+  //Diglog onClick
+  const [visible, setVisible] = useState(false);
+  const showDialog = () => {
+    setVisible(true);
+  };
+  const handleContinue = () => {
+    setVisible(false);
+  };
+
+
+  const renderItem = ({ item }) => {
+    const showConfirmDialog = () => {
+      return Alert.alert(
+        "Bạn đã chắc chắn?",
+        "Bạn có chắc chắn xoá sản phẩm này chứ?",
+        [
+          {
+            text: "Huỷ",
+          },
+          {
+            text: "Đồng ý",
+            onPress: () => DeleteCart()
+          },
+        ]
+      );
+    };
+
+    const DeleteCart = () => {
+      axios.delete(`${baseURL}carts/` + item._id)
+        .then(function (response) {
+          console.log(response);
+          showDialog()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+    return (
+      <View style={styles.FlatListStyle} key={item._id}>
+        <View style={styles.viewCart}>
+          <Image
+            style={styles.imageCart}
+            source={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
+          />
+          {/* Item name, price,... */}
+          <View style={styles.itemCart}>
+            <Text style={styles.textItemName}>
               {item.product_id ? item.product_id.ten : ' '}
             </Text>
-            <Text
-              style={{
-                fontSize: 18,
-                color: 'red',
-                fontWeight: 'bold',
-              }}
-            >
+            <Text style={styles.textItemPrice}>
               {item.product_id ? item.product_id.gia : ' '} VNĐ
             </Text>
+            {/* + - */}
+            <View style={styles.itemAmount}>
+              <TouchableOpacity>
+                <Text style={styles.textItemAmount}>-</Text>
+              </TouchableOpacity>
+              <Text>{item.amount}</Text>
+              <TouchableOpacity>
+                <Text style={styles.textItemAmount}>+</Text>
+              </TouchableOpacity>
+            </View>
           </View>
+        </View>
+        {/* Delete Cart */}
+        <TouchableOpacity
+          style={styles.btnDeleteCart}
+          onPress={showConfirmDialog}
+        >
+          <Image source={require('../../assets/icon/bin.png')} />
         </TouchableOpacity>
       </View>
     );
@@ -177,6 +191,24 @@ const CartScreen = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
+      {/* Diglog when delete cart success */}
+      <Dialog.Container
+        visible={visible}
+        contentStyle={{ borderRadius: 10, borderColor: 'white', width: width / 1.09 }}>
+        <Dialog.Title style={{ fontSize: 28, fontWeight: 'bold' }}>
+          Xoá thành công {" "}
+          <Image
+            style={{ height: 25, width: 25 }}
+            source={require('../../assets/icon/checked.png')}
+          />
+        </Dialog.Title>
+        <Dialog.Button
+          style={{ color: 'brown', fontWeight: 'bold', fontSize: 20 }}
+          label="Tiếp tục"
+          onPress={handleContinue}
+        />
+      </Dialog.Container>
+
       {/* Thêm địa chỉ*/}
       <CheckOutItem
         icon="truck-outline"
@@ -189,15 +221,30 @@ const CartScreen = ({ navigation }) => {
           <MyCheckOut icon="shop" name="Art Wear" />
           {/* View san pham */}
           <View style={{
-            backgroundColor: 'white',
             padding: 10,
             marginTop: 10,
-            elevation: 2
           }}>
+            {/* Check cart rỗng */}
+            {cartList.length === 0 &&
+              <View style={styles.viewCartEmpty}>
+                <Image
+                  style={styles.imageCartEmpty}
+                  source={require('../../assets/images/Error/ShoppingCart.png')}
+                />
+                <Text style={styles.textCartEmptyOne}>Không có gì trong giỏ hàng</Text>
+                <Text style={styles.textCartEmptyTwo}>Lướt Art Wear và mua sắm nào!</Text>
+                <TouchableOpacity
+                  style={styles.viewShoppingNow}
+                  onPress={() => navigation.navigate('Main')}
+                >
+                  <Text style={styles.textShoppingNow}>Mua sắm nào</Text>
+                </TouchableOpacity>
+              </View>
+            }
             <FlatList
               data={cartList}
               renderItem={renderItem}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item._id}
             />
           </View>
           {/* View san pham goi ý*/}
@@ -240,7 +287,6 @@ const CartScreen = ({ navigation }) => {
           </View>
         </View>
       </View>
-
     </View>
   );
 };
@@ -301,5 +347,92 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
+  viewCartEmpty: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10
+  },
+  imageCartEmpty: {
+    height: 150,
+    width: 150
+  },
+  textCartEmptyOne: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 8
+  },
+  textCartEmptyTwo: {
+    fontSize: 18,
+    color: '#505050',
+    marginTop: 2
+  },
+  viewShoppingNow: {
+    height: 50,
+    width: 150,
+    borderColor: 'red',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  textShoppingNow: {
+    fontWeight: 'bold',
+    fontSize: 20, color: 'red'
+  },
+  FlatListStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    marginBottom: 16,
+    padding: 8,
+    borderRadius: 8,
+    elevation: 2,
+  },
+  viewCart: {
+    flexDirection: 'row'
+  },
+  imageCart: {
+    width: 100,
+    height: 100,
+  },
+  itemCart: {
+    marginLeft: 10
+  },
+  textItemName: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  textItemPrice: {
+    fontSize: 18,
+    color: 'red',
+    fontWeight: 'bold',
+  },
+  itemAmount: {
+    width: 95,
+    height: 30,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    marginTop: 10,
+    elevation: 5
+  },
+  textItemAmount: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  btnDeleteCart: {
+    marginTop: 50,
+    height: 45,
+    width: 45,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10
+  },
+
 })
 export default CartScreen;

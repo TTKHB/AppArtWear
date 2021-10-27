@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
@@ -19,8 +19,31 @@ import MenuSearchPhoBien from '../Screens/Products/MenuSearchPhoBien';
  * Muốn thêm màn hình ở home thì them stack.screen ở dưới
  *
  */
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import baseURL from '../assets/common/baseUrl';
+import { useLogin } from '../Context/LoginProvider';
 
 const HomeNavigator = ({ navigation }) => {
+  const { isLoggedIn, profile } = useLogin();
+  const [cartItems, setCartItems] = useState([]);
+  useFocusEffect(
+    useCallback(() => {
+      // Products
+      axios
+        .get(`${baseURL}carts/user/` + profile._id)
+        .then(res => {
+          setCartItems(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        setCartItems([]);
+      };
+    }, []),
+  );
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -118,7 +141,27 @@ const HomeNavigator = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
               >
-                <IconCart name="handbag" size={24} />
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ marginRight: -8 }}>
+                    <IconCart name="handbag" size={24} />
+                  </View>
+                  <View style={{
+                    backgroundColor: 'red',
+                    height: 20,
+                    width: 20,
+                    borderRadius: 20,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                      {cartItems.length ? (
+                        <Text >{cartItems.length}</Text>
+                      ) : (
+                        <Text>0</Text>
+                      )}
+                    </Text>
+                  </View>
+                </View>
               </TouchableOpacity>
             </View>
           ),
