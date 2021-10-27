@@ -251,7 +251,6 @@ const CartScreen = ({ navigation }) => {
           <View style={{
             backgroundColor: 'white',
             padding: 10,
-            marginTop: 15,
             elevation: 2
           }}>
             {/* Line gạch ngang */}
