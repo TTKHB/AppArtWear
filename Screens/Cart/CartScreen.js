@@ -160,7 +160,7 @@ const CartScreen = ({ navigation }) => {
       </View>
     );
   };
-  renderSanpham = ({ item }) => {
+  const renderSanpham = ({ item }) => {
     return (
       <View style={{
         marginTop: 10,
