@@ -75,6 +75,26 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
         })
     }
   }
+  //updataFavorite
+  
+  const UpdateFavorite =()=>{
+    if(!isLoggedIn){
+     navigation.navigate('UserNavigator', { screen: 'Login' })
+    }else{
+          axios.post(`${baseURL}favorite`, {
+            product_id:id,
+            user_id:profile._id,
+            isFavorite:likeCount
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
+   }
+
 
   //Diglog onClick
   const [visible, setVisible] = useState(false);
@@ -493,7 +513,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
       )}
       {/* Footer */}
       <View style={styles.footerContainer}>
-        <TouchableWithoutFeedback onPress={onLikePressed}>
+      <TouchableWithoutFeedback onPress={()=>{onLikePressed();UpdateFavorite()}} >
           <View style={[styles.btnContainer, { marginRight: 10 }]}>
             {isLike ? (
               <AntIcon name="heart" size={25} color={'#c30000'} />

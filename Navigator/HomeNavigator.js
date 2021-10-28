@@ -97,7 +97,7 @@ const HomeNavigator = ({ navigation }) => {
                 flexDirection: 'row',
                 marginRight: 10
               }}>
-              <TouchableOpacity>
+              <TouchableOpacity   onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}>
                 <IconFavorite
                   name="favorite-outline"
                   size={28}
@@ -130,10 +130,11 @@ const HomeNavigator = ({ navigation }) => {
                 flexDirection: 'row',
                 marginRight: 10
               }}>
-              <TouchableOpacity>
+              <TouchableOpacity >
                 <IconFavorite
                   name="favorite-outline"
                   size={28}
+        
                   style={{
                     marginRight: 10
                   }} />

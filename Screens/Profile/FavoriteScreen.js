@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,29 +9,48 @@ import {
   FlatList,
   Image,
   Dimensions,
+  Alert,
 } from 'react-native';
 import Star from '../../components/ProductMenu/Star';
 import LoaderFavorite from '../../components/Home/Loader/LoaderFavorite';
 import IconSearch from 'react-native-vector-icons/Ionicons';
-
 import IconBack from 'react-native-vector-icons/Ionicons';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
-import IconFilter from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {clothes} from '../../assets/data/products';
 import COLORS from '../../assets/data/colors';
-
+import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
+import baseURL from '../../assets/common/baseUrl';
 import {DATA} from '../../assets/data/PopularSearch';
-import {List} from 'react-native-paper';
+import {useLogin} from '../../Context/LoginProvider';
 const {height, width} = Dimensions.get('window');
 const numColumns = 2;
 const FavoriteScreen = ({navigation, i}) => {
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    if (loading) {
-      setLoading(false);
-    }
-  });
+  const [favorite,setFavorite] = useState([]);
+  const { profile } = useLogin();  
+  useFocusEffect(
+    useCallback(() => {
+      axios
+        .get(`${baseURL}favorite/user/`+profile._id )
+        .then(res => {
+          
+          setFavorite(res.data);
+          console.log(res)
+          if (loading) {
+            setLoading(false);
+          }
+          console.log('a:',res.data)
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+      return () => {
+        setFavorite([]);
+      };
+    }, []),
+  );
+
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('DetailMenu')}>
@@ -52,7 +71,6 @@ const FavoriteScreen = ({navigation, i}) => {
             <View style={styles.rate}>
               <Star ratings={4} reviews={100} />
             </View>
-
             <Text style={{fontSize: 16, color: 'red'}}>{item.price}</Text>
           </View>
         </View>
@@ -60,19 +78,44 @@ const FavoriteScreen = ({navigation, i}) => {
     );
   };
   const renderItemFavorite = ({item, index}) => {
+  const DeleteFavorite = () => {
+    axios.delete(`${baseURL}favorite/`+item._id)
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+  const AlertFavorite = (item) =>{
+    Alert.alert(
+      "Remove Favorite",
+      "Do you want delete favorite ?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => DeleteFavorite() }
+      ]
+    )
+  }
     return (
-      <View style={styles.view}>
-        <View style={styles.iconContainer}>
+      <TouchableOpacity onPress={AlertFavorite}>
+      <View style={styles.view}>  
+        <View style={styles.iconContainer} >
           <Icon name="favorite" color="red" size={20} />
         </View>
+  
         <View style={{flex: 2}}>
           <Image
-            style={{flex: 1, width: null, height: null, resizeMode: 'stretch'}}
-            source={item.image}
+            style={{flex: 1, width: null, height: null}}
+            source={{uri:item.product_id?item.product_id.ThumbImg : ' '}}
           />
         </View>
         <View style={{top: -4, marginLeft: 5}}>
-          <Text style={{fontSize: 18}}>{item.name}</Text>
+          <Text style={{fontSize: 18}}>{item.product_id?item.product_id.ten : ' '}</Text>
           <View style={styles.rate}>
             <Star ratings={4} reviews={100} />
           </View>
@@ -82,16 +125,17 @@ const FavoriteScreen = ({navigation, i}) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <TouchableOpacity style={styles.iconAddCart}>
+            <TouchableOpacity style={styles.iconAddCart} >
               <Image
                 style={{width: 20, height: 20}}
                 source={require('../../assets/icon/addcart.png')}
               />
             </TouchableOpacity>
-            <Text style={{fontSize: 16, color: 'red'}}>{item.price}</Text>
+            <Text style={{fontSize: 16, color: 'red'}}>{item.product_id?item.product_id.gia : ' '}</Text>
           </View>
         </View>
       </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -119,51 +163,10 @@ const FavoriteScreen = ({navigation, i}) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.body}>
             <View style={styles.viewBody}>
-              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <View style={styles.itemBody}>
-                  <Text style={styles.itemText}>Sàng lọc</Text>
-                  <IconFilter
-                    name="filter"
-                    size={28}
-                    style={{marginLeft: 10}}
-                  />
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <View style={{width: 140, marginTop: -8}}>
-                  <List.Section>
-                    <List.Accordion
-                      title="Tình trạng"
-                      titleStyle={{
-                        color: 'black',
-                        fontWeight: 'bold',
-                        fontSize: 14,
-                      }}
-                      style={{backgroundColor: '#fff'}}></List.Accordion>
-                  </List.Section>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <View style={{width: 140, marginTop: -8}}>
-                  <List.Section>
-                    <List.Accordion
-                      title="Kiểu dáng"
-                      titleStyle={{
-                        color: 'black',
-                        fontWeight: 'bold',
-                        fontSize: 14,
-                      }}
-                      style={{backgroundColor: '#fff'}}></List.Accordion>
-                  </List.Section>
-                </View>
-              </TouchableOpacity>
             </View>
-
             <ScrollView showsVerticalScrollIndicator={false} horizontal>
               <FlatList
-                data={clothes}
+                data={favorite}
                 numColumns={2}
                 scrollEnabled={false}
                 keyExtractor={item => item.id}
@@ -191,10 +194,11 @@ const FavoriteScreen = ({navigation, i}) => {
               </ScrollView>
             </View>
           </View>
+          <View style={{height:50,backgroundColor:'white'}}></View>
         </ScrollView>
          )}
       </SafeAreaView>
-         
+    
     </View>
   );
 };
@@ -231,7 +235,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   view: {
-    flex: 1,
+  
     margin: 8,
     backgroundColor: COLORS.white,
     height: 270,
