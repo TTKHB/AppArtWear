@@ -8,6 +8,7 @@ const Stack = createStackNavigator();
 
 //screens
 import HotScreen from '../Screens/Hot/HotScreen';
+import CommentScreen from '../Screens/Hot/CommentScreen';
 
 const HotNavigator = () => {
   return (
@@ -31,6 +32,14 @@ const HotNavigator = () => {
             <Ionicons name="paper-plane-outline" style={{ marginRight: 15 }} size={25} color={"#545454"} />
           )
         }}
+      />
+      <Stack.Screen
+        name="Comment"
+        component={CommentScreen}
+        options={{
+          headerShown: false,
+        }}
+        
       />
     </Stack.Navigator>
   );

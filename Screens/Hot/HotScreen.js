@@ -87,7 +87,7 @@ const Story = ({ itemPost }) => (
     <Text style={styles.containerPostText}>{itemPost.name}</Text>
   </TouchableOpacity>
 )
-const Stories = () => {
+const Stories = ({navigation}) => {
   return (
     <FlatList
       data={dataStory}
@@ -95,12 +95,12 @@ const Stories = () => {
       horizontal
       style={{ marginBottom: 15 }}
       showsHorizontalScrollIndicator={false}
-      renderItem={({ item }) => <Story itemPost={item} />}
+      renderItem={({ item }) => <Story itemPost={item} navigation ={navigation} />}
     />
   )
 }
 
-const Post = ({ item, likeCountProp }) => {
+const Post = ({ item, likeCountProp, navigation }) => {
   const [isLike, seiIsLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
@@ -146,7 +146,9 @@ const Post = ({ item, likeCountProp }) => {
                 : <AntIcon name="hearto" size={25} color={"#545454"} />
               }
             </TouchableWithoutFeedback>
+            <TouchableOpacity  onPress={() => navigation.navigate('Comment')} >
             <FontistoIcon name="comment" size={23} color={"#545454"} />
+            </TouchableOpacity>
             <Ionicons name="paper-plane-outline" size={25} color={"#545454"} />
           </View>
 
@@ -164,7 +166,7 @@ const Post = ({ item, likeCountProp }) => {
 
 }
 
-const HotScreen = () => {
+const HotScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   
  
@@ -185,7 +187,7 @@ const HotScreen = () => {
         data={dataPost}
         keyExtractor={({ id }) => id}
         ListHeaderComponent={Stories}
-        renderItem={({ item }) => <Post item={item} />}
+        renderItem={({ item }) => <Post item={item} navigation ={navigation} />}
       />
 
       )}
