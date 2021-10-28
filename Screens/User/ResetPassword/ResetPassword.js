@@ -29,7 +29,7 @@ const ResetPassword = ({ navigation }) => {
     const PostData = () => {
         if (isValidForm()) {
             fetch(`${baseURL}users/forgot-Password`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
