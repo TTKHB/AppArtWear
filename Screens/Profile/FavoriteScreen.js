@@ -16,7 +16,7 @@ import LoaderFavorite from '../../components/Home/Loader/LoaderFavorite';
 import IconSearch from 'react-native-vector-icons/Ionicons';
 import IconBack from 'react-native-vector-icons/Ionicons';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Feather';
 import COLORS from '../../assets/data/colors';
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
@@ -52,25 +52,23 @@ const FavoriteScreen = ({navigation, i}) => {
 
   const renderItem = ({item, index}) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('DetailMenu')}>
-        <View style={styles.view}>
-          <View style={{flex: 2}}>
-            <Image
-              style={{
-                flex: 1,
-                width: null,
-                height: null,
-                resizeMode: 'stretch',
-              }}
-              source={item.image}
-            />
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('HomeNavigator', {
+            screen: 'Product Detail',
+            params: {id: item._id},
+          })
+        }>
+        <View style={styles.viewPopSearch}>
+          <View style={{flexDirection: 'row'}}>
+            <Image source={item.image} style={{height: 170, width: '100%'}} />
           </View>
-          <View style={{top: -4, marginLeft: 5}}>
-            <Text style={{fontSize: 18}}>{item.name}</Text>
+          <View style={{marginLeft: 4}}>
+            <Text style={styles.cardName}>{item.name}</Text>
             <View style={styles.rate}>
               <Star ratings={4} reviews={100} />
             </View>
-            <Text style={{fontSize: 16, color: 'red'}}>{item.price}</Text>
+            <Text style={styles.price}>{item.price} VNĐ</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -93,7 +91,7 @@ const FavoriteScreen = ({navigation, i}) => {
       );
     };
 
-    const DeleteFavorite = _id => {
+    const DeleteFavorite = (_id) => {
       let filterArray = favorite.filter((val, i) => {
         if (val._id !== _id) {
           return val;
@@ -109,42 +107,49 @@ const FavoriteScreen = ({navigation, i}) => {
           console.log(error);
         });
     };
-
     return (
-      <TouchableOpacity style={styles.view} onPress={showConfirmDialog}>
-        <View style={{flex: 1}}>
-          <Image
-            style={{flex: 1, width: null, height: null}}
-            source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
-          />
-          {/* <TouchableOpacity style={styles.iconContainer} onPress={AlertFavorite} >
-          <Icon name="favorite" color="red" size={20}  />
-        </TouchableOpacity> */}
-        </View>
-        <View style={{top: -4, marginLeft: 5}}>
-          <Text style={{fontSize: 18}}>
-            {item.product_id ? item.product_id.ten : ' '}
-          </Text>
-          <View style={styles.rate}>
-            <Star ratings={4} reviews={100} />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity style={styles.iconAddCart}>
-              <Image
-                style={{width: 20, height: 20}}
-                source={require('../../assets/icon/addcart.png')}
-              />
+        <TouchableOpacity style={styles.viewPopSearch} onPress={() =>
+        navigation.navigate('HomeNavigator', {
+          screen: 'Product Detail',
+          params: {id: item._id},
+        })
+      }>
+          <View style={styles.container}>
+            <Image
+              resizeMode="cover"
+              style={styles.cover}
+              source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
+            />
+            <TouchableOpacity style={styles.close} onPress={showConfirmDialog}>
+              <Ionicons name="delete" size={25} color={"red"} />
             </TouchableOpacity>
-            <Text style={{fontSize: 16, color: 'red'}}>
-              {item.product_id ? item.product_id.gia : ' '}
-            </Text>
           </View>
-        </View>
+          <View style={{marginLeft: 4}}>
+            <Text style={styles.cardName}>
+              {' '}
+              {item.product_id ? item.product_id.ten : ' '}
+            </Text>
+            <View style={styles.rate}>
+              <Star ratings={4} reviews={100} />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity style={styles.iconAddCart}>
+                <Image
+                  style={{width: 20, height: 20}}
+                  source={require('../../assets/icon/addcart.png')}
+                />
+              </TouchableOpacity>
+              <Text style={styles.price}>
+                {' '}
+                {item.product_id ? item.product_id.gia : ' '} VNĐ
+              </Text>
+            </View>
+          </View>
       </TouchableOpacity>
     );
   };
@@ -171,8 +176,7 @@ const FavoriteScreen = ({navigation, i}) => {
           <LoaderFavorite />
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.body}>
-              <View style={styles.viewBody}></View>
+            <View style={styles.viewBody}>
               <ScrollView showsVerticalScrollIndicator={false} horizontal>
                 <FlatList
                   data={favorite}
@@ -182,26 +186,28 @@ const FavoriteScreen = ({navigation, i}) => {
                   renderItem={renderItemFavorite}
                 />
               </ScrollView>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 25,
-                    color: 'black',
-                    marginLeft: 5,
-                    marginTop: 25,
-                    fontWeight: 'bold',
-                  }}>
-                  Sản phẩm đề xuất
-                </Text>
-                <ScrollView showsVerticalScrollIndicator={false} horizontal>
-                  <FlatList
-                    numColumns={numColumns} // numColumns 2 nam ngang
-                    data={DATA} //set Data
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => index.toString()}
-                  />
-                </ScrollView>
-              </View>
+            </View>
+            <View>
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: 'black',
+                  marginLeft: 17,
+                  marginTop: 25,
+                  fontWeight: 'bold',
+                }}>
+                Sản phẩm đề xuất
+              </Text>
+            </View>
+            <View style={styles.viewBody}>
+              <ScrollView showsVerticalScrollIndicator={false} horizontal>
+                <FlatList
+                  numColumns={numColumns} // numColumns 2 nam ngang
+                  data={DATA} //set Data
+                  renderItem={renderItem}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              </ScrollView>
             </View>
             <View style={{height: 50, backgroundColor: 'white'}}></View>
           </ScrollView>
@@ -211,9 +217,7 @@ const FavoriteScreen = ({navigation, i}) => {
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+
   // Header Style
   headerContainer: {
     flexDirection: 'row',
@@ -242,14 +246,7 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
   },
-  view: {
-    margin: 9.8,
-    backgroundColor: COLORS.white,
-    height: height / 2.9,
-    width: width / 2.24,
-    borderColor: 'black',
-    borderWidth: 0.3,
-  },
+
   rate: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -271,13 +268,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top: -20,
   },
-  textBox: {
-    marginLeft: 15,
-    marginTop: 10,
-    color: '#384F7D',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
+
   viewBody: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -285,23 +276,47 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginHorizontal: 10,
   },
-  itemBody: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 0.5,
-    borderColor: '#C0C0C0',
-    height: height / 17.0,
+
+  viewPopSearch: {
+    height: 250,
+    backgroundColor: COLORS.white,
+    elevation: 2,
+    width: width / 2.29,
+    marginVertical: 5,
+    marginHorizontal: 5,
+    borderRadius: 5,
   },
-  itemText: {
-    fontSize: 16,
-    fontStyle: 'normal',
-    color: '#000000',
+  cardName: {
+    marginTop: 10,
+    fontSize: 18,
+    color: COLORS.black,
     fontWeight: 'bold',
   },
-  body: {
+  price: {
+    color: COLORS.red,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  container: {
     flex: 1,
-    backgroundColor: '#fff',
+  },
+  coverImage: {
+    width: '100%',
+    height: 200,
+  },
+  cover: {
+    flex: 1,
+    borderRadius: 5,
+  },
+  close: {
+    margin: 5,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 25,
+    height: 25,
+    color: 'tomato',
   },
 });
 

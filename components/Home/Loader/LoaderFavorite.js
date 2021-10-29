@@ -6,33 +6,6 @@ const LoaderFavorite = () => {
   return (
 	  <SafeAreaView >
 	  <ScrollView >
-{/*Tat ca Tim kiem hang dau */}
-  {/* Banner */}
-  <SkeletonPlaceholder>
-  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View
-              style={{
-                marginLeft: 40,
-                marginTop: 45,
-                flexDirection: 'row',
-                marginBottom: 15,
-              }}>
-              <View style={{width: 90, height: 35, borderRadius: 4}} />
-              <View
-                style={{
-                  marginTop: 0,
-                  width: 90,
-                  height: 35,
-                  borderRadius: 4,
-                  margin: 20,
-                }}
-              />
-              <View
-                style={{marginTop: 0, width: 90, height: 35, borderRadius: 4}}
-              />
-            </View>
-          </View>
-          </SkeletonPlaceholder>
 		  <SkeletonPlaceholder>
           <View
               style={{marginTop: 9, width: 150, height: 20, borderRadius: 4,marginLeft:30 }}
