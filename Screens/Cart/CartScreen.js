@@ -107,16 +107,23 @@ const CartScreen = ({ navigation }) => {
           },
           {
             text: "Đồng ý",
-            onPress: () => DeleteCart()
+            onPress: () => DeleteCart(item._id)
           },
         ]
       );
     };
 
-    const DeleteCart = () => {
+    const DeleteCart = (_id) => {
+      //delete an item from state array
+      let filterArray = cartList.filter((val, i) => {
+        if (val._id !== _id) {
+          return val
+        }
+      })
       axios.delete(`${baseURL}carts/` + item._id)
         .then(function (response) {
           console.log(response);
+          setcartList(filterArray)
           showDialog()
         })
         .catch(function (error) {
