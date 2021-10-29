@@ -168,11 +168,11 @@ const styles = StyleSheet.create({
   viewDash: {
     marginVertical: 2,
     height: 2,
-    width: width / 5.0,
+    width: width / 4.5,
   },
   viewCustomOne: {
     marginTop: -8,
-    marginRight: 97,
+    marginRight: 110,
   },
   customborderTopOne: {
     backgroundColor: '#fff',
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   viewCustomTwo: {
     marginTop: -10,
-    marginLeft: 96,
+    marginLeft: 110,
   },
   customborderTopTwo: {
     backgroundColor: '#FFFCF2',
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 80,
     height: 22,
-    marginTop: 3
+    marginTop: 15
   },
   textGetIt: {
     textAlign: 'center',
