@@ -160,21 +160,6 @@ const FavoriteScreen = ({ navigation, i }) => {
   return (
     <View style={styles.container}>
       {/* Header */}
-      <View style={styles.headerContainer}>
-        <IconBack
-          name="chevron-back"
-          size={28}
-          onPress={() => navigation.goBack()}
-        />
-        <IconSearch
-          name="md-search-outline"
-          size={28}
-          style={{ marginLeft: -85 }}
-        />
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Yêu thích</Text>
-        <IconCart name="handbag" size={28} />
-      </View>
-
       <SafeAreaView>
         {loading ? (
           <LoaderFavorite />
@@ -240,13 +225,6 @@ const FavoriteScreen = ({ navigation, i }) => {
   );
 };
 const styles = StyleSheet.create({
-  // Header Style
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    margin: 10,
-  },
   iconHeader: {
     marginLeft: 2,
     top: 10,
@@ -298,7 +276,7 @@ const styles = StyleSheet.create({
   viewPopSearch: {
     height: 250,
     backgroundColor: COLORS.white,
-    elevation: 2,
+    elevation: 4,
     width: width / 2.29,
     marginVertical: 5,
     marginHorizontal: 5,
@@ -318,6 +296,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    backgroundColor: 'white'
   },
   coverImage: {
     width: '100%',

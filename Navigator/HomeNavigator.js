@@ -44,6 +44,7 @@ const HomeNavigator = ({ navigation }) => {
       };
     }, []),
   );
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -97,14 +98,13 @@ const HomeNavigator = ({ navigation }) => {
                 flexDirection: 'row',
                 marginRight: 10
               }}>
-              <TouchableOpacity   onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}>
+              <TouchableOpacity onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}>
                 <IconFavorite
                   name="favorite-outline"
                   size={28}
                   style={{
                     marginRight: 10
                   }}
-
                 />
               </TouchableOpacity>
               <TouchableOpacity>
@@ -123,47 +123,23 @@ const HomeNavigator = ({ navigation }) => {
           headerTransparent: true,
           headerTintColor: 'black',
           headerTitle: false,
-
           headerRight: ({ color }) => (
             <View
               style={{
                 flexDirection: 'row',
                 marginRight: 10
               }}>
-              <TouchableOpacity >
+              <TouchableOpacity
+                onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}
+              >
                 <IconFavorite
                   name="favorite-outline"
                   size={28}
-        
+
                   style={{
                     marginRight: 10
                   }} />
               </TouchableOpacity>
-              {/* <TouchableOpacity
-                onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
-              >
-                <View style={{ flexDirection: 'row' }}>
-                  <View style={{ marginRight: -8 }}>
-                    <IconCart name="handbag" size={24} />
-                  </View>
-                  <View style={{
-                    backgroundColor: 'red',
-                    height: 20,
-                    width: 20,
-                    borderRadius: 20,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                    <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                      {cartItems.length ? (
-                        <Text >{cartItems.length}</Text>
-                      ) : (
-                        <Text>0</Text>
-                      )}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity> */}
               {isLoggedIn ? (
                 <>
                   <TouchableOpacity
