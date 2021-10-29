@@ -1,52 +1,34 @@
 import React from 'react';
-import {View, ScrollView, SafeAreaView} from 'react-native';
+import {View, ScrollView, SafeAreaView,Dimensions} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-
+const {height, width} = Dimensions.get('window')
 const LoaderHome = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>
         <SkeletonPlaceholder>
           {/* the loai */}
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View
-              style={{
-                marginLeft: 40,
-                marginTop: 45,
-                flexDirection: 'row',
-                marginBottom: 15,
-              }}>
-              <View style={{width: 90, height: 35, borderRadius: 4}} />
-              <View
-                style={{
-                  marginTop: 0,
-                  width: 90,
-                  height: 35,
-                  borderRadius: 4,
-                  margin: 20,
-                }}
-              />
-              <View
-                style={{marginTop: 0, width: 90, height: 35, borderRadius: 4}}
-              />
+          <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'center', marginBottom: 15, marginTop: 45,}}>
+              <View style={{width: width / 3.25, height: 45, borderRadius: 4}} />
+              <View style={{margin:5,width: width / 3.25, height: 45, borderRadius: 4}} />
+              <View style={{width: width / 3.25, height: 45, borderRadius: 4}} />
             </View>
-          </View>
           {/* Banner */}
           <SkeletonPlaceholder>
             <View style={{alignItems: 'center'}}>
               <View
-                style={{marginTop: 6, width: 350, height: 115, borderRadius: 4}}
+                style={{marginTop: 6, width: width / 1.05, height: 115, borderRadius: 4}}
               />
             </View>
           </SkeletonPlaceholder>
           {/* Flash Sales */}
-          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row'}}>
+          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
             <View
               style={{
-                width: 100,
+                width: width / 3.2,
                 height: 25,
                 borderRadius: 4,
-                marginLeft: 10,
+                marginRight: 110,
                 marginTop: 5,
               }}
             />
@@ -56,43 +38,42 @@ const LoaderHome = () => {
                 width: 30,
                 height: 30,
                 borderRadius: 4,
-                marginLeft: 120,
+                marginRight:8
               }}
             />
-            <View
+              <View
               style={{
                 marginTop: 0,
                 width: 30,
                 height: 30,
                 borderRadius: 4,
-                marginLeft: 8,
+                marginRight:10
               }}
             />
-            <View
+              <View
               style={{
                 marginTop: 0,
                 width: 30,
                 height: 30,
                 borderRadius: 4,
-                marginLeft: 8,
+                marginRight:5
               }}
             />
-            <View
+               <View
               style={{
                 marginTop: 0,
                 width: 30,
                 height: 30,
                 borderRadius: 4,
-                marginLeft: 8,
+                marginRight:5
               }}
             />
-          </View>
-
+            </View>
           <View
             style={{
               marginTop: -25,
               marginBottom: 30,
-              marginLeft: 110,
+              marginLeft: 109,
               flexDirection: 'row',
             }}>
             <View
@@ -101,7 +82,7 @@ const LoaderHome = () => {
                 width: 30,
                 height: 10,
                 borderRadius: 4,
-                marginLeft: 120,
+                marginLeft: 130,
               }}
             />
             <View
@@ -132,21 +113,20 @@ const LoaderHome = () => {
               }}
             />
           </View>
-          <View style={{marginTop: -15, flexDirection: 'row'}}>
+          <View style={{marginTop: -15, flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
             <View
               style={{
-                marginLeft: 35,
                 marginTop: 6,
-                width: 150,
+                width: width / 2.3,
                 height: 200,
                 borderRadius: 4,
               }}
             />
             <View
               style={{
-                marginLeft: 15,
+                marginLeft: 30,
                 marginTop: 6,
-                width: 150,
+                width: width / 2.3,
                 height: 200,
                 borderRadius: 4,
               }}
@@ -161,11 +141,11 @@ const LoaderHome = () => {
               style={{marginTop: 9, width: 250, height: 20, borderRadius: 4}}
             />
             <View
-              style={{marginTop: 6, width: 350, height: 115, borderRadius: 4}}
-            />
+                style={{marginTop: 6, width: width / 1.05, height: 115, borderRadius: 4}}
+              />
             <View
-              style={{marginTop: 6, width: 350, height: 115, borderRadius: 4}}
-            />
+                style={{marginTop: 6, width: width / 1.05, height: 115, borderRadius: 4}}
+              />
           </View>
         </SkeletonPlaceholder>
 
@@ -194,25 +174,25 @@ const LoaderHome = () => {
                 height: 25,
                 borderRadius: 4,
                 marginTop: 5,
-                marginLeft: -75,
+                marginLeft: -80,
               }}
             />
           </View>
-          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row'}}>
+          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row',justifyContent:'center',alignItems: 'center'}}>
             <View
               style={{
-                marginLeft: 35,
+      
                 marginTop: 6,
-                width: 150,
+                width: width / 2.3,
                 height: 200,
                 borderRadius: 4,
               }}
             />
             <View
               style={{
-                marginLeft: 15,
+                marginLeft: 25,
                 marginTop: 6,
-                width: 150,
+                width: width / 2.3,
                 height: 200,
                 borderRadius: 4,
               }}
@@ -242,25 +222,24 @@ const LoaderHome = () => {
                 height: 25,
                 borderRadius: 4,
                 marginTop: 5,
-                marginLeft: -75,
+                marginLeft: -85,
               }}
             />
           </View>
-          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row'}}>
+          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
             <View
               style={{
-                marginLeft: 35,
                 marginTop: 6,
-                width: 150,
+                width: width / 2.3,
                 height: 200,
                 borderRadius: 4,
               }}
             />
             <View
               style={{
-                marginLeft: 15,
+                marginLeft: 25,
                 marginTop: 6,
-                width: 150,
+                width: width / 2.3,
                 height: 200,
                 borderRadius: 4,
               }}
@@ -282,9 +261,9 @@ const LoaderHome = () => {
             />
           </View>
           <View style={{alignItems: 'center'}}>
-            <View
-              style={{marginTop: 6, width: 350, height: 115, borderRadius: 4}}
-            />
+          <View
+                style={{marginTop: 6, width: width / 1.05, height: 115, borderRadius: 4}}
+              />
           </View>
         </SkeletonPlaceholder>
       </ScrollView>
