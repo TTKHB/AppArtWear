@@ -1,4 +1,4 @@
-import React, {useState, useEffect,useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -27,20 +27,19 @@ const {height, width} = Dimensions.get('window');
 const numColumns = 2;
 const FavoriteScreen = ({navigation, i}) => {
   const [loading, setLoading] = useState(true);
-  const [favorite,setFavorite] = useState([]);
-  const { profile } = useLogin();  
+  const [favorite, setFavorite] = useState([]);
+  const {profile} = useLogin();
   useFocusEffect(
     useCallback(() => {
       axios
-        .get(`${baseURL}favorite/user/`+profile._id )
+        .get(`${baseURL}favorite/user/` + profile._id)
         .then(res => {
-          
           setFavorite(res.data);
-          console.log(res)
+          console.log(res);
           if (loading) {
             setLoading(false);
           }
-          console.log('a:',res.data)
+          console.log('a:', res.data);
         })
         .catch(error => {
           console.log('Api call error');
@@ -78,44 +77,54 @@ const FavoriteScreen = ({navigation, i}) => {
     );
   };
   const renderItemFavorite = ({item, index}) => {
-  const DeleteFavorite = () => {
-    axios.delete(`${baseURL}favorite/`+item._id)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
-  const AlertFavorite = (item) =>{
-    Alert.alert(
-      "Remove Favorite",
-      "Do you want delete favorite ?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => DeleteFavorite() }
-      ]
-    )
-  }
+    const showConfirmDialog = () => {
+      return Alert.alert(
+        'Bạn đã chắc chắn?',
+        'Bạn có chắc chắn xoá sản phẩm này chứ?',
+        [
+          {
+            text: 'Huỷ',
+          },
+          {
+            text: 'Đồng ý',
+            onPress: () => DeleteFavorite(item._id),
+          },
+        ],
+      );
+    };
+
+    const DeleteFavorite = _id => {
+      let filterArray = favorite.filter((val, i) => {
+        if (val._id !== _id) {
+          return val;
+        }
+      });
+      axios
+        .delete(`${baseURL}favorite/` + item._id)
+        .then(function (response) {
+          setFavorite(filterArray);
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    };
+
     return (
-      <TouchableOpacity onPress={AlertFavorite}>
-      <View style={styles.view}>  
-        <View style={styles.iconContainer} >
-          <Icon name="favorite" color="red" size={20} />
-        </View>
-  
-        <View style={{flex: 2}}>
+      <TouchableOpacity style={styles.view} onPress={showConfirmDialog}>
+        <View style={{flex: 1}}>
           <Image
             style={{flex: 1, width: null, height: null}}
-            source={{uri:item.product_id?item.product_id.ThumbImg : ' '}}
+            source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
           />
+          {/* <TouchableOpacity style={styles.iconContainer} onPress={AlertFavorite} >
+          <Icon name="favorite" color="red" size={20}  />
+        </TouchableOpacity> */}
         </View>
         <View style={{top: -4, marginLeft: 5}}>
-          <Text style={{fontSize: 18}}>{item.product_id?item.product_id.ten : ' '}</Text>
+          <Text style={{fontSize: 18}}>
+            {item.product_id ? item.product_id.ten : ' '}
+          </Text>
           <View style={styles.rate}>
             <Star ratings={4} reviews={100} />
           </View>
@@ -125,16 +134,17 @@ const FavoriteScreen = ({navigation, i}) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <TouchableOpacity style={styles.iconAddCart} >
+            <TouchableOpacity style={styles.iconAddCart}>
               <Image
                 style={{width: 20, height: 20}}
                 source={require('../../assets/icon/addcart.png')}
               />
             </TouchableOpacity>
-            <Text style={{fontSize: 16, color: 'red'}}>{item.product_id?item.product_id.gia : ' '}</Text>
+            <Text style={{fontSize: 16, color: 'red'}}>
+              {item.product_id ? item.product_id.gia : ' '}
+            </Text>
           </View>
         </View>
-      </View>
       </TouchableOpacity>
     );
   };
@@ -156,49 +166,47 @@ const FavoriteScreen = ({navigation, i}) => {
         <IconCart name="handbag" size={28} />
       </View>
 
-      <SafeAreaView> 
-  {loading ? (
-        <LoaderFavorite/>
-      ) : (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.body}>
-            <View style={styles.viewBody}>
-            </View>
-            <ScrollView showsVerticalScrollIndicator={false} horizontal>
-              <FlatList
-                data={favorite}
-                numColumns={2}
-                scrollEnabled={false}
-                keyExtractor={item => item.id}
-                renderItem={renderItemFavorite}
-              />
-            </ScrollView>
-            <View>
-              <Text
-                style={{
-                  fontSize: 25,
-                  color: 'black',
-                  marginLeft: 5,
-                  marginTop: 25,
-                  fontWeight: 'bold',
-                }}>
-                Sản phẩm đề xuất
-              </Text>
+      <SafeAreaView>
+        {loading ? (
+          <LoaderFavorite />
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.body}>
+              <View style={styles.viewBody}></View>
               <ScrollView showsVerticalScrollIndicator={false} horizontal>
                 <FlatList
-                  numColumns={numColumns} // numColumns 2 nam ngang
-                  data={DATA} //set Data
-                  renderItem={renderItem}
-                  keyExtractor={(item, index) => index.toString()}
+                  data={favorite}
+                  numColumns={2}
+                  scrollEnabled={false}
+                  keyExtractor={item => item.id}
+                  renderItem={renderItemFavorite}
                 />
               </ScrollView>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 25,
+                    color: 'black',
+                    marginLeft: 5,
+                    marginTop: 25,
+                    fontWeight: 'bold',
+                  }}>
+                  Sản phẩm đề xuất
+                </Text>
+                <ScrollView showsVerticalScrollIndicator={false} horizontal>
+                  <FlatList
+                    numColumns={numColumns} // numColumns 2 nam ngang
+                    data={DATA} //set Data
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index.toString()}
+                  />
+                </ScrollView>
+              </View>
             </View>
-          </View>
-          <View style={{height:50,backgroundColor:'white'}}></View>
-        </ScrollView>
-         )}
+            <View style={{height: 50, backgroundColor: 'white'}}></View>
+          </ScrollView>
+        )}
       </SafeAreaView>
-    
     </View>
   );
 };
@@ -220,7 +228,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     height: 30,
     width: 30,
-    position: 'absolute',
+    position: 'relative',
     marginLeft: 143,
     top: 2,
     backgroundColor: 'white',
@@ -235,11 +243,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   view: {
-  
-    margin: 8,
+    margin: 9.8,
     backgroundColor: COLORS.white,
-    height: 270,
-    width: 180,
+    height: height / 2.9,
+    width: width / 2.24,
     borderColor: 'black',
     borderWidth: 0.3,
   },
