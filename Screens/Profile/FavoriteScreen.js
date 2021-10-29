@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -19,16 +19,16 @@ import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Feather';
 import COLORS from '../../assets/data/colors';
 import axios from 'axios';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-import {DATA} from '../../assets/data/PopularSearch';
-import {useLogin} from '../../Context/LoginProvider';
-const {height, width} = Dimensions.get('window');
+import { DATA } from '../../assets/data/PopularSearch';
+import { useLogin } from '../../Context/LoginProvider';
+const { height, width } = Dimensions.get('window');
 const numColumns = 2;
-const FavoriteScreen = ({navigation, i}) => {
+const FavoriteScreen = ({ navigation, i }) => {
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState([]);
-  const {profile} = useLogin();
+  const { profile } = useLogin();
   useFocusEffect(
     useCallback(() => {
       axios
@@ -50,20 +50,20 @@ const FavoriteScreen = ({navigation, i}) => {
     }, []),
   );
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity
         onPress={() =>
           navigation.navigate('HomeNavigator', {
             screen: 'Product Detail',
-            params: {id: item._id},
+            params: { id: item._id },
           })
         }>
         <View style={styles.viewPopSearch}>
-          <View style={{flexDirection: 'row'}}>
-            <Image source={item.image} style={{height: 170, width: '100%'}} />
+          <View style={{ flexDirection: 'row' }}>
+            <Image source={item.image} style={{ height: 170, width: '100%' }} />
           </View>
-          <View style={{marginLeft: 4}}>
+          <View style={{ marginLeft: 4 }}>
             <Text style={styles.cardName}>{item.name}</Text>
             <View style={styles.rate}>
               <Star ratings={4} reviews={100} />
@@ -74,7 +74,7 @@ const FavoriteScreen = ({navigation, i}) => {
       </TouchableOpacity>
     );
   };
-  const renderItemFavorite = ({item, index}) => {
+  const renderItemFavorite = ({ item, index }) => {
     const showConfirmDialog = () => {
       return Alert.alert(
         'Bạn đã chắc chắn?',
@@ -113,20 +113,20 @@ const FavoriteScreen = ({navigation, i}) => {
         onPress={() =>
           navigation.navigate('HomeNavigator', {
             screen: 'Product Detail',
-            params: {id: item._id},
+            params: { id: item._id },
           })
         }>
         <View style={styles.container}>
           <Image
             resizeMode="cover"
             style={styles.cover}
-            source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
+            source={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
           />
           <TouchableOpacity style={styles.close} onPress={showConfirmDialog}>
             <Ionicons name="delete" size={25} color={'red'} />
           </TouchableOpacity>
         </View>
-        <View style={{marginLeft: 4}}>
+        <View style={{ marginLeft: 4 }}>
           <Text style={styles.cardName}>
             {' '}
             {item.product_id ? item.product_id.ten : ' '}
@@ -140,16 +140,18 @@ const FavoriteScreen = ({navigation, i}) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
+            <View>
+              <Text style={styles.price}>
+                {' '}
+                {item.product_id ? item.product_id.gia : ' '} VNĐ
+              </Text>
+            </View>
             <TouchableOpacity style={styles.iconAddCart}>
               <Image
-                style={{width: 20, height: 20}}
+                style={{ width: 20, height: 20 }}
                 source={require('../../assets/icon/addcart.png')}
               />
             </TouchableOpacity>
-            <Text style={styles.price}>
-              {' '}
-              {item.product_id ? item.product_id.gia : ' '} VNĐ
-            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -167,9 +169,9 @@ const FavoriteScreen = ({navigation, i}) => {
         <IconSearch
           name="md-search-outline"
           size={28}
-          style={{marginLeft: -85}}
+          style={{ marginLeft: -85 }}
         />
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Yêu thích</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Yêu thích</Text>
         <IconCart name="handbag" size={28} />
       </View>
 
@@ -230,7 +232,7 @@ const FavoriteScreen = ({navigation, i}) => {
                 />
               </ScrollView>
             </View>
-            <View style={{height: 50, backgroundColor: 'white'}}></View>
+            <View style={{ height: 50, backgroundColor: 'white' }}></View>
           </ScrollView>
         )}
       </SafeAreaView>
@@ -270,23 +272,21 @@ const styles = StyleSheet.create({
   rate: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    paddingBottom: 2,
+    marginLeft: 3.2,
   },
   wrap: {
     flex: 1,
     padding: 10,
   },
   iconAddCart: {
-    height: 40,
-    width: 40,
-    position: 'absolute',
-    marginLeft: 124,
+    height: 30,
+    width: 30,
     backgroundColor: 'white',
-    borderRadius: 30,
-    elevation: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    top: -20,
+    borderRadius: 30,
+    elevation: 10,
+    marginRight: 3
   },
 
   viewBody: {
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   },
   price: {
     color: COLORS.red,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 
