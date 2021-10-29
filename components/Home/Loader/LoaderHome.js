@@ -35,7 +35,7 @@ const LoaderHome = () => {
             <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width /14.2,
                 height: 30,
                 borderRadius: 4,
                 marginRight:8
@@ -44,7 +44,7 @@ const LoaderHome = () => {
               <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width / 14.2,
                 height: 30,
                 borderRadius: 4,
                 marginRight:10
@@ -53,7 +53,7 @@ const LoaderHome = () => {
               <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width / 14.2,
                 height: 30,
                 borderRadius: 4,
                 marginRight:5
@@ -62,7 +62,7 @@ const LoaderHome = () => {
                <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width / 14.2,
                 height: 30,
                 borderRadius: 4,
                 marginRight:5
