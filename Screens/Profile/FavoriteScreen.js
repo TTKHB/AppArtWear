@@ -91,7 +91,7 @@ const FavoriteScreen = ({navigation, i}) => {
       );
     };
 
-    const DeleteFavorite = (_id) => {
+    const DeleteFavorite = _id => {
       let filterArray = favorite.filter((val, i) => {
         if (val._id !== _id) {
           return val;
@@ -108,48 +108,50 @@ const FavoriteScreen = ({navigation, i}) => {
         });
     };
     return (
-        <TouchableOpacity style={styles.viewPopSearch} onPress={() =>
-        navigation.navigate('HomeNavigator', {
-          screen: 'Product Detail',
-          params: {id: item._id},
-        })
-      }>
-          <View style={styles.container}>
-            <Image
-              resizeMode="cover"
-              style={styles.cover}
-              source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
-            />
-            <TouchableOpacity style={styles.close} onPress={showConfirmDialog}>
-              <Ionicons name="delete" size={25} color={"red"} />
+      <TouchableOpacity
+        style={styles.viewPopSearch}
+        onPress={() =>
+          navigation.navigate('HomeNavigator', {
+            screen: 'Product Detail',
+            params: {id: item._id},
+          })
+        }>
+        <View style={styles.container}>
+          <Image
+            resizeMode="cover"
+            style={styles.cover}
+            source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
+          />
+          <TouchableOpacity style={styles.close} onPress={showConfirmDialog}>
+            <Ionicons name="delete" size={25} color={'red'} />
+          </TouchableOpacity>
+        </View>
+        <View style={{marginLeft: 4}}>
+          <Text style={styles.cardName}>
+            {' '}
+            {item.product_id ? item.product_id.ten : ' '}
+          </Text>
+          <View style={styles.rate}>
+            <Star ratings={4} reviews={100} />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity style={styles.iconAddCart}>
+              <Image
+                style={{width: 20, height: 20}}
+                source={require('../../assets/icon/addcart.png')}
+              />
             </TouchableOpacity>
-          </View>
-          <View style={{marginLeft: 4}}>
-            <Text style={styles.cardName}>
+            <Text style={styles.price}>
               {' '}
-              {item.product_id ? item.product_id.ten : ' '}
+              {item.product_id ? item.product_id.gia : ' '} VNĐ
             </Text>
-            <View style={styles.rate}>
-              <Star ratings={4} reviews={100} />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity style={styles.iconAddCart}>
-                <Image
-                  style={{width: 20, height: 20}}
-                  source={require('../../assets/icon/addcart.png')}
-                />
-              </TouchableOpacity>
-              <Text style={styles.price}>
-                {' '}
-                {item.product_id ? item.product_id.gia : ' '} VNĐ
-              </Text>
-            </View>
           </View>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -177,6 +179,25 @@ const FavoriteScreen = ({navigation, i}) => {
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.viewBody}>
+              {favorite.length === 0 && (
+                <View style={styles.viewCartEmpty}>
+                  <Image
+                    style={styles.imageCartEmpty}
+                    source={require('../../assets/images/Error/heart.png')}
+                  />
+                  <Text style={styles.textCartEmptyOne}>
+                    Mời bạn chọn sản phẩm yêu thích
+                  </Text>
+                  <Text style={styles.textCartEmptyTwo}>
+                    Lướt Art Wear và mua sắm nào!
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.viewShoppingNow}
+                    onPress={() => navigation.navigate('Main')}>
+                    <Text style={styles.textShoppingNow}>Yêu thích</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
               <ScrollView showsVerticalScrollIndicator={false} horizontal>
                 <FlatList
                   data={favorite}
@@ -217,7 +238,6 @@ const FavoriteScreen = ({navigation, i}) => {
   );
 };
 const styles = StyleSheet.create({
-
   // Header Style
   headerContainer: {
     flexDirection: 'row',
@@ -270,8 +290,6 @@ const styles = StyleSheet.create({
   },
 
   viewBody: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginVertical: 10,
     paddingHorizontal: 5,
     marginHorizontal: 10,
@@ -317,6 +335,39 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     color: 'tomato',
+  },
+  viewCartEmpty: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
+  imageCartEmpty: {
+    height: 150,
+    width: 150,
+  },
+  textCartEmptyOne: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 8,
+  },
+  textCartEmptyTwo: {
+    fontSize: 18,
+    color: '#505050',
+    marginTop: 2,
+  },
+  viewShoppingNow: {
+    height: 50,
+    width: 150,
+    borderColor: 'red',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  textShoppingNow: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: 'red',
   },
 });
 
