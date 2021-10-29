@@ -14,7 +14,7 @@ import { signOut } from '../../utils/user';
 import { useLogin } from '../../Context/LoginProvider';
 
 const SettingScreen = props => {
-    const { setIsLoggedIn, profile } = useLogin();
+    const { setIsLoggedIn, setProfile } = useLogin();
     const renderInner = () => (
         <View style={styles.panel}>
             <View style={{ alignItems: 'center' }}>
@@ -26,6 +26,7 @@ const SettingScreen = props => {
                     const isLoggedOut = await signOut()
                     if (isLoggedOut) {
                         setIsLoggedIn(false)
+                        setProfile(false)
                         props.navigation.navigate('Main');
                     }
                 }
