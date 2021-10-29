@@ -42,7 +42,7 @@ const ProductScreen = ({item, navigation}) => {
         .get(`${baseURL}products`)
         .then(res => {
           setProducts(res.data);
-          setLoading(true);
+          setLoading(false);
         })
         .catch(error => {
           console.log('Api call error');

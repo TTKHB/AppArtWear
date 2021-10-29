@@ -22,14 +22,14 @@ const LoaderHome = () => {
             </View>
           </SkeletonPlaceholder>
           {/* Flash Sales */}
-          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
+          <View style={{marginTop: 10, marginBottom: 30, flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center'}}>
             <View
               style={{
-                width: width / 3.2,
+                width: width / 3.1,
                 height: 25,
                 borderRadius: 4,
-                marginRight: 110,
                 marginTop: 5,
+                marginLeft:8
               }}
             />
             <View
@@ -38,7 +38,8 @@ const LoaderHome = () => {
                 width: width /14.2,
                 height: 30,
                 borderRadius: 4,
-                marginRight:8
+                marginLeft:110,
+                margin:5
               }}
             />
               <View
@@ -47,7 +48,7 @@ const LoaderHome = () => {
                 width: width / 14.2,
                 height: 30,
                 borderRadius: 4,
-                marginRight:10
+                margin:5
               }}
             />
               <View
@@ -56,7 +57,8 @@ const LoaderHome = () => {
                 width: width / 14.2,
                 height: 30,
                 borderRadius: 4,
-                marginRight:5
+                marginRight:3,
+                 margin:5
               }}
             />
                <View
@@ -65,7 +67,8 @@ const LoaderHome = () => {
                 width: width / 14.2,
                 height: 30,
                 borderRadius: 4,
-                marginRight:5
+                marginRight:5,
+                margin:5
               }}
             />
             </View>
@@ -73,43 +76,44 @@ const LoaderHome = () => {
             style={{
               marginTop: -25,
               marginBottom: 30,
-              marginLeft: 109,
+              marginLeft: 100,
               flexDirection: 'row',
+              justifyContent: 'center',alignItems: 'center'
             }}>
             <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width / 14.2,
                 height: 10,
                 borderRadius: 4,
-                marginLeft: 130,
+                marginLeft: 135,
               }}
             />
             <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width / 14.2,
                 height: 10,
                 borderRadius: 4,
-                marginLeft: 8,
+                marginLeft: 10,
               }}
             />
             <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width / 14.2,
                 height: 10,
                 borderRadius: 4,
-                marginLeft: 8,
+                marginLeft: 10,
               }}
             />
             <View
               style={{
                 marginTop: 0,
-                width: 30,
+                width: width / 14.2,
                 height: 10,
                 borderRadius: 4,
-                marginLeft: 8,
+                marginLeft: 10,
               }}
             />
           </View>
