@@ -19,7 +19,7 @@ import contents from './../../assets/data/contents';
 import ItemGrid from './../../components/Home/ItemGrid';
 import ItemList from './../../components/Home/ItemList';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
-import axios from './../../assets/data/client';
+import axios from '../../assets/data/client';
 import baseURL from './../../assets/common/baseUrl';
 
 const DATA = [

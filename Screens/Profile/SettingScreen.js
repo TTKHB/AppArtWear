@@ -10,7 +10,7 @@ import {
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import SettingItem from '../../components/Profile/SettingItem/SettingItem';
-import { signOut } from '../../assets/data/user';
+import { signOut } from '../../utils/user';
 import { useLogin } from '../../Context/LoginProvider';
 
 const SettingScreen = props => {

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Header, SearchBar, ListItem, Icon} from 'react-native-elements';
-import axios from './../../assets/data/client';
+import axios from '../../assets/data/client';
 import baseURL from './../../assets/common/baseUrl';
 import {nonAccentVietnamese} from '../../utils/Methods';
 import AsyncStorage from '@react-native-async-storage/async-storage';

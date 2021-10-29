@@ -14,7 +14,7 @@ import FormSubmitButton from './FormButton/FormSubmitButton';
 import FormHeader from './FormHeader/FormHeader';
 import { isValidObjField, updateError, isValidEmail } from '../../utils/Methods';
 import { useLogin } from '../../Context/LoginProvider';
-import { signIn } from '../../assets/data/user';
+import { signIn } from '../../utils/user';
 import Forgotpassword from './FormForgotPassword/Forgotpassword';
 import FormSMS from './FormSMS/FormSMS';
 //icon

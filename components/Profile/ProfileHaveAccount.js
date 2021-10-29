@@ -18,7 +18,7 @@ import {
   Avatar,
 } from 'react-native-paper';
 import Gift from './ProfileItem/Gift';
-import { signOut } from '../../assets/data/user';
+import { signOut } from '../../utils/user';
 import { useLogin } from '../../Context/LoginProvider';
 import Service from './ServiceItem/Service';
 import MyService from './ServiceItem/myService';
