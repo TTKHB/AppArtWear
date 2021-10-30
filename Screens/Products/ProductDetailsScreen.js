@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {
   View,
   Text,
@@ -15,9 +15,9 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated from 'react-native-reanimated';
 import SearchHangDau from '../../components/Home/SearchHangDau';
 import COLORS from '../../assets/data/colors';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
 import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import Star from '../../components/ProductMenu/Star';
 import {
@@ -25,76 +25,65 @@ import {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
 import RoundedCheckbox from 'react-native-rounded-checkbox';
-const { height, width } = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 import StarRating from 'react-native-star-rating';
 const MIN_HEIGHT = Platform.OS === 'ios' ? 90 : 55;
 import Swiper from 'react-native-swiper';
-import { List } from 'react-native-paper';
+import {List} from 'react-native-paper';
 import Ship from '../../components/Checkout/Ship';
-import { datauser } from '../../assets/data/ItemUserComment';
+import {datauser} from '../../assets/data/ItemUserComment';
 import LoaderProductDetail from '../../components/Home/Loader/LoaderProductDetail';
 import useReviewByProductId from './../../hooks/Reviews/useReviewByProductId';
-import { formatDate } from '../../utils/Methods';
+import {formatDate} from '../../utils/Methods';
 import useReviewStatistic from './../../hooks/Reviews/useReviewStatistic';
-import { rate, average } from 'average-rating';
-import { useLogin } from '../../Context/LoginProvider';
-import Dialog from "react-native-dialog";
+import {rate, average} from 'average-rating';
+import {useLogin} from '../../Context/LoginProvider';
+import Dialog from 'react-native-dialog';
+import useFavoriteOfUser from '../../hooks/Favorite/useFavoriteOfUser';
+
 /**
  *
  * @param {id as product_id} param
  */
-const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
-  const { isLoggedIn, profile } = useLogin();
+const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
+  const {isLoggedIn, profile} = useLogin();
+
+  console.log(
+    '🚀 ~ file: ProductDetailsScreen.js ~ line 50 ~ ProductDetailsScreen ~ profile',
+    profile,
+  );
   //Biến add sp vào giỏ hàng
   const updateData = async () => {
     //Nếu khác isLoggedIn từ Authencontext (Tức là chưa có tài khoản)
     //Phải vào login
     if (!isLoggedIn) {
-      navigation.navigate('UserNavigator', { screen: 'Login' })
+      navigation.navigate('UserNavigator', {screen: 'Login'});
     }
     //Ngược lại thêm sp vào giỏ hàng
     else {
       fetch(`${baseURL}carts`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           amount: '1',
           product_id: details._id,
-          user_id: profile._id
-
-        })
-      }).then(res => res.json())
+          user_id: profile._id,
+        }),
+      })
+        .then(res => res.json())
         .then(data => {
-          console.log('is Update successffly!!')
+          console.log('is Update successffly!!');
           //Show dialog thanh cong
           showDialog();
-        }).catch(err => {
-          console.log("error", err)
         })
+        .catch(err => {
+          console.log('error', err);
+        });
     }
-  }
+  };
   //updataFavorite
-  
-  const UpdateFavorite =()=>{
-    if(!isLoggedIn){
-     navigation.navigate('UserNavigator', { screen: 'Login' })
-    }else{
-          axios.post(`${baseURL}favorite`, {
-            product_id:id,
-            user_id:profile._id,
-            isFavorite:likeCount
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-      }
-   }
-
 
   //Diglog onClick
   const [visible, setVisible] = useState(false);
@@ -107,11 +96,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
 
   const id = route.params.id;
 
-  const renderItemComment = ({ item, index }) => {
-    console.log(
-      '🚀 ~ file: ProductDetailsScreen.js ~ line 46 ~ renderItemComment ~ item',
-      item,
-    );
+  const renderItemComment = ({item, index}) => {
     if (item.UserId) {
       return (
         <View style={styles.container1}>
@@ -138,13 +123,9 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
     }
   };
   const renderPagination = (index, total, context) => {
-    console.log(
-      '🚀 ~ file: ProductDetailsScreen.js ~ line 77 ~ renderPagination ~ context',
-      context,
-    );
     return (
       <View style={styles.paginationStyle}>
-        <Text style={{ color: 'black', fontSize: 20 }}>
+        <Text style={{color: 'black', fontSize: 20}}>
           <Text style={styles.paginationText}>{index + 1}</Text>/{total}
         </Text>
       </View>
@@ -157,46 +138,68 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
     useNativeDriver: true, // Add this line
   }).start();
 
-  // tym
-  const [isLike, seiIsLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
   const onLikePressed = () => {
-    const amount = isLike ? -1 : 1;
+    const amount = isFavorite ? -1 : 1;
     setLikeCount(likeCount + amount);
-    seiIsLike(!isLike);
+    setIsFavorite(!isFavorite);
   };
   useEffect(() => {
     setLikeCount(likeCountProp);
   }, []);
+
+  const [likeCount, setLikeCount] = useState(0);
   const [products, setProducts] = useState([]);
-
   const [details, setDetails] = useState([]);
-  console.log(
-    '🚀 ~ file: ProductDetailsScreen.js ~ line 107 ~ ProductDetailsScreen ~ details',
-    details,
-  );
   const [expanded, setExpanded] = React.useState(true);
-
   const handlePress = () => setExpanded(!expanded);
   const [loading, setLoading] = useState(true);
   const [checkboxColor, setCheckboxColor] = React.useState('');
   const [imagesFilter, setImagesFilter] = React.useState([]);
   const [images, setImages] = React.useState([]);
   const [colors, setColors] = React.useState([]);
-  const { reviewsOfProduct } = useReviewByProductId(id);
-  const { reviewsStatistics } = useReviewStatistic(id);
+  const {reviewsOfProduct} = useReviewByProductId(id);
+  const {reviewsStatistics} = useReviewStatistic(id);
+  const {favoriteOfUser, deleteByFavorite, InsertOneFavoriteEqualTrue} =
+    useFavoriteOfUser(profile._id); //profile._id => user_id
   const [dataReviewOfProduct, setDataReviewOfProduct] = React.useState([]);
   const [totalReviewOfProduct, setTotalReviewOfProduct] = React.useState(0);
   const [NumRating, setNumRating] = useState(0);
-
+  const [isFavorite, setIsFavorite] = useState(false);
   console.log(
-    '🚀 ~ file: ProductDetailsScreen.js ~ line 109 ~ ProductDetailsScreen ~ reviewsStatistics',
-    reviewsOfProduct,
+    '🚀 ~ file: ProductDetailsScreen.js ~ line 199 ~ ProductDetailsScreen ~ isFavorite',
+    isFavorite,
   );
 
   const selectedColor = (index, color) => {
     setCheckboxColor(color);
   };
+
+  const UpdateFavorite = () => {
+    if (!isLoggedIn) {
+      navigation.navigate('UserNavigator', {screen: 'Login'});
+    } else {
+      if (profile && !isFavorite) {
+        const product_id = id;
+        const user_id = profile._id;
+        InsertOneFavoriteEqualTrue(product_id, user_id, !isFavorite);
+      }
+      if (profile && isFavorite) {
+        deleteByFavorite(id);
+      }
+    }
+  };
+
+  //tìm favorite và fill data
+  useEffect(() => {
+    const findIsFavorite = favoriteOfUser.find(favorite => {
+      if (favorite.product_id !== null) {
+        return favorite.product_id._id == id;
+      }
+    });
+    if (findIsFavorite) {
+      setIsFavorite(findIsFavorite.isFavorite);
+    }
+  }, [favoriteOfUser]);
 
   //lắng nghe khi có reviewsOfProduct và set reviewsOfProduct
   useEffect(() => {
@@ -314,7 +317,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
     }, []),
   );
   return (
-    <View style={[styles.container, { backgroundColor: COLORS.white }]}>
+    <View style={[styles.container, {backgroundColor: COLORS.white}]}>
       {loading ? (
         <LoaderProductDetail />
       ) : (
@@ -323,7 +326,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
           showsVerticalScrollIndicator={false}
           maxHeight={500}
           minHeight={MIN_HEIGHT}
-          minOverlayOpacity={0}
+          // minOverlayOpacity={0}
           useNativeDriver={false}
           maxOverlayOpacity={0.1}
           renderForeground={() => (
@@ -336,33 +339,38 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                   <View style={styles.slide}>
                     <Image
                       style={styles.image}
-                      source={{ uri: image }}
-                    // source={{uri: item.ThumbImg ? item.ThumbImg : null}}
+                      source={{uri: image}}
+                      // source={{uri: item.ThumbImg ? item.ThumbImg : null}}
                     />
                   </View>
                 );
               })}
             </Swiper>
           )}>
-          <View style={{ height: 1300 }}>
+          <View>
             <TriggeringView onHide={() => console.log('text hidden')}>
-              <Animated.ScrollView style={{ alignSelf: 'stretch' }}>
+              <Animated.ScrollView style={{alignSelf: 'stretch'}}>
                 {/* Dialog thêm thành công giỏ hàng */}
                 <Dialog.Container
                   visible={visible}
-                  contentStyle={{ borderRadius: 10, borderColor: 'white', width: width / 1.09 }}>
-                  <Dialog.Title style={{ fontSize: 28, fontWeight: 'bold' }}>
-                    Thêm thành công {" "}
+                  contentStyle={{
+                    borderRadius: 10,
+                    borderColor: 'white',
+                    width: width / 1.09,
+                  }}>
+                  <Dialog.Title style={{fontSize: 28, fontWeight: 'bold'}}>
+                    Thêm thành công{' '}
                     <Image
-                      style={{ height: 25, width: 25 }}
+                      style={{height: 25, width: 25}}
                       source={require('../../assets/icon/checked.png')}
                     />
                   </Dialog.Title>
-                  <Dialog.Description style={{ fontSize: 22, fontWeight: 'bold' }}>
+                  <Dialog.Description
+                    style={{fontSize: 22, fontWeight: 'bold'}}>
                     Sản phẩm đã được thêm vào giỏ hàng
                   </Dialog.Description>
                   <Dialog.Button
-                    style={{ color: 'brown', fontWeight: 'bold', fontSize: 20 }}
+                    style={{color: 'brown', fontWeight: 'bold', fontSize: 20}}
                     label="Tiếp tục"
                     onPress={handleContinue}
                   />
@@ -387,8 +395,8 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                     />
                   </View>
                   <View style={styles.flashing}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Màu </Text>
-                    <Text style={{ fontWeight: 'bold', fontSize: 20, left: -5 }}>
+                    <Text style={{fontWeight: 'bold', fontSize: 20}}>Màu </Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 20, left: -5}}>
                       Kích cỡ
                     </Text>
                   </View>
@@ -407,7 +415,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                             isChecked={checkboxColor == color ? true : false}
                             onPress={() => selectedColor(i, color)}
                             unfillColor={color}
-                            iconStyle={{ borderColor: 'brown' }}
+                            iconStyle={{borderColor: 'brown'}}
                             disableBuiltInState={true}
                             fillColor={color}></BouncyCheckbox>
                         );
@@ -431,10 +439,10 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                         fontSize: 20,
                         color: 'black',
                       }}
-                      style={{ backgroundColor: 'white' }}
+                      style={{backgroundColor: 'white'}}
                       title="Mô tả">
                       <View>
-                        <Text style={{ fontSize: 18 }}>{details.mota}</Text>
+                        <Text style={{fontSize: 18}}>{details.mota}</Text>
                       </View>
                     </List.Accordion>
                   </List.Section>
@@ -448,7 +456,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                         fontSize: 20,
                         color: 'black',
                       }}
-                      style={{ backgroundColor: 'white' }}
+                      style={{backgroundColor: 'white'}}
                       title="Đánh giá">
                       <View
                         style={{
@@ -456,7 +464,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                           justifyContent: 'space-between',
                           alignItems: 'center',
                         }}>
-                        <Text style={{ fontSize: 18 }}>Nhận xét</Text>
+                        <Text style={{fontSize: 18}}>Nhận xét</Text>
                         <TouchableOpacity
                           onPress={() => {
                             navigation.navigate('StarRating', {
@@ -474,7 +482,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                           reviews={88}
                           fullStarColor={'orange'}
                           starSize={13}></StarRating>
-                        <Text style={{ left: 4, fontSize: 13, color: 'red' }}>
+                        <Text style={{left: 4, fontSize: 13, color: 'red'}}>
                           {NumRating}/5
                         </Text>
                         <Text style={styles.score}>
@@ -483,13 +491,11 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                       </View>
 
                       {/* Bình luận user*/}
-                      <ScrollView showsVerticalScrollIndicator={false} vertical>
-                        <FlatList
-                          data={dataReviewOfProduct}
-                          keyExtractor={item => item.id}
-                          renderItem={renderItemComment}
-                        />
-                      </ScrollView>
+                      <FlatList
+                        data={dataReviewOfProduct}
+                        keyExtractor={item => item.id}
+                        renderItem={renderItemComment}
+                      />
                     </List.Accordion>
                   </List.Section>
 
@@ -501,7 +507,7 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
                     data={products}
                     horizontal
                     keyExtractor={item => item.id}
-                    renderItem={({ item }) => (
+                    renderItem={({item}) => (
                       <SearchHangDau item={item} navigation={navigation} />
                     )}
                   />
@@ -513,18 +519,22 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
       )}
       {/* Footer */}
       <View style={styles.footerContainer}>
-      <TouchableWithoutFeedback onPress={()=>{onLikePressed();UpdateFavorite()}} >
-          <View style={[styles.btnContainer, { marginRight: 10 }]}>
-            {isLike ? (
-              <AntIcon name="heart" size={25} color={'#c30000'} />
+        <TouchableWithoutFeedback
+          onPress={() => {
+            onLikePressed();
+            UpdateFavorite();
+          }}>
+          <View style={[styles.btnContainer, {marginRight: 10}]}>
+            {isFavorite ? (
+              <AntIcon name="heart" size={25} color={'red'} />
             ) : (
               <AntIcon name="hearto" size={25} color={'#fff'} />
             )}
           </View>
         </TouchableWithoutFeedback>
-        <TouchableOpacity style={[styles.btnContainer, { flex: 1 }]}
-          onPress={updateData}
-        >
+        <TouchableOpacity
+          style={[styles.btnContainer, {flex: 1}]}
+          onPress={updateData}>
           <Text style={styles.btnText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
       </View>
