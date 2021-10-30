@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -19,16 +19,16 @@ import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Feather';
 import COLORS from '../../assets/data/colors';
 import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-import { DATA } from '../../assets/data/PopularSearch';
-import { useLogin } from '../../Context/LoginProvider';
-const { height, width } = Dimensions.get('window');
+import {DATA} from '../../assets/data/PopularSearch';
+import {useLogin} from '../../Context/LoginProvider';
+const {height, width} = Dimensions.get('window');
 const numColumns = 2;
-const FavoriteScreen = ({ navigation, i }) => {
+const FavoriteScreen = ({navigation, i}) => {
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState([]);
-  const { profile } = useLogin();
+  const {profile} = useLogin();
   useFocusEffect(
     useCallback(() => {
       axios
@@ -50,20 +50,25 @@ const FavoriteScreen = ({ navigation, i }) => {
     }, []),
   );
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) => {
+    console.log(
+      '🚀 ~ file: FavoriteScreen.js ~ line 54 ~ renderItem ~ item',
+      item,
+    );
     return (
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('HomeNavigator', {
-            screen: 'Product Detail',
-            params: { id: item._id },
-          })
-        }>
+      // onPress={() =>
+      //   navigation.navigate('HomeNavigator', {
+      //     screen: 'Product Detail',
+      //     params: { id: item._id },
+      //   })
+      // }
+      >
         <View style={styles.viewPopSearch}>
-          <View style={{ flexDirection: 'row' }}>
-            <Image source={item.image} style={{ height: 170, width: '100%' }} />
+          <View style={{flexDirection: 'row'}}>
+            <Image source={item.image} style={{height: 170, width: '100%'}} />
           </View>
-          <View style={{ marginLeft: 4 }}>
+          <View style={{marginLeft: 4}}>
             <Text style={styles.cardName}>{item.name}</Text>
             <View style={styles.rate}>
               <Star ratings={4} reviews={100} />
@@ -74,7 +79,11 @@ const FavoriteScreen = ({ navigation, i }) => {
       </TouchableOpacity>
     );
   };
-  const renderItemFavorite = ({ item, index }) => {
+  const renderItemFavorite = ({item, index}) => {
+    console.log(
+      '🚀 ~ file: FavoriteScreen.js ~ line 83 ~ renderItemFavorite ~ item',
+      item,
+    );
     const showConfirmDialog = () => {
       return Alert.alert(
         'Bạn đã chắc chắn?',
@@ -113,20 +122,20 @@ const FavoriteScreen = ({ navigation, i }) => {
         onPress={() =>
           navigation.navigate('HomeNavigator', {
             screen: 'Product Detail',
-            params: { id: item._id },
+            params: {id: item.product_id ? item.product_id.id : ''},
           })
         }>
         <View style={styles.container}>
           <Image
             resizeMode="cover"
             style={styles.cover}
-            source={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
+            source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
           />
           <TouchableOpacity style={styles.close} onPress={showConfirmDialog}>
             <Ionicons name="delete" size={25} color={'red'} />
           </TouchableOpacity>
         </View>
-        <View style={{ marginLeft: 4 }}>
+        <View style={{marginLeft: 4}}>
           <Text style={styles.cardName}>
             {' '}
             {item.product_id ? item.product_id.ten : ' '}
@@ -148,7 +157,7 @@ const FavoriteScreen = ({ navigation, i }) => {
             </View>
             <TouchableOpacity style={styles.iconAddCart}>
               <Image
-                style={{ width: 20, height: 20 }}
+                style={{width: 20, height: 20}}
                 source={require('../../assets/icon/addcart.png')}
               />
             </TouchableOpacity>
@@ -217,7 +226,7 @@ const FavoriteScreen = ({ navigation, i }) => {
                 />
               </ScrollView>
             </View>
-            <View style={{ height: 50, backgroundColor: 'white' }}></View>
+            <View style={{height: 50, backgroundColor: 'white'}}></View>
           </ScrollView>
         )}
       </SafeAreaView>
@@ -264,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 30,
     elevation: 10,
-    marginRight: 3
+    marginRight: 3,
   },
 
   viewBody: {
@@ -296,7 +305,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   coverImage: {
     width: '100%',

@@ -9,6 +9,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  RefreshControl,
 } from 'react-native';
 //API
 import axios from 'axios';
@@ -33,26 +34,40 @@ const {height, width} = Dimensions.get('window');
 const ProductScreen = ({item, navigation}) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setLoading(true);
+    getAllProduct();
+    setRefreshing(false);
+  }, []);
   useFocusEffect(
     useCallback(() => {
       setLoading(true);
       // Products
-      axios
-        .get(`${baseURL}products`)
-        .then(res => {
-          setProducts(res.data);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.log('Api call error');
-        });
-
+      getAllProduct();
       return () => {
         setProducts([]);
       };
     }, []),
   );
+
+  const getAllProduct = () => {
+    axios
+      .get(`${baseURL}products`)
+      .then(res => {
+        setProducts(res.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log('Api call error');
+      });
+  };
+
   const renderItemPhoBien = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -111,7 +126,11 @@ const ProductScreen = ({item, navigation}) => {
         {loading ? (
           <LoaderHome />
         ) : (
-          <ScrollView style={styles.wrap}>
+          <ScrollView
+            style={styles.wrap}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
             {/* thể loại */}
             <Category />
             {/* banner Header */}
