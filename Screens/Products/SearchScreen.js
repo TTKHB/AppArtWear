@@ -108,9 +108,14 @@ const SearchScreen = ({navigation, route}) => {
 
   //handle list of word search
   useEffect(async () => {
+    console.log('hello');
     const dataWord = (await AsyncStorage.getItem('WORD_SEARCH')) || [];
-
+    console.log(
+      '🚀 ~ file: SearchScreen.js ~ line 112 ~ useEffect ~ dataWord',
+      dataWord,
+    );
     const wordReversed = await [...JSON.parse(dataWord)].reverse();
+
     const sliceWord = wordReversed.slice(0, 4);
     setHistory(wordReversed || []);
     setHistoryExpaned(sliceWord || []);
@@ -142,6 +147,10 @@ const SearchScreen = ({navigation, route}) => {
 
   const handleClickedItem = async title => {
     AsyncStorage.getItem('WORD_SEARCH', (err, result) => {
+      console.log(
+        '🚀 ~ file: SearchScreen.js ~ line 150 ~ AsyncStorage.getItem ~ result',
+        result,
+      );
       const arrTitle = [{title: title}];
 
       if (result !== null) {
@@ -173,6 +182,10 @@ const SearchScreen = ({navigation, route}) => {
         }
 
         // console.log('reuslt', result);
+      } else {
+        const arrHistory = [];
+        var newArrHistory = arrHistory.concat(arrTitle);
+        AsyncStorage.setItem('WORD_SEARCH', JSON.stringify(newArrHistory));
       }
     });
     navigation.navigate('UserNavigator', {
@@ -224,13 +237,28 @@ const SearchScreen = ({navigation, route}) => {
         containerStyle={{
           backgroundColor: 'white',
         }}
-        leftComponent={{
-          icon: 'angle-left',
-          type: 'font-awesome',
-          size: 40,
-          marginTop: 15,
-          marginLeft: 5,
-        }}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Icon
+              name="angle-left"
+              size={40}
+              type="font-awesome"
+              color="#517fa4"
+              style={{marginTop: 15, marginLeft: 5}}
+            />
+          </TouchableOpacity>
+
+          //   {
+          //   icon: 'angle-left',
+          //   type: 'font-awesome',
+          //   size: 40,
+          //   marginTop: 15,
+          //   marginLeft: 5,
+          // }
+        }
         centerComponent={
           <SearchBar
             autoFocus={true}

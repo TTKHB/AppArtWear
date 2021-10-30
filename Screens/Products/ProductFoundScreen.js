@@ -146,7 +146,7 @@ const ProductFoundScreen = ({navigation, route}) => {
   // open when clicked into button filter
   const navigationView = () => (
     <View style={[styles.container, styles.navigationContainer]}>
-      <ScrollView style={{alignSelf: 'stretch', marginTop: 20}}>
+      <ScrollView style={{alignSelf: 'stretch', marginTop: (20 * width) / 300}}>
         {content
           ? content.map((item, i) => {
               return (
@@ -234,13 +234,28 @@ const ProductFoundScreen = ({navigation, route}) => {
           containerStyle={{
             backgroundColor: 'white',
           }}
-          leftComponent={{
-            icon: 'angle-left',
-            type: 'font-awesome',
-            size: 40,
-            marginTop: 15,
-            marginLeft: 5,
-          }}
+          leftComponent={
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Icon
+                name="angle-left"
+                size={40}
+                type="font-awesome"
+                color="#517fa4"
+                style={{marginTop: 15, marginLeft: 5}}
+              />
+            </TouchableOpacity>
+
+            //   {
+            //   icon: 'angle-left',
+            //   type: 'font-awesome',
+            //   size: 40,
+            //   marginTop: 15,
+            //   marginLeft: 5,
+            // }
+          }
           centerComponent={
             <TouchableOpacity
               onPress={() => {
