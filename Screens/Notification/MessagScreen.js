@@ -21,14 +21,14 @@ const MessagScreen = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.bodyContainer}>
-                    <TouchableOpacity style={styles.bodyContainerCard} onPress={() => navigation.navigate('Notifi')}>
+                    <TouchableOpacity style={styles.bodyContainerCard} onPress={() => navigation.navigate('UserNavigator', { screen: 'NotifiScreen' })}>
                         <Image source={{ uri: "https://image.pngaaa.com/458/1963458-middle.png" }} style={styles.avatarBody} />
                         <View style={styles.textTitle}>
                             <Text style={styles.name}>Đơn đặt hàng</Text>
                             <Text style={styles.nameTitle}>Luôn cập nhật về tình trạng của đơn đặt hàng...</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.bodyContainerCard} onPress={() => navigation.navigate('Notifi')}>
+                    <TouchableOpacity style={styles.bodyContainerCard} onPress={() => navigation.navigate('UserNavigator', { screen: 'NotifiScreen' })}>
                         <Image source={{ uri: "https://banner2.cleanpng.com/20180422/lwq/kisspng-loudspeaker-computer-icons-symbol-speaker-icon-5adcb20f06b281.2804426415244129430274.jpg" }} style={styles.avatarBody} />
                         <View style={styles.textTitle}>
                             <Text style={styles.name}>Tin mới nhất</Text>
@@ -54,7 +54,7 @@ const MessagScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.container}>
-                    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Activity')}>
+                    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('UserNavigator', { screen: 'ActivityScreen' })}>
                         <View style={styles.userInfo}>
                             <View style={styles.userImgWrapper} >
                                 <Image style={styles.userImg} source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE8ymWEyrzuPwMcedI_uDxfmzyK2oWxn44pr2m9z-kD_I8GxF-31tkS8Ze6dkbN0LWpJI&usqp=CAU" }} />

@@ -75,7 +75,7 @@ const HomeNavigator = ({ navigation }) => {
                 <IconNotification
                   name="notification"
                   size={24}
-                  onPress={() => navigation.navigate('UserNavigator', { screen: 'Notification' })}
+                  onPress={() => navigation.navigate('UserNavigator', { screen: 'MessagScreen' })}
                   style={{
                     marginRight: 10
                   }}

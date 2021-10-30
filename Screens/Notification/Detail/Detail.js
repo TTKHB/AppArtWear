@@ -5,16 +5,13 @@ import {
 import {Dimensions} from 'react-native';
 export const width = Dimensions.get ('window').width;
 export const height = Dimensions.get ('window').height;
-export const Back = require ('../../../assets/img/back.png');
-export const Banner8 = require ('../../../assets/img/banner10.jpg');
-export const Banner12 = require ('../../../assets/img/banner12.jpg');
-export const Banner6 = require ('../../../assets/img/banner6.jpg');
-export const huyen = require ('../../../assets/img/huyen.jpg');
-export const Banner7 = require ('../../../assets/img/banner9.jpg');
-export const watch = require ('../../../assets/img/36.webp');
-export const nam = require ('../../../assets/img/nam.webp');
-export const nu = require ('../../../assets/img/nu.webp');
-export const more = require ('../../../assets/img/xemthem.webp');
+export const Back = require ('../../../assets/images/back.png');
+export const Banner8 = require ('../../../assets/images/banner10.jpg');
+export const huyen = require ('../../../assets/images/huyen.jpg');
+export const watch = require ('../../../assets/images/36.webp');
+export const nam = require ('../../../assets/images/nam.webp');
+export const nu = require ('../../../assets/images/nu.webp');
+export const more = require ('../../../assets/images/more.png');
 const Theme = [
   {
     image: nam,
@@ -71,8 +68,8 @@ const Lists = [
 ];
 
 const Detail = ({navigation, route}) => {
-  const {item} = route.params;
-  console.log ('abcsd:', item);
+  const id = route.params.id;
+  console.log ('abcsd:', id);
   return (
     <View style={{height: '100%', backgroundColor: 'white'}}>
       {/* header----------------------------------------------------------- */}
@@ -90,7 +87,7 @@ const Detail = ({navigation, route}) => {
         <ScrollView>
           <View>
             <Image
-              source={item.Image}
+              source={Banner8}
               style={{width: '100%', height: 200, resizeMode: 'stretch'}}
             />
           </View>
@@ -122,11 +119,11 @@ const Detail = ({navigation, route}) => {
           {/* Banner--------------------------------------------------------------- */}
           <Text style={Styles.TextBanner}>#ARTWEARcampaings</Text>
           <TouchableOpacity style={Styles.ViewBanner}>
-            <Image style={Styles.Imagebanner} source={Banner7} />
+            <Image style={Styles.Imagebanner} source={Banner8} />
           </TouchableOpacity>
           <Text style={Styles.TextBanner}>Brands</Text>
           <TouchableOpacity style={Styles.ViewBanner}>
-            <Image style={Styles.Imagebanner} source={Banner6} />
+            <Image style={Styles.Imagebanner} source={Banner8} />
           </TouchableOpacity>
 
           <Text style={Styles.TextBanner}>#dailydrops</Text>
@@ -136,7 +133,7 @@ const Detail = ({navigation, route}) => {
 
           <Text style={Styles.TextBanner}>#ARTWEARsale</Text>
           <TouchableOpacity style={Styles.ViewBanner}>
-            <Image style={Styles.Imagebanner} source={Banner12} />
+            <Image style={Styles.Imagebanner} source={Banner8} />
           </TouchableOpacity>
 
           <View style={{marginBottom: 80}}>

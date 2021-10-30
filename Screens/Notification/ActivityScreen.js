@@ -9,12 +9,9 @@ import {
   FlatList,
   SectionList,
 } from 'react-native';
-export const Back = require ('../../assets/img/back.png');
-export const banner1 = require ('../../assets/img/banner1.jpg');
-export const banner2 = require ('../../assets/img/banner2.jpg');
-export const banner3 = require ('../../assets/img/banner3.jpg');
-export const banner4 = require ('../../assets/img/banner4.jpg');
-export const banner5 = require ('../../assets/img/banner5.png');
+export const Back = require ('../../assets/images/back.png');
+export const banner1 = require ('../../assets/images/banner1.jpg');
+
 
 const List = [
   {
@@ -26,28 +23,28 @@ const List = [
   },
   {
     id: 2,
-    Image: banner2,
+    Image: banner1,
     title: 'SĂN SALE THẢ GA',
     theme: '#Ưu đải cực sốc lên đến 50%',
     date: '25/05/2021'
   },
   {
     id: 3,
-    Image: banner3,
+    Image: banner1,
     title: 'BẮT ĐẦU TỪ NGÀY 1 THÁNG 10',
     theme: '#Đảo sale 25% cho đơn hàng từ 500.00đ',
     date: '25/05/2021'
   },
   {
     id: 4,
-    Image: banner4,
+    Image: banner1,
     title: 'ƯU ĐÃI BẤT NGỜ CUỐI THÁNG NÀY',
     theme: '#Big Sale cuối năm dành cho người dùng',
     date: '25/05/2021'
   },
   {
     id: 5,
-    Image: banner5,
+    Image: banner1,
     title: '1000 SẢN PHẨM ĐẦU TIÊN',
     theme: '#Giảm giá kỹ lục',
     date: '25/05/2021'
@@ -76,7 +73,12 @@ const ActivityScreen = ({navigation}) => {
          return(
            <View style={{alignItems: 'center', marginTop: 20}}>
              <Text>{item.date}</Text>
-             <TouchableOpacity onPress={() => navigation.navigate('Detail ne',{item})}style={Styles.FlatView}>
+             <TouchableOpacity   onPress={() =>
+          navigation.navigate('UserNavigator', {
+            screen: 'Detail',
+            params: {id: item.id},
+          })
+        }style={Styles.FlatView}>
              <View style={{width: '100%', height: '65%', backgroundColor: 'white'}}>
                <Image style={{width: '100%', height: '100%',resizeMode: 'stretch'}} source={item.Image}
                />

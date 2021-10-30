@@ -21,6 +21,10 @@ import FavoriteScreen from '../../Screens/Profile/FavoriteScreen';
 import IconSearch from 'react-native-vector-icons/Octicons';
 import IconBack from 'react-native-vector-icons/Ionicons';
 
+import MessagScreen from '../../Screens/Notification/MessagScreen'
+import NotifiScreen from '../../Screens/Notification/NotifiScreen'
+import ActivityScreen from '../../Screens/Notification/ActivityScreen'
+import Detail from '../../Screens/Notification/Detail/Detail';
 const Stack = createStackNavigator();
 
 const UserNavigator = ({ navigation }) => {
@@ -246,6 +250,34 @@ const UserNavigator = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           ),
+        }}
+      />
+       <Stack.Screen
+        name="MessagScreen"
+        component={MessagScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="NotifiScreen"
+        component={NotifiScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="ActivityScreen"
+        component={ActivityScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="Detail"
+        component={Detail}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

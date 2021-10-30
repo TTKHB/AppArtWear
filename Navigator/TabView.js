@@ -6,6 +6,7 @@ import HandleProduct from '../Screens/User/PurchaseOrder/HandleProduct';
 import TransPort from '../Screens/User/PurchaseOrder/TransPort';
 import StarRatingOrder from '../Screens/User/PurchaseOrder/StarRatingOrder';
 import CancelOrder from '../Screens/User/PurchaseOrder/CancelOrder';
+import AllOder from '../Screens/User/PurchaseOrder/AllOder';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -36,6 +37,10 @@ const TabView = () => {
                 }
             }}
         >
+             <Tab.Screen
+                component={AllOder}
+                name='Tất cả đơn hàng'
+            />
             <Tab.Screen
                 component={WaitPayment}
                 name='Chờ thanh toán'
