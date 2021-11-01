@@ -7,9 +7,9 @@ import TransPort from '../Screens/User/PurchaseOrder/TransPort';
 import StarRatingOrder from '../Screens/User/PurchaseOrder/StarRatingOrder';
 import CancelOrder from '../Screens/User/PurchaseOrder/CancelOrder';
 import AllOder from '../Screens/User/PurchaseOrder/AllOder';
+import OderDetail from '../Screens/User/PurchaseOrder/OderDetail';
 
 const Tab = createMaterialTopTabNavigator();
-
 const TabView = () => {
     return (
         <Tab.Navigator
@@ -20,7 +20,7 @@ const TabView = () => {
                     height: 60,
                 },
                 tabBarLabelStyle: {
-                    fontSize: 18,
+                    fontSize: 15,
                     margin: 0,
                     fontWeight: 'bold',
                 },
@@ -61,6 +61,9 @@ const TabView = () => {
                 component={CancelOrder}
                 name='Huỷ đơn hàng'
             />
+                
+            
+
         </Tab.Navigator>
     );
 };

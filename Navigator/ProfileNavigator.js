@@ -7,6 +7,7 @@ import ProfileScreen from '../Screens/Profile/ProfileScreen';
 import HelpScreen from '../Screens/User/Help/HelpScreen';
 import FeedbackScreens from '../Screens/User/Help/FeedbackScreens';
 import FavoriteScreen from'../Screens/Profile/FavoriteScreen';
+import OderDetail from '../Screens/User/PurchaseOrder/OderDetail';
 const Stack = createStackNavigator();
 
 const ProfileNavigator = () => {
@@ -41,6 +42,7 @@ const ProfileNavigator = () => {
         headerShown: false,
       }}
     />
+    
     </Stack.Navigator>
   );
 };

@@ -24,7 +24,7 @@ const Product = [
   },
 ]
 
-const AllOder = () => {
+const AllOder = ({navigation}) => {
   return (
     <View style={Styles.container}>
       <FlatList 
@@ -51,7 +51,7 @@ const AllOder = () => {
                 </View>
               </View>
               <View style={Styles.container4}>
-                <TouchableOpacity style={Styles.Tou}>
+                <TouchableOpacity onPress={() => navigation.navigate('TabView', { screen: 'OderDetail' })} style={Styles.Tou}>
                    <Text style={Styles.texttou}> Xem chi tiết
                    </Text>
                 </TouchableOpacity>
