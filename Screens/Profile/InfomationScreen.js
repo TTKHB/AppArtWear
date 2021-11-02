@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Dimensions,
     SafeAreaView,
+    KeyboardAvoidingView
 } from 'react-native';
 //Theme
 import { useTheme } from 'react-native-paper';
@@ -30,11 +31,12 @@ import baseURL from '../../assets/common/baseUrl';
 //Custom InfomationUser
 import InfomationUser from '../../components/Profile/ProfileItem/InfoUserItem';
 //import check error
-import { updateError, isValidEmail } from '../../utils/Methods';
+import { updateError, isValidEmail, isValidObjField } from '../../utils/Methods';
 const { height, width } = Dimensions.get('window');
 //Custom DialogDateTime
 import DialogDateTime from '../../Shared/DiaLog/DialogDateTime';
 import { RadioButton } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const InfomationScreen = ({ navigation, route }) => {
     //Form kiem tra loi
@@ -46,6 +48,15 @@ const InfomationScreen = ({ navigation, route }) => {
         if (isNaN(phone)) {
             // Its not a number
             return updateError('Số điện thoại không chứa ký tự chữ!', setError);
+        }
+        if (phone == "") {
+            return updateError('Bạn chưa nhập số điện thoại!', setError);
+        }
+        if (phone.length < 10) {
+            return updateError('Số điện thoại không phù hợp!', setError);
+        }
+        if (address == "") {
+            return updateError('Bạn cần cung cấp thêm địa chỉ của mình!', setError);
         }
         return true;
     }
@@ -192,7 +203,7 @@ const InfomationScreen = ({ navigation, route }) => {
         </View>
     );
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             {/* Xử lý bottom sheet */}
             <BottomSheet
                 ref={bs}
@@ -268,7 +279,9 @@ const InfomationScreen = ({ navigation, route }) => {
                     </View>
                 </SafeAreaView>
                 {/* Giới thiệu */}
-                <View style={styles.content}>
+                <KeyboardAvoidingView
+                    enabled behavior={Platform.OS === 'ios' ? "padding" : null}
+                    style={styles.content}>
                     <InfomationUser icon="form-select" name="Giới thiệu" />
                     {/* Name */}
                     <View style={styles.action}>
@@ -337,9 +350,11 @@ const InfomationScreen = ({ navigation, route }) => {
                             </View>
                         </View>
                     </RadioButton.Group>
-                </View>
+                </KeyboardAvoidingView>
                 {/* Thông tin liên hệ */}
-                <View style={styles.InfomationUser}>
+                <KeyboardAvoidingView
+                    enabled behavior={Platform.OS === 'ios' ? "padding" : null}
+                    style={styles.InfomationUser}>
                     <InfomationUser icon="information-outline" name="Thông tin liên hệ" />
                     {/* Check loi */}
                     {error ? (
@@ -400,15 +415,15 @@ const InfomationScreen = ({ navigation, route }) => {
                         >
                         </TextInput>
                     </View>
-                </View>
+                </KeyboardAvoidingView>
             </Animated.View>
             {/* Footer chứa nút save */}
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.commandButton} onPress={() => updateData()}>
+                <TouchableOpacity style={styles.btnItemOne} onPress={() => updateData()}>
                     <Text style={styles.panelButtonTitle}>Lưu thông tin</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -434,7 +449,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         marginTop: -60,
         borderWidth: 0.5,
-        borderColor: '#E0E0E0'
+        borderColor: '#E0E0E0',
+        elevation: 2
     },
     InfomationUser: {
         marginHorizontal: 15,
@@ -444,6 +460,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         borderWidth: 0.5,
         borderColor: '#E0E0E0',
+        elevation: 2
     },
     divider: {
         height: 1,
@@ -454,9 +471,6 @@ const styles = StyleSheet.create({
     userInfoSection: {
         paddingHorizontal: 10,
         alignItems: 'center',
-    },
-    footer: {
-        height: '10%',
     },
     commandButton: {
         padding: 15,
@@ -523,7 +537,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         borderBottomWidth: 1,
         borderBottomColor: '#f2f2f2',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     actionDate: {
         flexDirection: 'row',
@@ -548,6 +562,27 @@ const styles = StyleSheet.create({
         marginTop: Platform.OS === 'ios' ? 0 : 5,
         paddingLeft: 10,
         color: '#05375a',
-        height: height / 25.5
+        height: 40,
+    },
+    footer: {
+        padding: 10,
+        backgroundColor: 'white',
+        marginTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    btnItemOne: {
+        backgroundColor: '#8D6E63',
+        borderRadius: 15,
+        width: width / 1.1,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    textItemOne: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: '#fff',
+        fontSize: 18,
     },
 });

@@ -67,6 +67,7 @@ const sanpham = [
 const CartScreen = ({ navigation }) => {
   const { isLoggedIn, profile } = useLogin();
   const [cartList, setcartList] = useState([]);
+  const itemsPrice = cartList.reduce((a, c) => a + c.amount * c.product_id.gia, 0);
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -130,6 +131,59 @@ const CartScreen = ({ navigation }) => {
           console.log(error)
         })
     }
+
+    const onChangeQual = (item, type) => {
+      const dataCar = item
+      let cantd = dataCar.amount;
+
+      if (type) {
+        //    cantd = cantd + 1
+        // const abc = dataCar.amount = cantd
+        //   //  this.setState({dataCart:dataCar})
+        //   console.log(abc)
+        // cartList.map(cart => {
+        //   cantd = cantd + 1
+        //   dataCar.amount = cantd
+        //   cantd = cart.amount
+        //   // console.log(cantd)
+        // })
+        cantd = cantd + 1
+        dataCar.amount = cantd
+        fetch(`${baseURL}carts/` + item._id, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            amount: cantd,
+          })
+        }).then(res => res.json())
+          .then(data => {
+            console.log('is Update successffly!!')
+          }).catch(err => {
+            console.log("error", err)
+          })
+      }
+      else if (type == false) {
+        cantd = cantd - 1
+        dataCar.amount = cantd
+        fetch(`${baseURL}carts/` + item._id, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            amount: cantd,
+          })
+        }).then(res => res.json())
+          .then(data => {
+            console.log('is Update successffly!!')
+          }).catch(err => {
+            console.log("error", err)
+          })
+      }
+    }
+
     return (
       <View style={styles.FlatListStyle} key={item._id}>
         <View style={styles.viewCart}>
@@ -147,11 +201,11 @@ const CartScreen = ({ navigation }) => {
             </Text>
             {/* + - */}
             <View style={styles.itemAmount}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => onChangeQual(item, false)}>
                 <Text style={styles.textItemAmount}>-</Text>
-              </TouchableOpacity>
+              </TouchableOpacity >
               <Text>{item.amount}</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => onChangeQual(item, true)}>
                 <Text style={styles.textItemAmount}>+</Text>
               </TouchableOpacity>
             </View>
@@ -284,7 +338,8 @@ const CartScreen = ({ navigation }) => {
           <Text style={styles.texttong}>Tổng thanh toán:</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text style={styles.tongprice}>184.000 đ</Text>
+          {/* <Text style={styles.tongprice}>184.000 đ</Text> */}
+          <Text style={styles.tongprice}>{itemsPrice} VNĐ</Text>
           <View style={styles.btnItemOne}>
             <TouchableOpacity
               onPress={() => navigation.navigate('CartNavigator', { screen: 'Checkout' })}>
@@ -437,8 +492,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10
+    borderRadius: 10,
   },
 
 })
 export default CartScreen;
+
+
+
