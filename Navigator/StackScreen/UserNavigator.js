@@ -25,6 +25,9 @@ import MessagScreen from '../../Screens/Notification/MessagScreen'
 import NotifiScreen from '../../Screens/Notification/NotifiScreen'
 import ActivityScreen from '../../Screens/Notification/ActivityScreen'
 import Detail from '../../Screens/Notification/Detail/Detail';
+import OderDetail from '../../Screens/User/PurchaseOrder/OderDetail'
+import Rating from '../../Screens/User/PurchaseOrder/Rating'
+
 const Stack = createStackNavigator();
 
 const UserNavigator = ({ navigation }) => {
@@ -276,6 +279,20 @@ const UserNavigator = ({ navigation }) => {
        <Stack.Screen
         name="Detail"
         component={Detail}
+        options={{
+          headerShown: false,
+        }}
+      />
+        <Stack.Screen
+        name="OderDetail"
+        component={OderDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+        <Stack.Screen
+        name="Rating"
+        component={Rating}
         options={{
           headerShown: false,
         }}

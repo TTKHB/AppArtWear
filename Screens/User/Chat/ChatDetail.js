@@ -1,64 +1,77 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 
 export const Back = require ('../../../assets/images/back1.png');
-export const more = require ('../../../assets/images/more.png');
-export const Mic = require ('../../../assets/images/mic.png');
-export const Camera = require ('../../../assets/images/camera.png');
-export const Image1 = require ('../../../assets/images/image.png');
-export const Plus = require ('../../../assets/images/plus.png');
-export const Like = require ('../../../assets/images/send.png');
+const chatLeft =[
+  {
+    id:1,
+    title: 'Shop ban ngon '
+  }
+]
+
+
 
 const ChatDetail = ({navigation, route}) => {
   const {item} = route.params;
   console.log ('abcsd:', item);
-  // const item= route.params
-  // const {navigation} = props;
   return (
     <View>
- {/* header------------------------------------------------------------- */}
+      {/* header------------------------------------------------------------- */}
       <View style={Styles.Header}>
         <TouchableOpacity
           onPress={() => navigation.goBack ()}
-          style={{width: '8%', justifyContent: 'center'}}
-        >
+          style={{width: '8%', justifyContent: 'center'}}>
           <Image style={Styles.backheader} source={Back} />
         </TouchableOpacity>
-        <View style={Styles.HederAvt}>
-          <Image style={Styles.ImageAvatar} source={item.image} />
-          <Text style={Styles.TextChat}>{item.Username}</Text>
+        <View style={{justifyContent: 'center',width: '92%'}}>
+          <Text style={{fontSize: 19, color: 'white', marginLeft: 10}}>{item.Username}</Text>
         </View>
-        <TouchableOpacity style={{width: '10%', justifyContent: 'center'}}>
-          <Image style={Styles.backheader} source={more} />
-        </TouchableOpacity>
+        
       </View>
+      {/* body-------------------------------------------------------- */}
       <ScrollView style={Styles.Body}>
-      <Text>abc</Text>
+        <View>
+        <FlatList 
+        data={chatLeft}
+        keyExtractor={item => item.id}
+        renderItem={({item})=> {
+          return(
+            <View style={{padding: 10,}}>
+              <View style={{borderRadius: 7, backgroundColor: 'white', height: 40,width: '33%', justifyContent: 'center',}}>
+                <Text style={{fontSize: 17, marginLeft: 5}}>{item.title}</Text>
+              </View>
+            </View>
+          )
+        }}
+        />
+        </View>
+        <View>
+        <FlatList 
+        data={chatLeft}
+        keyExtractor={item => item.id}
+        renderItem={({item})=> {
+          return(
+            <View style={{padding: 10,alignSelf: 'flex-end'}}>
+              <View style={{borderRadius: 7, backgroundColor: 'white', height: 40,width: '33%', justifyContent: 'center',}}>
+                <Text style={{fontSize: 17, marginLeft: 5}}>{item.title}</Text>
+              </View>
+            </View>
+          )
+        }}
+        />
+        </View>
       </ScrollView>
-{/* chat----------------------------------------------------------------- */}
-      <View style={{height: '12%', width: '100%'}}> 
-      <View style={Styles.ButtonChat}>
-          <View style={Styles.ChatLeft}>
-            <TouchableOpacity style={Styles.Touchat}>
-              <Image style={Styles.backheader} source={Plus} />
-            </TouchableOpacity>
-            <TouchableOpacity style={Styles.Touchat}>
-              <Image style={Styles.backheader} source={Camera} />
-            </TouchableOpacity>
-            <TouchableOpacity style={Styles.Touchat}>
-              <Image style={Styles.backheader1} source={Image1} />
-            </TouchableOpacity>
-            <TouchableOpacity style={Styles.Touchat}>
-              <Image style={Styles.backheader} source={Mic} />
-            </TouchableOpacity>
-          </View>
-          <View style={Styles.ChatRight}>
-            <TextInput style={Styles.TextInput} placeholder="Aa" />
-            <TouchableOpacity style={Styles.Touchat}>
-              <Image style={Styles.backheader} source={Like} />
-            </TouchableOpacity>
-          </View>
+      {/* chat----------------------------------------------------------------- */}
+      <View style={{height: '12%', width: '100%', backgroundColor: 'white'}}>
+        <View style={Styles.ButtonChat}>
+          <TextInput 
+          placeholder= 'Soạn tin nhắn'
+          style={{width: '85%', fontSize: 19, marginLeft: 10}}
+          />
+          <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 22,color: 'blue'}}>Gửi</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -74,8 +87,9 @@ export const Styles = StyleSheet.create ({
     flexDirection: 'row',
   },
   backheader: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
+    marginLeft: 10
   },
   backheader1: {
     width: 26,
@@ -86,7 +100,7 @@ export const Styles = StyleSheet.create ({
   Body: {
     width: '100%',
     height: '86%',
-    backgroundColor: 'white',
+    backgroundColor: '#D8E3E7',
   },
   inner: {
     padding: 24,
@@ -110,13 +124,13 @@ export const Styles = StyleSheet.create ({
     fontSize: 24,
     color: 'white',
     fontWeight: 'bold',
-    marginLeft: 8
+    marginLeft: 8,
   },
   ButtonChat: {
     width: '100%',
     height: 50,
     flexDirection: 'row',
-    borderWidth: 0.5,
+    borderTopWidth: 0.5,
   },
   ChatLeft: {
     width: '45%',
@@ -136,24 +150,14 @@ export const Styles = StyleSheet.create ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  TextInput: {
-    width: 175,
-    height: 35,
-    borderRadius: 20,
-    borderWidth: 0.3,
-    fontSize: 12,
-    textAlign: 'left',
-    justifyContent: 'center',
-    marginLeft: 7,
-  },
   ImageAvatar: {
     width: 35,
     height: 35,
     borderRadius: 50,
   },
-  HederAvt: {width: '80%',
-  alignItems: 'center',
-   flexDirection: 'row',
-
+  HederAvt: {
+    width: '80%',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });

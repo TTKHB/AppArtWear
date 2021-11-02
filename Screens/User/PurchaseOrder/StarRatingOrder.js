@@ -19,7 +19,7 @@ const Product=[
 }
 ]
 
-const StarRatingOrder = () => {
+const StarRatingOrder = ({navigation}) => {
     return (
         <View style={styles.container}>
             {/* <Image style={styles.images} source={{
@@ -57,7 +57,7 @@ const StarRatingOrder = () => {
                              <Text style={{color: 'red'}}>Đánh giá và nhận 200 kim cương</Text>
                          </View>
                          <View style={styles.right1}>
-                             <TouchableOpacity style={{width: '85%', height: '70%', backgroundColor: 'red', borderRadius: 7, justifyContent: 'center', alignItems: 'center'}}>
+                             <TouchableOpacity onPress={() => navigation.navigate('UserNavigator', { screen: 'Rating' })} style={{width: '85%', height: '70%', backgroundColor: 'red', borderRadius: 7, justifyContent: 'center', alignItems: 'center'}}>
                               <Text style={{fontSize: 20, color: 'white', fontWeight: 'bold'}}>Đánh giá</Text>
                              </TouchableOpacity>
                          </View>

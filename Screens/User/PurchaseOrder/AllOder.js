@@ -51,7 +51,7 @@ const AllOder = ({navigation}) => {
                 </View>
               </View>
               <View style={Styles.container4}>
-                <TouchableOpacity onPress={() => navigation.navigate('TabView', { screen: 'OderDetail' })} style={Styles.Tou}>
+                <TouchableOpacity onPress={() => navigation.navigate('UserNavigator', { screen: 'OderDetail' })} style={Styles.Tou}>
                    <Text style={Styles.texttou}> Xem chi tiết
                    </Text>
                 </TouchableOpacity>
