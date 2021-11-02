@@ -12,7 +12,7 @@ const FormInput = (props) => {
                 justifyContent: 'space-between',
                 marginBottom: 10,
                 paddingHorizontal: 12,
-                marginTop: 15
+                marginTop: 15,
             }}>
                 <Text style={styles.textname}>{label}</Text>
                 {error ? (
@@ -57,8 +57,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         marginBottom: 10,
-        // borderWidth: 1,
-        // borderColor: 'gray',
     },
     TextInput: {
         height: 50,
@@ -70,6 +68,9 @@ const styles = StyleSheet.create({
     },
     textError: {
         color: 'red'
+    },
+    input:{
+        width: '92%'
     }
 });
 
