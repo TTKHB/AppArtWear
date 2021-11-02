@@ -8,7 +8,8 @@ import {
     Alert,
     ScrollView,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Image
 }
 from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -19,14 +20,12 @@ import {
     Avatar,
 } from 'react-native-paper';
 import Gift from './ProfileItem/Gift';
-import { signOut } from '../../utils/user';
-import { useLogin } from '../../Context/LoginProvider';
 import Service from './ServiceItem/Service';
 import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
 const artwear = require('../../assets/images/Banner/SplashScreen.png');
-
 const { height, width } = Dimensions.get('window');
+
 const onShare = () => {
     try {
         const result = Share.share({
@@ -48,8 +47,7 @@ const abc = () => {
     Alert.alert("Hello")
 }
 
-const ProfileNoAccount = ({props,navigation}) => {
-    const { setIsLoggedIn, profile } = useLogin();
+const ProfileNoAccount = ({ props, navigation }) => {
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -119,9 +117,7 @@ const ProfileNoAccount = ({props,navigation}) => {
                 </View>
 
                 {/* Gift */}
-                <View style={styles.contentGif}>
-                    <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift" />
-                </View>
+                <Gift navigation={navigation} />
 
                 {/* Dịch vụ của tôi */}
                 <View style={styles.Service}>
@@ -130,7 +126,7 @@ const ProfileNoAccount = ({props,navigation}) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Service icon="help-circle-outline"
                             name={`Trợ giúp `}
-                             onPress={() =>navigation.navigate('Help Screen')}
+                            onPress={() => navigation.navigate('Help Screen')}
                         />
                         <Service icon="brightness-percent"
                             name={`Voucher`}
@@ -232,7 +228,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         marginTop: -100,
         borderWidth: 0.5,
-        borderColor: '#E0E0E0'
+        borderColor: '#E0E0E0',
+        elevation:2
     },
     contentGif: {
         backgroundColor: '#fff',
@@ -243,7 +240,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: '#E0E0E0',
         alignItems: 'center',
-        height: height / 3.6
+        height: height / 3.0,
     },
     contentArtWear: {
         marginHorizontal: 15,
@@ -262,6 +259,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
         borderWidth: 0.5,
         borderColor: '#E0E0E0',
+        elevation:2
     },
     title: {
         fontWeight: 'bold',

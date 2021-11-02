@@ -88,7 +88,7 @@ const ProfileHaveAccount = ({ navigation, route }) => {
         <View style={styles.content}>
           {/* Đơn hàng của tôi */}
           <ProfileItem icon="form-select" name="Đơn hàng của tôi" iconright="angle-right"
-           onPress={() => navigation.navigate('TabView')}
+            onPress={() => navigation.navigate('TabView')}
           />
           {/* Line gạch ngang */}
           <View style={styles.divider} />
@@ -117,12 +117,7 @@ const ProfileHaveAccount = ({ navigation, route }) => {
         </View>
 
         {/* Gift */}
-        <View style={styles.contentGif}>
-          <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift"
-            // onPress={UuDai} 
-            onPress={() => navigation.navigate('UserNavigator', { screen: 'uudaiUser' })}
-          />
-        </View>
+        <Gift navigation={navigation} />
 
         {/* Dịch vụ của tôi */}
         <View style={styles.Service}>
@@ -236,7 +231,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: -100,
     borderWidth: 0.5,
-    borderColor: '#E0E0E0'
+    borderColor: '#E0E0E0',
+    elevation:2
   },
   contentGif: {
     backgroundColor: '#fff',
@@ -266,6 +262,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderWidth: 0.5,
     borderColor: '#E0E0E0',
+    elevation:2
   },
   title: {
     fontWeight: 'bold',
