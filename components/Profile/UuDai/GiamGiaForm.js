@@ -1,5 +1,16 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput, FlatList, onPress, Dimensions } from 'react-native';
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    Image,
+    TextInput,
+    FlatList,
+    onPress,
+    Dimensions,
+    StyleSheet
+}
+from 'react-native';
 
 export const cart = require('../../../assets/images/cart.png');
 export const back = require('../../../assets/images/cart.png');
@@ -10,11 +21,13 @@ export const nu3 = require('../../../assets/images/ngoctuyen.jpg');
 export const star = require('../../../assets/images/star.png');
 export const back1 = require('../../../assets/images/back.png')
 
+const { height, width } = Dimensions.get('window');
+
 const product = [
     {
         id: 0,
         image: nu1,
-        title: 'Váy dạ hội xinh xắn',
+        title: 'Váy dạ hội',
         giagoc: ' 79.000 VNĐ',
         giamgia: ' 99.000 VNĐ',
         voucher: 'Vận chuyển miễn phí',
@@ -26,7 +39,7 @@ const product = [
     {
         id: 1,
         image: nu2,
-        title: 'Áo thun trắng xinh xắn',
+        title: 'Áo thun trắng',
         giagoc: ' 59.000 VNĐ',
         giamgia: '  99.000 VNĐ',
         voucher: 'Vận chuyển miễn phí',
@@ -50,7 +63,7 @@ const product = [
     {
         id: 3,
         image: nu1,
-        title: 'Bộ quần áo thể thao',
+        title: 'Bộ thể thao',
         giagoc: ' 33.000 VNĐ',
         giamgia: '  53.000 VNĐ',
         voucher: 'Vận chuyển miễn phí',
@@ -62,7 +75,7 @@ const product = [
     {
         id: 4,
         image: nu2,
-        title: 'Áo thun trắng xinh xắn',
+        title: 'Áo thun trắng',
         giagoc: ' 14.000 VNĐ',
         giamgia: ' 34.000 VNĐ',
         voucher: 'Vận chuyển miễn phí',
@@ -85,177 +98,150 @@ const product = [
     },
 
 ]
-const nameProduct = [
-    {
-        id: 1,
-        title: 'Tất cả'
-    },
-    {
-        id: 2,
-        title: 'Áo nam'
-    },
-    {
-        id: 3,
-        title: 'Áo nữ'
-    },
-    {
-        id: 4,
-        title: 'Giày dép'
-    },
-    {
-        id: 5,
-        title: 'Làm đẹp'
-    },
-    {
-        id: 6,
-        title: 'Xem thêm'
-    },
-]
+
 const GiamGiaForm = () => {
     renderproduct = ({ item }) => {
         return (
-            <View style={{
-                width: 215,
-                height: 280,
-                backgroundColor: 'white',
-                marginLeft: 12,
-                marginTop: 10,
-                borderRadius: 10
-            }}>
-                <TouchableOpacity>
-                    <Image style={{
-                        width: 215,
-                        height: 170,
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10
-                    }} source={item.image} />
-                </TouchableOpacity>
-                {/* TenSP */}
-                <Text style={{
-                    fontSize: 20,
-                    marginLeft: 10,
-                    marginTop: 2,
-                    fontWeight: 'bold'
+            <TouchableOpacity key={item.id}>
+                <View style={styles.viewSale}>
+                    {/* Image */}
+                    <View style={{ flexDirection: 'row' }}>
+                        <Image
+                            source={item.image}
+                            style={styles.imageSale}
+                        />
+                    </View>
+                    {/* Item text, ... */}
+                    <View >
+                        {/* Item title */}
+                        <View style={styles.viewTitle}>
+                            <Text style={styles.textTitle}>{item.title}</Text>
+                        </View>
+                        {/* Van Chuyen */}
+                        <TouchableOpacity style={styles.viewVanChuyen}>
+                            <Text style={{ fontSize: 14 }}>{item.voucher}</Text>
+                        </TouchableOpacity>
+                        <View>
+                            <Text style={styles.textPrice}>Giá:{item.giagoc}</Text>
+                        </View>
 
-                }}>{item.title}</Text>
-                {/* Text van chuyen */}
-                <TouchableOpacity style={{
-                    width: 200,
-                    height: 20,
-                    backgroundColor: '#f7f7f7',
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                    marginTop: 2,
-                }}>
-                    <Text style={{ fontSize: 14 }}>{item.voucher}</Text>
-
-
-                </TouchableOpacity>
-                <Text style={{
-                    fontSize: 18,
-                    fontWeight: 'bold',
-                    marginLeft: 10,
-
-                }}>Giá:{item.giagoc}</Text>
-                <View style={{
-                    flexDirection: 'row',
-                    marginTop: -4,
-                }}>
-                    <View>
-                        <Text style={{
-                            fontSize: 16,
-                            fontWeight: '500',
-                            marginLeft: 10,
-                            textDecorationLine: 'line-through',
-                            textDecorationStyle: 'dotted'
+                        {/* Giam gia */}
+                        <View style={{
+                            flexDirection: 'row',
                         }}>
-                            giá gốc:{item.giamgia}
-                        </Text>
-                    </View>
-                    <View style={{
-                        width: 35,
-                        height: 20,
-                        backgroundColor: 'red',
-                        marginLeft: 15,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 5
-                    }}>
-                        <Text style={{
-                            color: 'white',
-                            fontWeight: 'bold'
-                        }}>{item.sale}</Text>
-                    </View>
-                </View>
-
-                <View style={{
-                    flexDirection: 'row',
-                    marginLeft: 8
-                }}>
-                    <TouchableOpacity>
-                        <Image style={{
-                            width: 15,
-                            height: 15,
-                            marginTop: 1.5
-                        }} source={item.star} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={{
-                        }}>{item.danhgia}</Text>
-                    </TouchableOpacity>
-
-                    <View>
-                        <Text style={{
-                            marginLeft: 104
-                        }}>Đã bán:{item.daban}</Text>
+                            <View>
+                                <Text style={styles.textGiamGia}>
+                                    giá gốc:{item.giamgia}
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={styles.viewFooterItem}>
+                            {/* Ngoi sao danh gia*/}
+                            <View style={{
+                                flexDirection: 'row',
+                                marginLeft: 8
+                            }}>
+                                <TouchableOpacity>
+                                    <Image style={styles.ngoisao} source={item.star} />
+                                </TouchableOpacity>
+                                <TouchableOpacity>
+                                    <Text style={{
+                                    }}>{item.danhgia}</Text>
+                                </TouchableOpacity>
+                            </View>
+                            {/* Da ban*/}
+                            <View>
+                                <Text style={{
+                                }}>Đã bán:{item.daban}</Text>
+                            </View>
+                        </View>
                     </View>
                 </View>
-            </View>
-        )
-    }
-    rendernameProduct = ({ item }) => {
-        return (
-            <View>
-                <TouchableOpacity style={{
-                    marginLeft: 10,
-                    marginTop: 12,
-                    borderWidth: 0.5,
-                    backgroundColor: '#FB3640',
-                    borderRadius: 7,
-                    width: 85,
-                    height: 25,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <Text style={{
-                        fontSize: 17,
-                        color: 'white'
-                    }}>{item.title}</Text>
-                </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
         )
     }
     return (
         <View style={{
             width: Dimensions.get('window').width,
             padding: 5,
-            backgroundColor: '#f7f7f7',
+            backgroundColor: 'white',
+            alignItems: 'center',
         }}>
-            <View style={{
-                backgroundColor: '#f7f7f7',
-
-            }}>
-                {/* FlatList */}
-                <FlatList
-                    numColumns={2}
-                    data={product}
-                    renderItem={renderproduct}
-                    keyExtractor={item => item.id}
-                />
-            </View>
-
+            {/* FlatList */}
+            <FlatList
+                showsVerticalScrollIndicator={false}
+                numColumns={2}
+                data={product}
+                renderItem={renderproduct}
+                keyExtractor={item => item.id}
+            />
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    viewSale: {
+        height: 300,
+        backgroundColor: 'white',
+        elevation: 4,
+        width: width / 2.29,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        borderRadius: 5,
+    },
+    imageSale: {
+        height: 170,
+        width: '100%'
+    },
+    viewTitle: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    textTitle: {
+        fontSize: 20,
+        marginTop: 2,
+        fontWeight: 'bold'
+    },
+    viewVanChuyen: {
+        height: 20,
+        backgroundColor: '#f7f7f7',
+        alignSelf: 'center',
+        alignItems: 'center',
+        marginTop: 2,
+    },
+    textPrice: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginLeft: 10,
+    },
+    textGiamGia: {
+        fontSize: 16,
+        fontWeight: '500',
+        marginLeft: 10,
+        textDecorationLine: 'line-through',
+        textDecorationStyle: 'dotted'
+    },
+    viewFooterItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 5
+    },
+    ngoisao: {
+        width: 15,
+        height: 15,
+        marginTop: 1.5
+    },
+    cardName: {
+        marginTop: 10,
+        fontSize: 18,
+        color: 'black',
+        fontWeight: 'bold',
+    },
+    price: {
+        color: 'red',
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+});
 
 export default GiamGiaForm;

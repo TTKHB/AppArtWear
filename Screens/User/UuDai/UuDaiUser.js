@@ -11,34 +11,14 @@ import {
 } from 'react-native';
 import GiamGiaForm from '../../../components/Profile/UuDai/GiamGiaForm';
 import VoucherForm from '../../../components/Profile/UuDai/VoucherForm';
-import VoucherHeader from '../../../components/Profile/UuDai/VoucherHeader';
 import VoucherSelectorBtn from '../../../components/Profile/UuDai/VoucherSelectorBtn';
 import LottieView from 'lottie-react-native';
-
+import LinearGradient from 'react-native-linear-gradient';
 const { width } = Dimensions.get('window');
 
 const UuDaiUser = ({ navigation }) => {
   const animation = useRef(new Animated.Value(0)).current;
   const scrollView = useRef();
-  const voucherHeaderOpacity = animation.interpolate({
-    inputRange: [0, width],
-    outputRange: [1, 0],
-
-  })
-  const leftHeaderTranslateX = animation.interpolate({
-    inputRange: [0, width],
-    outputRange: [0, 100],
-  });
-
-  const giamgiaHeadingTranslateX = animation.interpolate({
-    inputRange: [0, width],
-    outputRange: [0, -56],
-  });
-
-  const voucherHeaderTranslateY = animation.interpolate({
-    inputRange: [0, width],
-    outputRange: [0, -20],
-  });
 
   const VoucherColorInterpolate = animation.interpolate({
     inputRange: [0, width],
@@ -51,17 +31,13 @@ const UuDaiUser = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <SafeAreaView style={styles.headerWrapper}>
-        <View style={styles.splash}>
-          <VoucherHeader
-            leftHeading="Chọn"
-            voucherHeading=" phiếu mua hàng"
-            giamgiaHeading=" các sản phẩm giảm giá"
-            voucherHeaderOpacity={voucherHeaderOpacity}
-            leftHeaderTranslateX={leftHeaderTranslateX}
-            voucherHeaderTranslateY={voucherHeaderTranslateY}
-            giamgiaHeadingTranslateX={giamgiaHeadingTranslateX}
-          />
-        </View>
+          <LinearGradient
+            start={{ x: 1.1, y: 0.8 }}
+            end={{ x: 0.1, y: 1 }}
+            locations={[0.1, 0.9]}
+            colors={['#FEC1A0', '#FEB0B9']}
+            style={styles.gradient}>
+          </LinearGradient>
       </SafeAreaView>
 
       <View style={styles.SelectorBtn}>
@@ -147,9 +123,10 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
   },
-  splash: {
+  gradient: {
     paddingTop: 50,
     paddingBottom: 80,
+    backgroundColor: 'red'
   },
 })
 export default UuDaiUser;
