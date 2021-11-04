@@ -28,27 +28,6 @@ const List = [
     theme: '#Ưu đải cực sốc lên đến 50%',
     date: '25/05/2021'
   },
-  {
-    id: 3,
-    Image: banner1,
-    title: 'BẮT ĐẦU TỪ NGÀY 1 THÁNG 10',
-    theme: '#Đảo sale 25% cho đơn hàng từ 500.00đ',
-    date: '25/05/2021'
-  },
-  {
-    id: 4,
-    Image: banner1,
-    title: 'ƯU ĐÃI BẤT NGỜ CUỐI THÁNG NÀY',
-    theme: '#Big Sale cuối năm dành cho người dùng',
-    date: '25/05/2021'
-  },
-  {
-    id: 5,
-    Image: banner1,
-    title: '1000 SẢN PHẨM ĐẦU TIÊN',
-    theme: '#Giảm giá kỹ lục',
-    date: '25/05/2021'
-  },
 ];
 
 const ActivityScreen = ({navigation}) => {
@@ -66,7 +45,7 @@ const ActivityScreen = ({navigation}) => {
       </View>
      {/* body--------------------------------------------------------------- */}
      <View >
-       <FlatList style={{marginBottom: 65}}
+       <FlatList style={{}}
        data={List}
        keyExtractor={ item => item.id}
        renderItem={({item})=>{
