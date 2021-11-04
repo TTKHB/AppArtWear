@@ -21,6 +21,11 @@ const HotNavigator = () => {
         // }
         options={{
           headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#fff',
+            borderColor: '#F5F5F5',
+            borderWidth: 1
+          },
           headerTitle: () => (
             <Text style={{ fontSize: 25, fontWeight: 'bold', color: "#dbb98f" }}>HOT ArtWear</Text>
             // <Image source={logo} resizeMode="contain" style={{width: 135, height: 50}}/>

@@ -5,7 +5,7 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import LoaderHot from'../../components/Home/Loader/LoaderHot';
+import LoaderHot from '../../components/Home/Loader/LoaderHot';
 
 const dataPost = [
   {
@@ -51,65 +51,15 @@ const dataPost = [
   },
 ]
 
-const dataStory = [
-  {
-    imageUri: 'https://mfiles.alphacoders.com/640/640435.jpg',
-    name: 'Danies1',
-  }, {
-    imageUri: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
-    name: 'Danies2',
-  }, {
-    imageUri: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
-    name: 'Danies3',
-  }, {
-    imageUri: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
-    name: 'Danies4',
-  }, {
-    imageUri: 'https://mfiles.alphacoders.com/640/640435.jpg',
-    name: 'Danies5',
-  }, {
-    imageUri: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
-    name: 'Danies6',
-  }, {
-    imageUri: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
-    name: 'Danies7',
-  }, {
-    imageUri: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
-    name: 'Danies8',
-  },
-]
-
-const Story = ({ itemPost }) => (
-  <TouchableOpacity style={styles.container} >
-    <View style={styles.containerPost} >
-      <Image source={{ uri: itemPost.imageUri }} style={styles.imagePost} />
-    </View>
-    <Text style={styles.containerPostText}>{itemPost.name}</Text>
-  </TouchableOpacity>
-)
-const Stories = ({navigation}) => {
-  return (
-    <FlatList
-      data={dataStory}
-      keyExtractor={({ name }) => name}
-      horizontal
-      style={{ marginBottom: 15 }}
-      showsHorizontalScrollIndicator={false}
-      renderItem={({ item }) => <Story itemPost={item} navigation ={navigation} />}
-    />
-  )
-}
-
-const Post = ({ item, likeCountProp, navigation }) => {
-  const [isLike, seiIsLike] = useState(false);
+const Post = ({ item, item: likeCountProp, navigation }) => {
+  const [isLike, setIsLike] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-
 
 
   const onLikePressed = () => {
     const amount = isLike ? -1 : 1;
     setLikeCount(likeCount + amount);
-    seiIsLike(!isLike);
+    setIsLike(!isLike);
   }
 
   useEffect(() => {
@@ -119,7 +69,6 @@ const Post = ({ item, likeCountProp, navigation }) => {
     <View>
       <View style={styles.containerHeader}>
         <View style={styles.letfHeader}>
-          {/* <ProfilePicture uri={post.user.imageUri} size={40} /> */}
           <View style={styles.containerImageHeader} >
             <Image source={{ uri: item.user.imageUri }} style={styles.imageHeader} />
           </View>
@@ -146,8 +95,8 @@ const Post = ({ item, likeCountProp, navigation }) => {
                 : <AntIcon name="hearto" size={25} color={"#545454"} />
               }
             </TouchableWithoutFeedback>
-            <TouchableOpacity  onPress={() => navigation.navigate('Comment')} >
-            <FontistoIcon name="comment" size={23} color={"#545454"} />
+            <TouchableOpacity onPress={() => navigation.navigate('Comment')} >
+              <FontistoIcon name="comment" size={23} color={"#545454"} />
             </TouchableOpacity>
             <Ionicons name="paper-plane-outline" size={25} color={"#545454"} />
           </View>
@@ -166,29 +115,28 @@ const Post = ({ item, likeCountProp, navigation }) => {
 
 }
 
-const HotScreen = ({navigation}) => {
+const HotScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
-  
- 
-    useEffect(() => {
-          if (loading) {
-            setLoading(false);
+
+
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
     }
   }
-    )
+  )
 
   return (
     <SafeAreaView>
-    {loading ? (
-        <LoaderHot/>
+      {loading ? (
+        <LoaderHot />
       ) : (
-  
-      <FlatList
-        data={dataPost}
-        keyExtractor={({ id }) => id}
-        ListHeaderComponent={Stories}
-        renderItem={({ item }) => <Post item={item} navigation ={navigation} />}
-      />
+
+        <FlatList
+          data={dataPost}
+          keyExtractor={({ id }) => id}
+          renderItem={({ item }) => <Post item={item} navigation={navigation} />}
+        />
 
       )}
     </SafeAreaView>
@@ -198,7 +146,8 @@ const styles = StyleSheet.create({
   containerHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: "#fff"
   },
   letfHeader: {
     flexDirection: 'row'
@@ -228,10 +177,9 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
 
-
   imageBody: {
-    width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height/3,
+    width: Dimensions.get('window').width / 1.06,
+    height: Dimensions.get('window').height / 1.8,
     marginHorizontal: 50,
     borderRadius: 10,
   },
@@ -281,26 +229,6 @@ const styles = StyleSheet.create({
     // borderColor: "#ffffff",
     height: 40,
     width: 40
-  },
-  containerPost: {
-    margin: 10,
-    borderRadius: 40,
-    borderWidth: 3,
-    // borderColor: "#dbb98f",
-    borderColor: "#000000",
-    height: 76,
-    width: 76
-  },
-  containerPostText: {
-    textAlign: 'center', 
-    fontSize: 18
-  },
-  imagePost: {
-    borderRadius: 40,
-    // borderWidth: 1,
-    // borderColor: "#ffffff",
-    height: 70,
-    width: 70
   },
 });
 export default HotScreen;
