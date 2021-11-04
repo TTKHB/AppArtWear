@@ -68,6 +68,7 @@ const CartScreen = ({ navigation }) => {
   const { isLoggedIn, profile } = useLogin();
   const [cartList, setcartList] = useState([]);
   const itemsPrice = cartList.reduce((a, c) => a + c.amount * c.product_id.gia, 0);
+  // get all cart bang id user
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -86,7 +87,6 @@ const CartScreen = ({ navigation }) => {
     }, []),
   );
 
-
   //Diglog onClick
   const [visible, setVisible] = useState(false);
   const showDialog = () => {
@@ -96,7 +96,7 @@ const CartScreen = ({ navigation }) => {
     setVisible(false);
   };
 
-
+  //RenderItem Cart
   const renderItem = ({ item }) => {
     const showConfirmDialog = () => {
       return Alert.alert(
@@ -113,7 +113,7 @@ const CartScreen = ({ navigation }) => {
         ]
       );
     };
-
+    // Delete Cart
     const DeleteCart = (_id) => {
       //delete an item from state array
       let filterArray = cartList.filter((val, i) => {
@@ -133,50 +133,55 @@ const CartScreen = ({ navigation }) => {
     }
 
     const onChangeQual = (item, type) => {
-      const dataCar = item
-      let cantd = dataCar.amount;
-
+      const dataCar = item._id
       if (type) {
-        //    cantd = cantd + 1
-        // const abc = dataCar.amount = cantd
-        //   //  this.setState({dataCart:dataCar})
-        //   console.log(abc)
-        // cartList.map(cart => {
-        //   cantd = cantd + 1
-        //   dataCar.amount = cantd
-        //   cantd = cart.amount
-        //   // console.log(cantd)
-        // })
-        cantd = cantd + 1
-        dataCar.amount = cantd
+        const congSoLuong = cartList.map(item => {
+          if (item._id == dataCar) {
+            item.amount += 1;
+            return item
+          }
+          return item;
+        })
         fetch(`${baseURL}carts/` + item._id, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            amount: cantd,
+            amount: item.amount,
           })
         }).then(res => res.json())
           .then(data => {
-            console.log('is Update successffly!!')
+            setcartList(congSoLuong)
+            console.log('is Update successffly!!', data.amount)
           }).catch(err => {
             console.log("error", err)
           })
       }
       else if (type == false) {
-        cantd = cantd - 1
-        dataCar.amount = cantd
+        const truSoLuong = cartList.map(item => {
+          if (item._id == dataCar) {
+            item.amount -= 1;
+            if (item.amount < 1) {
+              console.log("end game")
+              item.amount = 1
+              showConfirmDialog()
+            }
+            return item
+          }
+          return item;
+        })
         fetch(`${baseURL}carts/` + item._id, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            amount: cantd,
+            amount: item.amount,
           })
         }).then(res => res.json())
           .then(data => {
+            setcartList(truSoLuong)
             console.log('is Update successffly!!')
           }).catch(err => {
             console.log("error", err)
