@@ -50,7 +50,7 @@ const VoucherForm = () => {
               <Image source={item.image} style={styles.iconGift} />
             </View>
           </View>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <View style={styles.botronOne} />
             <View style={styles.viewDash}>
               <Dash dashLength={5} dashColor="#fff" />
@@ -132,20 +132,21 @@ const styles = StyleSheet.create({
   viewDash: {
     marginTop: 10,
     height: 2,
-    width: width / 1.15,
+    flex: 1
   },
   botronOne: {
     backgroundColor: 'white',
     borderRadius: 20,
     height: 20,
     width: 20,
-    marginLeft: -10
+    marginLeft: '-2%'
   },
   botronTwo: {
     backgroundColor: 'white',
     borderRadius: 20,
     height: 20,
     width: 20,
+    marginRight: '-1%'
   },
   viewDecription: {
     paddingHorizontal: 10,
