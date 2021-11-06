@@ -158,7 +158,7 @@ const FavoriteScreen = ({navigation, i}) => {
             <TouchableOpacity style={styles.iconAddCart}>
               <Image
                 style={{width: 20, height: 20}}
-                source={require('../../assets/icon/addcart.png')}
+                source={require('../../assets/icon/addcart.jpg')}
               />
             </TouchableOpacity>
           </View>
@@ -179,7 +179,7 @@ const FavoriteScreen = ({navigation, i}) => {
                 <View style={styles.viewCartEmpty}>
                   <Image
                     style={styles.imageCartEmpty}
-                    source={require('../../assets/images/Error/heart.png')}
+                    source={require('../../assets/images/Error/heart.jpg')}
                   />
                   <Text style={styles.textCartEmptyOne}>
                     Mời bạn chọn sản phẩm yêu thích

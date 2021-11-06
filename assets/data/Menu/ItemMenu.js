@@ -2,49 +2,49 @@
 const listTab = [
   {
     id: '1',
-    status: 'Tất cả'
+    status: 'Tất cả',
   },
   {
     id: '2',
-    status: 'Áo'
+    status: 'Áo',
   },
   {
     id: '3',
-    status: 'Quần'
+    status: 'Quần',
   },
   {
     id: '4',
-    status: 'Giày'
+    status: 'Giày',
   },
   {
     id: '5',
-    status: 'Dép'
+    status: 'Dép',
   },
   {
     id: '6',
-    status: 'Túi xách'
+    status: 'Túi xách',
   },
   {
     id: '7',
-    status: 'Balo'
+    status: 'Balo',
   },
   {
     id: '8',
-    status: 'Mắt kính'
+    status: 'Mắt kính',
   },
   {
     id: '9',
-    status: 'Vòng tay'
+    status: 'Vòng tay',
   },
   {
     id: '10',
-    status: 'Nhẫn'
+    status: 'Nhẫn',
   },
   {
     id: '11',
-    status: 'Dây Chuyền'
+    status: 'Dây Chuyền',
   },
-]
+];
 
 //San Pham
 const sectionListData = [
@@ -57,18 +57,16 @@ const sectionListData = [
       {
         list: [
           {
-            name: "Áo Nike",
-            image: require("../../../assets/images/Ao/AoKhoac/aokhoac1.png"),
+            name: 'Áo Nike',
+            image: require('../../../assets/images/Ao/AoKhoac/aokhoac1.jpg'),
           },
           {
-            name: "Áo Adidas",
-            image: require("../../../assets/images/Ao/AoKhoac/aokhoac2.png"),
-
+            name: 'Áo Adidas',
+            image: require('../../../assets/images/Ao/AoKhoac/aokhoac2.jpg'),
           },
           {
-            name: "Áo trơn",
-            image: require("../../../assets/images/Ao/AoKhoac/aokhoac3.png"),
-
+            name: 'Áo trơn',
+            image: require('../../../assets/images/Ao/AoKhoac/aokhoac3.jpg'),
           },
         ],
       },
@@ -84,17 +82,16 @@ const sectionListData = [
       {
         list: [
           {
-            name: "Áo Marvel",
-            image: require("../../../assets/images/Ao/AoThun/aothun1.png"),
+            name: 'Áo Marvel',
+            image: require('../../../assets/images/Ao/AoThun/aothun1.jpg'),
           },
           {
-            name: "Áo trơn",
-            image: require("../../../assets/images/Ao/AoThun/aothun2.png"),
-
+            name: 'Áo trơn',
+            image: require('../../../assets/images/Ao/AoThun/aothun2.jpg'),
           },
           {
-            name: "Áo có cổ",
-            image: require("../../../assets/images/Ao/AoThun/aothun3.png"),
+            name: 'Áo có cổ',
+            image: require('../../../assets/images/Ao/AoThun/aothun3.jpg'),
           },
         ],
       },
@@ -110,18 +107,16 @@ const sectionListData = [
       {
         list: [
           {
-            name: "Varsity USA",
-            image: require("../../../assets/images/Ao/VarsityJacket/varsity1.png"),
+            name: 'Varsity USA',
+            image: require('../../../assets/images/Ao/VarsityJacket/varsity1.jpg'),
           },
           {
-            name: "Varsity Japan",
-            image: require("../../../assets/images/Ao/VarsityJacket/varsity2.png"),
-
+            name: 'Varsity Japan',
+            image: require('../../../assets/images/Ao/VarsityJacket/varsity2.jpg'),
           },
           {
-            name: "Varsity Harvard",
-            image: require("../../../assets/images/Ao/VarsityJacket/varsity3.png"),
-
+            name: 'Varsity Harvard',
+            image: require('../../../assets/images/Ao/VarsityJacket/varsity3.jpg'),
           },
         ],
       },
@@ -137,18 +132,16 @@ const sectionListData = [
       {
         list: [
           {
-            name: "Jean 1",
-            image: require("../../../assets/images/Quan/Jean/quan1.png"),
+            name: 'Jean 1',
+            image: require('../../../assets/images/Quan/Jean/quan1.jpg'),
           },
           {
-            name: "Jean 2",
-            image: require("../../../assets/images/Quan/Jean/quan2.png"),
-
+            name: 'Jean 2',
+            image: require('../../../assets/images/Quan/Jean/quan2.jpg'),
           },
           {
-            name: "Jean 3",
-            image: require("../../../assets/images/Quan/Jean/quan3.png"),
-
+            name: 'Jean 3',
+            image: require('../../../assets/images/Quan/Jean/quan3.jpg'),
           },
         ],
       },
@@ -164,30 +157,27 @@ const sectionListData = [
       {
         list: [
           {
-            name: "Giày Adidas",
-            image: require("../../../assets/images/Giay/Adidas/giay1.png"),
+            name: 'Giày Adidas',
+            image: require('../../../assets/images/Giay/Adidas/giay1.jpg'),
           },
           {
-            name: "Giày Nike",
-            image: require("../../../assets/images/Giay/Nike/giay2.png"),
-
+            name: 'Giày Nike',
+            image: require('../../../assets/images/Giay/Nike/giay2.jpg'),
           },
           {
-            name: "Giày Nike",
-            image: require("../../../assets/images/Giay/Nike/giay3.png"),
-
+            name: 'Giày Nike',
+            image: require('../../../assets/images/Giay/Nike/giay3.jpg'),
           },
           {
-            name: "Giày Conserve",
-            image: require("../../../assets/images/Giay/Conserve/giay4.png"),
-
+            name: 'Giày Conserve',
+            image: require('../../../assets/images/Giay/Conserve/giay4.jpg'),
           },
         ],
       },
     ],
   },
-]
+];
 
 // export { data, listTab };
 
-export { sectionListData, listTab };
+export {sectionListData, listTab};

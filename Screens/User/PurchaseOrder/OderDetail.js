@@ -5,14 +5,15 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,Button
+  ScrollView,
+  Button,
 } from 'react-native';
-export const back = require ('../../../assets/images/back.png');
-export const ask = require ('../../../assets/images/ask.png');
-export const cart = require ('../../../assets/images/card.png');
-export const addres = require ('../../../assets/images/addres.png');
-export const protect = require ('../../../assets/images/protect.png');
-export const aothun = require ('../../../assets/images/ao7.jpg');
+export const back = require('../../../assets/images/back.jpg');
+export const ask = require('../../../assets/images/ask.jpg');
+export const cart = require('../../../assets/images/card.jpg');
+export const addres = require('../../../assets/images/addres.jpg');
+export const protect = require('../../../assets/images/protect.jpg');
+export const aothun = require('../../../assets/images/ao7.jpg');
 
 const OderDetail = () => {
   return (
@@ -34,12 +35,11 @@ const OderDetail = () => {
         {/* chờ thanh toán-------------------------------------------------------- */}
         <View style={Styles.view1}>
           <View style={Styles.Viewleft}>
-            <Text style={Styles.textleft1}>
-              Chờ thanh toán
-            </Text>
+            <Text style={Styles.textleft1}>Chờ thanh toán</Text>
             <Text style={{fontSize: 14, color: 'white', marginLeft: 10}}>
-              Đang chờ hệ thống xác nhận đơn hàng. Trong thời gian này, bạn có thể liên hệ
-              với người bán để xác nhận thông tin chi tiết đơn hàng nhé!!
+              Đang chờ hệ thống xác nhận đơn hàng. Trong thời gian này, bạn có
+              thể liên hệ với người bán để xác nhận thông tin chi tiết đơn hàng
+              nhé!!
             </Text>
           </View>
           <View style={Styles.ViewRight}>
@@ -94,8 +94,7 @@ const OderDetail = () => {
               marginTop: 10,
               borderTopWidth: 0.5,
               borderBottomWidth: 0.5,
-            }}
-          >
+            }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -103,8 +102,7 @@ const OderDetail = () => {
                 height: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
-              }}
-            >
+              }}>
               <View
                 style={{
                   width: '25%',
@@ -112,8 +110,7 @@ const OderDetail = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 0.5,
-                }}
-              >
+                }}>
                 <Image
                   style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
                   source={aothun}
@@ -125,8 +122,7 @@ const OderDetail = () => {
                   height: '90%',
                   marginLeft: 10,
                   marginTop: '4%',
-                }}
-              >
+                }}>
                 <Text style={{fontSize: 22}}>Áo thể thao đẹp free size</Text>
                 <Text style={{fontSize: 18}}>Logo ManChester United</Text>
                 <Text style={{fontSize: 18, textAlign: 'right', marginTop: 22}}>
@@ -143,8 +139,7 @@ const OderDetail = () => {
               flexDirection: 'row',
               borderBottomWidth: 0.5,
               alignItems: 'center',
-            }}
-          >
+            }}>
             <Text style={{fontSize: 20}}>Thành tiền:</Text>
             <Text style={{fontSize: 20, textAlign: 'right', width: '74%'}}>
               23.00đ
@@ -157,8 +152,7 @@ const OderDetail = () => {
               width: '93%',
               height: 60,
               borderBottomWidth: 0.5,
-            }}
-          >
+            }}>
             <View style={{width: '40%', justifyContent: 'center'}}>
               <Text style={Styles.textleft}>Mã đơn hàng</Text>
               <Text style={Styles.textleft}>Thời gian đặt hàng</Text>
@@ -168,8 +162,7 @@ const OderDetail = () => {
                 width: '60%',
                 justifyContent: 'center',
                 textAlign: 'right',
-              }}
-            >
+              }}>
               <Text style={Styles.textright}>AGHDGJGADHAKDJ</Text>
               <Text style={Styles.textright}>25/05/2021</Text>
             </View>
@@ -178,17 +171,29 @@ const OderDetail = () => {
             <Text style={{fontSize: 20}}>Liên hệ shop</Text>
           </TouchableOpacity>
           {/* --------------------------------------------------------------- */}
-          <TouchableOpacity style={Styles.Tou21} >
+          <TouchableOpacity style={Styles.Tou21}>
             <Text style={{fontSize: 20}}>Hủy đơn hàng</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-       {/* --------------------------------------------------------------- */}
-      <View style={{width: '100%', height: '13%',backgroundColor: 'white', }}>
+      {/* --------------------------------------------------------------- */}
+      <View style={{width: '100%', height: '13%', backgroundColor: 'white'}}>
         <View>
-          <Text style={{textAlign: 'right', fontSize: 18, marginTop: '2%'}}>Tổng thanh toán: 24.000đ</Text>
-          <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center',width: '100%', height: 50,backgroundColor: '#8D6E63', marginTop: '3%'}}>
-            <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>Xác Nhận</Text>
+          <Text style={{textAlign: 'right', fontSize: 18, marginTop: '2%'}}>
+            Tổng thanh toán: 24.000đ
+          </Text>
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: 50,
+              backgroundColor: '#8D6E63',
+              marginTop: '3%',
+            }}>
+            <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>
+              Xác Nhận
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -197,7 +202,7 @@ const OderDetail = () => {
 };
 export default OderDetail;
 
-export const Styles = StyleSheet.create ({
+export const Styles = StyleSheet.create({
   //---------------------------------------------------------------
   header: {
     width: '100%',

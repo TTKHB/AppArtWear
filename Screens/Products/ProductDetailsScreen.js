@@ -362,7 +362,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                     Thêm thành công{' '}
                     <Image
                       style={{height: 25, width: 25}}
-                      source={require('../../assets/icon/checked.png')}
+                      source={require('../../assets/icon/checked.jpg')}
                     />
                   </Dialog.Title>
                   <Dialog.Description

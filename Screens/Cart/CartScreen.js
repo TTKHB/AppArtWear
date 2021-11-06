@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -8,20 +8,19 @@ import {
   FlatList,
   Image,
   Alert,
-  Dimensions
-}
-  from 'react-native';
+  Dimensions,
+} from 'react-native';
 import CheckOutItem from '../../components/Checkout/CheckOutItem';
 import MyCheckOut from '../../components/Checkout/myCheckOut';
-const artwear = require('../../assets/images/dragon.png');
+const artwear = require('../../assets/images/dragon.jpg');
 
 export const ao = require('../../assets/images/Ao3.jpg');
-export const back = require('../../assets/images/back.png');
+export const back = require('../../assets/images/back.jpg');
 export const ao2 = require('../../assets/images/Ao2.jpg');
-export const close = require('../../assets/images/close.png');
-export const coin = require('../../assets/images/coin.png');
-export const money = require('../../assets/images/money.png');
-export const cart = require('../../assets/images/cart.png');
+export const close = require('../../assets/images/close.jpg');
+export const coin = require('../../assets/images/coin.jpg');
+export const money = require('../../assets/images/money.jpg');
+export const cart = require('../../assets/images/cart.jpg');
 export const aothun = require('../../assets/images/aothun.jpg');
 export const aothun1 = require('../../assets/images/aothun1.jpg');
 export const nu3 = require('../../assets/images/ngoctuyen.jpg');
@@ -31,43 +30,46 @@ export const nu6 = require('../../assets/images/Ao3.jpg');
 export const nu7 = require('../../assets/images/aothun1.jpg');
 
 import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-import { useLogin } from '../../Context/LoginProvider';
+import {useLogin} from '../../Context/LoginProvider';
 
-import Dialog from "react-native-dialog";
-const { height, width } = Dimensions.get('window');
+import Dialog from 'react-native-dialog';
+const {height, width} = Dimensions.get('window');
 
 const sanpham = [
   {
     id: 1,
-    image: nu3
+    image: nu3,
   },
   {
     id: 2,
-    image: nu4
+    image: nu4,
   },
   {
     id: 3,
-    image: nu5
+    image: nu5,
   },
   {
     id: 4,
-    image: nu6
+    image: nu6,
   },
   {
     id: 5,
-    image: nu7
+    image: nu7,
   },
   {
     id: 6,
-    image: nu3
+    image: nu3,
   },
 ];
-const CartScreen = ({ navigation }) => {
-  const { isLoggedIn, profile } = useLogin();
+const CartScreen = ({navigation}) => {
+  const {isLoggedIn, profile} = useLogin();
   const [cartList, setcartList] = useState([]);
-  const itemsPrice = cartList.reduce((a, c) => a + c.amount * c.product_id.gia, 0);
+  const itemsPrice = cartList.reduce(
+    (a, c) => a + c.amount * c.product_id.gia,
+    0,
+  );
   // get all cart bang id user
   useFocusEffect(
     useCallback(() => {
@@ -97,104 +99,108 @@ const CartScreen = ({ navigation }) => {
   };
 
   //RenderItem Cart
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     const showConfirmDialog = () => {
       return Alert.alert(
-        "Bạn đã chắc chắn?",
-        "Bạn có chắc chắn xoá sản phẩm này chứ?",
+        'Bạn đã chắc chắn?',
+        'Bạn có chắc chắn xoá sản phẩm này chứ?',
         [
           {
-            text: "Huỷ",
+            text: 'Huỷ',
           },
           {
-            text: "Đồng ý",
-            onPress: () => DeleteCart(item._id)
+            text: 'Đồng ý',
+            onPress: () => DeleteCart(item._id),
           },
-        ]
+        ],
       );
     };
     // Delete Cart
-    const DeleteCart = (_id) => {
+    const DeleteCart = _id => {
       //delete an item from state array
       let filterArray = cartList.filter((val, i) => {
         if (val._id !== _id) {
-          return val
+          return val;
         }
-      })
-      axios.delete(`${baseURL}carts/` + item._id)
+      });
+      axios
+        .delete(`${baseURL}carts/` + item._id)
         .then(function (response) {
           console.log(response);
-          setcartList(filterArray)
-          showDialog()
+          setcartList(filterArray);
+          showDialog();
         })
         .catch(function (error) {
-          console.log(error)
-        })
-    }
+          console.log(error);
+        });
+    };
 
     const onChangeQual = (item, type) => {
-      const dataCar = item._id
+      const dataCar = item._id;
       if (type) {
         const congSoLuong = cartList.map(item => {
           if (item._id == dataCar) {
             item.amount += 1;
-            return item
+            return item;
           }
           return item;
-        })
+        });
         fetch(`${baseURL}carts/` + item._id, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             amount: item.amount,
-          })
-        }).then(res => res.json())
+          }),
+        })
+          .then(res => res.json())
           .then(data => {
-            setcartList(congSoLuong)
-            console.log('is Update successffly!!', data.amount)
-          }).catch(err => {
-            console.log("error", err)
+            setcartList(congSoLuong);
+            console.log('is Update successffly!!', data.amount);
           })
-      }
-      else if (type == false) {
+          .catch(err => {
+            console.log('error', err);
+          });
+      } else if (type == false) {
         const truSoLuong = cartList.map(item => {
           if (item._id == dataCar) {
             item.amount -= 1;
             if (item.amount < 1) {
-              console.log("end game")
-              item.amount = 1
-              showConfirmDialog()
+              console.log('end game');
+              item.amount = 1;
+              showConfirmDialog();
             }
-            return item
+            return item;
           }
           return item;
-        })
+        });
         fetch(`${baseURL}carts/` + item._id, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             amount: item.amount,
-          })
-        }).then(res => res.json())
+          }),
+        })
+          .then(res => res.json())
           .then(data => {
-            setcartList(truSoLuong)
-            console.log('is Update successffly!!')
-          }).catch(err => {
-            console.log("error", err)
+            setcartList(truSoLuong);
+            console.log('is Update successffly!!');
           })
+          .catch(err => {
+            console.log('error', err);
+          });
       }
-    }
+    };
 
     return (
       <View style={styles.FlatListStyle} key={item._id}>
         <View style={styles.viewCart}>
           <Image
             style={styles.imageCart}
-            source={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
+            source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
           />
           {/* Item name, price,... */}
           <View style={styles.itemCart}>
@@ -208,7 +214,7 @@ const CartScreen = ({ navigation }) => {
             <View style={styles.itemAmount}>
               <TouchableOpacity onPress={() => onChangeQual(item, false)}>
                 <Text style={styles.textItemAmount}>-</Text>
-              </TouchableOpacity >
+              </TouchableOpacity>
               <Text>{item.amount}</Text>
               <TouchableOpacity onPress={() => onChangeQual(item, true)}>
                 <Text style={styles.textItemAmount}>+</Text>
@@ -219,57 +225,70 @@ const CartScreen = ({ navigation }) => {
         {/* Delete Cart */}
         <TouchableOpacity
           style={styles.btnDeleteCart}
-          onPress={showConfirmDialog}
-        >
-          <Image source={require('../../assets/icon/bin.png')} />
+          onPress={showConfirmDialog}>
+          <Image source={require('../../assets/icon/bin.jpg')} />
         </TouchableOpacity>
       </View>
     );
   };
-  const renderSanpham = ({ item }) => {
+  const renderSanpham = ({item}) => {
     return (
-      <View style={{
-        marginTop: 10,
-      }}>
-        <TouchableOpacity style={{
-          width: 150,
-          height: 220,
-          backgroundColor: 'white',
-          marginLeft: 5,
-
+      <View
+        style={{
+          marginTop: 10,
         }}>
-          <Image style={{
+        <TouchableOpacity
+          style={{
             width: 150,
-            height: 160,
-          }} source={item.image} />
-          <Text style={{
-            fontSize: 18,
-            marginTop: 5,
-            fontWeight: 'bold',
-            color: 'red'
-          }}>199.000đ</Text>
-          <Text style={{
-            textDecorationLine: 'line-through'
-          }}>249.000đ</Text>
+            height: 220,
+            backgroundColor: 'white',
+            marginLeft: 5,
+          }}>
+          <Image
+            style={{
+              width: 150,
+              height: 160,
+            }}
+            source={item.image}
+          />
+          <Text
+            style={{
+              fontSize: 18,
+              marginTop: 5,
+              fontWeight: 'bold',
+              color: 'red',
+            }}>
+            199.000đ
+          </Text>
+          <Text
+            style={{
+              textDecorationLine: 'line-through',
+            }}>
+            249.000đ
+          </Text>
         </TouchableOpacity>
       </View>
-    )
+    );
   };
   return (
     <View style={styles.container}>
       {/* Diglog when delete cart success */}
       <Dialog.Container
         visible={visible}
-        contentStyle={{ borderRadius: 10, borderColor: 'white', width: width / 1.09 }}>
-        <Dialog.Title style={{ fontSize: 28, fontWeight: 'bold' }}>
-          Xoá thành công {" "}
+        contentStyle={{
+          borderRadius: 10,
+          borderColor: 'white',
+          width: width / 1.09,
+        }}>
+        <Dialog.Title style={{fontSize: 28, fontWeight: 'bold'}}>
+          Xoá thành công{' '}
           <Image
-            style={{ height: 25, width: 25 }}
-            source={require('../../assets/icon/checked.png')}
+            style={{height: 25, width: 25}}
+            source={require('../../assets/icon/checked.jpg')}
           />
         </Dialog.Title>
         <Dialog.Button
-          style={{ color: 'brown', fontWeight: 'bold', fontSize: 20 }}
+          style={{color: 'brown', fontWeight: 'bold', fontSize: 20}}
           label="Tiếp tục"
           onPress={handleContinue}
         />
@@ -280,33 +299,38 @@ const CartScreen = ({ navigation }) => {
         icon="truck-outline"
         color="#00008B"
         name="Mua thêm để tận hưởng vận chuyển miễn phí"
-        iconright="angle-right" />
+        iconright="angle-right"
+      />
       <ScrollView>
         <View style={styles.content}>
           {/* Sản phẩm thanh toán của tôi */}
           <MyCheckOut icon="shop" name="Art Wear" />
           {/* View san pham */}
-          <View style={{
-            padding: 10,
-            marginTop: 10,
-          }}>
+          <View
+            style={{
+              padding: 10,
+              marginTop: 10,
+            }}>
             {/* Check cart rỗng */}
-            {cartList.length === 0 &&
+            {cartList.length === 0 && (
               <View style={styles.viewCartEmpty}>
                 <Image
                   style={styles.imageCartEmpty}
-                  source={require('../../assets/images/Error/ShoppingCart.png')}
+                  source={{uri: '../../assets/images/Error/Shoppingcart.png'}}
                 />
-                <Text style={styles.textCartEmptyOne}>Không có gì trong giỏ hàng</Text>
-                <Text style={styles.textCartEmptyTwo}>Lướt Art Wear và mua sắm nào!</Text>
+                <Text style={styles.textCartEmptyOne}>
+                  Không có gì trong giỏ hàng
+                </Text>
+                <Text style={styles.textCartEmptyTwo}>
+                  Lướt Art Wear và mua sắm nào!
+                </Text>
                 <TouchableOpacity
                   style={styles.viewShoppingNow}
-                  onPress={() => navigation.navigate('Main')}
-                >
+                  onPress={() => navigation.navigate('Main')}>
                   <Text style={styles.textShoppingNow}>Mua sắm nào</Text>
                 </TouchableOpacity>
               </View>
-            }
+            )}
             <FlatList
               data={cartList}
               renderItem={renderItem}
@@ -314,18 +338,20 @@ const CartScreen = ({ navigation }) => {
             />
           </View>
           {/* View san pham goi ý*/}
-          <View style={{
-            backgroundColor: 'white',
-            padding: 10,
-            elevation: 2
-          }}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              padding: 10,
+              elevation: 2,
+            }}>
             {/* Line gạch ngang */}
             <View style={styles.divider} />
-            <Text style={{
-              textAlign: 'center',
-              fontSize: 18,
-              fontWeight: 'bold'
-            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}>
               Sản phẩm có thể bạn đang tìm kiếm
             </Text>
             <FlatList
@@ -342,12 +368,14 @@ const CartScreen = ({ navigation }) => {
         <View>
           <Text style={styles.texttong}>Tổng thanh toán:</Text>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           {/* <Text style={styles.tongprice}>184.000 đ</Text> */}
           <Text style={styles.tongprice}>{itemsPrice} VNĐ</Text>
           <View style={styles.btnItemOne}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('CartNavigator', { screen: 'Checkout' })}>
+              onPress={() =>
+                navigation.navigate('CartNavigator', {screen: 'Checkout'})
+              }>
               <Text style={styles.textItemOne}>Mua hàng</Text>
             </TouchableOpacity>
           </View>
@@ -362,29 +390,29 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 5,
-    marginTop: 10
+    marginTop: 10,
   },
   content: {
     backgroundColor: '#f7f7f7',
     marginTop: 15,
     borderWidth: 0.5,
     borderColor: '#E0E0E0',
-    flex: 1
+    flex: 1,
   },
   sanpham: {
     backgroundColor: '#fff',
-    marginLeft: 20
+    marginLeft: 20,
   },
   money: {
     backgroundColor: '#fff',
-    marginLeft: 20
+    marginLeft: 20,
   },
   //Line gạch ngang
   divider: {
     height: 1,
     backgroundColor: '#E8E8E8',
     marginLeft: 1,
-    margin: 5
+    margin: 5,
   },
   footer: {
     padding: 15,
@@ -395,7 +423,7 @@ const styles = StyleSheet.create({
   },
   tongprice: {
     fontSize: 22,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   btnItemOne: {
     backgroundColor: '#8D6E63',
@@ -405,7 +433,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginTop: -27,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   textItemOne: {
     textAlign: 'center',
@@ -416,21 +444,21 @@ const styles = StyleSheet.create({
   viewCartEmpty: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10
+    padding: 10,
   },
   imageCartEmpty: {
     height: 150,
-    width: 150
+    width: 150,
   },
   textCartEmptyOne: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 8
+    marginTop: 8,
   },
   textCartEmptyTwo: {
     fontSize: 18,
     color: '#505050',
-    marginTop: 2
+    marginTop: 2,
   },
   viewShoppingNow: {
     height: 50,
@@ -439,11 +467,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
   textShoppingNow: {
     fontWeight: 'bold',
-    fontSize: 20, color: 'red'
+    fontSize: 20,
+    color: 'red',
   },
   FlatListStyle: {
     flexDirection: 'row',
@@ -456,18 +485,18 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   viewCart: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   imageCart: {
     width: 100,
     height: 100,
   },
   itemCart: {
-    marginLeft: 10
+    marginLeft: 10,
   },
   textItemName: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   textItemPrice: {
     fontSize: 18,
@@ -484,11 +513,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
     marginTop: 10,
-    elevation: 5
+    elevation: 5,
   },
   textItemAmount: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   btnDeleteCart: {
     marginTop: 50,
@@ -499,9 +528,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-
-})
+});
 export default CartScreen;
-
-
-

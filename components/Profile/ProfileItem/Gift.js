@@ -5,31 +5,29 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  TouchableOpacity
-}
-from 'react-native';
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Dash from 'react-native-dash';
-const ItemAoKhoac = require('../../../assets/images/Ao/AoKhoac/aokhoac1.png');
-const iconGift = require('../../../assets/images/giftbox.png');
-const { height, width } = Dimensions.get('window');
-import { useLogin } from '../../../Context/LoginProvider';
-const Gift = ({ navigation }) => {
-  const { isLoggedIn } = useLogin();
+const ItemAoKhoac = require('../../../assets/images/Ao/AoKhoac/aokhoac1.jpg');
+const iconGift = require('../../../assets/images/giftbox.jpg');
+const {height, width} = Dimensions.get('window');
+import {useLogin} from '../../../Context/LoginProvider';
+const Gift = ({navigation}) => {
+  const {isLoggedIn} = useLogin();
   const onSubmitVoucher = () => {
     if (!isLoggedIn) {
-      navigation.navigate('UserNavigator', { screen: 'Login' });
+      navigation.navigate('UserNavigator', {screen: 'Login'});
     } else {
-      navigation.navigate('UserNavigator', { screen: 'uudaiUser' });
+      navigation.navigate('UserNavigator', {screen: 'uudaiUser'});
     }
-  }
+  };
   return (
     <View>
       {/* Gift */}
       <View style={styles.contentGif}>
         {/* <Gift textHeader="Shop vui vẻ, rinh quà rẻ" iconGif="gift" /> */}
-        <TouchableOpacity style={styles.itemHeader}
-          onPress={onSubmitVoucher}>
+        <TouchableOpacity style={styles.itemHeader} onPress={onSubmitVoucher}>
           <Icon
             name="gift"
             size={30}
@@ -41,19 +39,14 @@ const Gift = ({ navigation }) => {
         {/* Box */}
         <View style={styles.box}>
           {/* Item One */}
-          <TouchableOpacity style={styles.itemSale}
-            onPress={onSubmitVoucher}>
-            <Image
-              source={ItemAoKhoac}
-              style={styles.imageItemSale}
-            />
+          <TouchableOpacity style={styles.itemSale} onPress={onSubmitVoucher}>
+            <Image source={ItemAoKhoac} style={styles.imageItemSale} />
             <View style={styles.btnItemSale}>
               <Text style={styles.textItemSale}>-79%</Text>
             </View>
           </TouchableOpacity>
           {/* Item Two */}
-          <TouchableOpacity style={styles.itemSale}
-            onPress={onSubmitVoucher}>
+          <TouchableOpacity style={styles.itemSale} onPress={onSubmitVoucher}>
             <Image source={ItemAoKhoac} style={styles.imageItemSale} />
             <View style={styles.btnItemSale}>
               <Text style={styles.textItemSale}>-29%</Text>
@@ -61,17 +54,18 @@ const Gift = ({ navigation }) => {
           </TouchableOpacity>
           {/* Item Three (Piheu mua hang) */}
           <View style={styles.viewPhieuMuaHang}>
-            <View style={styles.headerPhieu} >
+            <View style={styles.headerPhieu}>
               <Text style={styles.textPrice}>-đ 102,756</Text>
               <Text style={styles.textCoupons}>Phiếu mua hàng</Text>
             </View>
             <View style={styles.viewDash}>
-              <View style={styles.viewImageGift} >
+              <View style={styles.viewImageGift}>
                 <Image source={iconGift} />
               </View>
               {/* đường line dạng dot ---- */}
               <Dash dashLength={5} dashColor="#FFFCF2" />
-              <TouchableOpacity style={styles.viewGetIt}
+              <TouchableOpacity
+                style={styles.viewGetIt}
                 onPress={onSubmitVoucher}>
                 <Text style={styles.textGetIt}>Nhận ngay</Text>
               </TouchableOpacity>
@@ -80,10 +74,8 @@ const Gift = ({ navigation }) => {
         </View>
       </View>
     </View>
-
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   contentGif: {
@@ -96,15 +88,15 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0',
     alignItems: 'center',
     height: height / 3.0,
-    elevation:2
+    elevation: 2,
   },
   itemHeader: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 15
+    marginTop: 15,
   },
   iconHeader: {
-    marginRight: 15
+    marginRight: 15,
   },
   itemTextHeader: {
     color: '#E93B39',
@@ -128,7 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     alignItems: 'center',
-    marginTop: '-7%'
+    marginTop: '-7%',
   },
   textItemSale: {
     fontWeight: 'bold',
@@ -137,7 +129,7 @@ const styles = StyleSheet.create({
   imageItemSale: {
     width: '100%',
     height: '100%',
-    borderRadius: 10
+    borderRadius: 10,
   },
   btnItemSale: {
     backgroundColor: '#000',
@@ -146,7 +138,7 @@ const styles = StyleSheet.create({
     height: 27,
     marginTop: -12,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   viewPhieuMuaHang: {
     backgroundColor: '#FD4545',
@@ -154,10 +146,10 @@ const styles = StyleSheet.create({
     width: '34%',
     borderRadius: 10,
     borderWidth: 1,
-    marginTop: '-4%'
+    marginTop: '-4%',
   },
   headerPhieu: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textPrice: {
     color: '#fff',
@@ -169,24 +161,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   viewImageGift: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   viewDash: {
     flex: 1,
-    marginTop: 5
+    marginTop: 5,
   },
   viewGetIt: {
     backgroundColor: '#fff',
     borderRadius: 15,
     marginTop: '11%',
     marginHorizontal: 15,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textGetIt: {
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
   },
-})
+});
 
 export default Gift;

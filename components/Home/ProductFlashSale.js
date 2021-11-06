@@ -12,7 +12,7 @@ const {width} = Dimensions.get('screen');
 
 // flash sale
 const ProductFlashSale = ({item, navigation}) => {
-  console.log('item cua flash sale',item);
+  console.log('item cua flash sale', item);
   return (
     <TouchableOpacity
       onPress={() =>
@@ -30,7 +30,7 @@ const ProductFlashSale = ({item, navigation}) => {
           <View style={{marginLeft: -35, marginTop: -4}}>
             <Image
               style={styles.iconContainer}
-              source={require('../../assets/icon/sale.png')}
+              source={require('../../assets/icon/sale.jpg')}
             />
           </View>
         </View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 5,
     borderRadius: 5,
-    borderWidth:0.5,
+    borderWidth: 0.5,
   },
   cardName: {
     marginTop: 10,

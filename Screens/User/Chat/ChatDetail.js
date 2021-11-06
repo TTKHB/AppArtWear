@@ -1,76 +1,101 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 
-export const Back = require ('../../../assets/images/back1.png');
-const chatLeft =[
+export const Back = require('../../../assets/images/back1.jpg');
+const chatLeft = [
   {
-    id:1,
-    title: 'Shop ban ngon '
-  }
-]
-
-
+    id: 1,
+    title: 'Shop ban ngon ',
+  },
+];
 
 const ChatDetail = ({navigation, route}) => {
   const {item} = route.params;
-  console.log ('abcsd:', item);
+  console.log('abcsd:', item);
   return (
     <View>
       {/* header------------------------------------------------------------- */}
       <View style={Styles.Header}>
         <TouchableOpacity
-          onPress={() => navigation.goBack ()}
+          onPress={() => navigation.goBack()}
           style={{width: '8%', justifyContent: 'center'}}>
           <Image style={Styles.backheader} source={Back} />
         </TouchableOpacity>
-        <View style={{justifyContent: 'center',width: '92%'}}>
-          <Text style={{fontSize: 19, color: 'white', marginLeft: 10}}>{item.Username}</Text>
+        <View style={{justifyContent: 'center', width: '92%'}}>
+          <Text style={{fontSize: 19, color: 'white', marginLeft: 10}}>
+            {item.Username}
+          </Text>
         </View>
-        
       </View>
       {/* body-------------------------------------------------------- */}
       <ScrollView style={Styles.Body}>
         <View>
-        <FlatList 
-        data={chatLeft}
-        keyExtractor={item => item.id}
-        renderItem={({item})=> {
-          return(
-            <View style={{padding: 10,}}>
-              <View style={{borderRadius: 7, backgroundColor: 'white', height: 40,width: '33%', justifyContent: 'center',}}>
-                <Text style={{fontSize: 17, marginLeft: 5}}>{item.title}</Text>
-              </View>
-            </View>
-          )
-        }}
-        />
+          <FlatList
+            data={chatLeft}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => {
+              return (
+                <View style={{padding: 10}}>
+                  <View
+                    style={{
+                      borderRadius: 7,
+                      backgroundColor: 'white',
+                      height: 40,
+                      width: '33%',
+                      justifyContent: 'center',
+                    }}>
+                    <Text style={{fontSize: 17, marginLeft: 5}}>
+                      {item.title}
+                    </Text>
+                  </View>
+                </View>
+              );
+            }}
+          />
         </View>
         <View>
-        <FlatList 
-        data={chatLeft}
-        keyExtractor={item => item.id}
-        renderItem={({item})=> {
-          return(
-            <View style={{padding: 10,alignSelf: 'flex-end'}}>
-              <View style={{borderRadius: 7, backgroundColor: 'white', height: 40,width: '33%', justifyContent: 'center',}}>
-                <Text style={{fontSize: 17, marginLeft: 5}}>{item.title}</Text>
-              </View>
-            </View>
-          )
-        }}
-        />
+          <FlatList
+            data={chatLeft}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => {
+              return (
+                <View style={{padding: 10, alignSelf: 'flex-end'}}>
+                  <View
+                    style={{
+                      borderRadius: 7,
+                      backgroundColor: 'white',
+                      height: 40,
+                      width: '33%',
+                      justifyContent: 'center',
+                    }}>
+                    <Text style={{fontSize: 17, marginLeft: 5}}>
+                      {item.title}
+                    </Text>
+                  </View>
+                </View>
+              );
+            }}
+          />
         </View>
       </ScrollView>
       {/* chat----------------------------------------------------------------- */}
       <View style={{height: '12%', width: '100%', backgroundColor: 'white'}}>
         <View style={Styles.ButtonChat}>
-          <TextInput 
-          placeholder= 'Soạn tin nhắn'
-          style={{width: '85%', fontSize: 19, marginLeft: 10}}
+          <TextInput
+            placeholder="Soạn tin nhắn"
+            style={{width: '85%', fontSize: 19, marginLeft: 10}}
           />
-          <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontSize: 22,color: 'blue'}}>Gửi</Text>
+          <TouchableOpacity
+            style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 22, color: 'blue'}}>Gửi</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -79,7 +104,7 @@ const ChatDetail = ({navigation, route}) => {
 };
 export default ChatDetail;
 
-export const Styles = StyleSheet.create ({
+export const Styles = StyleSheet.create({
   Header: {
     width: '100%',
     height: '8%',
@@ -89,7 +114,7 @@ export const Styles = StyleSheet.create ({
   backheader: {
     width: 20,
     height: 20,
-    marginLeft: 10
+    marginLeft: 10,
   },
   backheader1: {
     width: 26,
