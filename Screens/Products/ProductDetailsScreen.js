@@ -30,7 +30,7 @@ import StarRating from 'react-native-star-rating';
 const MIN_HEIGHT = Platform.OS === 'ios' ? 90 : 55;
 import Swiper from 'react-native-swiper';
 import {List} from 'react-native-paper';
-import Ship from '../../components/Checkout/Ship';
+import Ship from '../../components/Checkout/ShipDetail';
 import {datauser} from '../../assets/data/ItemUserComment';
 import LoaderProductDetail from '../../components/Home/Loader/LoaderProductDetail';
 import useReviewByProductId from './../../hooks/Reviews/useReviewByProductId';
