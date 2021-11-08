@@ -146,25 +146,24 @@ const HomeNavigator = ({ navigation }) => {
                     onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
                   >
                     <View style={{ flexDirection: 'row' }}>
-                      <View style={{ marginRight: -8 }}>
+                      <View>
                         <IconCart name="handbag" size={24} />
                       </View>
-                      <View style={{
-                        backgroundColor: 'red',
-                        height: 20,
-                        width: 20,
-                        borderRadius: 20,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                        <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                          {cartItems.length ? (
-                            <Text >{cartItems.length}</Text>
-                          ) : (
-                            <Text>0</Text>
-                          )}
-                        </Text>
-                      </View>
+                      {cartItems.length ? (
+                        <>
+                          <View style={{
+                            backgroundColor: 'red',
+                            height: 20,
+                            width: 20,
+                            borderRadius: 20,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: -10,
+                          }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold' }}>{cartItems.length}</Text>
+                          </View>
+                        </>
+                      ) : null}
                     </View>
                   </TouchableOpacity>
                 </>
