@@ -132,7 +132,7 @@ const StarRating = ({navigation, route}) => {
                       flexDirection: 'row',
                       justifyContent: 'flex-end',
                       top: 10,
-                      left: 82,
+                      left: 60,
                     }}>
                     <Rating
                       imageSize={30}
