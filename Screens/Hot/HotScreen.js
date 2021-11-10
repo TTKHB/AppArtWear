@@ -7,6 +7,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import LoaderHot from '../../components/Home/Loader/LoaderHot';
 
+export const add = require ( '../../assets/images/Post.jpg')
+
 const dataPost = [
   {
     id: '1',
@@ -132,11 +134,19 @@ const HotScreen = ({ navigation }) => {
         <LoaderHot />
       ) : (
 
-        <FlatList
+       <View>
+          <FlatList
           data={dataPost}
           keyExtractor={({ id }) => id}
           renderItem={({ item }) => <Post item={item} navigation={navigation} />}
         />
+        <View>
+          <TouchableOpacity onPress={() => navigation.navigate('PostScreen')} style={{marginTop: '-20%', marginLeft: '80%'}}>
+            <Image source={add} style={{width: 70, height: 70}}/>
+          </TouchableOpacity>
+        </View>
+       </View>
+       
 
       )}
     </SafeAreaView>
@@ -161,7 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "green",
+    backgroundColor: "#3DB2FF",
     marginHorizontal: 20,
     paddingHorizontal: 20,
     paddingVertical: 5

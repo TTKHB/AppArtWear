@@ -6,18 +6,75 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  Button,
 } from 'react-native';
-export const back = require('../../../assets/images/back.jpg');
-export const ask = require('../../../assets/images/ask.jpg');
-export const cart = require('../../../assets/images/card.jpg');
-export const addres = require('../../../assets/images/addres.jpg');
-export const protect = require('../../../assets/images/protect.jpg');
-export const aothun = require('../../../assets/images/ao7.jpg');
+export const back = require ('../../../assets/images/back.jpg');
+export const ask = require ('../../../assets/images/ask.jpg');
+export const cart = require ('../../../assets/images/card.jpg');
+export const addres = require ('../../../assets/images/addres.jpg');
+export const protect = require ('../../../assets/images/protect.jpg');
+export const aothun = require ('../../../assets/images/ao7.jpg');
+import { RadioButton } from 'react-native-paper';
+import Animated from 'react-native-reanimated';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 const OderDetail = () => {
+  const [checked, setChecked] = React.useState('first');
+
+  const renderInner = () => (
+    <View style={{width: '100%', height: '100%', backgroundColor: 'pink'}}>
+   <RadioButton
+   
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      />
+       <RadioButton
+        value="secondd"
+        status={ checked === 'secondd' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('secondd')}
+      />
+       <RadioButton
+        value="seconddd"
+        status={ checked === 'seconddd' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('seconddd')}
+      />
+     <TouchableOpacity style={{width: 200, height: 50, backgroundColor: 'white', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 15, borderRadius: 7}}>
+       <Text style={{fontSize: 18}}>Xác Nhận</Text>
+     </TouchableOpacity>
+    </View>
+  );
+  const renderHeader = () => (
+    <View style={Styles.Header11}>
+      <View style={Styles.panelHeader}>
+        <View style={Styles.panelHandle}/>
+        <Text style={{
+          fontSize: 18
+        }}>
+            Chọn lí do hủy
+          </Text>
+      </View>
+    </View>
+  );
+
+  bs = React.createRef ();
+  fall = new Animated.Value (1);
+
   return (
     <View>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[500, 0]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={0}
+        callbackNode={fall}
+        enabledGestureInteraction={true}
+      />
       {/* header------------------------------------------------------------------ */}
       <View style={Styles.header}>
         <TouchableOpacity style={Styles.header2}>
@@ -67,7 +124,6 @@ const OderDetail = () => {
             </Text>
           </View>
         </View>
-        {/* -------------------------- */}
         <View style={Styles.view3}>
           <View style={{flexDirection: 'row', marginLeft: 17, marginTop: 5}}>
             <Image style={Styles.imageheader} source={protect} />
@@ -75,7 +131,6 @@ const OderDetail = () => {
           </View>
         </View>
         <View style={Styles.view4}>
-          {/* -------------------------- */}
           <View style={{flexDirection: 'row'}}>
             <View style={Styles.touyeuthich}>
               <Text style={{fontSize: 14, color: 'white'}}>Yêu thích</Text>
@@ -86,7 +141,6 @@ const OderDetail = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* --------------------------------- */}
           <View
             style={{
               width: '93%',
@@ -94,7 +148,8 @@ const OderDetail = () => {
               marginTop: 10,
               borderTopWidth: 0.5,
               borderBottomWidth: 0.5,
-            }}>
+            }}
+          >
             <View
               style={{
                 flexDirection: 'row',
@@ -102,7 +157,8 @@ const OderDetail = () => {
                 height: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
-              }}>
+              }}
+            >
               <View
                 style={{
                   width: '25%',
@@ -110,7 +166,8 @@ const OderDetail = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 0.5,
-                }}>
+                }}
+              >
                 <Image
                   style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
                   source={aothun}
@@ -122,7 +179,8 @@ const OderDetail = () => {
                   height: '90%',
                   marginLeft: 10,
                   marginTop: '4%',
-                }}>
+                }}
+              >
                 <Text style={{fontSize: 22}}>Áo thể thao đẹp free size</Text>
                 <Text style={{fontSize: 18}}>Logo ManChester United</Text>
                 <Text style={{fontSize: 18, textAlign: 'right', marginTop: 22}}>
@@ -131,7 +189,6 @@ const OderDetail = () => {
               </View>
             </View>
           </View>
-          {/* --------------------------------- */}
           <View
             style={{
               width: '93%',
@@ -139,20 +196,21 @@ const OderDetail = () => {
               flexDirection: 'row',
               borderBottomWidth: 0.5,
               alignItems: 'center',
-            }}>
+            }}
+          >
             <Text style={{fontSize: 20}}>Thành tiền:</Text>
             <Text style={{fontSize: 20, textAlign: 'right', width: '74%'}}>
               23.00đ
             </Text>
           </View>
-          {/* --------------------------------- */}
           <View
             style={{
               flexDirection: 'row',
               width: '93%',
               height: 60,
               borderBottomWidth: 0.5,
-            }}>
+            }}
+          >
             <View style={{width: '40%', justifyContent: 'center'}}>
               <Text style={Styles.textleft}>Mã đơn hàng</Text>
               <Text style={Styles.textleft}>Thời gian đặt hàng</Text>
@@ -162,7 +220,8 @@ const OderDetail = () => {
                 width: '60%',
                 justifyContent: 'center',
                 textAlign: 'right',
-              }}>
+              }}
+            >
               <Text style={Styles.textright}>AGHDGJGADHAKDJ</Text>
               <Text style={Styles.textright}>25/05/2021</Text>
             </View>
@@ -170,16 +229,17 @@ const OderDetail = () => {
           <TouchableOpacity style={Styles.Tou21}>
             <Text style={{fontSize: 20}}>Liên hệ shop</Text>
           </TouchableOpacity>
-          {/* --------------------------------------------------------------- */}
-          <TouchableOpacity style={Styles.Tou21}>
+          <TouchableOpacity
+            onPress={() => bs.current.snapTo (0)}
+            style={Styles.Tou21}
+          >
             <Text style={{fontSize: 20}}>Hủy đơn hàng</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-      {/* --------------------------------------------------------------- */}
       <View style={{width: '100%', height: '13%', backgroundColor: 'white'}}>
         <View>
-          <Text style={{textAlign: 'right', fontSize: 18, marginTop: '2%'}}>
+          <Text style={{textAlign: 'right', fontSize: 18, marginTop: '7%'}}>
             Tổng thanh toán: 24.000đ
           </Text>
           <TouchableOpacity
@@ -189,8 +249,8 @@ const OderDetail = () => {
               width: '100%',
               height: 50,
               backgroundColor: '#8D6E63',
-              marginTop: '3%',
-            }}>
+            }}
+          >
             <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>
               Xác Nhận
             </Text>
@@ -202,7 +262,7 @@ const OderDetail = () => {
 };
 export default OderDetail;
 
-export const Styles = StyleSheet.create({
+export const Styles = StyleSheet.create ({
   //---------------------------------------------------------------
   header: {
     width: '100%',
@@ -308,5 +368,24 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 0.5,
+  },
+  Header11: {
+    backgroundColor: 'white',
+    borderTopRightRadius: 40,
+    borderTopLeftRadius: 40,
+    height: 50,
+    borderTopWidth: 1,
+    backgroundColor: 'pink'
+  },
+  panelHeader: {
+    alignItems: 'center',
+  },
+  panelHandle: {
+    width: 60,
+    height: 3,
+    borderRadius: 3,
+    backgroundColor: 'blue',
+    marginBottom: 10,
+    marginTop: 5
   },
 });

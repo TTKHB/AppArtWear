@@ -9,6 +9,7 @@ const Stack = createStackNavigator();
 //screens
 import HotScreen from '../Screens/Hot/HotScreen';
 import CommentScreen from '../Screens/Hot/CommentScreen';
+import PostScreen from '../Screens/Hot/PostScreen';
 
 const HotNavigator = () => {
   return (
@@ -43,6 +44,14 @@ const HotNavigator = () => {
         component={CommentScreen}
         options={{
           headerShown: false,
+        }}
+        
+      />
+        <Stack.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{
+          headerShown: true,
         }}
         
       />
