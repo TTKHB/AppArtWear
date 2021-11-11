@@ -4,8 +4,8 @@ import {
 } from 'react-native';
 import LoaderChat from '../../../components/Home/Loader/LoaderChat';
 export const ronaldo = require('../../../assets/images/Cr7.jpg');
-export const SeeMore = require('../../../assets/images/add-user.png');
-export const Search = require('../../../assets/images/search1.png');
+export const SeeMore = require('../../../assets/images/add-user.jpg');
+export const Search = require('../../../assets/images/search1.jpg');
 export const Tuyen = require('../../../assets/images/ngoctuyen.jpg');
 
 const User = [
