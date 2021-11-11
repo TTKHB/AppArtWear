@@ -125,16 +125,16 @@ const Post = ({ item, item: likeCountProp, navigation }) => {
         loop={true}
       >
         <View style={styles.slide}>
-          <Image style={styles.image} source={{ uri: item.imageUri.image }} />
+          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image }} />
         </View>
         <View style={styles.slide}>
-          <Image style={styles.image} source={{ uri: item.imageUri.image1 }} />
+          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image1 }} />
         </View>
         <View style={styles.slide}>
-          <Image style={styles.image} source={{ uri: item.imageUri.image2 }} />
+          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image2 }} />
         </View>
         <View style={styles.slide}>
-          <Image style={styles.image} source={{ uri: item.imageUri.image3 }} />
+          <Image style={styles.image} resizeMode={"contain"}  source={{ uri: item.imageUri.image3 }} />
         </View>
       </Swiper>
 
