@@ -11,15 +11,15 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Dash from 'react-native-dash';
 const ItemAoKhoac = require('../../../assets/images/Ao/AoKhoac/aokhoac1.jpg');
 const iconGift = require('../../../assets/images/giftbox.jpg');
-const {height, width} = Dimensions.get('window');
-import {useLogin} from '../../../Context/LoginProvider';
-const Gift = ({navigation}) => {
-  const {isLoggedIn} = useLogin();
+const { height, width } = Dimensions.get('window');
+import { useLogin } from '../../../Context/LoginProvider';
+const Gift = ({ navigation }) => {
+  const { isLoggedIn } = useLogin();
   const onSubmitVoucher = () => {
     if (!isLoggedIn) {
-      navigation.navigate('UserNavigator', {screen: 'Login'});
+      navigation.navigate('UserNavigator', { screen: 'Login' });
     } else {
-      navigation.navigate('UserNavigator', {screen: 'uudaiUser'});
+      navigation.navigate('UserNavigator', { screen: 'uudaiUser' });
     }
   };
   return (
@@ -53,24 +53,24 @@ const Gift = ({navigation}) => {
             </View>
           </TouchableOpacity>
           {/* Item Three (Piheu mua hang) */}
-          <View style={styles.viewPhieuMuaHang}>
-            <View style={styles.headerPhieu}>
-              <Text style={styles.textPrice}>-đ 102,756</Text>
-              <Text style={styles.textCoupons}>Phiếu mua hàng</Text>
+          <TouchableOpacity style={styles.itemPhieuMuaHang} onPress={onSubmitVoucher}>
+            <View style={styles.containerPhieu}>
+              <View style={styles.headerPhieu}>
+                <Text style={styles.textPrice}>-đ 102,756</Text>
+                <Text style={styles.textCoupons}>Phiếu mua hàng</Text>
+              </View>
             </View>
-            <View style={styles.viewDash}>
+            <View style={styles.viewItemPhieu}>
               <View style={styles.viewImageGift}>
                 <Image source={iconGift} />
               </View>
-              {/* đường line dạng dot ---- */}
-              <Dash dashLength={5} dashColor="#FFFCF2" />
               <TouchableOpacity
                 style={styles.viewGetIt}
                 onPress={onSubmitVoucher}>
-                <Text style={styles.textGetIt}>Nhận ngay</Text>
+                <Text style={styles.textGetIt}>Nhận Ngay</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -140,39 +140,52 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  viewPhieuMuaHang: {
-    backgroundColor: '#FD4545',
-    height: '71%',
-    width: '34%',
-    borderRadius: 10,
-    borderWidth: 1,
-    marginTop: '-4%',
-  },
   headerPhieu: {
     alignItems: 'center',
   },
   textPrice: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   textCoupons: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 12,
   },
   viewImageGift: {
     alignItems: 'center',
+    marginTop: '-12%'
   },
-  viewDash: {
+  containerPhieu: {
+    height: 20,
+    width: '100%',
+    borderRadius: 10,
+    flex: 1
+  },
+  viewItemPhieu: {
+    height: 20,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
-    marginTop: 5,
+    borderRadius: 10,
+  },
+  itemPhieuMuaHang: {
+    backgroundColor: '#FD4545',
+    height: '71%',
+    width: '30%',
+    borderRadius: 10,
+    borderWidth: 1,
+    alignItems: 'center',
+    marginTop: '-5%'
   },
   viewGetIt: {
     backgroundColor: '#fff',
-    borderRadius: 15,
-    marginTop: '11%',
-    marginHorizontal: 15,
+    borderRadius: 10,
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 25,
+    width: '90%',
   },
   textGetIt: {
     textAlign: 'center',
