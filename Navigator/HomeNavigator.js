@@ -92,93 +92,68 @@ const HomeNavigator = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           ),
-          headerRight: ({ color }) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                marginRight: 10
-              }}>
-              <TouchableOpacity onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}>
-                <IconFavorite
-                  name="favorite-outline"
-                  size={28}
-                  style={{
-                    marginRight: 10
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <IconCart name="handbag" size={24} />
-              </TouchableOpacity>
-            </View>
-          ),
-        }}
+            headerRight: ({ color }) => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginRight: 10,
+                }}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}
+                >
+                  <IconFavorite
+                    name="favorite-outline"
+                    size={28}
+  
+                    style={{
+                      marginRight: 10
+                    }} />
+                </TouchableOpacity>
+                {isLoggedIn ? (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
+                    >
+                      <View style={{ flexDirection: 'row' }}>
+                        <View style={{ marginRight: -8 }}>
+                          <IconCart name="handbag" size={24} />
+                        </View>
+                        <View style={{
+                          backgroundColor: 'red',
+                          height: 20,
+                          width: 20,
+                          borderRadius: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                          <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                            {cartItems.length ? (
+                              <Text >{cartItems.length}</Text>
+                            ) : (
+                              <Text>0</Text>
+                            )}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('UserNavigator', { screen: 'Login' })}
+                    >
+                      <IconCart name="handbag" size={24} />
+                    </TouchableOpacity>
+                  </>
+                )}
+              </View>
+            ),
+          }}
       />
       <Stack.Screen
         name="Product Detail"
         component={ProductDetailsScreen}
-        options={{
-          headerBackTitleVisible: false,
-          title: null,
-          headerTransparent: true,
-          headerTintColor: 'black',
-          headerTitle: false,
-          headerRight: ({ color }) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                marginRight: 10
-              }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}
-              >
-                <IconFavorite
-                  name="favorite-outline"
-                  size={28}
-
-                  style={{
-                    marginRight: 10
-                  }} />
-              </TouchableOpacity>
-              {isLoggedIn ? (
-                <>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
-                  >
-                    <View style={{ flexDirection: 'row' }}>
-                      <View>
-                        <IconCart name="handbag" size={24} />
-                      </View>
-                      {cartItems.length ? (
-                        <>
-                          <View style={{
-                            backgroundColor: 'red',
-                            height: 20,
-                            width: 20,
-                            borderRadius: 20,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginLeft: -10,
-                          }}>
-                            <Text style={{ color: 'white', fontWeight: 'bold' }}>{cartItems.length}</Text>
-                          </View>
-                        </>
-                      ) : null}
-                    </View>
-                  </TouchableOpacity>
-                </>
-              ) : (
-                <>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('UserNavigator', { screen: 'Login' })}
-                  >
-                    <IconCart name="handbag" size={24} />
-                  </TouchableOpacity>
-                </>
-              )}
-            </View>
-          ),
-        }}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="MenuSearchHangDau"

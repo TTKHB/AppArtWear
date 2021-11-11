@@ -10,8 +10,11 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
+import {Header, Icon} from 'react-native-elements';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import CheckOutItem from '../../components/Checkout/CheckOutItem';
 import MyCheckOut from '../../components/Checkout/myCheckOut';
+import IconFavorite from 'react-native-vector-icons/MaterialIcons';
 const artwear = require('../../assets/images/dragon.jpg');
 
 export const ao = require('../../assets/images/Ao3.jpg');
@@ -66,6 +69,7 @@ const sanpham = [
 const CartScreen = ({navigation}) => {
   const {isLoggedIn, profile} = useLogin();
   const [cartList, setcartList] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const itemsPrice = cartList.reduce(
     (a, c) => a + c.amount * c.product_id.gia,
     0,
@@ -78,6 +82,7 @@ const CartScreen = ({navigation}) => {
         .get(`${baseURL}carts/user/` + profile._id)
         .then(res => {
           setcartList(res.data);
+          setCartItems(res.data);
         })
         .catch(error => {
           console.log('Api call error');
@@ -85,6 +90,7 @@ const CartScreen = ({navigation}) => {
 
       return () => {
         setcartList([]);
+        setCartItems([]);
       };
     }, []),
   );
@@ -272,6 +278,93 @@ const CartScreen = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
+      <Header
+        containerStyle={{
+          backgroundColor: '#ffffff',
+        }}
+        centerComponent={{   
+          text: 'Giỏ hàng của tôi',
+         style: { color: '#8D6E63',textAlign: 'center',
+             alignSelf: 'center',
+             fontSize: 25,
+             fontWeight: 'bold' }}
+        }
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Icon
+              name="angle-left"
+              size={25}
+              type="font-awesome"
+              color="#000000"
+              style={{marginLeft: 5}}
+            />
+          </TouchableOpacity>
+        }
+        rightComponent={
+          <View
+            style={{
+              flexDirection: 'row',
+              marginRight: 3,
+            }}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('UserNavigator', {screen: 'FavoriteScreen'})
+              }>
+              <IconFavorite
+                name="favorite-outline"
+                size={28}
+                style={{
+                  marginRight: 3,
+                }}
+              />
+            </TouchableOpacity>
+            {isLoggedIn ? (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('CartNavigator', {screen: 'Cart'})
+                  }>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{marginRight: -8}}>
+                      <IconCart name="handbag" size={24} />
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'red',
+                        height: 20,
+                        width: 20,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{color: 'white', fontWeight: 'bold'}}>
+                        {cartItems.length ? (
+                          <Text>{cartItems.length}</Text>
+                        ) : (
+                          <Text>0</Text>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('UserNavigator', {screen: 'Login'})
+                  }>
+                  <IconCart name="handbag" size={24} />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        }
+      />
+      <ScrollView>
       {/* Diglog when delete cart success */}
       <Dialog.Container
         visible={visible}
@@ -301,7 +394,7 @@ const CartScreen = ({navigation}) => {
         name="Mua thêm để tận hưởng vận chuyển miễn phí"
         iconright="angle-right"
       />
-      <ScrollView>
+
         <View style={styles.content}>
           {/* Sản phẩm thanh toán của tôi */}
           <MyCheckOut icon="shop" name="Art Wear" />

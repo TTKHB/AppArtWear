@@ -10,6 +10,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import IconFavorite from 'react-native-vector-icons/MaterialIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import Animated from 'react-native-reanimated';
@@ -20,8 +21,8 @@ import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import Star from '../../components/ProductMenu/Star';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import {
-  ImageHeaderScrollView,
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
 import RoundedCheckbox from 'react-native-rounded-checkbox';
@@ -40,14 +41,14 @@ import {rate, average} from 'average-rating';
 import {useLogin} from '../../Context/LoginProvider';
 import Dialog from 'react-native-dialog';
 import useFavoriteOfUser from '../../hooks/Favorite/useFavoriteOfUser';
-
+import {Header, Icon} from 'react-native-elements';
 /**
  *
  * @param {id as product_id} param
  */
 const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
   const {isLoggedIn, profile} = useLogin();
-
+  const [cartItems, setCartItems] = useState([]);
   console.log(
     '🚀 ~ file: ProductDetailsScreen.js ~ line 50 ~ ProductDetailsScreen ~ profile',
     profile,
@@ -83,7 +84,6 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
         });
     }
   };
-  //updataFavorite
 
   //Diglog onClick
   const [visible, setVisible] = useState(false);
@@ -316,20 +316,134 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
       };
     }, []),
   );
+
+  useFocusEffect(
+    useCallback(() => {
+      // Carts
+      axios
+        .get(`${baseURL}carts/user/` + profile._id)
+        .then(res => {
+          setCartItems(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        setCartItems([]);
+      };
+    }, []),
+  );
+
   return (
     <View style={[styles.container, {backgroundColor: COLORS.white}]}>
-      {loading ? (
-        <LoaderProductDetail />
-      ) : (
-        //Header
-        <ImageHeaderScrollView
-          showsVerticalScrollIndicator={false}
-          maxHeight={500}
-          minHeight={MIN_HEIGHT}
-          // minOverlayOpacity={0}
-          useNativeDriver={false}
-          maxOverlayOpacity={0.1}
-          renderForeground={() => (
+      {/* Header */}
+      <Header
+        containerStyle={{
+          backgroundColor: '#ffffff',
+        }}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Icon
+              name="angle-left"
+              size={25}
+              type="font-awesome"
+              color="#000000"
+              style={{marginLeft: 5}}
+            />
+          </TouchableOpacity>
+        }
+        rightComponent={
+          <View
+            style={{
+              flexDirection: 'row',
+              marginRight: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('UserNavigator', {screen: 'FavoriteScreen'})
+              }>
+              <IconFavorite
+                name="favorite-outline"
+                size={28}
+                style={{
+                  marginRight: 10,
+                }}
+              />
+            </TouchableOpacity>
+            {isLoggedIn ? (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('CartNavigator', {screen: 'Cart'})
+                  }>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{marginRight: -8}}>
+                      <IconCart name="handbag" size={24} />
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'red',
+                        height: 20,
+                        width: 20,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{color: 'white', fontWeight: 'bold'}}>
+                        {cartItems.length ? (
+                          <Text>{cartItems.length}</Text>
+                        ) : (
+                          <Text>0</Text>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('UserNavigator', {screen: 'Login'})
+                  }>
+                  <IconCart name="handbag" size={24} />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        }
+      />
+      <ScrollView>
+        <TriggeringView onHide={() => console.log('text hidden')}>
+          <Animated.ScrollView style={{alignSelf: 'stretch'}}>
+            {/* Dialog thêm thành công giỏ hàng */}
+            <Dialog.Container
+              visible={visible}
+              contentStyle={{
+                borderRadius: 10,
+                borderColor: 'white',
+                width: width / 1.09,
+              }}>
+              <Dialog.Title style={{fontSize: 28, fontWeight: 'bold'}}>
+                Thêm thành công{' '}
+                <Image
+                  style={{height: 25, width: 25}}
+                  source={require('../../assets/icon/checked.jpg')}
+                />
+              </Dialog.Title>
+              <Dialog.Description style={{fontSize: 22, fontWeight: 'bold'}}>
+                Sản phẩm đã được thêm vào giỏ hàng
+              </Dialog.Description>
+              <Dialog.Button
+                style={{color: 'brown', fontWeight: 'bold', fontSize: 20}}
+                label="Tiếp tục"
+                onPress={handleContinue}
+              />
+            </Dialog.Container>
             <Swiper
               style={styles.wrapper}
               renderPagination={renderPagination}
@@ -346,177 +460,148 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                 );
               })}
             </Swiper>
-          )}>
-          <View>
-            <TriggeringView onHide={() => console.log('text hidden')}>
-              <Animated.ScrollView style={{alignSelf: 'stretch'}}>
-                {/* Dialog thêm thành công giỏ hàng */}
-                <Dialog.Container
-                  visible={visible}
-                  contentStyle={{
-                    borderRadius: 10,
-                    borderColor: 'white',
-                    width: width / 1.09,
-                  }}>
-                  <Dialog.Title style={{fontSize: 28, fontWeight: 'bold'}}>
-                    Thêm thành công{' '}
-                    <Image
-                      style={{height: 25, width: 25}}
-                      source={require('../../assets/icon/checked.jpg')}
-                    />
-                  </Dialog.Title>
-                  <Dialog.Description
-                    style={{fontSize: 22, fontWeight: 'bold'}}>
-                    Sản phẩm đã được thêm vào giỏ hàng
-                  </Dialog.Description>
-                  <Dialog.Button
-                    style={{color: 'brown', fontWeight: 'bold', fontSize: 20}}
-                    label="Tiếp tục"
-                    onPress={handleContinue}
-                  />
-                </Dialog.Container>
-                {/* Body */}
-                <View style={styles.detailsContainer}>
-                  <Text style={styles.nameText}>{details.ten}</Text>
-                  <Text style={styles.priceText}>{details.gia} VNĐ</Text>
 
-                  {/* ngôi sao đánh giá sản phảm*/}
-                  <View style={styles.rate}>
-                    <Star rating={2} reviews={10}></Star>
+            {/* Body */}
+            <View style={styles.detailsContainer}>
+              <Text style={styles.nameText}>{details.ten}</Text>
+              <Text style={styles.priceText}>{details.gia} VNĐ</Text>
+
+              {/* ngôi sao đánh giá sản phảm*/}
+              <View style={styles.rate}>
+                <Star rating={2} reviews={10}></Star>
+              </View>
+              <View style={styles.contentship}>
+                {/*Chọn đơn vị giao hàng (ví dụ giao hàng tiết kiệm) */}
+                <Ship
+                  icon="truck-fast-outline"
+                  iconship="truck-check-outline"
+                  name="Giao hàng tiêu chuẩn"
+                  nameship="Nhận hàng trong vòng 1 -> 3 ngày"
+                  iconright="angle-right"
+                />
+              </View>
+              <View style={styles.flashing}>
+                <Text style={{fontWeight: 'bold', fontSize: 20}}>Màu </Text>
+                <Text style={{fontWeight: 'bold', fontSize: 20, left: -5}}>
+                  Kích cỡ
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                {/* chọn màu */}
+                <View style={styles.colorContainer}>
+                  {colors.map((color, i) => {
+                    return (
+                      <BouncyCheckbox
+                        size={30}
+                        isChecked={checkboxColor == color ? true : false}
+                        onPress={() => selectedColor(i, color)}
+                        unfillColor={color}
+                        iconStyle={{borderColor: 'brown'}}
+                        disableBuiltInState={true}
+                        fillColor={color}></BouncyCheckbox>
+                    );
+                  })}
+                </View>
+
+                {/* chọn size */}
+                <View style={styles.sizesContainer}>
+                  <RoundedCheckbox size={25} text="S"></RoundedCheckbox>
+                  <RoundedCheckbox size={25} text="M"></RoundedCheckbox>
+                  <RoundedCheckbox size={25} text="L"></RoundedCheckbox>
+                </View>
+              </View>
+
+              {/* Mô tả sản phẩm */}
+              <List.Section>
+                <List.Accordion
+                  titleStyle={{
+                    marginLeft: -15,
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                    color: 'black',
+                  }}
+                  style={{backgroundColor: 'white'}}
+                  title="Mô tả">
+                  <View>
+                    <Text style={{fontSize: 18}}>{details.mota}</Text>
                   </View>
-                  <View style={styles.contentship}>
-                    {/*Chọn đơn vị giao hàng (ví dụ giao hàng tiết kiệm) */}
-                    <Ship
-                      icon="truck-fast-outline"
-                      iconship="truck-check-outline"
-                      name="Giao hàng tiêu chuẩn"
-                      nameship="Nhận hàng trong vòng 1 -> 3 ngày"
-                      iconright="angle-right"
-                    />
-                  </View>
-                  <View style={styles.flashing}>
-                    <Text style={{fontWeight: 'bold', fontSize: 20}}>Màu </Text>
-                    <Text style={{fontWeight: 'bold', fontSize: 20, left: -5}}>
-                      Kích cỡ
-                    </Text>
-                  </View>
+                </List.Accordion>
+              </List.Section>
+
+              {/* Đánh giá */}
+              <List.Section>
+                <List.Accordion
+                  titleStyle={{
+                    marginLeft: -15,
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                    color: 'black',
+                  }}
+                  style={{backgroundColor: 'white'}}
+                  title="Đánh giá">
                   <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}>
-                    {/* chọn màu */}
-                    <View style={styles.colorContainer}>
-                      {colors.map((color, i) => {
-                        return (
-                          <BouncyCheckbox
-                            size={30}
-                            isChecked={checkboxColor == color ? true : false}
-                            onPress={() => selectedColor(i, color)}
-                            unfillColor={color}
-                            iconStyle={{borderColor: 'brown'}}
-                            disableBuiltInState={true}
-                            fillColor={color}></BouncyCheckbox>
-                        );
-                      })}
-                    </View>
-
-                    {/* chọn size */}
-                    <View style={styles.sizesContainer}>
-                      <RoundedCheckbox size={25} text="S"></RoundedCheckbox>
-                      <RoundedCheckbox size={25} text="M"></RoundedCheckbox>
-                      <RoundedCheckbox size={25} text="L"></RoundedCheckbox>
-                    </View>
+                    <Text style={{fontSize: 18}}>Nhận xét</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate('StarRating', {
+                          product_id: id,
+                        });
+                      }}>
+                      <Text>Tất cả</Text>
+                    </TouchableOpacity>
                   </View>
 
-                  {/* Mô tả sản phẩm */}
-                  <List.Section>
-                    <List.Accordion
-                      titleStyle={{
-                        marginLeft: -15,
-                        fontWeight: 'bold',
-                        fontSize: 20,
-                        color: 'black',
-                      }}
-                      style={{backgroundColor: 'white'}}
-                      title="Mô tả">
-                      <View>
-                        <Text style={{fontSize: 18}}>{details.mota}</Text>
-                      </View>
-                    </List.Accordion>
-                  </List.Section>
+                  {/* Ngôi sao dưới nhận  xét */}
+                  <View style={styles.rate}>
+                    <StarRating
+                      rating={4}
+                      reviews={88}
+                      fullStarColor={'orange'}
+                      starSize={13}></StarRating>
+                    <Text style={{left: 4, fontSize: 13, color: 'red'}}>
+                      {NumRating}/5
+                    </Text>
+                    <Text style={styles.score}>
+                      ({totalReviewOfProduct} đánh giá)
+                    </Text>
+                  </View>
 
-                  {/* Đánh giá */}
-                  <List.Section>
-                    <List.Accordion
-                      titleStyle={{
-                        marginLeft: -15,
-                        fontWeight: 'bold',
-                        fontSize: 20,
-                        color: 'black',
-                      }}
-                      style={{backgroundColor: 'white'}}
-                      title="Đánh giá">
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{fontSize: 18}}>Nhận xét</Text>
-                        <TouchableOpacity
-                          onPress={() => {
-                            navigation.navigate('StarRating', {
-                              product_id: id,
-                            });
-                          }}>
-                          <Text>Tất cả</Text>
-                        </TouchableOpacity>
-                      </View>
-
-                      {/* Ngôi sao dưới nhận  xét */}
-                      <View style={styles.rate}>
-                        <StarRating
-                          rating={4}
-                          reviews={88}
-                          fullStarColor={'orange'}
-                          starSize={13}></StarRating>
-                        <Text style={{left: 4, fontSize: 13, color: 'red'}}>
-                          {NumRating}/5
-                        </Text>
-                        <Text style={styles.score}>
-                          ({totalReviewOfProduct} đánh giá)
-                        </Text>
-                      </View>
-
-                      {/* Bình luận user*/}
-                      <FlatList
-                        data={dataReviewOfProduct}
-                        keyExtractor={item => item.id}
-                        renderItem={renderItemComment}
-                      />
-                    </List.Accordion>
-                  </List.Section>
-
-                  {/* Sản phẩm đề xuất   */}
-
-                  <Text style={styles.mota}>Sản phẩm có thể bạn quan tâm</Text>
+                  {/* Bình luận user*/}
                   <FlatList
-                    showsHorizontalScrollIndicator={false}
-                    data={products}
-                    horizontal
+                    data={dataReviewOfProduct}
                     keyExtractor={item => item.id}
-                    renderItem={({item}) => (
-                      <SearchHangDau item={item} navigation={navigation} />
-                    )}
+                    renderItem={renderItemComment}
                   />
-                </View>
-              </Animated.ScrollView>
-            </TriggeringView>
-          </View>
-        </ImageHeaderScrollView>
-      )}
+                </List.Accordion>
+              </List.Section>
+
+              {/* Sản phẩm đề xuất   */}
+
+              <Text style={styles.mota}>Sản phẩm có thể bạn quan tâm</Text>
+              <FlatList
+                showsHorizontalScrollIndicator={false}
+                data={products}
+                horizontal
+                keyExtractor={item => item.id}
+                renderItem={({item}) => (
+                  <SearchHangDau item={item} navigation={navigation} />
+                )}
+              />
+            </View>
+          </Animated.ScrollView>
+        </TriggeringView>
+      </ScrollView>
+
       {/* Footer */}
       <View style={styles.footerContainer}>
         <TouchableWithoutFeedback
@@ -547,14 +632,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   //Header
-  wrapper: {},
+  wrapper: {
+    height: 300,
+  },
   slide: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'transparent',
   },
   image: {
-    height: 500,
+    height: 300,
     width: width,
     alignSelf: 'stretch',
     resizeMode: 'cover',

@@ -200,60 +200,7 @@ const UserNavigator = ({ navigation }) => {
       <Stack.Screen
         name="FavoriteScreen"
         component={FavoriteScreen}
-        options={{
-          title: 'Yêu thích',
-          headerStyle: {
-            backgroundColor: '#fff',
-            borderColor: '#F5F5F5',
-            borderWidth: 1
-          },
-          headerTintColor: '#8D6E63',
-          headerTitleStyle: {
-            textAlign: 'center',
-            alignSelf: 'center',
-            fontSize: 28,
-            fontWeight: 'bold'
-          },
-          headerTitleAlign: 'center',
-          headerLeft: ({ color }) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                marginLeft: 10
-              }}>
-              <TouchableOpacity >
-                <IconBack
-                  name="chevron-back"
-                  size={28}
-                  onPress={() => navigation.goBack()}
-                  style={{
-                    marginRight: 10
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <IconSearch
-                  name="search"
-                  size={24}
-                  style={{
-                    marginTop: 5
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
-          headerRight: ({ color }) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                marginRight: 10
-              }}>
-              <TouchableOpacity>
-                <IconCart name="handbag" size={24} />
-              </TouchableOpacity>
-            </View>
-          ),
-        }}
+        options={{ header: () => null }}
       />
        <Stack.Screen
         name="MessagScreen"

@@ -12,24 +12,24 @@ const CartNavigator = () => {
       <Stack.Screen
         name="Cart"
         component={CartScreen}
-        options={{
-          // headerShown: false,
-          title: 'Giỏ hàng của tôi',
-          headerStyle: {
-            backgroundColor: '#fff',
-            borderColor: '#F5F5F5',
-            borderWidth: 1
-          },
-          headerTintColor: '#000',
-          headerTitleStyle: {
-            textAlign: 'center',
-            alignSelf: 'center',
-          },
-          headerTitleAlign:'center',
-          headerRight: ({ color }) => (
-            <IconCart />
-          ),
-        }}
+        options={{ header: () => null }}
+        //   // headerShown: false,
+        //   title: 'Giỏ hàng của tôi',
+        //   headerStyle: {
+        //     backgroundColor: '#fff',
+        //     borderColor: '#F5F5F5',
+        //     borderWidth: 1
+        //   },
+        //   headerTintColor: '#000',
+        //   headerTitleStyle: {
+        //     textAlign: 'center',
+        //     alignSelf: 'center',
+        //   },
+        //   headerTitleAlign:'center',
+        //   headerRight: ({ color }) => (
+        //     <IconCart />
+        //   ),
+        // }}
       />
       <Stack.Screen
         name="Checkout"

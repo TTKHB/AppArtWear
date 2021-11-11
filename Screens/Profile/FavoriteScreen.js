@@ -11,10 +11,9 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
+import {Header, Icon} from 'react-native-elements';
 import Star from '../../components/ProductMenu/Star';
 import LoaderFavorite from '../../components/Home/Loader/LoaderFavorite';
-import IconSearch from 'react-native-vector-icons/Ionicons';
-import IconBack from 'react-native-vector-icons/Ionicons';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Feather';
 import COLORS from '../../assets/data/colors';
@@ -28,7 +27,8 @@ const numColumns = 2;
 const FavoriteScreen = ({navigation, i}) => {
   const [loading, setLoading] = useState(true);
   const [favorite, setFavorite] = useState([]);
-  const {profile} = useLogin();
+  const {isLoggedIn, profile} = useLogin();
+  const [cartItems, setCartItems] = useState([]);
   useFocusEffect(
     useCallback(() => {
       axios
@@ -46,6 +46,23 @@ const FavoriteScreen = ({navigation, i}) => {
         });
       return () => {
         setFavorite([]);
+      };
+    }, []),
+  );
+  useFocusEffect(
+    useCallback(() => {
+      // Carts
+      axios
+        .get(`${baseURL}carts/user/` + profile._id)
+        .then(res => {
+          setCartItems(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        setCartItems([]);
       };
     }, []),
   );
@@ -117,6 +134,9 @@ const FavoriteScreen = ({navigation, i}) => {
         });
     };
     return (
+
+
+
       <TouchableOpacity
         style={styles.viewPopSearch}
         onPress={() =>
@@ -169,6 +189,96 @@ const FavoriteScreen = ({navigation, i}) => {
   return (
     <View style={styles.container}>
       {/* Header */}
+      <Header
+        containerStyle={{
+          backgroundColor: '#ffffff',
+          borderColor: '#F5F5F5',
+          borderWidth: 1,
+        }}
+        centerComponent={{   
+          text: 'Yêu thích',
+         style: { color: '#8D6E63',textAlign: 'center',
+             alignSelf: 'center',
+             fontSize: 25,
+             fontWeight: 'bold' } 
+          // headerStyle: {
+          //     backgroundColor: '#fff',
+          //     borderColor: '#F5F5F5',
+          //     borderWidth: 1
+          //   },
+          //   headerTintColor: '#8D6E63',
+          //   headerTitleStyle: {
+          //     textAlign: 'center',
+          //     alignSelf: 'center',
+          //     fontSize: 28,
+          //     fontWeight: 'bold'
+          //   },
+          //   headerTitleAlign: 'center',
+          // }
+        }}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Icon
+              name="angle-left"
+              size={25}
+              type="font-awesome"
+              color="#000000"
+              style={{marginLeft: 5}}
+            />
+          </TouchableOpacity>
+        }
+        rightComponent={
+          <View
+            style={{
+              flexDirection: 'row',
+              marginRight: 10,
+            }}>
+            {isLoggedIn ? (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('CartNavigator', {screen: 'Cart'})
+                  }>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{marginRight: -8}}>
+                      <IconCart name="handbag" size={24} />
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'red',
+                        height: 20,
+                        width: 20,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{color: 'white', fontWeight: 'bold'}}>
+                        {cartItems.length ? (
+                          <Text>{cartItems.length}</Text>
+                        ) : (
+                          <Text>0</Text>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('UserNavigator', {screen: 'Login'})
+                  }>
+                  <IconCart name="handbag" size={24} />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        }
+      />
       <SafeAreaView>
         {loading ? (
           <LoaderFavorite />
