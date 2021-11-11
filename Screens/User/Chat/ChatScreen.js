@@ -1,13 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-  SafeAreaView,
+  View, Text, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, SafeAreaView
 } from 'react-native';
 import LoaderChat from '../../../components/Home/Loader/LoaderChat';
 export const ronaldo = require('../../../assets/images/Cr7.jpg');
@@ -20,24 +13,26 @@ const User = [
     id: 1,
     image: ronaldo,
     Username: 'Cristiano Ronaldo',
-    title: 'Heyy! hello My friends',
+    title: 'Heyy! hello My friends'
   },
   {
     id: 2,
     image: Tuyen,
     Username: 'Ngọc Tuyền',
-    title: 'Heyy! hello My friends',
+    title: 'Heyy! hello My friends'
   },
-];
 
-const ChatScreen = ({navigation}) => {
+]
+
+const ChatScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (loading) {
       setLoading(false);
     }
-  });
+  }
+  )
   return (
     <SafeAreaView>
       {loading ? (
@@ -49,11 +44,10 @@ const ChatScreen = ({navigation}) => {
             <TouchableOpacity style={Styles.TouchableHeader}>
               <Image style={Styles.ImageAvatar} source={Search} />
             </TouchableOpacity>
-            <View style={{width: '75%', justifyContent: 'center'}}>
-              <TextInput
-                style={Styles.TextInputBody}
-                placeholder="Tìm bạn bè, tin nhắn..."
-                placeholderTextColor="white"
+            <View style={{ width: '75%', justifyContent: 'center', }}>
+              <TextInput style={Styles.TextInputBody}
+                placeholder='Tìm bạn bè, tin nhắn...'
+                placeholderTextColor='white'
               />
             </View>
             <TouchableOpacity style={Styles.TouchableHeader}>
@@ -65,18 +59,17 @@ const ChatScreen = ({navigation}) => {
             <FlatList
               data={User}
               keyExtractor={item => item.id}
-              renderItem={({item}) => {
+              renderItem={({ item }) => {
                 return (
-                  <TouchableOpacity
-                    style={Styles.UserIcon}
-                    onPress={() => navigation.navigate('Chat detail', {item})}>
+                  <TouchableOpacity style={Styles.UserIcon}
+                    onPress={() => navigation.navigate('Chat detail', { item })}>
                     <Image style={Styles.ImageUser} source={item.image} />
-                    <View style={{marginLeft: 10}}>
+                    <View style={{ marginLeft: 10 }}>
                       <Text style={Styles.TextUser}>{item.Username}</Text>
                       <Text>{item.title}</Text>
                     </View>
                   </TouchableOpacity>
-                );
+                )
               }}
             />
           </View>

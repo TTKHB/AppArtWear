@@ -6,6 +6,20 @@ import FontistoIcon from "react-native-vector-icons/Fontisto";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import LoaderHot from '../../components/Home/Loader/LoaderHot';
+import Swiper from 'react-native-swiper'
+const { width } = Dimensions.get('window')
+
+const renderPagination = (index, total, context) => {
+  return (
+    <View style={styles.paginationStyle}>
+      <Text style={{ color: '#0099FF' }}>
+        <Text style={styles.paginationText}>{index + 1}</Text>/{total}
+      </Text>
+    </View>
+  )
+}
+
+export const add = require ( '../../assets/images/Post.jpg')
 
 const dataPost = [
   {
@@ -14,7 +28,12 @@ const dataPost = [
       imageUri: 'https://mfiles.alphacoders.com/640/640435.jpg',
       name: 'ArtWaer1'
     },
-    imageUri: 'https://mfiles.alphacoders.com/640/640435.jpg',
+    imageUri: {
+      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
+      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
+      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
+      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
+    },
     caption: 'Welcome to City #ArtWaer',
     likeCount: 10,
     postedAt: '6 min ago'
@@ -24,7 +43,12 @@ const dataPost = [
       imageUri: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
       name: 'ArtWaer'
     },
-    imageUri: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
+    imageUri: {
+      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
+      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
+      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
+      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
+    },
     caption: 'Fashion in the summer #ArtWaer',
     likeCount: 100,
     postedAt: '6 min ago'
@@ -34,7 +58,12 @@ const dataPost = [
       imageUri: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
       name: 'ArtWaer'
     },
-    imageUri: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
+    imageUri: {
+      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
+      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
+      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
+      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
+    },
     caption: 'Fashion in the summer #ArtWaer',
     likeCount: 13,
     postedAt: '6 min ago'
@@ -44,7 +73,12 @@ const dataPost = [
       imageUri: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
       name: 'ArtWaer'
     },
-    imageUri: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
+    imageUri: {
+      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
+      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
+      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
+      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
+    },
     caption: "Idol's fashion #ArtWaer",
     likeCount: 23,
     postedAt: '6 min ago'
@@ -63,7 +97,7 @@ const Post = ({ item, item: likeCountProp, navigation }) => {
   }
 
   useEffect(() => {
-    setLikeCount(likeCountProp)
+    setLikeCount()
   }, [])
   return (
     <View>
@@ -82,9 +116,27 @@ const Post = ({ item, item: likeCountProp, navigation }) => {
         </View>
       </View>
 
-      <View style={{ alignItems: 'center' }}>
+      {/* <View style={{ alignItems: 'center' }}>
         <Image source={{ uri: item.imageUri }} style={styles.imageBody} />
-      </View>
+      </View> */}
+      <Swiper
+        style={styles.wrapper}
+        renderPagination={renderPagination}
+        loop={true}
+      >
+        <View style={styles.slide}>
+          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image }} />
+        </View>
+        <View style={styles.slide}>
+          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image1 }} />
+        </View>
+        <View style={styles.slide}>
+          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image2 }} />
+        </View>
+        <View style={styles.slide}>
+          <Image style={styles.image} resizeMode={"contain"}  source={{ uri: item.imageUri.image3 }} />
+        </View>
+      </Swiper>
 
       <View style={styles.containerFooter}>
         <View style={styles.iconContainerFooter}>
@@ -132,11 +184,19 @@ const HotScreen = ({ navigation }) => {
         <LoaderHot />
       ) : (
 
-        <FlatList
+       <View>
+          <FlatList
           data={dataPost}
           keyExtractor={({ id }) => id}
           renderItem={({ item }) => <Post item={item} navigation={navigation} />}
         />
+        <View>
+          <TouchableOpacity onPress={() => navigation.navigate('PostScreen')} style={{marginTop: '-20%', marginLeft: '80%'}}>
+            <Image source={add} style={{width: 70, height: 70}}/>
+          </TouchableOpacity>
+        </View>
+       </View>
+       
 
       )}
     </SafeAreaView>
@@ -161,14 +221,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "green",
+    backgroundColor: "#3DB2FF",
     marginHorizontal: 20,
     paddingHorizontal: 20,
     paddingVertical: 5
   },
   headerFollowText: {
     fontSize: 18,
-    color: "#ffffff"
+    color: "#ffffff",
+    fontWeight: 'bold'
   },
   nameHeader: {
     alignSelf: 'center',
@@ -185,6 +246,7 @@ const styles = StyleSheet.create({
   },
 
   containerFooter: {
+    backgroundColor: "#fff",
     margin: 5,
   },
   iconContainerFooter: {
@@ -230,5 +292,37 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40
   },
+
+  wrapper: {
+    height: Dimensions.get('window').height / 1.8,
+    backgroundColor: '#fff',
+  },
+  slide: {
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    width: Dimensions.get('window').width / 1.06,
+    height: Dimensions.get('window').height / 1.8,
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  image: {
+    width: Dimensions.get('window').width / 1.06,
+    flex: 1,
+    marginHorizontal: 10,
+    borderRadius: 10,
+  },
+  paginationStyle: {
+    position: 'absolute',
+    bottom: 10,
+    right: 14,
+  },
+  paginationText: {
+    color: '#FF6699',
+    fontSize: 20
+  }
 });
 export default HotScreen;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
     View,
     Text,
@@ -38,6 +38,8 @@ import DialogDateTime from '../../Shared/DiaLog/DialogDateTime';
 import { RadioButton } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { useFocusEffect } from '@react-navigation/native';
+
 const InfomationScreen = ({ navigation, route }) => {
     //Form kiem tra loi
     const isValidForm = () => {
@@ -61,7 +63,7 @@ const InfomationScreen = ({ navigation, route }) => {
         return true;
     }
     const [error, setError] = useState('');
-    const { profile } = useLogin();
+    const { profile, setProfile } = useLogin();
     const [fullname, setFullName] = useState(profile.fullname);
     const [email, setEmail] = useState(profile.email);
     const [avatar, setAvartar] = useState(profile.avatar);
@@ -100,8 +102,12 @@ const InfomationScreen = ({ navigation, route }) => {
     }
 
     const { colors } = useTheme();
-    const bs = React.createRef();
+    const bs = React.useRef(null);
     const fall = new Animated.Value(1);
+
+    const closeBottomSheet = () => {
+        bs.current.snapTo(1);
+    }
 
     //Truy cập vào thư viện để chụp ảnh
     const takePhotoFromCamera = () => {
@@ -119,6 +125,7 @@ const InfomationScreen = ({ navigation, route }) => {
             } else if (response.error) {
                 console.log("Image Picker Error", response.error);
             } else {
+                closeBottomSheet()
                 const uri = response.assets[0].uri
                 const type = "image/jpg"
                 const name = response.assets[0].fileName
@@ -144,6 +151,7 @@ const InfomationScreen = ({ navigation, route }) => {
             } else if (response.error) {
                 console.log("Image Picker Error", response.error);
             } else {
+                closeBottomSheet()
                 const uri = response.assets[0].uri
                 const type = "image/jpg"
                 const name = response.assets[0].fileName
@@ -189,7 +197,9 @@ const InfomationScreen = ({ navigation, route }) => {
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.panelButton}
-                onPress={() => bs.current.snapTo(1)}>
+                onPress={() => bs.current.snapTo(1)}
+            // onPress={closeBottomSheet}
+            >
                 <Text style={styles.panelButtonTitle}>Huỷ bỏ</Text>
             </TouchableOpacity>
         </View>
@@ -203,7 +213,7 @@ const InfomationScreen = ({ navigation, route }) => {
         </View>
     );
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             {/* Xử lý bottom sheet */}
             <BottomSheet
                 ref={bs}
@@ -223,10 +233,11 @@ const InfomationScreen = ({ navigation, route }) => {
                 dateSelected={setBirthday}
             />
             {/* Animated khi mở bottom sheet ra */}
-            <Animated.View style={{
-                flex: 1,
-                opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
-            }}>
+            <Animated.ScrollView
+                style={{
+                    flex: 1,
+                    opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+                }}>
                 {/* View header ảnh */}
                 <SafeAreaView style={styles.headerWrapper}>
                     <View style={styles.splash}>
@@ -240,7 +251,6 @@ const InfomationScreen = ({ navigation, route }) => {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
-
                                     <ImageBackground
                                         source={{
                                             uri:
@@ -251,7 +261,7 @@ const InfomationScreen = ({ navigation, route }) => {
                                                         'https://res.cloudinary.com/artwear/image/upload/v1632695686/imageUser/LogoUser_khxsbc.jpg'
                                                         : 'https://res.cloudinary.com/artwear/image/upload/v1632695686/imageUser/LogoUser_khxsbc.jpg',
                                         }}
-                                        style={{ height: 100, width: 100 }}
+                                        style={{ height: 100, width: 100, borderRadius: 50, backgroundColor: '#F5F5F5' }}
                                         imageStyle={{ borderRadius: 50 }}>
                                         <View
                                             style={{
@@ -414,14 +424,14 @@ const InfomationScreen = ({ navigation, route }) => {
                         </TextInput>
                     </View>
                 </KeyboardAvoidingView>
-            </Animated.View>
+            </Animated.ScrollView>
             {/* Footer chứa nút save */}
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.btnItemOne} onPress={() => updateData()}>
                     <Text style={styles.panelButtonTitle}>Lưu thông tin</Text>
                 </TouchableOpacity>
             </View>
-        </ScrollView>
+        </View>
     );
 };
 
@@ -565,7 +575,6 @@ const styles = StyleSheet.create({
     footer: {
         padding: 10,
         backgroundColor: 'white',
-        marginTop: 10,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -584,3 +593,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
 });
+
+
+
+
+
+
+
+
+
+
+
+
