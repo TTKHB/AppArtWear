@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-export const top = require ('../../../assets/images/huyen.jpg');
-export const tt = require ('../../../assets/images/protect.png');
+export const top = require('../../../assets/images/huyen.jpg');
+export const tt = require('../../../assets/images/protect.jpg');
 const product = [
   {
     id: 1,
@@ -51,8 +51,7 @@ const CancelOder = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 7,
-                  }}
-                >
+                  }}>
                   <Text style={{fontWeight: 'bold', color: 'white'}}>
                     ArtWear Mall
                   </Text>
@@ -62,29 +61,33 @@ const CancelOder = () => {
                 </Text>
                 <TouchableOpacity style={{marginLeft: '18%'}}>
                   <Text
-                    style={{fontSize: 17, fontWeight: 'bold', color: 'red'}}
-                  >
+                    style={{fontSize: 17, fontWeight: 'bold', color: 'red'}}>
                     Đã hủy
                   </Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.view2}>
                 <View style={styles.view21}>
-                  <Image style={{width: '85%', height: '85%'}} source={item.image} />
+                  <Image
+                    style={{width: '85%', height: '85%'}}
+                    source={item.image}
+                  />
                 </View>
                 <View style={styles.view22}>
                   <View style={{width: '100%', height: '60%'}}>
                     <Text style={{fontSize: 18}}>{item.title}</Text>
                   </View>
-                <View style={{width: '100%', height: '40%',marginTop: '2%'}}>
-                  <Text  style={[styles.textSize,styles.color]}>269.000đ</Text>
-                </View>
+                  <View style={{width: '100%', height: '40%', marginTop: '2%'}}>
+                    <Text style={[styles.textSize, styles.color]}>
+                      269.000đ
+                    </Text>
+                  </View>
                 </View>
               </View>
               <View style={styles.view3}>
-                <View style={styles.view31}/>
+                <View style={styles.view31} />
                 <View style={styles.view32}>
-                  <Image style={{width: 23,height: 23}} source={tt}/>
+                  <Image style={{width: 23, height: 23}} source={tt} />
                   <Text style={{fontSize: 15}}>Thành tiền: {item.price}đ</Text>
                 </View>
               </View>
@@ -93,8 +96,15 @@ const CancelOder = () => {
                   <Text>Đơn hàng đã hủy bởi bạn</Text>
                 </View>
                 <View style={styles.view321}>
-                  <TouchableOpacity style={{width: '80%', height: '80%', backgroundColor: 'red', borderRadius: 5, justifyContent: 'center',
-    alignItems: 'center'}}>
+                  <TouchableOpacity
+                    style={{
+                      width: '80%',
+                      height: '80%',
+                      backgroundColor: 'red',
+                      borderRadius: 5,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
                     <Text style={{color: 'white'}}>Mua lại</Text>
                   </TouchableOpacity>
                 </View>
@@ -103,12 +113,11 @@ const CancelOder = () => {
           );
         }}
       />
-
     </View>
   );
 };
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
@@ -149,12 +158,12 @@ const styles = StyleSheet.create ({
     height: '20%',
     borderBottomWidth: 0.2,
     flexDirection: 'row',
-    borderBottomColor: 'gray'
+    borderBottomColor: 'gray',
   },
   view4: {
     width: '96%',
     height: '20%',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   view21: {
     width: '25%',
@@ -165,13 +174,13 @@ const styles = StyleSheet.create ({
   view22: {
     width: '75%',
     height: '100%',
-    marginTop: 2
+    marginTop: 2,
   },
   view31: {
     width: '55%',
     height: '100%',
     backgroundColor: 'white',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   view32: {
     width: '45%',
@@ -179,7 +188,7 @@ const styles = StyleSheet.create ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   view321: {
     width: '45%',
@@ -187,15 +196,14 @@ const styles = StyleSheet.create ({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'flex-end'
-
+    justifyContent: 'flex-end',
   },
   textSize: {
     fontSize: 16,
   },
-  color:{
-    color: 'red'
-  }
+  color: {
+    color: 'red',
+  },
 });
 
 export default CancelOder;

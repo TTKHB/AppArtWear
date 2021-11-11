@@ -401,8 +401,6 @@ const InfomationScreen = ({ navigation, route }) => {
                         <IconAddress name="map-pin" color={colors.text} size={20} />
                         <TextInput
                             placeholder="Địa chỉ"
-                            maxLength={11}
-                            keyboardType="number-pad"
                             autoCorrect={false}
                             style={[
                                 styles.textInput,

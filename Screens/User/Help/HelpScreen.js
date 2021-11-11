@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {
-  View,Text,
+  View,
+  Text,
   Image,
   TouchableOpacity,
   ScrollView,
@@ -9,19 +10,19 @@ import {
   SectionList,
   DrawerLayoutAndroid,
 } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import {FlatList} from 'react-native-gesture-handler';
 import {Styles} from './Styles';
-export const help = require ('../../../assets/images/HELP.jpg');
-export const search = require ('../../../assets/images/Blacksearch.png');
-export const baomat = require ('../../../assets/images/baomat.png');
-export const money = require ('../../../assets/images/money.png');
-export const giaohang = require ('../../../assets/images/car.png');
-export const user = require ('../../../assets/images/user.png');
-export const trahang = require ('../../../assets/images/tra.png');
-export const more1 = require ('../../../assets/images/moree.png');
-export const right = require ('../../../assets/images/right.png');
-export const Back = require ('../../../assets/images/back.png');
-export const More = require ('../../../assets/images/see.png');
+export const help = require('../../../assets/images/HELP.jpg');
+export const search = require('../../../assets/images/Blacksearch.jpg');
+export const baomat = require('../../../assets/images/baomat.jpg');
+export const money = require('../../../assets/images/money.jpg');
+export const giaohang = require('../../../assets/images/car.jpg');
+export const user = require('../../../assets/images/user.jpg');
+export const trahang = require('../../../assets/images/tra.jpg');
+export const more1 = require('../../../assets/images/moree.jpg');
+export const right = require('../../../assets/images/right.jpg');
+export const Back = require('../../../assets/images/back.jpg');
+export const More = require('../../../assets/images/see.jpg');
 const theme = [
   {
     title: 'Câu hỏi hàng đầu',
@@ -68,8 +69,8 @@ const Helpme = [
   },
 ];
 const HelpScreen = ({navigation}) => {
-  const drawer = useRef (null);
-  const [drawerPosition, setDrawerPosition] = useState ('right');
+  const drawer = useRef(null);
+  const [drawerPosition, setDrawerPosition] = useState('right');
   const changeDrawerPosition = () => {};
   // khung đầu tiên--------------------------------------------------
   const Item = ({title}) => (
@@ -92,25 +93,24 @@ const HelpScreen = ({navigation}) => {
   //drawer---------------------------------------------------------------
   const navigationView = () => (
     <View style={[Styles.container, Styles.navigationContainer]}>
-    <View style={Styles.TouDrawer}>
-      <Text style={Styles.TextDrawer}>Trang chủ</Text>
-      <TouchableOpacity>
-      <Image source={right} style={Styles.ImgFlat}/>
-      </TouchableOpacity>
-    </View>
-    <View style={Styles.TouDrawer}>
-      <Text style={Styles.TextDrawer}>Phản hồi</Text>
-      <TouchableOpacity onPress={() =>navigation.navigate('Phan hoi')}>
-      <Image source={right} style={Styles.ImgFlat}/>
-      </TouchableOpacity>
-    </View>
-    <View style={Styles.TouDrawer}>
-      <Text style={Styles.TextDrawer}>Tài khoản của tôi</Text>
-      <TouchableOpacity>
-      <Image source={right} style={Styles.ImgFlat}/>
-      </TouchableOpacity>
-    </View>
-
+      <View style={Styles.TouDrawer}>
+        <Text style={Styles.TextDrawer}>Trang chủ</Text>
+        <TouchableOpacity>
+          <Image source={right} style={Styles.ImgFlat} />
+        </TouchableOpacity>
+      </View>
+      <View style={Styles.TouDrawer}>
+        <Text style={Styles.TextDrawer}>Phản hồi</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Phan hoi')}>
+          <Image source={right} style={Styles.ImgFlat} />
+        </TouchableOpacity>
+      </View>
+      <View style={Styles.TouDrawer}>
+        <Text style={Styles.TextDrawer}>Tài khoản của tôi</Text>
+        <TouchableOpacity>
+          <Image source={right} style={Styles.ImgFlat} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
   return (
@@ -118,29 +118,26 @@ const HelpScreen = ({navigation}) => {
       ref={drawer}
       drawerWidth={300}
       drawerPosition={drawerPosition}
-      renderNavigationView={navigationView}
-    >
-
+      renderNavigationView={navigationView}>
       {/* Header---------------------------------------------------------------- */}
 
       <View style={Styles.Header}>
         <TouchableOpacity
           style={Styles.TouHeder}
-          onPress={() => navigation.goBack ()}
-        >
+          onPress={() => navigation.goBack()}>
           <Image style={Styles.IconHeader} source={Back} />
         </TouchableOpacity>
         <View
-          style={{width: '70%', justifyContent: 'center', alignItems: 'center'}}
-        >
-          <Text style={Styles.TextHeader}>
-            ArtWear Helpcenter
-          </Text>
+          style={{
+            width: '70%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={Styles.TextHeader}>ArtWear Helpcenter</Text>
         </View>
         <TouchableOpacity
-          onPress={() => drawer.current.openDrawer ()}
-          style={Styles.TouHeder}
-        >
+          onPress={() => drawer.current.openDrawer()}
+          style={Styles.TouHeder}>
           <Image style={Styles.IconHeader} source={More} />
         </TouchableOpacity>
       </View>
@@ -152,8 +149,7 @@ const HelpScreen = ({navigation}) => {
         <ImageBackground
           source={help}
           resizeMode="cover"
-          style={Styles.ImageBgr}
-        >
+          style={Styles.ImageBgr}>
           <View style={Styles.TextInput}>
             <TextInput
               style={{width: '87%'}}

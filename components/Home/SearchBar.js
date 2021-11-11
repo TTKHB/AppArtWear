@@ -7,7 +7,7 @@ const SearchBar = () => {
       <Text style={styles.text}>Tìm kiếm sản phẩm</Text>
       <Image
         style={styles.icon}
-        source={require('../../assets/icon/search.png')}
+        source={require('../../assets/icon/search.jpg')}
       />
     </View>
   );

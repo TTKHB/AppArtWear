@@ -5,18 +5,76 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView,Button
+  ScrollView,
 } from 'react-native';
-export const back = require ('../../../assets/images/back.png');
-export const ask = require ('../../../assets/images/ask.png');
-export const cart = require ('../../../assets/images/card.png');
-export const addres = require ('../../../assets/images/addres.png');
-export const protect = require ('../../../assets/images/protect.png');
+export const back = require ('../../../assets/images/back.jpg');
+export const ask = require ('../../../assets/images/ask.jpg');
+export const cart = require ('../../../assets/images/card.jpg');
+export const addres = require ('../../../assets/images/addres.jpg');
+export const protect = require ('../../../assets/images/protect.jpg');
 export const aothun = require ('../../../assets/images/ao7.jpg');
+import { RadioButton } from 'react-native-paper';
+import Animated from 'react-native-reanimated';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 const OderDetail = () => {
+  const [checked, setChecked] = React.useState('first');
+
+  const renderInner = () => (
+    <View style={{width: '100%', height: '100%', backgroundColor: 'pink'}}>
+   <RadioButton
+   
+        value="first"
+        status={ checked === 'first' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('first')}
+      />
+      <RadioButton
+        value="second"
+        status={ checked === 'second' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('second')}
+      />
+       <RadioButton
+        value="secondd"
+        status={ checked === 'secondd' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('secondd')}
+      />
+       <RadioButton
+        value="seconddd"
+        status={ checked === 'seconddd' ? 'checked' : 'unchecked' }
+        onPress={() => setChecked('seconddd')}
+      />
+     <TouchableOpacity style={{width: 200, height: 50, backgroundColor: 'white', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 15, borderRadius: 7}}>
+       <Text style={{fontSize: 18}}>Xác Nhận</Text>
+     </TouchableOpacity>
+    </View>
+  );
+  const renderHeader = () => (
+    <View style={Styles.Header11}>
+      <View style={Styles.panelHeader}>
+        <View style={Styles.panelHandle}/>
+        <Text style={{
+          fontSize: 18
+        }}>
+            Chọn lí do hủy
+          </Text>
+      </View>
+    </View>
+  );
+
+  bs = React.createRef ();
+  fall = new Animated.Value (1);
+
   return (
     <View>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[500, 0]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={0}
+        callbackNode={fall}
+        enabledGestureInteraction={true}
+      />
       {/* header------------------------------------------------------------------ */}
       <View style={Styles.header}>
         <TouchableOpacity style={Styles.header2}>
@@ -34,12 +92,11 @@ const OderDetail = () => {
         {/* chờ thanh toán-------------------------------------------------------- */}
         <View style={Styles.view1}>
           <View style={Styles.Viewleft}>
-            <Text style={Styles.textleft1}>
-              Chờ thanh toán
-            </Text>
+            <Text style={Styles.textleft1}>Chờ thanh toán</Text>
             <Text style={{fontSize: 14, color: 'white', marginLeft: 10}}>
-              Đang chờ hệ thống xác nhận đơn hàng. Trong thời gian này, bạn có thể liên hệ
-              với người bán để xác nhận thông tin chi tiết đơn hàng nhé!!
+              Đang chờ hệ thống xác nhận đơn hàng. Trong thời gian này, bạn có
+              thể liên hệ với người bán để xác nhận thông tin chi tiết đơn hàng
+              nhé!!
             </Text>
           </View>
           <View style={Styles.ViewRight}>
@@ -67,7 +124,6 @@ const OderDetail = () => {
             </Text>
           </View>
         </View>
-        {/* -------------------------- */}
         <View style={Styles.view3}>
           <View style={{flexDirection: 'row', marginLeft: 17, marginTop: 5}}>
             <Image style={Styles.imageheader} source={protect} />
@@ -75,7 +131,6 @@ const OderDetail = () => {
           </View>
         </View>
         <View style={Styles.view4}>
-          {/* -------------------------- */}
           <View style={{flexDirection: 'row'}}>
             <View style={Styles.touyeuthich}>
               <Text style={{fontSize: 14, color: 'white'}}>Yêu thích</Text>
@@ -86,7 +141,6 @@ const OderDetail = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* --------------------------------- */}
           <View
             style={{
               width: '93%',
@@ -135,7 +189,6 @@ const OderDetail = () => {
               </View>
             </View>
           </View>
-          {/* --------------------------------- */}
           <View
             style={{
               width: '93%',
@@ -150,7 +203,6 @@ const OderDetail = () => {
               23.00đ
             </Text>
           </View>
-          {/* --------------------------------- */}
           <View
             style={{
               flexDirection: 'row',
@@ -177,18 +229,31 @@ const OderDetail = () => {
           <TouchableOpacity style={Styles.Tou21}>
             <Text style={{fontSize: 20}}>Liên hệ shop</Text>
           </TouchableOpacity>
-          {/* --------------------------------------------------------------- */}
-          <TouchableOpacity style={Styles.Tou21} >
+          <TouchableOpacity
+            onPress={() => bs.current.snapTo (0)}
+            style={Styles.Tou21}
+          >
             <Text style={{fontSize: 20}}>Hủy đơn hàng</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-       {/* --------------------------------------------------------------- */}
-      <View style={{width: '100%', height: '13%',backgroundColor: 'white', }}>
+      <View style={{width: '100%', height: '13%', backgroundColor: 'white'}}>
         <View>
-          <Text style={{textAlign: 'right', fontSize: 18, marginTop: '2%'}}>Tổng thanh toán: 24.000đ</Text>
-          <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center',width: '100%', height: 50,backgroundColor: '#8D6E63', marginTop: '3%'}}>
-            <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>Xác Nhận</Text>
+          <Text style={{textAlign: 'right', fontSize: 18, marginTop: '7%'}}>
+            Tổng thanh toán: 24.000đ
+          </Text>
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: 50,
+              backgroundColor: '#8D6E63',
+            }}
+          >
+            <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>
+              Xác Nhận
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -303,5 +368,24 @@ export const Styles = StyleSheet.create ({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 0.5,
+  },
+  Header11: {
+    backgroundColor: 'white',
+    borderTopRightRadius: 40,
+    borderTopLeftRadius: 40,
+    height: 50,
+    borderTopWidth: 1,
+    backgroundColor: 'pink'
+  },
+  panelHeader: {
+    alignItems: 'center',
+  },
+  panelHandle: {
+    width: 60,
+    height: 3,
+    borderRadius: 3,
+    backgroundColor: 'blue',
+    marginBottom: 10,
+    marginTop: 5
   },
 });

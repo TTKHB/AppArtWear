@@ -1,17 +1,24 @@
 import React from 'react';
 import {
-  StyleSheet, Text, View,Image,SafeAreaView, ScrollView, TouchableOpacity,FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {Dimensions} from 'react-native';
-export const width = Dimensions.get ('window').width;
-export const height = Dimensions.get ('window').height;
-export const Back = require ('../../../assets/images/back.png');
-export const Banner8 = require ('../../../assets/images/banner10.jpg');
-export const huyen = require ('../../../assets/images/huyen.jpg');
-export const watch = require ('../../../assets/images/36.webp');
-export const nam = require ('../../../assets/images/nam.webp');
-export const nu = require ('../../../assets/images/nu.webp');
-export const more = require ('../../../assets/images/more.png');
+export const width = Dimensions.get('window').width;
+export const height = Dimensions.get('window').height;
+export const Back = require('../../../assets/images/back.jpg');
+export const Banner8 = require('../../../assets/images/banner10.jpg');
+export const huyen = require('../../../assets/images/huyen.jpg');
+export const watch = require('../../../assets/images/36.webp');
+export const nam = require('../../../assets/images/nam.webp');
+export const nu = require('../../../assets/images/nu.webp');
+export const more = require('../../../assets/images/more.jpg');
 const Theme = [
   {
     image: nam,
@@ -69,18 +76,20 @@ const Lists = [
 
 const Detail = ({navigation, route}) => {
   const id = route.params.id;
-  console.log ('abcsd:', id);
+  console.log('abcsd:', id);
   return (
     <View style={{height: '100%', backgroundColor: 'white'}}>
       {/* header----------------------------------------------------------- */}
       <View style={Styles.Header}>
-        <TouchableOpacity onPress={() => navigation.goBack ()} style={Styles.TouHeader}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={Styles.TouHeader}>
           <Image source={Back} style={Styles.ImageHeader} />
         </TouchableOpacity>
         <View style={Styles.ViewText}>
           <Text style={Styles.TextHeader}>ArtWear</Text>
         </View>
-        <View style={Styles.TouHeader}/>
+        <View style={Styles.TouHeader} />
       </View>
       {/* body--------------------------------------------------------------- */}
       <SafeAreaView>
@@ -93,18 +102,14 @@ const Detail = ({navigation, route}) => {
           </View>
           {/* Mua theo thể loại ---------------------------------------------- */}
           <View>
-            <Text style={Styles.TextBanner1}>
-              Mua theo thể loại
-            </Text>
+            <Text style={Styles.TextBanner1}>Mua theo thể loại</Text>
             <FlatList
               data={Theme}
               numColumns={2}
               keyExtractor={item => item.id}
               renderItem={({item}) => {
                 return (
-                  <View
-                    style={Styles.Theloai}
-                  >
+                  <View style={Styles.Theloai}>
                     <TouchableOpacity style={Styles.ButtonTheme}>
                       <View style={{width: '20%', alignItems: 'center'}}>
                         <Image style={Styles.IconTheme} source={item.image} />
@@ -145,15 +150,21 @@ const Detail = ({navigation, route}) => {
               renderItem={({item}) => {
                 return (
                   <View style={Styles.ViewProduct}>
-                    <TouchableOpacity style={Styles. Tou12}>
-                      <Image  style={{
+                    <TouchableOpacity style={Styles.Tou12}>
+                      <Image
+                        style={{
                           width: '100%',
                           height: '80%',
                           resizeMode: 'stretch',
                         }}
                         source={huyen}
                       />
-                      <Text style={{fontSize: 18, marginTop: 5, fontWeight: 'bold'}}>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          marginTop: 5,
+                          fontWeight: 'bold',
+                        }}>
                         {item.price}
                       </Text>
                     </TouchableOpacity>
@@ -169,7 +180,7 @@ const Detail = ({navigation, route}) => {
 };
 export default Detail;
 
-export const Styles = StyleSheet.create ({
+export const Styles = StyleSheet.create({
   Header: {
     width: '100%',
     height: '7%',
@@ -267,5 +278,5 @@ export const Styles = StyleSheet.create ({
     shadowOpacity: 10,
     shadowRadius: 3.84,
     elevation: 10,
-  }
+  },
 });

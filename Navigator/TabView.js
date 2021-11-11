@@ -43,7 +43,7 @@ const TabView = () => {
             />
             <Tab.Screen
                 component={WaitPayment}
-                name='Chờ lấy hàng'
+                name='Chờ thanh toán'
             />
             <Tab.Screen
                 component={HandleProduct}

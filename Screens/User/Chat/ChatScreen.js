@@ -27,7 +27,6 @@ const User = [
 const ChatScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     if (loading) {
       setLoading(false);
@@ -109,7 +108,7 @@ export const Styles = StyleSheet.create({
     fontSize: 36,
     fontFamily: 'Delight Candles',
     alignSelf: 'center',
-    color: 'white'
+    color: 'white',
   },
   // ----------------------------------------------
   Body: {
@@ -122,7 +121,6 @@ export const Styles = StyleSheet.create({
     width: 55,
     height: 55,
     borderRadius: 70,
-
   },
   TextUser: {
     fontSize: 20,
@@ -131,10 +129,10 @@ export const Styles = StyleSheet.create({
   UserIcon: {
     marginLeft: '5%',
     marginTop: '5%',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   TextInputBody: {
     color: 'white',
     fontSize: 18,
-  }
+  },
 });

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconShip from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Ship = ({ icon,iconship, name,nameship, onPress,iconright }) => (
+const ShipDetail = ({ icon,iconship, name,nameship, onPress,iconright }) => (
     <View style={styles.itemContainer}>
         <View style={{flexDirection: 'row',}}>
         <Icon name={icon} size={30} color="#8D6E63" />
@@ -24,8 +24,6 @@ const Ship = ({ icon,iconship, name,nameship, onPress,iconright }) => (
       //ProfileItem
     itemContainer: {
       backgroundColor: '#fff',
-      paddingHorizontal: 20,
-      paddingVertical: 1,
     },
     itemText: {
       flex: 1,
@@ -46,4 +44,4 @@ const Ship = ({ icon,iconship, name,nameship, onPress,iconright }) => (
       },
   })
 
-  export default Ship;
+  export default ShipDetail;

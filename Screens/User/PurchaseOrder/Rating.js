@@ -10,15 +10,15 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 
-export const Back = require ('../../../assets/images/back.png');
-export const Tim = require ('../../../assets/images/timtim.png');
-export const tuyen = require ('../../../assets/images/ao7.jpg');
+export const Back = require('../../../assets/images/back.jpg');
+export const Tim = require('../../../assets/images/timtim.jpg');
+export const tuyen = require('../../../assets/images/ao7.jpg');
 
 const Rating = () => {
-  const [isEnabled, setIsEnabled] = useState (false);
-  const toggleSwitch = () => setIsEnabled (previousState => !previousState);
-  const [defaultRating, setdefaultRating] = useState (2);
-  const [maxRating, setmaxRating] = useState ([1, 2, 3, 4, 5]);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [defaultRating, setdefaultRating] = useState(2);
+  const [maxRating, setmaxRating] = useState([1, 2, 3, 4, 5]);
   const starImgFilled =
     'https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png';
   const starImgCorner =
@@ -27,13 +27,12 @@ const Rating = () => {
   const CustomRatingBar = () => {
     return (
       <View style={Styles.Rating}>
-        {maxRating.map ((item, key) => {
+        {maxRating.map((item, key) => {
           return (
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => setdefaultRating (item)}
-              key={item}
-            >
+              onPress={() => setdefaultRating(item)}
+              key={item}>
               <Image
                 style={Styles.ImageRating}
                 source={
@@ -57,11 +56,12 @@ const Rating = () => {
           <Image style={Styles.ImageHeader} source={Back} />
         </TouchableOpacity>
         <View
-          style={{justifyContent: 'center', alignItems: 'center', width: '70%'}}
-        >
-          <Text style={Styles.Text}>
-            Đánh giá sản phẩm
-          </Text>
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '70%',
+          }}>
+          <Text style={Styles.Text}>Đánh giá sản phẩm</Text>
         </View>
         <TouchableOpacity style={Styles.TouHeader}>
           <Text style={Styles.Text}>chọn</Text>
@@ -76,54 +76,71 @@ const Rating = () => {
             Hãy nêu cảm nhận của bạn về sản phẩm!!
           </Text>
         </View>
-        <View style={{borderWidth: 0.5, height: 410, width: '95%', alignSelf: 'center', marginTop: 10}}>
-        {/* View2------------------------------------------------ */}
-        <View style={Styles.View2}>
-          <View style={{height: '100%', width: '25%'}}> 
-          <Image
-            style={{
-              width: '100%',
-              height: '100%',
-              marginLeft: 10,
-            }}
-            source={tuyen}
-          />
-          </View>
-          <View style={{height: '100%', width: '75%'}}>
-            <Text style={{fontSize: 20, fontWeight: 'bold', marginLeft: '10%'}}>
-              Áo đẹp Super Saiyan Blue
-            </Text>
-          <CustomRatingBar />
-          </View>
-        </View>
-        
-        {/* View3------------------------------------------------------- */}
         <View
           style={{
-            width: '100%',
-            backgroundColor: 'white',
-            height: 220,
+            borderWidth: 0.5,
+            height: 410,
+            width: '95%',
+            alignSelf: 'center',
             marginTop: 10,
-          }}
-        >
-          <Text style={Styles.TextBody}>Ghi chú</Text>
-          <TextInput
-            underlineColorAndroid="transparent"
-            placeholder="Ghi đánh giá tại đây"
-            numberOfLines={10}
-            multiline={true}
-            style={[Styles.TextIp]}
-          />
-        <TouchableOpacity style={{width: '95%', height: 30, backgroundColor: '#3DB2FF', borderRadius: 5, justifyContent: 'center', alignItems: 'center', marginTop: 5,alignSelf: 'center' }}>
-          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>Gửi</Text>
-        </TouchableOpacity>
-        </View>
+          }}>
+          {/* View2------------------------------------------------ */}
+          <View style={Styles.View2}>
+            <View style={{height: '100%', width: '25%'}}>
+              <Image
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  marginLeft: 10,
+                }}
+                source={tuyen}
+              />
+            </View>
+            <View style={{height: '100%', width: '75%'}}>
+              <Text
+                style={{fontSize: 20, fontWeight: 'bold', marginLeft: '10%'}}>
+                Áo đẹp Super Saiyan Blue
+              </Text>
+              <CustomRatingBar />
+            </View>
+          </View>
+
+          {/* View3------------------------------------------------------- */}
+          <View
+            style={{
+              width: '100%',
+              backgroundColor: 'white',
+              height: 220,
+              marginTop: 10,
+            }}>
+            <Text style={Styles.TextBody}>Ghi chú</Text>
+            <TextInput
+              underlineColorAndroid="transparent"
+              placeholder="Ghi đánh giá tại đây"
+              numberOfLines={10}
+              multiline={true}
+              style={[Styles.TextIp]}
+            />
+            <TouchableOpacity
+              style={{
+                width: '95%',
+                height: 30,
+                backgroundColor: '#3DB2FF',
+                borderRadius: 5,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 5,
+                alignSelf: 'center',
+              }}>
+              <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
+                Gửi
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={[Styles.View3]}>
           <View style={{width: '85%', height: 60}}>
-            <Text style={{fontSize: 20, marginLeft: 7}}>
-              Đánh giá ẩn danh
-            </Text>
+            <Text style={{fontSize: 20, marginLeft: 7}}>Đánh giá ẩn danh</Text>
             <Text style={Styles.TextBody}>
               Tên tài khoản của bản sẽ không hiển thị
             </Text>
@@ -137,7 +154,6 @@ const Rating = () => {
               value={isEnabled}
             />
           </View>
-
         </View>
       </View>
     </View>
@@ -145,7 +161,7 @@ const Rating = () => {
 };
 
 export default Rating;
-export const Styles = StyleSheet.create ({
+export const Styles = StyleSheet.create({
   Header: {
     width: '100%',
     height: '7%',
@@ -218,7 +234,7 @@ export const Styles = StyleSheet.create ({
     justifyContent: 'center',
     flexDirection: 'row',
     marginTop: 7,
-    marginLeft: -20
+    marginLeft: -20,
   },
   ImageRating: {
     width: 40,
