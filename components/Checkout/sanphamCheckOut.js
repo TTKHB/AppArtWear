@@ -1,26 +1,24 @@
 import React from 'react';
-import {
-  View,
+import { 
+  View, 
   Text,
-  SafeAreaView,
-  StyleSheet,
-  StatusBar,
-  Alert,
-  ScrollView,
-  Image
-}
-  from 'react-native';
-
+  SafeAreaView, 
+  StyleSheet, 
+  StatusBar, 
+  Alert, 
+  ScrollView, 
+  Image ,
+  Dimensions
+} from 'react-native';
+const { height, width } = Dimensions.get('window');
 const sanphamCheckOut = ({ img, name, size, price, textright }) => (
   <View style={styles.itemContainer}>
-    <Image source={img} style={{ height: 80, width: 80, borderColor: '#8D6E63', borderWidth: 0.5 }} />
+    <Image source={img} style={{ height: 100, width:100, borderColor: '#8D6E63', borderWidth: 0.5 }} />
     <View style={{ flexDirection: 'column' }}>
       <Text style={[styles.itemText, { marginLeft: img ? 10 : 0 }]}>{name}</Text>
       <Text style={[styles.itemTextSize, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>{size}</Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text style={[styles.itemTextPrice, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>{price}</Text>
-        <Text style={[styles.itemTextAmount, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>{textright}</Text>
-      </View>
+      <Text style={[styles.itemTextPrice, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>{price} VND</Text>
+      <Text style={[styles.itemTextAmount, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>x {textright}</Text>
     </View>
   </View>
 );
@@ -30,23 +28,26 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: 'white',
     flexDirection: 'row',
+    paddingHorizontal: 0,
     paddingVertical: 10,
     alignItems: 'center',
-    justifyContent: 'center'
+    width:width,
+    paddingHorizontal:20
   },
   itemText: {
     color: '#1e1e1e',
     fontSize: 16,
-    marginTop: -5
+    marginTop: -5,
+    fontWeight:'bold'
   },
   itemTextSize: {
-    color: '#1e1e1e',
+    color: 'black',
     fontSize: 16,
   },
   itemTextPrice: {
-    color: '#1e1e1e',
+    color: 'red',
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   itemTextAmount: {
     color: '#1e1e1e',
