@@ -22,7 +22,6 @@ const Money = ({ tongphu, phivanchuyen, tong, pricetongphu, pricephiship, pricet
     </View>
 );
 
-
 const styles = StyleSheet.create({
     //ProfileItem
     itemContainer: {
