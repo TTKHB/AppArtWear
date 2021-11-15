@@ -10,8 +10,10 @@ const Stack = createStackNavigator();
 import HotScreen from '../Screens/Hot/HotScreen';
 import CommentScreen from '../Screens/Hot/CommentScreen';
 import PostScreen from '../Screens/Hot/PostScreen';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import PostHistory from '../Screens/Hot/PostHistory';
 
-const HotNavigator = () => {
+const HotNavigator = ({navigation}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -35,7 +37,9 @@ const HotNavigator = () => {
             <Feather name="camera" style={{ marginLeft: 15 }} size={25} color={"#000"} />
           ),
           headerRight: () => (
-            <Ionicons name="paper-plane-outline" style={{ marginRight: 15 }} size={25} color={"#545454"} />
+            <TouchableOpacity onPress={() => navigation.navigate('PostHistory')}>
+              <Ionicons name="paper-plane-outline" style={{ marginRight: 15 }} size={25} color={"#545454"} />
+            </TouchableOpacity>
           )
         }}
       />
@@ -50,6 +54,14 @@ const HotNavigator = () => {
         <Stack.Screen
         name="PostScreen"
         component={PostScreen}
+        options={{
+          headerShown: true,
+        }}
+        
+      />
+       <Stack.Screen
+        name="PostHistory"
+        component={PostHistory}
         options={{
           headerShown: true,
         }}
