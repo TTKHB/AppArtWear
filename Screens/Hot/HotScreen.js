@@ -93,7 +93,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
         </View>
         <View style={styles.rightHeader}>
           <TouchableOpacity style={styles.headerFollow}>
-            <Text style={styles.headerFollowText}>Theo dõi</Text>
+            <Text style={styles.headerFollowText}>Theo dỗi</Text>
           </TouchableOpacity>
           <Icon name="dots-three-vertical" size={16} />
         </View>
