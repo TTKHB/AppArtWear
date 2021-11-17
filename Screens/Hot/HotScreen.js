@@ -1,112 +1,95 @@
-import React, { useState, useEffect } from "react";
-import { View, Dimensions, StyleSheet, Image, Text, TouchableWithoutFeedback, SafeAreaView, FlatList, TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Entypo";
-import AntIcon from "react-native-vector-icons/AntDesign";
-import FontistoIcon from "react-native-vector-icons/Fontisto";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import React, {useState, useEffect, useCallback} from 'react';
+import {
+  View,
+  Dimensions,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LoaderHot from '../../components/Home/Loader/LoaderHot';
-import Swiper from 'react-native-swiper'
-const { width } = Dimensions.get('window')
+import Swiper from 'react-native-swiper';
+import {dataPost} from '../../assets/data/Hot/DataNews';
+import {Tooltip} from 'react-native-elements';
+import useHots from './../../hooks/Hot/useHots';
+const {width} = Dimensions.get('window');
+import {useFocusEffect} from '@react-navigation/native';
+import useLikeHots from '../../hooks/Hot/useLikeHots';
+import {useLogin} from '../../Context/LoginProvider';
+import useUserLiked from './../../hooks/Hot/useUserLiked';
 
 const renderPagination = (index, total, context) => {
   return (
     <View style={styles.paginationStyle}>
-      <Text style={{ color: '#0099FF' }}>
+      <Text style={{color: '#0099FF'}}>
         <Text style={styles.paginationText}>{index + 1}</Text>/{total}
       </Text>
     </View>
-  )
-}
+  );
+};
 
-export const add = require ( '../../assets/images/Post.jpg')
+export const add = require('../../assets/images/Post.jpg');
 
-const dataPost = [
-  {
-    id: '1',
-    user: {
-      imageUri: 'https://mfiles.alphacoders.com/640/640435.jpg',
-      name: 'ArtWaer1'
-    },
-    imageUri: {
-      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
-      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
-      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
-      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
-    },
-    caption: 'Welcome to City #ArtWaer',
-    likeCount: 10,
-    postedAt: '6 min ago'
-  }, {
-    id: '2',
-    user: {
-      imageUri: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
-      name: 'ArtWaer'
-    },
-    imageUri: {
-      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
-      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
-      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
-      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
-    },
-    caption: 'Fashion in the summer #ArtWaer',
-    likeCount: 100,
-    postedAt: '6 min ago'
-  }, {
-    id: '3',
-    user: {
-      imageUri: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
-      name: 'ArtWaer'
-    },
-    imageUri: {
-      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
-      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
-      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
-      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
-    },
-    caption: 'Fashion in the summer #ArtWaer',
-    likeCount: 13,
-    postedAt: '6 min ago'
-  }, {
-    id: '4',
-    user: {
-      imageUri: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
-      name: 'ArtWaer'
-    },
-    imageUri: {
-      image: 'https://mfiles.alphacoders.com/640/640435.jpg',
-      image1: 'https://afamilycdn.com/150157425591193600/2021/9/28/2391844204307082782389062332922196710878383n-1632802457549309170777.jpg',
-      image2: 'https://assets.vogue.com/photos/61461ca0a0a3f0de76c0ad29/master/w_1280%2Cc_limit/00001-KNWLS-Spring-22-RTW-London-credit-gorunway.jpg',
-      image3: 'https://kenh14cdn.com/2019/10/1/b7-1569942053146857120959.jpg',
-    },
-    caption: "Idol's fashion #ArtWaer",
-    likeCount: 23,
-    postedAt: '6 min ago'
-  },
-]
+const Post = ({item, item: likeCountProp, navigation}) => {
+  console.log('🚀 ~ file: HotScreen.js ~ line 42 ~ Post ~ item', item);
+  const {isLoggedIn, profile} = useLogin();
+  const {numberOfLike, addLike, removelike, checkLikeByUserId} = useLikeHots(
+    item._id,
+  );
 
-const Post = ({ item, item: likeCountProp, navigation }) => {
-  const [isLike, setIsLike] = useState(false);
+  const {isUserLiked} = useUserLiked(item._id, profile._id);
+  const [isLike, setIsLike] = useState(isUserLiked ? isUserLiked : '');
   const [likeCount, setLikeCount] = useState(0);
-
 
   const onLikePressed = () => {
     const amount = isLike ? -1 : 1;
+
     setLikeCount(likeCount + amount);
     setIsLike(!isLike);
-  }
+    if (amount == 1) {
+      addLike(profile ? profile._id : '', item._id);
+    } else {
+      removelike(profile ? profile._id : '', item._id);
+    }
+  };
 
   useEffect(() => {
-    setLikeCount()
-  }, [])
+    setIsLike(isUserLiked);
+    return () => {
+      setIsLike(false);
+    };
+  }, [isUserLiked]);
+
+  // //fill liked of user
+
+  useEffect(() => {
+    setLikeCount(numberOfLike);
+    return () => {
+      setLikeCount(0);
+    };
+  }, [numberOfLike]);
+
   return (
-    <View>
+    <View style={{backgroundColor: 'white'}}>
       <View style={styles.containerHeader}>
         <View style={styles.letfHeader}>
-          <View style={styles.containerImageHeader} >
-            <Image source={{ uri: item.user.imageUri }} style={styles.imageHeader} />
+          <View style={styles.containerImageHeader}>
+            <Image
+              source={{uri: item.user_id ? item.user_id.avatar : null}}
+              style={styles.imageHeader}
+            />
           </View>
-          <Text style={styles.nameHeader}>{item.user.name}</Text>
+          <Text style={styles.nameHeader}>
+            {item.user_id ? item.user_id.fullname : null}
+          </Text>
         </View>
         <View style={styles.rightHeader}>
           <TouchableOpacity style={styles.headerFollow}>
@@ -122,120 +105,133 @@ const Post = ({ item, item: likeCountProp, navigation }) => {
       <Swiper
         style={styles.wrapper}
         renderPagination={renderPagination}
-        loop={true}
-      >
-        <View style={styles.slide}>
-          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image }} />
-        </View>
-        <View style={styles.slide}>
-          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image1 }} />
-        </View>
-        <View style={styles.slide}>
-          <Image style={styles.image} resizeMode={"contain"} source={{ uri: item.imageUri.image2 }} />
-        </View>
-        <View style={styles.slide}>
-          <Image style={styles.image} resizeMode={"contain"}  source={{ uri: item.imageUri.image3 }} />
-        </View>
+        loop={true}>
+        {item.images.map((image, i) => (
+          <View key={i} style={styles.slide}>
+            <Image
+              style={styles.image}
+              resizeMode={'contain'}
+              source={{
+                uri: image,
+              }}
+            />
+          </View>
+        ))}
       </Swiper>
 
       <View style={styles.containerFooter}>
         <View style={styles.iconContainerFooter}>
           <View style={styles.leftIconsFooter}>
             <TouchableWithoutFeedback onPress={onLikePressed}>
-              {isLike ?
-                <AntIcon name="heart" size={25} color={"#c30000"} />
-                : <AntIcon name="hearto" size={25} color={"#545454"} />
-              }
+              {isLike ? (
+                <AntIcon name="heart" size={25} color={'#c30000'} />
+              ) : (
+                <AntIcon name="hearto" size={25} color={'#545454'} />
+              )}
             </TouchableWithoutFeedback>
-            <TouchableOpacity onPress={() => navigation.navigate('Comment')} >
-              <FontistoIcon name="comment" size={23} color={"#545454"} />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Comment', {hot_id: item._id})
+              }>
+              <FontistoIcon name="comment" size={23} color={'#545454'} />
             </TouchableOpacity>
-            <Ionicons name="paper-plane-outline" size={25} color={"#545454"} />
+            <Ionicons name="paper-plane-outline" size={25} color={'#545454'} />
           </View>
 
-          <FontAwesome name="bookmark-o" size={25} color={"#545454"} />
+          <FontAwesome name="bookmark-o" size={25} color={'#545454'} />
         </View>
-        <Text style={styles.likeFooter}>{item.likeCount ? item.likeCount : likeCountProp} Likes</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text style={styles.captionFooter}>{item.caption}</Text>
-          <Text style={styles.postedAtFooter}>{item.postedAt}</Text>
+        <Text style={styles.likeFooter}>{likeCount} Likes</Text>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          {/* <Text style={styles.captionFooter}>{item.caption}</Text>
+          <Text style={styles.postedAtFooter}>{item.postedAt}</Text> */}
         </View>
-
       </View>
     </View>
-  )
+  );
+};
 
-}
+const HotScreen = ({navigation}) => {
+  const {hots} = useHots();
+  const [hotsFiltered, setHotsFiltered] = useState([]);
+  console.log(
+    '🚀 ~ file: HotScreen.js ~ line 142 ~ HotScreen ~ hotsFiltered',
+    hotsFiltered,
+  );
+  const [loading, setLoading] = useState(false);
 
-const HotScreen = ({ navigation }) => {
-  const [loading, setLoading] = useState(true);
-
-
-  useEffect(() => {
-    if (loading) {
+  useFocusEffect(
+    useCallback(() => {
+      setLoading(true);
+      setHotsFiltered(hots);
       setLoading(false);
-    }
-  }
-  )
+
+      return () => {
+        setHotsFiltered([]);
+        setLoading(false);
+      };
+    }, [hots]),
+  );
 
   return (
     <SafeAreaView>
       {loading ? (
         <LoaderHot />
       ) : (
-
-       <View>
-          <FlatList
-          data={dataPost}
-          keyExtractor={({ id }) => id}
-          renderItem={({ item }) => <Post item={item} navigation={navigation} />}
-        />
         <View>
-          <TouchableOpacity onPress={() => navigation.navigate('PostScreen')} style={{marginTop: '-20%', marginLeft: '80%'}}>
-            <Image source={add} style={{width: 70, height: 70}}/>
-          </TouchableOpacity>
-        </View>
-       </View>
-       
+          <FlatList
+            data={hotsFiltered}
+            keyExtractor={({id}) => id}
+            renderItem={({item}) => (
+              <Post item={item} navigation={navigation} />
+            )}
+          />
 
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('PostScreen')}
+              style={{marginTop: '-20%', marginLeft: '80%'}}>
+              <Image source={add} style={{width: 70, height: 70}} />
+            </TouchableOpacity>
+          </View>
+        </View>
       )}
     </SafeAreaView>
-  )
-}
+  );
+};
 const styles = StyleSheet.create({
   containerHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   letfHeader: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   rightHeader: {
     marginRight: 15,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerFollow: {
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#3DB2FF",
+    backgroundColor: '#3DB2FF',
     marginHorizontal: 20,
     paddingHorizontal: 20,
-    paddingVertical: 5
+    paddingVertical: 5,
   },
   headerFollowText: {
     fontSize: 18,
-    color: "#ffffff",
-    fontWeight: 'bold'
+    color: '#ffffff',
+    fontWeight: 'bold',
   },
   nameHeader: {
     alignSelf: 'center',
-    fontWeight: "bold",
-    color: "#3c3c3c",
-    fontSize: 18
+    fontWeight: 'bold',
+    color: '#3c3c3c',
+    fontSize: 18,
   },
 
   imageBody: {
@@ -246,7 +242,7 @@ const styles = StyleSheet.create({
   },
 
   containerFooter: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     margin: 5,
   },
   iconContainerFooter: {
@@ -258,39 +254,39 @@ const styles = StyleSheet.create({
   leftIconsFooter: {
     flexDirection: 'row',
     width: 120,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   likeFooter: {
     fontWeight: 'bold',
     margin: 3,
-    fontSize: 14
+    fontSize: 14,
   },
   captionFooter: {
     margin: 3,
-    fontSize: 18
+    fontSize: 18,
   },
   postedAtFooter: {
     color: '#8c8c8c',
     margin: 3,
     marginBottom: 15,
-    fontSize: 18
+    fontSize: 18,
   },
   containerImageHeader: {
     margin: 10,
     borderRadius: 40,
     borderWidth: 3,
     // borderColor: "#dbb98f",
-    borderColor: "#000000",
+    borderColor: '#000000',
     height: 46,
-    width: 46
+    width: 46,
   },
   imageHeader: {
     borderRadius: 40,
     // borderWidth: 1,
     // borderColor: "#ffffff",
     height: 40,
-    width: 40
+    width: 40,
   },
 
   wrapper: {
@@ -322,7 +318,7 @@ const styles = StyleSheet.create({
   },
   paginationText: {
     color: '#FF6699',
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });
 export default HotScreen;

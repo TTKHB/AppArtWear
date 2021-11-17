@@ -14,6 +14,11 @@ export const user1 = require('../../assets/images/ao7.jpg');
 export const viet = require('../../assets/images/viet.jpg');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
+import useComment from '../../hooks/Hot/Comment/useComment';
+import TimeAgo from 'javascript-time-ago';
+import vi from 'javascript-time-ago/locale/vi.json';
+import {useRoute} from '@react-navigation/native';
+TimeAgo.addLocale(vi);
 
 const user = [
   {
@@ -36,9 +41,20 @@ const user = [
   },
 ];
 
-const CommentScreen = ({likeCountProp, navigation}) => {
+/**
+ * @param {*hot_id} param0
+ */
+const CommentScreen = ({likeCountProp, navigation, route}) => {
+  const {hot_id} = route.params;
   const [isLike, seiIsLike] = useState(false);
+  const [comment, setComment] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
+  const [commentFiltered, setCommentFiltered] = useState([]);
+  const {comments, getComments, postComment} = useComment(hot_id);
+
+  useEffect(() => {
+    setCommentFiltered(comments);
+  }, [comments]);
 
   const onLikePressed = () => {
     const amount = isLike ? -1 : 1;
@@ -49,6 +65,58 @@ const CommentScreen = ({likeCountProp, navigation}) => {
   useEffect(() => {
     setLikeCount(likeCountProp);
   }, []);
+
+  const sendKeyboardSubmit = () => {
+    postComment(comment);
+    setComment(null);
+    getComments();
+  };
+
+  const renderItemComment = ({item}) => {
+    const timeAgo = new TimeAgo('vi-VN');
+
+    return (
+      <View style={Styles.All}>
+        <View style={Styles.left}>
+          <Image
+            style={Styles.avatar}
+            source={{
+              uri:
+                item.user_id && item.user_id.avatar != ''
+                  ? item.user_id.avatar
+                  : 'https://www.pinpng.com/pngs/m/341-3415688_no-avatar-png-transparent-png.png',
+            }}
+          />
+        </View>
+        <View style={Styles.Betwen}>
+          <Text style={Styles.name}>
+            {item.user_id ? item.user_id.fullname : ''}
+          </Text>
+          <Text style={Styles.comment}>{item.comment}</Text>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <TouchableOpacity>
+              <Text style={{marginLeft: 10}}>Trả lời</Text>
+            </TouchableOpacity>
+            <Text style={{marginLeft: 40}}>
+              {timeAgo.format(new Date(item.dateCreated))}
+            </Text>
+          </View>
+        </View>
+        <View style={Styles.left}>
+          <View style={{marginTop: 10}}>
+            <TouchableWithoutFeedback onPress={onLikePressed}>
+              {isLike ? (
+                <AntIcon name="heart" size={20} color={'#c30000'} />
+              ) : (
+                <AntIcon name="hearto" size={20} color={'#545454'} />
+              )}
+            </TouchableWithoutFeedback>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View>
       <View style={Styles.header}>
@@ -68,38 +136,9 @@ const CommentScreen = ({likeCountProp, navigation}) => {
       </View>
       <View style={Styles.body}>
         <FlatList
-          data={user}
+          data={commentFiltered}
           keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            return (
-              <View style={Styles.All}>
-                <View style={Styles.left}>
-                  <Image style={Styles.avatar} source={user1} />
-                </View>
-                <View style={Styles.Betwen}>
-                  <Text style={Styles.name}>{item.name}</Text>
-                  <Text style={Styles.comment}>{item.textchat}</Text>
-                  <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <TouchableOpacity>
-                      <Text style={{marginLeft: 10}}>Trả lời</Text>
-                    </TouchableOpacity>
-                    <Text style={{marginLeft: 40}}>Hôm nay: 12:30</Text>
-                  </View>
-                </View>
-                <View style={Styles.left}>
-                  <View style={{marginTop: 10}}>
-                    <TouchableWithoutFeedback onPress={onLikePressed}>
-                      {isLike ? (
-                        <AntIcon name="heart" size={20} color={'#c30000'} />
-                      ) : (
-                        <AntIcon name="hearto" size={20} color={'#545454'} />
-                      )}
-                    </TouchableWithoutFeedback>
-                  </View>
-                </View>
-              </View>
-            );
-          }}
+          renderItem={renderItemComment}
         />
       </View>
       <View
@@ -120,7 +159,12 @@ const CommentScreen = ({likeCountProp, navigation}) => {
             borderRadius: 5,
           }}>
           <Image source={viet} style={{width: 23, height: 23, marginTop: 6}} />
-          <TextInput placeholder="Nhập bình luận" />
+          <TextInput
+            placeholder="Nhập bình luận"
+            value={comment}
+            onChangeText={text => setComment(text)}
+            onSubmitEditing={sendKeyboardSubmit}
+          />
         </View>
       </View>
     </View>
