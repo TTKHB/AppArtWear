@@ -223,7 +223,7 @@ const CheckoutScreen = ({ navigation, route }) => {
           img={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
           name={item.product_id ? item.product_id.ten : ' '}
           size="size L"
-          price={item.product_id ? item.product_id.gia : ' '}
+          price={item.product_id ? item.product_id.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}
           textright={item.amount}
         />
       </View>
