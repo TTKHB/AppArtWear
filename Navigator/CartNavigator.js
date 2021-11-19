@@ -34,23 +34,26 @@ const CartNavigator = () => {
       <Stack.Screen
         name="Checkout"
         component={CheckoutScreen}
+        // options={{
+        //   // headerShown: false,
+        //   title: 'Thanh toán',
+        //   headerStyle: {
+        //     backgroundColor: '#fff',
+        //     borderColor: '#F5F5F5',
+        //     borderWidth: 1
+        //   },
+        //   headerTintColor: '#000',
+        //   headerTitleStyle: {
+        //     textAlign: 'center',
+        //     alignSelf: 'center',
+        //   },
+        //   headerTitleAlign:'center',
+        //   headerRight: ({ color }) => (
+        //     <IconCart />
+        //   ),
+        // }}
         options={{
-          // headerShown: false,
-          title: 'Thanh toán',
-          headerStyle: {
-            backgroundColor: '#fff',
-            borderColor: '#F5F5F5',
-            borderWidth: 1
-          },
-          headerTintColor: '#000',
-          headerTitleStyle: {
-            textAlign: 'center',
-            alignSelf: 'center',
-          },
-          headerTitleAlign:'center',
-          headerRight: ({ color }) => (
-            <IconCart />
-          ),
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

@@ -8,15 +8,15 @@ const Money = ({ tongphu, phivanchuyen, tong, pricetongphu, pricephiship, pricet
             <Text style={[styles.itemTextTong, { marginTop: tongphu ? 5 : 0 }]}>{tong}</Text>
         </View>
 
-        <View style={{ marginRight: 15 }}>
+        <View style={{ marginRight: 20 }}>
             <View style={{ marginTop: 0 }}>
-                <Text style={styles.itemTextPricetongphu}>{pricetongphu}</Text>
+                <Text style={styles.itemTextPricetongphu}>{pricetongphu} VNĐ</Text>
             </View>
             <View style={{ marginTop: 10 }}>
-                <Text style={styles.itemTextPricephiship}>{pricephiship}</Text>
+                <Text style={styles.itemTextPricephiship}>{pricephiship} VNĐ</Text>
             </View>
             <View style={{ marginTop: 10 }}>
-                <Text style={styles.itemTextPricetong}>{pricetong}</Text>
+                <Text style={styles.itemTextPricetong}>{pricetong} VNĐ</Text>
             </View>
         </View>
     </View>

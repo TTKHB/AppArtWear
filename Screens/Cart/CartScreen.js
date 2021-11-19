@@ -51,7 +51,6 @@ const CartScreen = ({ navigation }) => {
     }, []),
   );
 
-
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -69,9 +68,6 @@ const CartScreen = ({ navigation }) => {
       };
     }, []),
   );
-
-
-
 
   //Diglog onClick
   const [isModalVisible, setisModalVisible] = useState(false);
@@ -411,7 +407,16 @@ const CartScreen = ({ navigation }) => {
           </Text>
           <View style={styles.btnItemOne}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('CartNavigator', { screen: 'Checkout', params: { tongPrice: itemsPrice, spGioHang: cartList } })}>
+              onPress={() => navigation.navigate('CartNavigator',
+                {
+                  screen: 'Checkout',
+                  params:
+                  {
+                    tongPrice: itemsPrice,
+                    spGioHang: cartList,
+                  }
+                }
+              )}>
               <Text style={styles.textItemOne}>Mua hàng</Text>
             </TouchableOpacity>
           </View>

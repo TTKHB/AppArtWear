@@ -9,7 +9,7 @@ const Ship = ({ icon, iconship, name, nameship, onPress, iconright }) => (
     <View style={{ flexDirection: 'row', }}>
       <Icon name={icon} size={30} color="#8D6E63" />
       <Text style={[styles.itemText, { marginLeft: icon ? 10 : 0 }]}>{name}</Text>
-      <Text style={[styles.iconright, { marginRight: iconright ? 10 : 0, marginTop: 3 }]}>25.000 đ</Text>
+      <Text style={[styles.iconright, { marginRight: iconright ? 10 : 0, marginTop: 3 }]}>25.000 VNĐ</Text>
       <FontAwesome name={iconright} size={26} color="#1e1e1e" onPress={onPress} />
     </View>
     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 2 }}>
