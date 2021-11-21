@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  FlatList
+  FlatList,
+  Alert
 }
   from 'react-native';
 import CheckOutItem from '../../../components/Checkout/CheckOutItem';
@@ -71,35 +72,53 @@ const CheckoutScreen = ({ navigation, route }) => {
     PriceTongPhu = tongPrice
   }
 
-  const OrderClick = async () => {
-    {
-      spGioHang.map(e => (
-        fetch(`${baseURL}orders`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            note: "abc",
-            Payment: checked,
-            orderItems: [{
-              "quantity": e.amount,
-              "product": e.product_id ? e.product_id._id : ' '
 
-            }],
-            city: "Tphcm",
-            status: "1",
-            phone: "09090909",
-            totalFinalPrice: PriceFinal,
-            user_id: profile._id,
-          })
-        }).then(res => res.json())
-          .then(data => {
-            console.log("is Update successffly!!")
-          }).catch(err => {
-            console.log("error", err)
-          })
-      ))
+
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      'Rất tiếc thao tác thất bại',
+      'Bạn chưa nhập địa chỉ?',
+      [
+        {
+          text: 'Tiếp tục',
+        },
+      ],
+    );
+  };
+
+  const OrderClick = async () => {
+    if (profile.address == "") {
+      showConfirmDialog();
+    } else {
+      {
+        spGioHang.map(e => (
+          fetch(`${baseURL}orders`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              note: "abc",
+              Payment: checked,
+              orderItems: [{
+                "quantity": e.amount,
+                "product": e.product_id ? e.product_id._id : ' '
+
+              }],
+              city: "Tphcm",
+              status: "1",
+              phone: "09090909",
+              totalFinalPrice: PriceFinal,
+              user_id: profile._id,
+            })
+          }).then(res => res.json())
+            .then(data => {
+              console.log("is Update successffly!!")
+            }).catch(err => {
+              console.log("error", err)
+            })
+        ))
+      }
     }
   }
 
@@ -203,7 +222,8 @@ const CheckoutScreen = ({ navigation, route }) => {
 
       </View>
 
-      <TouchableOpacity style={styles.panelButton}>
+      <TouchableOpacity style={styles.panelButton}
+        onPress={() => BottomPayment.current.snapTo(1)}>
         <Text style={styles.panelButtonTitle}>Áp dụng</Text>
       </TouchableOpacity>
       {/* Cancel*/}
@@ -392,6 +412,7 @@ const CheckoutScreen = ({ navigation, route }) => {
             icon="credit-card"
             name="Phương thức thanh toán"
             nameship="(Khuyến khích thanh toán trả trước)"
+            namePayment={checked}
             iconright="angle-right"
             onPress={() => BottomPayment.current.snapTo(0)}
           />
