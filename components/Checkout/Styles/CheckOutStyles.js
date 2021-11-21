@@ -189,4 +189,16 @@ export const styles = StyleSheet.create({
   Container: {
     backgroundColor: '#ffffff',
   },
+  textInput: {
+    color: '#05375a',
+    height: 40,
+    paddingHorizontal: 20
+  },
+  viewNote: {
+    paddingHorizontal: 20
+  },
+  textNote: {
+    fontSize: 22,
+    fontWeight: 'bold'
+  }
 });

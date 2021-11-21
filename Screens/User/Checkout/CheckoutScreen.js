@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  Alert
+  Alert,
+  TextInput
 }
   from 'react-native';
 import CheckOutItem from '../../../components/Checkout/CheckOutItem';
@@ -36,6 +37,7 @@ import { Header, Icon, Avatar, Badge, withBadge } from 'react-native-elements';
 const CheckoutScreen = ({ navigation, route }) => {
   const { profile } = useLogin();
   const [checked, setChecked] = useState('Thẻ tín dụng');
+  const [ghichu, setGhiChu] = useState('');
 
   const spGioHang = route.params.spGioHang;
   const tongPrice = route.params.tongPrice;
@@ -98,14 +100,14 @@ const CheckoutScreen = ({ navigation, route }) => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              note: "abc",
+              note: ghichu,
               Payment: checked,
               orderItems: [{
                 "quantity": e.amount,
                 "product": e.product_id ? e.product_id._id : ' '
 
               }],
-              city: "Tphcm",
+              city: profile.address,
               status: "1",
               phone: "09090909",
               totalFinalPrice: PriceFinal,
@@ -281,7 +283,7 @@ const CheckoutScreen = ({ navigation, route }) => {
               size={25}
               type="font-awesome"
               color="#000000"
-              style={{ marginLeft: 5 }}
+              style={{ marginLeft: 10 }}
             />
           </TouchableOpacity>
         }
@@ -417,6 +419,25 @@ const CheckoutScreen = ({ navigation, route }) => {
             onPress={() => BottomPayment.current.snapTo(0)}
           />
         </View>
+
+
+        <View style={styles.content}>
+          {/* Phương thức thanh toán */}
+          <View style={styles.viewNote}>
+            <Text style={styles.textNote}>Ghi chú</Text>
+          </View>
+          <TextInput
+            placeholder="Ghi chú cho shop"
+            autoCorrect={false}
+            style={
+              styles.textInput
+            }
+            onChangeText={text => setGhiChu(text)}
+            value={ghichu}
+          >
+          </TextInput>
+        </View>
+
 
         {/* Điều khoản Art Wear */}
         <View
