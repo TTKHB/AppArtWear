@@ -26,13 +26,10 @@ import { useLogin } from '../../../Context/LoginProvider';
 import { styles } from '../../../components/Checkout/Styles/CheckOutStyles';
 import { RadioButton } from 'react-native-paper';
 
-import axios from 'axios';
-import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../../assets/common/baseUrl';
 import VoucherItem from '../../../components/Checkout/VoucherItem';
 
 import { Header, Icon, Avatar, Badge, withBadge } from 'react-native-elements';
-
 
 const CheckoutScreen = ({ navigation, route }) => {
   const { profile } = useLogin();
@@ -74,8 +71,6 @@ const CheckoutScreen = ({ navigation, route }) => {
     PriceTongPhu = tongPrice
   }
 
-
-
   const showConfirmDialog = () => {
     return Alert.alert(
       'Rất tiếc thao tác thất bại',
@@ -116,6 +111,11 @@ const CheckoutScreen = ({ navigation, route }) => {
           }).then(res => res.json())
             .then(data => {
               console.log("is Update successffly!!")
+              navigation.navigate('PaymentNavigator',
+                {
+                  screen: 'CheckOutSuccess'
+                }
+              )
             }).catch(err => {
               console.log("error", err)
             })
@@ -124,9 +124,7 @@ const CheckoutScreen = ({ navigation, route }) => {
     }
   }
 
-  {
-    /* Biến lưu button,input nhập mã khuyến mãi khi click vào mã khuyến mãi trong thanh toán*/
-  }
+  /* Biến lưu button,input nhập mã khuyến mãi khi click vào mã khuyến mãi trong thanh toán*/
   const renderInner = () => (
     <View style={styles.panel}>
       <View style={{ alignItems: 'center' }}>
@@ -145,9 +143,7 @@ const CheckoutScreen = ({ navigation, route }) => {
       </TouchableOpacity>
     </View>
   );
-  {
-    /* Biến custom header bottom sheet*/
-  }
+  /* Biến custom header bottom sheet*/
   const renderHeader = () => (
     <View style={styles.header}>
       <View style={styles.panelHeader}>
@@ -155,7 +151,6 @@ const CheckoutScreen = ({ navigation, route }) => {
       </View>
     </View>
   );
-
 
   const renderPayment = () => (
     <View style={styles.panel}>
@@ -407,9 +402,8 @@ const CheckoutScreen = ({ navigation, route }) => {
             iconright="angle-right"
           />
         </View>
-
+        {/* Phương thức thanh toán */}
         <View style={styles.content}>
-          {/* Phương thức thanh toán */}
           <ChoosePayment
             icon="credit-card"
             name="Phương thức thanh toán"
@@ -419,10 +413,8 @@ const CheckoutScreen = ({ navigation, route }) => {
             onPress={() => BottomPayment.current.snapTo(0)}
           />
         </View>
-
-
+        {/* Ghi chú */}
         <View style={styles.content}>
-          {/* Phương thức thanh toán */}
           <View style={styles.viewNote}>
             <Text style={styles.textNote}>Ghi chú</Text>
           </View>
@@ -437,7 +429,6 @@ const CheckoutScreen = ({ navigation, route }) => {
           >
           </TextInput>
         </View>
-
 
         {/* Điều khoản Art Wear */}
         <View

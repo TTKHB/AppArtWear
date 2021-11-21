@@ -2,15 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import VoucherScreen from '../Screens/User/UuDai/VoucherScreen';
+import CheckOutSuccess from '../Screens/User/Checkout/CheckOutSuccess';
 
 const Stack = createStackNavigator();
 
-const UserNavigator = ({ navigation }) => {
+const PaymentNavigator = ({ navigation }) => {
   return (
     <Stack.Navigator>
-        <Stack.Screen
+      <Stack.Screen
         name="VoucherScreen"
         component={VoucherScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CheckOutSuccess"
+        component={CheckOutSuccess}
         options={{
           headerShown: false,
         }}
@@ -19,4 +27,4 @@ const UserNavigator = ({ navigation }) => {
   );
 };
 
-export default UserNavigator;
+export default PaymentNavigator;
