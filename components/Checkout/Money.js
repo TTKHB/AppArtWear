@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     itemtongphu: {
         color: '#1e1e1e',
         fontSize: 16,
-        marginTop: -5
     },
     itemTextShip: {
         color: '#1e1e1e',
