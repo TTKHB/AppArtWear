@@ -25,6 +25,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import useLikeHots from '../../hooks/Hot/useLikeHots';
 import {useLogin} from '../../Context/LoginProvider';
 import useUserLiked from './../../hooks/Hot/useUserLiked';
+import {useRef} from 'react';
 
 const renderPagination = (index, total, context) => {
   return (
@@ -151,6 +152,11 @@ const Post = ({item, item: likeCountProp, navigation}) => {
 };
 
 const HotScreen = ({navigation}) => {
+  const flatRef = useRef();
+  console.log(
+    '🚀 ~ file: HotScreen.js ~ line 156 ~ HotScreen ~ flatRef',
+    flatRef,
+  );
   const {hots} = useHots();
   const [hotsFiltered, setHotsFiltered] = useState([]);
   console.log(
@@ -179,6 +185,7 @@ const HotScreen = ({navigation}) => {
       ) : (
         <View>
           <FlatList
+            ref={flatRef}
             data={hotsFiltered}
             keyExtractor={({id}) => id}
             renderItem={({item}) => (
@@ -188,7 +195,10 @@ const HotScreen = ({navigation}) => {
 
           <View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('PostScreen')}
+              onPress={() => {
+                // navigation.navigate('PostScreen');
+                // flatRef.current.scrollToIndex({index: 1});
+              }}
               style={{marginTop: '-20%', marginLeft: '80%'}}>
               <Image source={add} style={{width: 70, height: 70}} />
             </TouchableOpacity>
