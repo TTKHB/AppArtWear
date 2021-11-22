@@ -1,391 +1,300 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
-  Text,
   View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
+  Text,
   ScrollView,
-} from 'react-native';
-export const back = require ('../../../assets/images/back.jpg');
-export const ask = require ('../../../assets/images/ask.jpg');
-export const cart = require ('../../../assets/images/card.jpg');
-export const addres = require ('../../../assets/images/addres.jpg');
-export const protect = require ('../../../assets/images/protect.jpg');
-export const aothun = require ('../../../assets/images/ao7.jpg');
-import { RadioButton } from 'react-native-paper';
-import Animated from 'react-native-reanimated';
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  Alert
+}
+from 'react-native';
+import AdressOrder from '../../../components/MyOrder/AdressOrder';
+import OrderPayment from '../../../components/MyOrder/OrderPayment';
+import MoneyOrder from '../../../components/MyOrder/MoneyOrder';
+import MaOrder from '../../../components/MyOrder/MaOrder';
+import MyOrder from '../../../components/MyOrder/MyOrder';
+import SanphamOrder from '../../../components/MyOrder/SanphamOrder';
+import ShipOrder from '../../../components/MyOrder/ShipOrder';
+
 import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
 
-const OderDetail = () => {
-  const [checked, setChecked] = React.useState('first');
+import { useLogin } from '../../../Context/LoginProvider';
+import { styles } from '../../../components/MyOrder/MyOrderStyles';
+import { RadioButton } from 'react-native-paper';
 
-  const renderInner = () => (
-    <View style={{width: '100%', height: '100%', backgroundColor: 'pink'}}>
-   <RadioButton
-   
-        value="first"
-        status={ checked === 'first' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('first')}
-      />
-      <RadioButton
-        value="second"
-        status={ checked === 'second' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('second')}
-      />
-       <RadioButton
-        value="secondd"
-        status={ checked === 'secondd' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('secondd')}
-      />
-       <RadioButton
-        value="seconddd"
-        status={ checked === 'seconddd' ? 'checked' : 'unchecked' }
-        onPress={() => setChecked('seconddd')}
-      />
-     <TouchableOpacity style={{width: 200, height: 50, backgroundColor: 'white', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', marginTop: 15, borderRadius: 7}}>
-       <Text style={{fontSize: 18}}>Xác Nhận</Text>
-     </TouchableOpacity>
-    </View>
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import baseURL from '../../../assets/common/baseUrl';
+
+const OderDetail = ({ navigation, route }) => {
+  const { profile } = useLogin();
+  const [checked, setChecked] = useState('notLike');
+  const [orderDetail, setorderDetail] = useState([]);
+  const DetailOrder = route.params.DetailOrder;
+  const [orderItem, setOrderItem] = useState([]);
+  const [user, setUser] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Products
+      axios
+        .get(`${baseURL}orders/` + DetailOrder)
+        .then(res => {
+          setorderDetail(res.data);
+          console.log("Chi tiet order", res.data);
+          setOrderItem(res.data.orderitems);
+          console.log("Item trong order", res.data.orderitems);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+      return () => {
+        setorderDetail([]);
+        setOrderItem([]);
+      };
+    }, []),
   );
+
+  useFocusEffect(
+    useCallback(() => {
+      axios
+        .get(`${baseURL}users/` + orderDetail.user_id)
+        .then(res => {
+          setUser(res.data);
+          console.log(res.data)
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        setUser([]);
+      };
+    }, []),
+  );
+  //Check dieu kien Price
+  const tongphu = orderDetail ? orderDetail.totalPrice : '';
+  const tongFinal = orderDetail ? orderDetail.totalFinalPrice : '';
+  const priceVoucher = orderDetail ? orderDetail.priceVoucher : '';
+  let PriceFinal = 0;
+  let PriceTongPhu = 0;
+  let PriceVoucher = 0;
+  if (orderDetail) {
+    PriceTongPhu = tongphu
+    PriceFinal = tongFinal
+    PriceVoucher = priceVoucher * 100
+  } else {
+    PriceVoucher = 0
+  }
+  //OnClick Huy Don hang va ly do
+  const OrderCancel = async () => {
+    bs.current.snapTo(1)
+    fetch(`${baseURL}orders/cancel/` + DetailOrder, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        status: 5,
+        lydohuy: checked
+      })
+    }).then(res => res.json())
+      .then(data => {
+        console.log("is Update successffly!!"),
+          console.log(data)
+        Alert.alert("Huỷ Đơn hàng thành công")
+      }).catch(err => {
+        console.log("error", err)
+      })
+  }
+  //Header cua bottom sheet
   const renderHeader = () => (
-    <View style={Styles.Header11}>
-      <View style={Styles.panelHeader}>
-        <View style={Styles.panelHandle}/>
-        <Text style={{
-          fontSize: 18
-        }}>
-            Chọn lí do hủy
-          </Text>
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle} />
       </View>
     </View>
   );
+  //Bien chua Item bottom sheet
+  const renderOrder = () => (
+    <View style={styles.panel}>
+      <View style={styles.bottomPayment}>
+        <Text style={styles.panelTitle}>Bạn muốn huỷ đơn hàng</Text>
+      </View>
+      <View style={styles.viewRadio}>
+        {/* Tôi không thích nữa */}
+        <View style={styles.btnOne}>
+          <RadioButton
+            value="notLike"
+            status={checked === 'notLike' ? 'checked' : 'unchecked'}
+            onPress={() => setChecked('notLike')}
+          />
+          <View style={styles.theTinDung}>
+            <Text style={styles.textRadio}>Tôi không thích nữa</Text>
+          </View>
+        </View>
+        {/* Lựa chọn thêm sản phẩm khác */}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <RadioButton
+            value="Change"
+            status={checked === 'Change' ? 'checked' : 'unchecked'}
+            onPress={() => setChecked('Change')}
+          />
+          <View style={{ marginLeft: 8 }}>
+            <Text style={styles.textRadio}>Lựa chọn thêm sản phẩm khác</Text>
+          </View>
+        </View>
+        {/* Sản phẩm đắt và cần suy nghĩ thêm */}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <RadioButton
+            value="think"
+            status={checked === 'think' ? 'checked' : 'unchecked'}
+            onPress={() => setChecked('think')}
+          />
+          <View style={{ marginLeft: 8 }}>
+            <Text style={styles.textRadio}>Sản phẩm đắt và cần suy nghĩ thêm</Text>
+          </View>
+        </View>
+        {/* Khác */}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <RadioButton
+            value="other"
+            status={checked === 'other' ? 'checked' : 'unchecked'}
+            onPress={() => setChecked('other')}
+          />
+          <View style={{ marginLeft: 8 }}>
+            <Text style={styles.textRadio}>Khác</Text>
+          </View>
+        </View>
+      </View>
+      {/* Áp dụng huỷ đơn */}
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => OrderCancel()}>
+        <Text style={styles.panelButtonTitle}>Áp dụng</Text>
+      </TouchableOpacity>
+      {/* Cancel*/}
+      <TouchableOpacity
+        style={styles.panelButtonCancel}
+        onPress={() => bs.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Huỷ bỏ</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
-  bs = React.createRef ();
-  fall = new Animated.Value (1);
-
+  /* Animated*/
+  const bs = React.useRef(null);
+  const fall = new Animated.Value(5);
   return (
-    <View>
+    <View style={styles.container}>
+      {/* Sử dụng Bottom Sheet*/}
       <BottomSheet
         ref={bs}
-        snapPoints={[500, 0]}
-        renderContent={renderInner}
+        snapPoints={[330, 0]}
+        renderContent={renderOrder}
         renderHeader={renderHeader}
-        initialSnap={0}
+        initialSnap={1}
         callbackNode={fall}
         enabledGestureInteraction={true}
       />
-      {/* header------------------------------------------------------------------ */}
-      <View style={Styles.header}>
-        <TouchableOpacity style={Styles.header2}>
-          <Image style={Styles.imageheader} source={back} />
-        </TouchableOpacity>
-        <View style={Styles.header1}>
-          <Text style={{fontSize: 20}}>Thông tin đơn hàng </Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Địa chỉ người nhận */}
+        <AdressOrder
+          iconAdress="map-marker-radius-outline"
+          color="#00008B"
+          name="Địa chỉ người nhận"
+          iconright="angle-right"
+          nameAdress={orderDetail.city}
+          nameUser={user.fullname}
+          Phone={user.phone}
+          iconUser="account-circle"
+        />
+        {/* Mã đơn hàng */}
+        <View style={styles.content}>
+          <MaOrder
+            iconMaOrder="barcode"
+            color="black"
+            name="Mã đơn hàng: "
+            maorder={DetailOrder}
+          />
         </View>
-        <TouchableOpacity style={Styles.header2}>
-          <Image style={Styles.imageheader} source={ask} />
-        </TouchableOpacity>
-      </View>
-      {/* body------------------------------------------------------------------ */}
-      <ScrollView style={Styles.body}>
-        {/* chờ thanh toán-------------------------------------------------------- */}
-        <View style={Styles.view1}>
-          <View style={Styles.Viewleft}>
-            <Text style={Styles.textleft1}>Chờ thanh toán</Text>
-            <Text style={{fontSize: 14, color: 'white', marginLeft: 10}}>
-              Đang chờ hệ thống xác nhận đơn hàng. Trong thời gian này, bạn có
-              thể liên hệ với người bán để xác nhận thông tin chi tiết đơn hàng
-              nhé!!
-            </Text>
-          </View>
-          <View style={Styles.ViewRight}>
-            <Image style={Styles.imageview1} source={cart} />
-          </View>
-        </View>
-        {/* địa chỉ nhận hàng------------------------------------------------------- */}
-        <View style={Styles.view2}>
-          <View style={Styles.view21}>
-            <View style={{flexDirection: 'row', width: '70%'}}>
-              <Image style={Styles.imageheader} source={addres} />
-              <Text style={Styles.textTieude}>Địa chỉ nhận hàng</Text>
+        {/* Sản phẩm thanh toán và số tiền */}
+        <View style={styles.content}>
+          {/* Sản phẩm thanh toán của tôi */}
+          <MyOrder icon="shop" name="Art Wear" />
+          {orderItem.map(item => (
+            <View key={item._id} style={{ paddingHorizontal: 10 }}>
+              <SanphamOrder
+                img={{ uri: item.product ? item.product.ThumbImg : ' ' }}
+                name={item.product ? item.product.ten : ' '}
+                size={item.product ? item.product.kichthuoc : ' '}
+                mota={item.product ? item.product.mota : ' '}
+                price={item.product ? item.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}
+                textAmount={item.quantity}
+              />
             </View>
-            <TouchableOpacity>
-              <Text style={{fontSize: 17, marginLeft: 10, color: '#1EAE98'}}>
-                THAY ĐỔI
-              </Text>
+          ))}
+          <Animated.View
+            style={{
+              opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+            }}>
+          </Animated.View>
+          {/* Custom đường kẻ ngang*/}
+          <View style={styles.divider} />
+          {/* Tổng tiền sản phẩm*/}
+          <View style={styles.money}>
+            <MoneyOrder
+              tongphu="Tổng phụ:"
+              phivanchuyen="Phí vận chuyển:"
+              phivoucher="Sử dụng Voucher:"
+              tong="Tổng:"
+              pricetongphu={parseFloat(PriceTongPhu).toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')}
+              pricephiship="25.000"
+              pricetong={parseFloat(PriceFinal).toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')}
+              priceVoucher={parseFloat(PriceVoucher)}
+            />
+          </View>
+        </View>
+        {/*Giao hàng tiêu chuẩn */}
+        <View style={styles.content}>
+          <ShipOrder
+            icon="truck-fast-outline"
+            iconship="truck-check-outline"
+            name="Giao hàng tiêu chuẩn"
+            nameship="Nhận hàng trong vòng 1 -> 3 ngày"
+          />
+        </View>
+        {/* Phương thức thanh toán */}
+        <View style={styles.content}>
+          <OrderPayment
+            icon="credit-card"
+            name="Phương thức thanh toán"
+            namePayment={orderDetail.Payment}
+          />
+        </View>
+        {/* Button huỷ đơn hàng */}
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
+          <View style={styles.btnItemHuy}>
+            <TouchableOpacity
+              onPress={() => bs.current.snapTo(0)}>
+              <Text style={styles.textItemHuy}>Huỷ đơn hàng</Text>
             </TouchableOpacity>
           </View>
-          <View style={{marginLeft: '7%'}}>
-            <Text style={Styles.textaddres}>Cristiano Ronaldo</Text>
-            <Text style={Styles.textaddres}>0384166110</Text>
-            <Text style={Styles.textaddres}>
-              99/3/3A, Trung Mỹ Tây, Quận 12, TP. Hồ Chí Minh
-            </Text>
-          </View>
-        </View>
-        <View style={Styles.view3}>
-          <View style={{flexDirection: 'row', marginLeft: 17, marginTop: 5}}>
-            <Image style={Styles.imageheader} source={protect} />
-            <Text style={Styles.textTieude}>Phương thức thanh toán</Text>
-          </View>
-        </View>
-        <View style={Styles.view4}>
-          <View style={{flexDirection: 'row'}}>
-            <View style={Styles.touyeuthich}>
-              <Text style={{fontSize: 14, color: 'white'}}>Yêu thích</Text>
-            </View>
-            <TouchableOpacity style={{width: '75%'}}>
-              <Text style={{fontSize: 14, textAlign: 'right', marginTop: 10}}>
-                XEM SHOP
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              width: '93%',
-              height: 130,
-              marginTop: 10,
-              borderTopWidth: 0.5,
-              borderBottomWidth: 0.5,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                width: '100%',
-                height: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <View
-                style={{
-                  width: '25%',
-                  height: '70%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderWidth: 0.5,
-                }}
-              >
-                <Image
-                  style={{width: '100%', height: '100%', resizeMode: 'stretch'}}
-                  source={aothun}
-                />
-              </View>
-              <View
-                style={{
-                  width: '70%',
-                  height: '90%',
-                  marginLeft: 10,
-                  marginTop: '4%',
-                }}
-              >
-                <Text style={{fontSize: 22}}>Áo thể thao đẹp free size</Text>
-                <Text style={{fontSize: 18}}>Logo ManChester United</Text>
-                <Text style={{fontSize: 18, textAlign: 'right', marginTop: 22}}>
-                  32.000đ
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              width: '93%',
-              height: 50,
-              flexDirection: 'row',
-              borderBottomWidth: 0.5,
-              alignItems: 'center',
-            }}
-          >
-            <Text style={{fontSize: 20}}>Thành tiền:</Text>
-            <Text style={{fontSize: 20, textAlign: 'right', width: '74%'}}>
-              23.00đ
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '93%',
-              height: 60,
-              borderBottomWidth: 0.5,
-            }}
-          >
-            <View style={{width: '40%', justifyContent: 'center'}}>
-              <Text style={Styles.textleft}>Mã đơn hàng</Text>
-              <Text style={Styles.textleft}>Thời gian đặt hàng</Text>
-            </View>
-            <View
-              style={{
-                width: '60%',
-                justifyContent: 'center',
-                textAlign: 'right',
-              }}
-            >
-              <Text style={Styles.textright}>AGHDGJGADHAKDJ</Text>
-              <Text style={Styles.textright}>25/05/2021</Text>
-            </View>
-          </View>
-          <TouchableOpacity style={Styles.Tou21}>
-            <Text style={{fontSize: 20}}>Liên hệ shop</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => bs.current.snapTo (0)}
-            style={Styles.Tou21}
-          >
-            <Text style={{fontSize: 20}}>Hủy đơn hàng</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
-      <View style={{width: '100%', height: '13%', backgroundColor: 'white'}}>
-        <View>
-          <Text style={{textAlign: 'right', fontSize: 18, marginTop: '7%'}}>
-            Tổng thanh toán: 24.000đ
-          </Text>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              height: 50,
-              backgroundColor: '#8D6E63',
-            }}
-          >
-            <Text style={{fontSize: 18, color: 'white', fontWeight: 'bold'}}>
-              Xác Nhận
-            </Text>
+      {/*Footer Button Xác nhận */}
+      <View style={styles.footer}>
+        <View style={styles.btnItemXacNhan}>
+          <TouchableOpacity>
+            <Text style={styles.textItemXacNhan}>Xác nhận</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 };
-export default OderDetail;
 
-export const Styles = StyleSheet.create ({
-  //---------------------------------------------------------------
-  header: {
-    width: '100%',
-    height: '7%',
-    backgroundColor: 'white',
-    flexDirection: 'row',
-  },
-  header1: {
-    width: '70%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  header2: {
-    width: '15%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imageheader: {
-    width: 25,
-    height: 25,
-  },
-  //---------------------------------------------------------------
-  body: {
-    width: '100%',
-    height: '80%',
-  },
-  view1: {
-    backgroundColor: '#1EAE98',
-    height: 130,
-    width: '100%',
-    flexDirection: 'row',
-  },
-  imageview1: {
-    width: 70,
-    height: 70,
-  },
-  Viewleft: {
-    width: '70%',
-  },
-  ViewRight: {
-    width: '30%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  view2: {
-    width: '100%',
-    height: 140,
-    backgroundColor: 'white',
-  },
-  view21: {
-    width: '100%',
-    height: 40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 15,
-  },
-  textleft1: {
-    fontSize: 20,
-    color: 'white',
-    marginLeft: 10,
-    marginTop: 10,
-  },
-  textaddres: {
-    fontSize: 16,
-  },
-  view3: {
-    width: '100%',
-    height: 70,
-    backgroundColor: 'white',
-    marginTop: 10,
-  },
-  textTieude: {fontSize: 17, marginLeft: 10},
-  view4: {
-    width: '100%',
-    height: 480,
-    backgroundColor: 'white',
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  touyeuthich: {
-    width: 70,
-    height: 20,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginLeft: 10,
-    marginTop: 7,
-  },
-  textleft: {
-    fontSize: 18,
-  },
-  textright: {
-    fontSize: 18,
-    textAlign: 'right',
-  },
-  Tou21: {
-    width: '93%',
-    height: 55,
-    marginTop: 30,
-    borderRadius: 7,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 0.5,
-  },
-  Header11: {
-    backgroundColor: 'white',
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 40,
-    height: 50,
-    borderTopWidth: 1,
-    backgroundColor: 'pink'
-  },
-  panelHeader: {
-    alignItems: 'center',
-  },
-  panelHandle: {
-    width: 60,
-    height: 3,
-    borderRadius: 3,
-    backgroundColor: 'blue',
-    marginBottom: 10,
-    marginTop: 5
-  },
-});
+export default OderDetail;

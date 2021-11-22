@@ -234,7 +234,21 @@ const UserNavigator = ({ navigation }) => {
         name="OderDetail"
         component={OderDetail}
         options={{
-          headerShown: false,
+          // headerShown: false,
+          title: 'Thông tin đơn hàng',
+          headerStyle: {
+            backgroundColor: '#fff',
+            borderColor: '#F5F5F5',
+            borderWidth: 1,
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            textAlign: 'center',
+            alignSelf: 'center',
+            color:'black',
+            fontWeight:'bold'
+          },
+          headerTitleAlign: 'center',
         }}
       />
         <Stack.Screen

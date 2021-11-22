@@ -9,16 +9,26 @@ import {
     ScrollView,
     Image
 }
-    from 'react-native';
-const Money = ({ tongphu, phivanchuyen, tong, pricetongphu, pricephiship, pricetong }) => (
+from 'react-native';
+const MoneyOrder = ({
+    tongphu,
+    phivanchuyen,
+    phivoucher,
+    tong,
+    pricetongphu,
+    pricephiship,
+    pricetong,
+    priceVoucher
+}) => (
     <View style={styles.itemContainer}>
         <View style={{
             flexDirection: 'row',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
         }}>
             <Text style={styles.itemtongphu}>{tongphu}</Text>
             <Text style={styles.itemTextPricetongphu}>{pricetongphu} VNĐ</Text>
         </View>
+
         <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between'
@@ -26,6 +36,15 @@ const Money = ({ tongphu, phivanchuyen, tong, pricetongphu, pricephiship, pricet
             <Text style={styles.itemTextShip}>{phivanchuyen}</Text>
             <Text style={styles.itemTextPricephiship}>{pricephiship} VNĐ</Text>
         </View>
+
+        <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        }}>
+            <Text style={styles.itemTextShip}>{phivoucher}</Text>
+            <Text style={styles.itemTextPricephiship}>{priceVoucher} %</Text>
+        </View>
+
         <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between'
@@ -40,7 +59,7 @@ const Money = ({ tongphu, phivanchuyen, tong, pricetongphu, pricephiship, pricet
 const styles = StyleSheet.create({
     //ProfileItem
     itemContainer: {
-        paddingHorizontal: 10
+        paddingHorizontal: 5
     },
     itemtongphu: {
         color: '#1e1e1e',
@@ -71,4 +90,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Money;
+export default MoneyOrder;

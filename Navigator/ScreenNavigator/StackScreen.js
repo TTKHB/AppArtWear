@@ -7,6 +7,7 @@ import UserNavigator from '../StackScreen/UserNavigator';
 import HomeNavigator from '../HomeNavigator';
 import CartNavigator from '../CartNavigator';
 import ProductMenu from '../../Screens/Menu/ProductMenu';
+import PaymentNavigator from '../PaymentNavigator';
 
 //Icon
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
@@ -81,6 +82,11 @@ const StackScreen = () => {
                     },
                     headerTitleAlign: 'center',
                 }}
+            />
+            <Stack.Screen
+                name="PaymentNavigator"
+                component={PaymentNavigator}
+                options={{ header: () => null }}
             />
         </Stack.Navigator>
     );

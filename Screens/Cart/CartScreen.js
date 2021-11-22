@@ -28,7 +28,12 @@ import DialogCart from '../../components/Cart/DialogCart';
 const CartScreen = ({ navigation }) => {
   const { isLoggedIn, profile } = useLogin();
   const [cartList, setcartList] = useState([]);
-  const itemsPrice = cartList.reduce((a, c) => a + c.amount * c.product_id.gia, 0,);
+  let itemsPrice = 0;
+  cartList.forEach((order) => {
+    if (order) {
+      itemsPrice += order.amount * (order.product_id ? order.product_id.gia : '');
+    }
+  });
 
   const [products, setProducts] = useState([]);
 
@@ -51,7 +56,6 @@ const CartScreen = ({ navigation }) => {
     }, []),
   );
 
-
   useFocusEffect(
     useCallback(() => {
       // Products
@@ -69,9 +73,6 @@ const CartScreen = ({ navigation }) => {
       };
     }, []),
   );
-
-
-
 
   //Diglog onClick
   const [isModalVisible, setisModalVisible] = useState(false);
@@ -229,11 +230,11 @@ const CartScreen = ({ navigation }) => {
             source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
           />
           <Text style={styles.priceSp}>
-            {item.gia} VNĐ
+            {item.gia ? item.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ''} VNĐ
           </Text>
           <Text
             style={styles.priceSale}>
-            {item.giacu} VNĐ
+            {item.giacu ? item.giacu.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ''} VNĐ
           </Text>
         </TouchableOpacity>
       </View>
@@ -411,7 +412,16 @@ const CartScreen = ({ navigation }) => {
           </Text>
           <View style={styles.btnItemOne}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('CartNavigator', { screen: 'Checkout', params: { tongPrice: itemsPrice, spGioHang: cartList } })}>
+              onPress={() => navigation.navigate('CartNavigator',
+                {
+                  screen: 'Checkout',
+                  params:
+                  {
+                    tongPrice: itemsPrice,
+                    spGioHang: cartList,
+                  }
+                }
+              )}>
               <Text style={styles.textItemOne}>Mua hàng</Text>
             </TouchableOpacity>
           </View>

@@ -163,7 +163,7 @@ export const styles = StyleSheet.create({
       height: 160,
     },
     priceSp:{
-      fontSize: 18,
+      fontSize: 16,
       marginTop: 5,
       fontWeight: 'bold',
       color: 'red',

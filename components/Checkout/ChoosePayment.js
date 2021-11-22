@@ -4,16 +4,17 @@ import Icon from 'react-native-vector-icons/Entypo';
 import IconShip from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const ChoosePayment = ({ icon, name, nameship, onPress, iconright }) => (
+const ChoosePayment = ({ icon, name, nameship, onPress, iconright, namePayment }) => (
   <View style={styles.itemContainer}>
     <View style={{ flexDirection: 'row', }}>
       <Icon name={icon} size={30} color="#FF6600" />
       <Text style={[styles.itemText, { marginLeft: icon ? 10 : 0 }]}>{name}</Text>
       <Text style={[styles.iconright, { marginRight: iconright ? 4 : 0, marginTop: 6 }]} onPress={onPress}>Chọn</Text>
-      <FontAwesome name={iconright} size={26} color="#1e1e1e" onPress={onPress} style={{marginTop:4}} />
+      <FontAwesome name={iconright} size={26} color="#1e1e1e" onPress={onPress} style={{ marginTop: 4 }} />
     </View>
-    <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 4 }}>
+    <View>
       <Text style={styles.itemTextPayment}>{nameship}</Text>
+      <Text style={styles.itemTextPayment}>Thanh toán bằng: {namePayment}</Text>
     </View>
   </View>
 );

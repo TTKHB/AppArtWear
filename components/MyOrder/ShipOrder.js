@@ -2,15 +2,13 @@ import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet, StatusBar, Alert, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconShip from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Ship = ({ icon, iconship, name, nameship, onPress, iconright }) => (
+const ShipOrder = ({ icon, iconship, name, nameship, onPress }) => (
   <View style={styles.itemContainer}>
     <View style={{ flexDirection: 'row', }}>
       <Icon name={icon} size={30} color="#8D6E63" />
       <Text style={[styles.itemText, { marginLeft: icon ? 10 : 0 }]}>{name}</Text>
-      <Text style={[styles.iconright, { marginRight: iconright ? 10 : 0, marginTop: 3 }]}>25.000 VNĐ</Text>
-      <FontAwesome name={iconright} size={26} color="#1e1e1e" onPress={onPress} />
+      <Text style={styles.iconright}>25.000 VNĐ</Text>
     </View>
     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 2 }}>
       <IconShip name={iconship} size={26} color="#A9A9A9" />
@@ -23,7 +21,7 @@ const styles = StyleSheet.create({
   //ProfileItem
   itemContainer: {
     backgroundColor: '#fff',
-    paddingHorizontal: 20,
+    paddingHorizontal: 11,
     paddingVertical: 1,
   },
   itemText: {
@@ -36,6 +34,7 @@ const styles = StyleSheet.create({
   iconright: {
     color: '#1e1e1e',
     fontSize: 16,
+    marginRight: 5
   },
   itemTextShip: {
     flex: 1,
@@ -45,4 +44,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Ship;
+export default ShipOrder;
