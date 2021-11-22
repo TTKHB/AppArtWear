@@ -24,9 +24,11 @@ import IconBack from 'react-native-vector-icons/Ionicons';
 import MessagScreen from '../../Screens/Notification/MessagScreen'
 import NotifiScreen from '../../Screens/Notification/NotifiScreen'
 import ActivityScreen from '../../Screens/Notification/ActivityScreen'
+import SaleScreen from '../../Screens/Notification/SaleScreen'
 import Detail from '../../Screens/Notification/Detail/Detail';
 import OderDetail from '../../Screens/User/PurchaseOrder/OderDetail'
 import Rating from '../../Screens/User/PurchaseOrder/Rating'
+import NotificationHotScreen from '../../Screens/Notification/NotificationHotScreen';
 
 const Stack = createStackNavigator();
 
@@ -219,6 +221,20 @@ const UserNavigator = ({ navigation }) => {
        <Stack.Screen
         name="ActivityScreen"
         component={ActivityScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="NotificationHotScreen"
+        component={NotificationHotScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SaleScreen"
+        component={SaleScreen}
         options={{
           headerShown: false,
         }}

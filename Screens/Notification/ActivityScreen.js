@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,11 @@ import {
 } from 'react-native';
 export const Back = require('../../assets/images/back.jpg');
 export const banner1 = require('../../assets/images/banner1.jpg');
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import baseURL from '../../assets/common/baseUrl';
+import { addMethod } from 'yup';
+import { formatDate } from '../../utils/Methods';
 
 const List = [
   {
@@ -29,9 +34,35 @@ const List = [
   },
 ];
 
-const ActivityScreen = ({navigation}) => {
+
+
+const ActivityScreen = ({ navigation, item, index }) => {
+  const [activity, setActivity] = useState([]);
+
+  const getAllActivity = () => {
+    axios
+      .get(`${baseURL}notification`)
+      .then(res => {
+        setActivity(res.data);
+        // setLoading(false);
+      })
+      .catch(error => {
+        console.log('Api call error');
+      });
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      // setLoading(true);
+      // Products
+      getAllActivity();
+      return () => {
+        setActivity([]);
+      };
+    }, []),
+  );
   return (
-    <View style={{height: '100%', backgroundColor: 'white'}}>
+    <View style={{ height: '100%', backgroundColor: 'white' }}>
       {/* header----------------------------------------------------------- */}
       <View style={Styles.Header}>
         <TouchableOpacity
@@ -48,19 +79,15 @@ const ActivityScreen = ({navigation}) => {
       <View>
         <FlatList
           style={{}}
-          data={List}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => {
+          data={activity}
+          // keyExtractor={item => item._id}
+          keyExtractor={item => `key-${item._id}`}
+          renderItem={({ item, index }) => {
             return (
-              <View style={{alignItems: 'center', marginTop: 20}}>
-                <Text>{item.date}</Text>
+              <View style={{ alignItems: 'center', marginTop: 20 }}>
+                <Text>{formatDate(item.date)}</Text>
                 <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('UserNavigator', {
-                      screen: 'Detail',
-                      params: {id: item.id},
-                    })
-                  }
+                  onPress={() => navigation.navigate('Detail', { item: item })}
                   style={Styles.FlatView}>
                   <View
                     style={{
@@ -74,7 +101,7 @@ const ActivityScreen = ({navigation}) => {
                         height: '100%',
                         resizeMode: 'stretch',
                       }}
-                      source={item.Image}
+                      source={{ uri: item.img ? item.img : null }}
                     />
                   </View>
                   <View
@@ -83,7 +110,7 @@ const ActivityScreen = ({navigation}) => {
                       height: '35%',
                       justifyContent: 'center',
                     }}>
-                    <Text style={Styles.TextFlat1}>{item.theme}</Text>
+                    <Text style={Styles.TextFlat1}>{item.body}</Text>
                     <Text style={Styles.TextFlat2}>{item.title}</Text>
                   </View>
                 </TouchableOpacity>
@@ -127,7 +154,7 @@ export const Styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  ViewText: {alignItems: 'center', justifyContent: 'center', width: '80%'},
+  ViewText: { alignItems: 'center', justifyContent: 'center', width: '80%' },
   //----------------------------------------------
   Body: {
     width: '100%',

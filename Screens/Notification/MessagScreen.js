@@ -38,7 +38,7 @@ const MessagScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.container}>
-                    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Notifi')}>
+                    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('NotificationHotScreen')}>
                         <View style={styles.userInfo}>
                             <View style={styles.userImgWrapper} >
                                 <Image style={styles.userImg} source={{ uri: "https://thumbs.dreamstime.com/b/love-heart-fans-symbol-icon-vector-eps-heart-love-abstract-symbol-icon-vector-eps-183301440.jpg" }} />
@@ -71,7 +71,7 @@ const MessagScreen = ({ navigation }) => {
                 </View>
 
                 <View style={styles.container}>
-                    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Sale')}>
+                    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('SaleScreen')}>
                         <View style={styles.userInfo}>
                             <View style={styles.userImgWrapper} >
                                 <Image style={styles.userImg} source={{ uri: "https://image.flaticon.com/icons/png/512/43/43916.png" }} />

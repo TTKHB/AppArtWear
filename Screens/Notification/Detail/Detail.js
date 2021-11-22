@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 export const width = Dimensions.get('window').width;
 export const height = Dimensions.get('window').height;
 export const Back = require('../../../assets/images/back.jpg');
@@ -19,6 +19,11 @@ export const watch = require('../../../assets/images/36.webp');
 export const nam = require('../../../assets/images/nam.webp');
 export const nu = require('../../../assets/images/nu.webp');
 export const more = require('../../../assets/images/more.jpg');
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import baseURL from '../../../assets/common/baseUrl';
+import { List } from 'react-native-paper';
+
 const Theme = [
   {
     image: nam,
@@ -74,11 +79,40 @@ const Lists = [
   },
 ];
 
-const Detail = ({navigation, route}) => {
-  const id = route.params.id;
-  console.log('abcsd:', id);
+const Detail = ({ navigation, route, item }) => {
+
+  const [activity, setActivity] = useState([]);
+
+  const getAllActivity = () => {
+    axios
+      .get(`${baseURL}notification`)
+      .then(res => {
+        setActivity(res.data);
+        // setLoading(false);
+      })
+      .catch(error => {
+        console.log('Api call error');
+      });
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      // setLoading(true);
+      // Products
+      getAllActivity();
+      return () => {
+        setActivity([]);
+      };
+    }, []),
+  );
+
+  // const id = route.params.id;
+  const { item: details } = route.params
+  // const body = route.params.body;
+  // console.log('abcsd:', id);
+  
   return (
-    <View style={{height: '100%', backgroundColor: 'white'}}>
+    <View style={{ height: '100%', backgroundColor: 'white' }}>
       {/* header----------------------------------------------------------- */}
       <View style={Styles.Header}>
         <TouchableOpacity
@@ -96,9 +130,11 @@ const Detail = ({navigation, route}) => {
         <ScrollView>
           <View>
             <Image
-              source={Banner8}
-              style={{width: '100%', height: 200, resizeMode: 'stretch'}}
+              source={{ uri: details.img ? details.img : null }}
+              style={{ width: '100%', height: 200, resizeMode: 'stretch' }}
             />
+            <Text>{details.title}</Text>
+            
           </View>
           {/* Mua theo thể loại ---------------------------------------------- */}
           <View>
@@ -107,11 +143,11 @@ const Detail = ({navigation, route}) => {
               data={Theme}
               numColumns={2}
               keyExtractor={item => item.id}
-              renderItem={({item}) => {
+              renderItem={({ item }) => {
                 return (
                   <View style={Styles.Theloai}>
                     <TouchableOpacity style={Styles.ButtonTheme}>
-                      <View style={{width: '20%', alignItems: 'center'}}>
+                      <View style={{ width: '20%', alignItems: 'center' }}>
                         <Image style={Styles.IconTheme} source={item.image} />
                       </View>
                       <Text style={Styles.TextTheme}>{item.title}</Text>
@@ -141,13 +177,13 @@ const Detail = ({navigation, route}) => {
             <Image style={Styles.Imagebanner} source={Banner8} />
           </TouchableOpacity>
 
-          <View style={{marginBottom: 80}}>
+          <View style={{ marginBottom: 80 }}>
             <Text style={Styles.TextBanner}>Sản phẩm liên quan</Text>
             <FlatList
               data={Lists}
               keyExtractor={item => item.id}
               numColumns={3}
-              renderItem={({item}) => {
+              renderItem={({ item }) => {
                 return (
                   <View style={Styles.ViewProduct}>
                     <TouchableOpacity style={Styles.Tou12}>
@@ -209,7 +245,7 @@ export const Styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  ViewText: {alignItems: 'center', justifyContent: 'center', width: '80%'},
+  ViewText: { alignItems: 'center', justifyContent: 'center', width: '80%' },
   //----------------------------------------------
   Body: {
     width: '100%',

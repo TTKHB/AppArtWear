@@ -9,12 +9,12 @@ import {
   FlatList,
   SectionList,
 } from 'react-native';
-export const Back = require('../../assets/img/back.jpg');
-export const banner1 = require('../../assets/img/banner1.jpg');
-export const banner2 = require('../../assets/img/banner2.jpg');
-export const banner3 = require('../../assets/img/banner3.jpg');
-export const banner4 = require('../../assets/img/banner4.jpg');
-export const banner5 = require('../../assets/img/banner5.jpg');
+export const Back = require('../../assets/images/back.jpg');
+export const banner1 = require('../../assets/images/banner1.jpg');
+export const banner2 = require('../../assets/images/banner2.jpg');
+export const banner3 = require('../../assets/images/banner3.jpg');
+export const banner4 = require('../../assets/images/banner4.jpg');
+export const banner5 = require('../../assets/images/banner5.jpg');
 
 const List = [
   {
@@ -54,9 +54,9 @@ const List = [
   },
 ];
 
-const SaleScreen = ({navigation}) => {
+const SaleScreen = ({ navigation }) => {
   return (
-    <View style={{height: '100%', backgroundColor: 'white'}}>
+    <View style={{ height: '100%', backgroundColor: 'white' }}>
       {/* header----------------------------------------------------------- */}
       <View style={Styles.Header}>
         <TouchableOpacity
@@ -72,12 +72,12 @@ const SaleScreen = ({navigation}) => {
       {/* body--------------------------------------------------------------- */}
       <View>
         <FlatList
-          style={{marginBottom: 65}}
+          style={{ marginBottom: 65 }}
           data={List}
           keyExtractor={item => item.id}
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             return (
-              <View style={{alignItems: 'center', marginTop: 20}}>
+              <View style={{ alignItems: 'center', marginTop: 20 }}>
                 <Text>{item.date}</Text>
                 <View style={Styles.FlatView}>
                   <View
@@ -145,7 +145,7 @@ export const Styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  ViewText: {alignItems: 'center', justifyContent: 'center', width: '80%'},
+  ViewText: { alignItems: 'center', justifyContent: 'center', width: '80%' },
   //----------------------------------------------
   Body: {
     width: '100%',
