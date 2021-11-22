@@ -102,8 +102,19 @@ const SearchScreen = ({navigation, route}) => {
   useEffect(() => {
     products.forEach(product => {
       category.push({_id: product.id, name: product.ten});
+      setCategoryFilter([...category]);
     });
-    setCategoryFilter([...category]);
+    if (search) {
+      let searcher = nonAccentVietnamese(search);
+
+      let searchedData = category.filter(item => {
+        let name = nonAccentVietnamese(item.name);
+
+        return name.includes(searcher);
+      });
+
+      setCategoryFilter([...searchedData]);
+    }
   }, [products, category]);
 
   //handle list of word search
@@ -265,6 +276,9 @@ const SearchScreen = ({navigation, route}) => {
             placeholder="Tìm kiếm"
             onChangeText={searchedCategory}
             value={search}
+            onSubmitEditing={() => {
+              handleClickedItem(search);
+            }}
             containerStyle={{
               borderTopWidth: 0,
               marginTop: 5,

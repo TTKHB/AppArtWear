@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,72 +8,35 @@ import {
   FlatList,
   Image,
   Alert,
-  Dimensions,
+  Modal,
 } from 'react-native';
-import {Header, Icon} from 'react-native-elements';
+import { Header, Icon, Avatar, Badge, withBadge } from 'react-native-elements';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import CheckOutItem from '../../components/Checkout/CheckOutItem';
 import MyCheckOut from '../../components/Checkout/myCheckOut';
 import IconFavorite from 'react-native-vector-icons/MaterialIcons';
-const artwear = require('../../assets/images/dragon.jpg');
-
-export const ao = require('../../assets/images/Ao3.jpg');
-export const back = require('../../assets/images/back.jpg');
-export const ao2 = require('../../assets/images/Ao2.jpg');
-export const close = require('../../assets/images/close.jpg');
-export const coin = require('../../assets/images/coin.jpg');
-export const money = require('../../assets/images/money.jpg');
-export const cart = require('../../assets/images/cart.jpg');
-export const aothun = require('../../assets/images/aothun.jpg');
-export const aothun1 = require('../../assets/images/aothun1.jpg');
-export const nu3 = require('../../assets/images/ngoctuyen.jpg');
-export const nu4 = require('../../assets/images/Ao1.jpg');
-export const nu5 = require('../../assets/images/Ao2.jpg');
-export const nu6 = require('../../assets/images/Ao3.jpg');
-export const nu7 = require('../../assets/images/aothun1.jpg');
 
 import axios from 'axios';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
-import {useLogin} from '../../Context/LoginProvider';
+import { useLogin } from '../../Context/LoginProvider';
 
-import Dialog from 'react-native-dialog';
-const {height, width} = Dimensions.get('window');
+import { styles } from '../../components/Cart/ItemCart';
 
-const sanpham = [
-  {
-    id: 1,
-    image: nu3,
-  },
-  {
-    id: 2,
-    image: nu4,
-  },
-  {
-    id: 3,
-    image: nu5,
-  },
-  {
-    id: 4,
-    image: nu6,
-  },
-  {
-    id: 5,
-    image: nu7,
-  },
-  {
-    id: 6,
-    image: nu3,
-  },
-];
-const CartScreen = ({navigation}) => {
-  const {isLoggedIn, profile} = useLogin();
+import DialogCart from '../../components/Cart/DialogCart';
+
+const CartScreen = ({ navigation }) => {
+  const { isLoggedIn, profile } = useLogin();
   const [cartList, setcartList] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const itemsPrice = cartList.reduce(
-    (a, c) => a + c.amount * c.product_id.gia,
-    0,
-  );
+  let itemsPrice = 0;
+  cartList.forEach((order) => {
+    if (order) {
+      itemsPrice += order.amount * (order.product_id ? order.product_id.gia : '');
+    }
+  });
+
+  const [products, setProducts] = useState([]);
+
   // get all cart bang id user
   useFocusEffect(
     useCallback(() => {
@@ -82,7 +45,6 @@ const CartScreen = ({navigation}) => {
         .get(`${baseURL}carts/user/` + profile._id)
         .then(res => {
           setcartList(res.data);
-          setCartItems(res.data);
         })
         .catch(error => {
           console.log('Api call error');
@@ -90,22 +52,36 @@ const CartScreen = ({navigation}) => {
 
       return () => {
         setcartList([]);
-        setCartItems([]);
+      };
+    }, []),
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      // Products
+      axios
+        .get(`${baseURL}products`)
+        .then(res => {
+          setProducts(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        setProducts([]);
       };
     }, []),
   );
 
   //Diglog onClick
-  const [visible, setVisible] = useState(false);
-  const showDialog = () => {
-    setVisible(true);
-  };
-  const handleContinue = () => {
-    setVisible(false);
-  };
+  const [isModalVisible, setisModalVisible] = useState(false);
+  const changeModalVisible = (bool) => {
+    setisModalVisible(bool);
+  }
 
   //RenderItem Cart
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     const showConfirmDialog = () => {
       return Alert.alert(
         'Bạn đã chắc chắn?',
@@ -124,6 +100,7 @@ const CartScreen = ({navigation}) => {
     // Delete Cart
     const DeleteCart = _id => {
       //delete an item from state array
+      changeModalVisible(true)
       let filterArray = cartList.filter((val, i) => {
         if (val._id !== _id) {
           return val;
@@ -133,8 +110,12 @@ const CartScreen = ({navigation}) => {
         .delete(`${baseURL}carts/` + item._id)
         .then(function (response) {
           console.log(response);
-          setcartList(filterArray);
-          showDialog();
+          if (response) {
+            setTimeout(() => {
+              changeModalVisible(false)
+              setcartList(filterArray);
+            }, 3000)
+          }
         })
         .catch(function (error) {
           console.log(error);
@@ -193,7 +174,7 @@ const CartScreen = ({navigation}) => {
           .then(res => res.json())
           .then(data => {
             setcartList(truSoLuong);
-            console.log('is Update successffly!!');
+            console.log('is Update successffly!!', data.amount);
           })
           .catch(err => {
             console.log('error', err);
@@ -206,7 +187,7 @@ const CartScreen = ({navigation}) => {
         <View style={styles.viewCart}>
           <Image
             style={styles.imageCart}
-            source={{uri: item.product_id ? item.product_id.ThumbImg : ' '}}
+            source={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
           />
           {/* Item name, price,... */}
           <View style={styles.itemCart}>
@@ -214,7 +195,7 @@ const CartScreen = ({navigation}) => {
               {item.product_id ? item.product_id.ten : ' '}
             </Text>
             <Text style={styles.textItemPrice}>
-              {item.product_id ? item.product_id.gia : ' '} VNĐ
+              {item.product_id ? item.product_id.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
             </Text>
             {/* + - */}
             <View style={styles.itemAmount}>
@@ -237,40 +218,23 @@ const CartScreen = ({navigation}) => {
       </View>
     );
   };
-  const renderSanpham = ({item}) => {
+  const renderSanphamQuanTam = ({ item }) => {
     return (
       <View
-        style={{
-          marginTop: 10,
-        }}>
-        <TouchableOpacity
-          style={{
-            width: 150,
-            height: 220,
-            backgroundColor: 'white',
-            marginLeft: 5,
-          }}>
+        style={styles.viewSpQuanTam}
+        key={item._id}
+      >
+        <TouchableOpacity style={styles.boxSpQuanTam}>
           <Image
-            style={{
-              width: 150,
-              height: 160,
-            }}
-            source={item.image}
+            style={styles.imageSpQuanTam}
+            source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
           />
-          <Text
-            style={{
-              fontSize: 18,
-              marginTop: 5,
-              fontWeight: 'bold',
-              color: 'red',
-            }}>
-            199.000đ
+          <Text style={styles.priceSp}>
+            {item.gia ? item.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ''} VNĐ
           </Text>
           <Text
-            style={{
-              textDecorationLine: 'line-through',
-            }}>
-            249.000đ
+            style={styles.priceSale}>
+            {item.giacu ? item.giacu.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ''} VNĐ
           </Text>
         </TouchableOpacity>
       </View>
@@ -279,15 +243,16 @@ const CartScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Header
-        containerStyle={{
-          backgroundColor: '#ffffff',
-        }}
-        centerComponent={{   
+        containerStyle={styles.Container}
+        centerComponent={{
           text: 'Giỏ hàng của tôi',
-         style: { color: '#8D6E63',textAlign: 'center',
-             alignSelf: 'center',
-             fontSize: 25,
-             fontWeight: 'bold' }}
+          style: {
+            color: '#8D6E63', textAlign: 'center',
+            alignSelf: 'center',
+            fontSize: 25,
+            fontWeight: 'bold'
+          }
+        }
         }
         leftComponent={
           <TouchableOpacity
@@ -299,55 +264,40 @@ const CartScreen = ({navigation}) => {
               size={25}
               type="font-awesome"
               color="#000000"
-              style={{marginLeft: 5}}
+              style={{ marginLeft: 5 }}
             />
           </TouchableOpacity>
         }
         rightComponent={
           <View
-            style={{
-              flexDirection: 'row',
-              marginRight: 3,
-            }}>
+            style={styles.rightComponent}>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('UserNavigator', {screen: 'FavoriteScreen'})
+                navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })
               }>
               <IconFavorite
                 name="favorite-outline"
                 size={28}
-                style={{
-                  marginRight: 3,
-                }}
+                style={styles.IconFavorite}
               />
             </TouchableOpacity>
             {isLoggedIn ? (
               <>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('CartNavigator', {screen: 'Cart'})
+                    navigation.navigate('CartNavigator', { screen: 'Cart' })
                   }>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{marginRight: -8}}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ marginRight: 0 }}>
                       <IconCart name="handbag" size={24} />
                     </View>
-                    <View
-                      style={{
-                        backgroundColor: 'red',
-                        height: 20,
-                        width: 20,
-                        borderRadius: 20,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      <Text style={{color: 'white', fontWeight: 'bold'}}>
-                        {cartItems.length ? (
-                          <Text>{cartItems.length}</Text>
-                        ) : (
-                          <Text>0</Text>
-                        )}
-                      </Text>
-                    </View>
+                    {cartList.length ? (
+                      <>
+                        <View style={{ marginLeft: -10 }}>
+                          <Badge value={cartList.length} status="error" />
+                        </View>
+                      </>
+                    ) : null}
                   </View>
                 </TouchableOpacity>
               </>
@@ -355,7 +305,7 @@ const CartScreen = ({navigation}) => {
               <>
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('UserNavigator', {screen: 'Login'})
+                    navigation.navigate('UserNavigator', { screen: 'Login' })
                   }>
                   <IconCart name="handbag" size={24} />
                 </TouchableOpacity>
@@ -364,36 +314,27 @@ const CartScreen = ({navigation}) => {
           </View>
         }
       />
-      <ScrollView>
-      {/* Diglog when delete cart success */}
-      <Dialog.Container
-        visible={visible}
-        contentStyle={{
-          borderRadius: 10,
-          borderColor: 'white',
-          width: width / 1.09,
-        }}>
-        <Dialog.Title style={{fontSize: 28, fontWeight: 'bold'}}>
-          Xoá thành công{' '}
-          <Image
-            style={{height: 25, width: 25}}
-            source={require('../../assets/icon/checked.jpg')}
-          />
-        </Dialog.Title>
-        <Dialog.Button
-          style={{color: 'brown', fontWeight: 'bold', fontSize: 20}}
-          label="Tiếp tục"
-          onPress={handleContinue}
-        />
-      </Dialog.Container>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Diglog when delete cart success */}
+        <Modal
+          transparent={true}
+          animationType='fade'
+          visible={isModalVisible}
+          nRequestClose={() => changeModalVisible(false)}
+        >
+          <DialogCart />
+        </Modal>
 
-      {/* Thêm địa chỉ*/}
-      <CheckOutItem
-        icon="truck-outline"
-        color="#00008B"
-        name="Mua thêm để tận hưởng vận chuyển miễn phí"
-        iconright="angle-right"
-      />
+
+        {/* Thêm địa chỉ*/}
+        <CheckOutItem
+          icon="truck-outline"
+          color="#00008B"
+          name="Mua thêm để tận hưởng vận chuyển miễn phí"
+          iconright="angle-right"
+        />
 
         <View style={styles.content}>
           {/* Sản phẩm thanh toán của tôi */}
@@ -401,15 +342,16 @@ const CartScreen = ({navigation}) => {
           {/* View san pham */}
           <View
             style={{
-              padding: 10,
               marginTop: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
             {/* Check cart rỗng */}
             {cartList.length === 0 && (
               <View style={styles.viewCartEmpty}>
                 <Image
                   style={styles.imageCartEmpty}
-                  source={{uri: '../../assets/images/Error/Shoppingcart.png'}}
+                  source={require('../../assets/images/Error/ShoppingCart.jpg')}
                 />
                 <Text style={styles.textCartEmptyOne}>
                   Không có gì trong giỏ hàng
@@ -424,11 +366,13 @@ const CartScreen = ({navigation}) => {
                 </TouchableOpacity>
               </View>
             )}
-            <FlatList
-              data={cartList}
-              renderItem={renderItem}
-              keyExtractor={item => item._id}
-            />
+            <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+              <FlatList
+                data={cartList}
+                renderItem={renderItem}
+                keyExtractor={item => item._id}
+              />
+            </ScrollView>
           </View>
           {/* View san pham goi ý*/}
           <View
@@ -448,9 +392,9 @@ const CartScreen = ({navigation}) => {
               Sản phẩm có thể bạn đang tìm kiếm
             </Text>
             <FlatList
-              data={sanpham}
-              renderItem={renderSanpham}
-              keyExtractor={item => item.id}
+              data={products}
+              renderItem={renderSanphamQuanTam}
+              keyExtractor={item => item._id}
               horizontal
             />
           </View>
@@ -461,14 +405,23 @@ const CartScreen = ({navigation}) => {
         <View>
           <Text style={styles.texttong}>Tổng thanh toán:</Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           {/* <Text style={styles.tongprice}>184.000 đ</Text> */}
-          <Text style={styles.tongprice}>{itemsPrice} VNĐ</Text>
+          <Text style={styles.tongprice}>
+            {itemsPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} VNĐ
+          </Text>
           <View style={styles.btnItemOne}>
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('CartNavigator', {screen: 'Checkout'})
-              }>
+              onPress={() => navigation.navigate('CartNavigator',
+                {
+                  screen: 'Checkout',
+                  params:
+                  {
+                    tongPrice: itemsPrice,
+                    spGioHang: cartList,
+                  }
+                }
+              )}>
               <Text style={styles.textItemOne}>Mua hàng</Text>
             </TouchableOpacity>
           </View>
@@ -477,149 +430,5 @@ const CartScreen = ({navigation}) => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  divider: {
-    height: 5,
-    marginTop: 10,
-  },
-  content: {
-    backgroundColor: '#f7f7f7',
-    marginTop: 15,
-    borderWidth: 0.5,
-    borderColor: '#E0E0E0',
-    flex: 1,
-  },
-  sanpham: {
-    backgroundColor: '#fff',
-    marginLeft: 20,
-  },
-  money: {
-    backgroundColor: '#fff',
-    marginLeft: 20,
-  },
-  //Line gạch ngang
-  divider: {
-    height: 1,
-    backgroundColor: '#E8E8E8',
-    marginLeft: 1,
-    margin: 5,
-  },
-  footer: {
-    padding: 15,
-    backgroundColor: '#FFFCF2',
-  },
-  texttong: {
-    fontSize: 18,
-  },
-  tongprice: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  btnItemOne: {
-    backgroundColor: '#8D6E63',
-    borderRadius: 15,
-    width: 220,
-    height: 60,
-    marginLeft: 30,
-    marginTop: -27,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textItemOne: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#fff',
-    fontSize: 18,
-  },
-  viewCartEmpty: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-  },
-  imageCartEmpty: {
-    height: 150,
-    width: 150,
-  },
-  textCartEmptyOne: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 8,
-  },
-  textCartEmptyTwo: {
-    fontSize: 18,
-    color: '#505050',
-    marginTop: 2,
-  },
-  viewShoppingNow: {
-    height: 50,
-    width: 150,
-    borderColor: 'red',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  textShoppingNow: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: 'red',
-  },
-  FlatListStyle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    marginBottom: 16,
-    padding: 8,
-    borderRadius: 8,
-    elevation: 2,
-  },
-  viewCart: {
-    flexDirection: 'row',
-  },
-  imageCart: {
-    width: 100,
-    height: 100,
-  },
-  itemCart: {
-    marginLeft: 10,
-  },
-  textItemName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  textItemPrice: {
-    fontSize: 18,
-    color: 'red',
-    fontWeight: 'bold',
-  },
-  itemAmount: {
-    width: 95,
-    height: 30,
-    borderRadius: 20,
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    marginTop: 10,
-    elevation: 5,
-  },
-  textItemAmount: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  btnDeleteCart: {
-    marginTop: 50,
-    height: 45,
-    width: 45,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-});
+
 export default CartScreen;

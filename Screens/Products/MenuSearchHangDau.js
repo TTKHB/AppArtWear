@@ -13,6 +13,7 @@ const {height, width} = Dimensions.get('window');
 const MenuSearchHangDau = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [view,setView] = useState([]);
     useFocusEffect(
       useCallback(() => {
         // Products
@@ -23,7 +24,7 @@ const MenuSearchHangDau = ({ navigation }) => {
             if (loading) {
               setLoading(false);
             }
-          })
+           })
           .catch(error => {
             console.log('Api call error');
           });
@@ -32,7 +33,11 @@ const MenuSearchHangDau = ({ navigation }) => {
           };
         }, []),
       );
+  
+
+  
     return (
+      
       <SafeAreaView>
       {loading ? (
         <LoaderSearchHangDau/>
@@ -50,7 +55,7 @@ const MenuSearchHangDau = ({ navigation }) => {
             <ScrollView showsVerticalScrollIndicator={false} horizontal>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    data={products}
+                    data={products.sort(function(a, b){return b.viewer-a.viewer})}
                     numColumns={2}
                     keyExtractor={item => item._id}
                     renderItem={({ item }) => {

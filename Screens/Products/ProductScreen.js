@@ -11,6 +11,7 @@ import {
   Dimensions,
   RefreshControl,
 } from 'react-native';
+import {format} from '../../utils/Methods';
 //API
 import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
@@ -33,6 +34,7 @@ const {height, width} = Dimensions.get('window');
 // trang home
 const ProductScreen = ({item, navigation}) => {
   const [products, setProducts] = useState([]);
+  const [flashsales, setFlashsales] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -50,8 +52,10 @@ const ProductScreen = ({item, navigation}) => {
       setLoading(true);
       // Products
       getAllProduct();
+      getAllProductFlashSale();
       return () => {
         setProducts([]);
+     
       };
     }, []),
   );
@@ -67,7 +71,17 @@ const ProductScreen = ({item, navigation}) => {
         console.log('Api call error');
       });
   };
-
+  const getAllProductFlashSale = () => {
+    axios
+      .get(`${baseURL}products`)
+      .then(res => {
+        setFlashsales(res.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log('Api call error');
+      });
+  };
   const renderItemPhoBien = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -88,7 +102,7 @@ const ProductScreen = ({item, navigation}) => {
         <View style={{}}>
           <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.ten}</Text>
           <Text style={{fontSize: 16, fontWeight: 'bold', color: 'red'}}>
-            {item.gia}
+          {format(item.gia)}
           </Text>
         </View>
       </TouchableOpacity>
@@ -165,7 +179,7 @@ const ProductScreen = ({item, navigation}) => {
                 <FlatList
                   showsHorizontalScrollIndicator={false}
                   contentContainerStyle={{paddingLeft: 5}}
-                  data={products}
+                  data={flashsales}
                   horizontal
                   renderItem={({item}) => (
                     <ProductFlashSale item={item} navigation={navigation} />
@@ -202,7 +216,7 @@ const ProductScreen = ({item, navigation}) => {
             <FlatList
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{paddingLeft: 5}}
-              data={products}
+              data={products.sort(function(a, b){return b.viewer-a.viewer})}
               horizontal
               renderItem={({item}) => (
                 <SeacrchProduct item={item} navigation={navigation} />

@@ -25,6 +25,7 @@
     "average-rating": "^1.2.1",
     "axios": "^0.21.1",
     "formik": "^2.2.9",
+    "javascript-time-ago": "^2.3.10",
     "lottie-react-native": "^4.0.3",
     "moment": "^2.29.1",
     "react": "17.0.1",

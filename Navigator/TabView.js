@@ -23,6 +23,7 @@ const TabView = () => {
                     fontSize: 15,
                     margin: 0,
                     fontWeight: 'bold',
+                    width:150,
                 },
                 // mau text mac dinh
                 tabBarInactiveTintColor: 'black',

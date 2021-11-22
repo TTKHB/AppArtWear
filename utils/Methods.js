@@ -14,6 +14,12 @@ export const isValidEmail = value => {
   return regx.test(value);
 };
 
+export const format = amount => {
+  return Number(amount)
+    .toFixed(3)
+    .replace(/\d(?=(\d{3})+\.)/g, '$&.');
+};
+
 export const formatDate = date => {
   var date = new Date(date);
   var dateStr =

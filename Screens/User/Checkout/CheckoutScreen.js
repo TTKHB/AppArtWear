@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-} from 'react-native';
+  Image,
+  FlatList,
+  Alert,
+  TextInput
+}
+  from 'react-native';
 import CheckOutItem from '../../../components/Checkout/CheckOutItem';
 import ChoosePayment from '../../../components/Checkout/ChoosePayment';
 import Money from '../../../components/Checkout/Money';
@@ -17,13 +22,114 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import FormInput from '../../../components/Checkout/FormInput';
 
-const CheckoutScreen = ({navigation}) => {
-  {
-    /* Biến lưu button,input nhập mã khuyến mãi khi click vào mã khuyến mãi trong thanh toán*/
+import { useLogin } from '../../../Context/LoginProvider';
+import { styles } from '../../../components/Checkout/Styles/CheckOutStyles';
+import { RadioButton } from 'react-native-paper';
+
+import baseURL from '../../../assets/common/baseUrl';
+import VoucherItem from '../../../components/Checkout/VoucherItem';
+
+import { Header, Icon, Avatar, Badge, withBadge } from 'react-native-elements';
+
+const CheckoutScreen = ({ navigation, route }) => {
+  const { profile } = useLogin();
+  const [checked, setChecked] = useState('Thẻ tín dụng');
+  const [ghichu, setGhiChu] = useState('');
+
+  const spGioHang = route.params.spGioHang;
+  const tongPrice = route.params.tongPrice;
+
+  console.log('Tong tien:', tongPrice)
+
+  const IdVoucher = route.params.IdVoucher;
+
+  console.log("Voucher ne bro:", IdVoucher)
+
+  const codeVoucher = route.params.codeVoucher;
+
+  console.log("Code ne bro:", codeVoucher)
+
+  const shippingPrice = tongPrice + 25;
+  const totalPrice = shippingPrice;
+
+  const tongcc = totalPrice - (totalPrice * IdVoucher)
+
+  if (isNaN(tongcc)) {
+    console.log('abc')
   }
+  console.log("giam gia tu voucher:", tongcc);
+
+  let PriceFinal = 0;
+  let PriceTongPhu = 0;
+  if (IdVoucher) {
+    PriceFinal = tongcc
+    console.log("kkk", PriceFinal)
+    PriceTongPhu = PriceFinal
+  } else {
+    PriceFinal = totalPrice
+    console.log("hehehe", PriceFinal)
+    PriceTongPhu = tongPrice
+  }
+
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      'Rất tiếc thao tác thất bại',
+      'Bạn chưa nhập địa chỉ?',
+      [
+        {
+          text: 'Tiếp tục',
+        },
+      ],
+    );
+  };
+
+  const OrderClick = async () => {
+    if (profile.address == "") {
+      showConfirmDialog();
+    } else {
+      {
+        spGioHang.map(e => (
+          fetch(`${baseURL}orders`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              note: ghichu,
+              Payment: checked,
+              orderItems: [{
+                "quantity": e.amount,
+                "product": e.product_id ? e.product_id._id : ' '
+
+              }],
+              city: profile.address,
+              status: "1",
+              phone: "09090909",
+              priceVoucher:IdVoucher,
+              totalFinalPrice: PriceFinal,
+              user_id: profile._id,
+            })
+          }).then(res => res.json())
+            .then(data => {
+              console.log("is Update successffly!!"),
+              console.log(data)
+              navigation.navigate('PaymentNavigator',
+                {
+                  screen: 'CheckOutSuccess'
+                }
+              )
+            }).catch(err => {
+              console.log("error", err)
+            })
+        ))
+      }
+    }
+  }
+
+  /* Biến lưu button,input nhập mã khuyến mãi khi click vào mã khuyến mãi trong thanh toán*/
   const renderInner = () => (
     <View style={styles.panel}>
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <Text style={styles.panelTitle}>Xin mời bạn nhập mã</Text>
       </View>
       {/* Import input nhập mã*/}
@@ -39,9 +145,7 @@ const CheckoutScreen = ({navigation}) => {
       </TouchableOpacity>
     </View>
   );
-  {
-    /* Biến custom header bottom sheet*/
-  }
+  /* Biến custom header bottom sheet*/
   const renderHeader = () => (
     <View style={styles.header}>
       <View style={styles.panelHeader}>
@@ -49,13 +153,138 @@ const CheckoutScreen = ({navigation}) => {
       </View>
     </View>
   );
+
+  const renderPayment = () => (
+    <View style={styles.panel}>
+      <View style={styles.bottomPayment}>
+        <Text style={styles.panelTitle}>Mời bạn chọn thanh toán</Text>
+      </View>
+      <View style={styles.viewRadio}>
+        {/* RadioButton Thẻ tín dụng/ghi nợ*/}
+        <View style={styles.btnOne}>
+          <RadioButton
+            value="Thẻ tín dụng"
+            status={checked === 'Thẻ tín dụng' ? 'checked' : 'unchecked'}
+            onPress={() => setChecked('Thẻ tín dụng')}
+          />
+          <View>
+            <Image source={require('../../../assets/images/Payment/credit-card.jpg')} />
+          </View>
+          <View style={styles.theTinDung}>
+            <Text style={styles.textRadio}>Thẻ tín dụng/ghi nợ</Text>
+          </View>
+        </View>
+        <View style={styles.btnTwo}>
+          <View>
+            <Image style={styles.imageRadioTwo} source={require('../../../assets/images/Payment/visa.jpg')} />
+          </View>
+          <View style={styles.viewImageRadioTwo}>
+            <Image style={styles.imageRadioTwo} source={require('../../../assets/images/Payment/maestro.jpg')} />
+          </View>
+          <View style={styles.viewImageRadioTwo}>
+            <Image style={styles.imageRadioTwo} source={require('../../../assets/images/Payment/jcb.jpg')} />
+          </View>
+          <View style={styles.viewImageRadioTwo}>
+            <Image style={styles.imageRadioTwo} source={require('../../../assets/images/Payment/citi.jpg')} />
+          </View>
+        </View>
+
+        {/* Pay Pal*/}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <RadioButton
+            value="Pay Pal"
+            status={checked === 'Pay Pal' ? 'checked' : 'unchecked'}
+            onPress={() => setChecked('Pay Pal')}
+          />
+          <View>
+            <Image source={require('../../../assets/images/Payment/paypal.jpg')} />
+          </View>
+          <View style={{ marginLeft: 8 }}>
+            <Text style={styles.textRadio}>Pay Pal</Text>
+          </View>
+        </View>
+
+        {/*Thanh toán khi giao hàng*/}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <RadioButton
+            value="Thanh toán khi giao hàng"
+            status={checked === 'Thanh toán khi giao hàng' ? 'checked' : 'unchecked'}
+            onPress={() => setChecked('Thanh toán khi giao hàng')}
+          />
+          <View>
+            <Image source={require('../../../assets/images/Payment/cod.jpg')} />
+          </View>
+          <View style={{ marginLeft: 8 }}>
+            <Text style={styles.textRadio}>Thanh toán khi giao hàng</Text>
+          </View>
+        </View>
+
+      </View>
+
+      <TouchableOpacity style={styles.panelButton}
+        onPress={() => BottomPayment.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Áp dụng</Text>
+      </TouchableOpacity>
+      {/* Cancel*/}
+      <TouchableOpacity
+        style={styles.panelButtonCancel}
+        onPress={() => BottomPayment.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Huỷ bỏ</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+
+  const PaymentList = ({ item }) => {
+    return (
+      <View key={item._id} >
+        <SanphamCheckOut
+          img={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
+          name={item.product_id ? item.product_id.ten : ' '}
+          size="size L"
+          price={item.product_id ? item.product_id.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}
+          textright={item.amount}
+        />
+      </View>
+    )
+  };
+
+
   {
     /* Animated*/
   }
-  const bs = React.createRef();
+  const bs = React.useRef(null);
   const fall = new Animated.Value(5);
+
+  const BottomPayment = React.useRef(null);
   return (
     <View style={styles.container}>
+      <Header
+        containerStyle={styles.Container}
+        centerComponent={{
+          text: 'Thanh toán',
+          style: {
+            color: '#8D6E63', textAlign: 'center',
+            alignSelf: 'center',
+            fontSize: 25,
+            fontWeight: 'bold'
+          }
+        }}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Icon
+              name="angle-left"
+              size={25}
+              type="font-awesome"
+              color="#000000"
+              style={{ marginLeft: 10 }}
+            />
+          </TouchableOpacity>
+        }
+      />
       {/* Sử dụng Bottom Sheet*/}
       <BottomSheet
         ref={bs}
@@ -66,26 +295,48 @@ const CheckoutScreen = ({navigation}) => {
         callbackNode={fall}
         enabledGestureInteraction={true}
       />
-      <ScrollView>
+
+      <BottomSheet
+        ref={BottomPayment}
+        snapPoints={[330, 0]}
+        renderContent={renderPayment}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        // callbackNode={fall}
+        enabledGestureInteraction={true}
+      />
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* Thêm địa chỉ*/}
-        <CheckOutItem
-          icon="map-marker-radius-outline"
-          color="#00008B"
-          name="Thêm địa chỉ mới"
-          iconright="angle-right"
-        />
+        {profile.address == '' ? (
+          <>
+            <CheckOutItem
+              icon="map-marker-radius-outline"
+              color="#00008B"
+              name="Thêm địa chỉ mới"
+              iconright="angle-right"
+              onPress={() => navigation.navigate('UserNavigator', { screen: 'Infomation' })}
+            />
+          </>
+        ) : (
+          <>
+            <CheckOutItem
+              icon="map-marker-radius-outline"
+              color="#00008B"
+              name={profile.address}
+              iconright="angle-right"
+            />
+          </>
+        )}
         <View style={styles.content}>
           {/* Sản phẩm thanh toán của tôi */}
           <MyCheckOut icon="shop" name="Art Wear" />
-          <View style={styles.sanpham}>
-            <SanphamCheckOut
-              img={artwear}
-              name="DRAGON JAPAN BOMBER JACKET"
-              size="size L"
-              price="799.000 đ"
-              textright="Số lượng:1"
+          <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+            <FlatList
+              data={spGioHang}
+              renderItem={PaymentList}
+              keyExtractor={item => item._id}
             />
-          </View>
+          </ScrollView>
           {/*Bấm vào khuyến mãi của shop ra bottom sheet cho người dùng nhập mã khuyến mãi*/}
           <Animated.View
             style={{
@@ -109,20 +360,28 @@ const CheckoutScreen = ({navigation}) => {
               tongphu="Tổng phụ:"
               phivanchuyen="Phí vận chuyển:"
               tong="Tổng:"
-              pricetongphu="799.000 đ"
-              pricephiship="35.000 đ"
-              pricetong="843.000 đ"
+              pricetongphu={PriceTongPhu.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')}
+              pricephiship="25.000"
+              pricetong={PriceFinal.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')}
             />
           </View>
           {/* Custom đường kẻ ngang*/}
           <View style={styles.divider} />
           {/* ArtWear Voucher và sử dụng kim cương*/}
           <View>
-            <CheckOutItem
+            <VoucherItem
               iconsale="shopping-sale"
               color="red"
               name="ArtWear Voucher"
               iconright="angle-right"
+              nameVoucher={codeVoucher}
+              onPress={() => navigation.navigate('PaymentNavigator', {
+                screen: 'VoucherScreen',
+                params: {
+                  tongPrice: tongPrice,
+                  spGioHang: spGioHang
+                }
+              })}
             />
           </View>
           <View>
@@ -145,45 +404,53 @@ const CheckoutScreen = ({navigation}) => {
             iconright="angle-right"
           />
         </View>
-
+        {/* Phương thức thanh toán */}
         <View style={styles.content}>
-          {/* Phương thức thanh toán */}
           <ChoosePayment
             icon="credit-card"
             name="Phương thức thanh toán"
             nameship="(Khuyến khích thanh toán trả trước)"
+            namePayment={checked}
             iconright="angle-right"
+            onPress={() => BottomPayment.current.snapTo(0)}
           />
+        </View>
+        {/* Ghi chú */}
+        <View style={styles.content}>
+          <View style={styles.viewNote}>
+            <Text style={styles.textNote}>Ghi chú</Text>
+          </View>
+          <TextInput
+            placeholder="Ghi chú cho shop"
+            autoCorrect={false}
+            style={
+              styles.textInput
+            }
+            onChangeText={text => setGhiChu(text)}
+            value={ghichu}
+          >
+          </TextInput>
         </View>
 
         {/* Điều khoản Art Wear */}
         <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 15,
-          }}>
-          <Text style={{fontSize: 18}}>
+          style={styles.viewDieuKhoan}>
+          <Text style={styles.textDkOne}>
             Nhấn vào nút thanh toán đồng nghĩa bạn đồng ý
           </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 18, color: '#1E90FF'}}>
+          <View style={styles.chinhSach}>
+            <Text style={styles.textDichVu}>
               Điều khoản dịch vụ
             </Text>
-            <Text style={{fontSize: 18, color: '#000', marginLeft: 10}}>&</Text>
-            <Text style={{fontSize: 18, color: '#1E90FF', marginLeft: 10}}>
+            <Text style={styles.textChinhSachOne}>&</Text>
+            <Text style={styles.textChinhSachTwo}>
               Chính sách
             </Text>
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{fontSize: 18, color: '#000'}}>của</Text>
+          <View style={styles.viewArtWear}>
+            <Text style={styles.textArtWearOne}>của</Text>
             <Text
-              style={{
-                fontSize: 18,
-                color: '#000',
-                marginLeft: 10,
-                fontWeight: 'bold',
-              }}>
+              style={styles.textArtWear}>
               Art Wear
             </Text>
           </View>
@@ -194,11 +461,11 @@ const CheckoutScreen = ({navigation}) => {
         <View>
           <Text style={styles.texttong}>Tổng thanh toán:</Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.tongprice}>843.000 đ</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={styles.tongprice}>{PriceFinal.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} VNĐ</Text>
           <View style={styles.btnItemOne}>
             <TouchableOpacity>
-              <Text style={styles.textItemOne}>Thanh toán ngay bây giờ</Text>
+              <Text style={styles.textItemOne} onPress={() => OrderClick()}>Thanh toán ngay bây giờ</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -206,124 +473,5 @@ const CheckoutScreen = ({navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  divider: {
-    height: 5,
-    marginTop: 10,
-  },
-  content: {
-    backgroundColor: '#fff',
-    marginTop: 15,
-    borderWidth: 0.5,
-    borderColor: '#E0E0E0',
-    flex: 1,
-  },
-  sanpham: {
-    backgroundColor: '#fff',
-    marginLeft: 20,
-  },
-  money: {
-    backgroundColor: '#fff',
-    marginLeft: 20,
-  },
-  //Line gạch ngang
-  divider: {
-    height: 1,
-    backgroundColor: '#E8E8E8',
-    marginLeft: 1,
-    margin: 5,
-  },
-  footer: {
-    padding: 15,
-    backgroundColor: '#FFFCF2',
-  },
-  texttong: {
-    fontSize: 18,
-  },
-  tongprice: {
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  btnItemOne: {
-    backgroundColor: '#8D6E63',
-    borderRadius: 15,
-    width: 220,
-    height: 60,
-    marginLeft: 30,
-    marginTop: -27,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textItemOne: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#fff',
-    fontSize: 18,
-  },
-  panel: {
-    padding: 20,
-    backgroundColor: '#FFFFFF',
-    paddingTop: 10,
-    shadowColor: '#000000',
-    shadowOffset: {width: 0, height: 0},
-    shadowRadius: 5,
-    shadowOpacity: 0.4,
-    height: 400,
-  },
-  header: {
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#333333',
-    shadowOffset: {width: -1, height: -3},
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
-    paddingTop: 0,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  panelHeader: {
-    alignItems: 'center',
-  },
-  panelHandle: {
-    width: 40,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#00000040',
-    marginBottom: 10,
-  },
-  panelTitle: {
-    fontSize: 27,
-    height: 35,
-    color: 'gray',
-  },
-  panelSubtitle: {
-    fontSize: 18,
-    color: 'gray',
-    height: 30,
-    marginBottom: 10,
-  },
-  panelButton: {
-    padding: 13,
-    borderRadius: 10,
-    backgroundColor: '#8D6E63',
-    alignItems: 'center',
-    marginVertical: 7,
-  },
-  panelButtonCancel: {
-    padding: 13,
-    borderRadius: 10,
-    backgroundColor: '#DC143C',
-    alignItems: 'center',
-    marginVertical: 7,
-  },
-  panelButtonTitle: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-});
 
 export default CheckoutScreen;

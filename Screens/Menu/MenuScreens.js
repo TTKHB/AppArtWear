@@ -46,11 +46,15 @@ const MenuScreen = ({navigation}) => {
     );
     setMainDashBoard(dataDashBoard);
     setDashboardFiltered(dataDashBoard);
+    return () => {
+      setMainDashBoard([]);
+      setDashboardFiltered([]);
+    };
   }, [dashboard]);
   //Biến tìm và hiển thị sản phẩm theo loại sản phẩm (Filter)
   const setStatusFilter = id => {
     setDashboardFiltered(dashboard);
-    if (status === 'all') {
+    if (id == 'all') {
       setDashboardFiltered(mainDashBoard);
     } else {
       const data = mainDashBoard.filter(dashboard => {
