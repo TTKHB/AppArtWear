@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   },
   money: {
     backgroundColor: '#fff',
-    marginLeft: 20,
+    paddingHorizontal: 10
   },
   //Line gạch ngang
   divider: {
