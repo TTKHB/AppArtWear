@@ -105,12 +105,14 @@ const CheckoutScreen = ({ navigation, route }) => {
               city: profile.address,
               status: "1",
               phone: "09090909",
+              priceVoucher:IdVoucher,
               totalFinalPrice: PriceFinal,
               user_id: profile._id,
             })
           }).then(res => res.json())
             .then(data => {
-              console.log("is Update successffly!!")
+              console.log("is Update successffly!!"),
+              console.log(data)
               navigation.navigate('PaymentNavigator',
                 {
                   screen: 'CheckOutSuccess'
