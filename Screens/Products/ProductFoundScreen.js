@@ -11,6 +11,7 @@ import {
   ScrollView,
   Image,
   Animated,
+  ToastAndroid,
 } from 'react-native';
 import {Header, SearchBar, ListItem, Icon, Button} from 'react-native-elements';
 const {width, height} = Dimensions.get('window');
@@ -21,56 +22,12 @@ import ItemList from './../../components/Home/ItemList';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import axios from '../../assets/data/client';
 import baseURL from './../../assets/common/baseUrl';
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d272',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-1455721e29d272',
-    title: 'Third Itemsad',
-  },
-];
-
-const DataMenuItem = [
-  {
-    id: 1,
-    title: 'Mặc định',
-  },
-  {
-    id: 2,
-    title: 'Phổ biến nhất',
-  },
-  {
-    id: 3,
-    title: 'Khuyến mãi tốt nhất',
-  },
-  {
-    id: 4,
-    title: 'Giá tăng dần',
-  },
-  {
-    id: 5,
-    title: 'Giá giảm dần',
-  },
-  {
-    id: 6,
-    title: 'Mới nhất',
-  },
-];
+import AccordionContainer from '../../components/Home/FormContainer/AccordionContainer';
+import colorsFIlter from '../../assets/data/Filter/colorsFIlter';
+import SizeFilter from '../../assets/data/Filter/SizeFilter';
+import ItemColor from '../../components/Home/Item/ItemColor';
+import DataMenuItem from '../../assets/data/Filter/DataMenuItem';
+import ItemSize from '../../components/Home/Item/ItemSize';
 
 const ProductFoundScreen = ({navigation, route}) => {
   const title = route.params.title;
@@ -78,24 +35,15 @@ const ProductFoundScreen = ({navigation, route}) => {
   const [search, setSearcher] = useState(title);
   const [products, setProducts] = useState([]);
   const [productFiltered, setProductFiltered] = useState([]);
+  const [productAfterFilter, setProductAfterFiltered] = useState([]);
   const [content, setContent] = useState(contents);
   const [row, setRow] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(DataMenuItem[0]);
   const drawer = useRef(null);
-
   const [drawerPosition, setDrawerPosition] = useState('right');
+
   useEffect(() => {
-    const productSearch = products.filter(product => {
-      const categoryName = product.categories_id;
-      if (categoryName) {
-        return (
-          product.ten.includes(title) || product.ten.includes(categoryName.name)
-        );
-      } else {
-        return product.ten.includes(title);
-      }
-    });
-    setProductFiltered(productSearch);
+    getAllSearchProducts();
   }, [products]);
 
   useEffect(() => {
@@ -114,6 +62,56 @@ const ProductFoundScreen = ({navigation, route}) => {
         // always executed
       });
   }, []);
+  const getAllSearchProducts = () => {
+    const productSearch = products.filter(product => {
+      const categoryName = product.categories_id;
+      if (categoryName) {
+        return (
+          product.ten.includes(title) || product.ten.includes(categoryName.name)
+        );
+      } else {
+        return product.ten.includes(title);
+      }
+    });
+    setProductFiltered(productSearch);
+    setProductAfterFiltered(productSearch);
+  };
+
+  const getPopular = () => {
+    const product = productAfterFilter.sort((a, b) => {
+      console.log(
+        '🚀 ~ file: ProductFoundScreen.js ~ line 82 ~ product ~ a',
+        a,
+      );
+      return a.viewer > b.viewer ? -1 : 0;
+    });
+    setProductFiltered(product);
+  };
+
+  const getPricesGraduallyInCrease = () => {
+    const product = productAfterFilter.sort((a, b) => {
+      return a.gia < b.gia ? -1 : 0;
+    });
+    setProductFiltered(product);
+  };
+
+  const getPriceDescending = () => {
+    const product = productAfterFilter.sort((a, b) => {
+      return a.gia > b.gia ? -1 : 0;
+    });
+    setProductFiltered(product);
+  };
+
+  const getProductsLastest = () => {
+    const product = productAfterFilter.sort((a, b) => {
+      return a.ngaytao > b.ngaytao ? -1 : 0;
+    });
+    console.log(
+      '🚀 ~ file: ProductFoundScreen.js ~ line 109 ~ product ~ product',
+      product,
+    );
+    setProductFiltered(product);
+  };
 
   //click item and checked
   function CheckedItem(i, j) {
@@ -127,6 +125,99 @@ const ProductFoundScreen = ({navigation, route}) => {
     setSearcher(text);
     console.log('test', text);
   };
+
+  const SubmitApply = () => {
+    let filterColor = [];
+    let filterSize = [];
+
+    //get all colors is checked
+    for (let i = 0; i < colorsFIlter.length; i++) {
+      const item = colorsFIlter[i];
+      console.log(
+        '🚀 ~ file: ProductFoundScreen.js ~ line 93 ~ SubmitApply ~ item',
+        item,
+      );
+      if (item.checked) {
+        filterColor.push(item);
+      }
+    }
+    //get all sizes is checked
+    for (let i = 0; i < SizeFilter.length; i++) {
+      const item = SizeFilter[i];
+      if (item.checked) {
+        filterSize.push(item);
+      }
+    }
+
+    let data_product = productAfterFilter.filter(item => {
+      console.log(
+        '🚀 ~ file: ProductFoundScreen.js ~ line 112 ~ SubmitApply ~ product',
+        item,
+      );
+
+      //handle colors
+      if (item.product) {
+        for (let i = 0; i < item.product.length; i++) {
+          const itemofproduct = item.product[i];
+          console.log(
+            '🚀 ~ file: ProductFoundScreen.js ~ line 118 ~ SubmitApply ~ filterColor',
+            filterColor,
+          );
+
+          for (var j = 0; j < filterColor.length; j++) {
+            const itemColor = filterColor[j];
+            if (itemofproduct.mau == itemColor.color) {
+              return true;
+            }
+          }
+        }
+      }
+
+      //handle sizes
+      if (item.kichthuoc) {
+        for (let i = 0; i < item.kichthuoc.length; i++) {
+          const itemSize = item.kichthuoc[i];
+          console.log(
+            '🚀 ~ file: ProductFoundScreen.js ~ line 138 ~ SubmitApply ~ itemSize',
+            itemSize,
+          );
+          // if(itemSize == )
+          for (let j = 0; j < filterSize.length; j++) {
+            const itemFilterSize = filterSize[j];
+            console.log(
+              '🚀 ~ file: ProductFoundScreen.js ~ line 141 ~ SubmitApply ~ itemFilterSize',
+              itemFilterSize,
+            );
+
+            if (itemFilterSize.size == itemSize) {
+              return true;
+            }
+          }
+        }
+      }
+    });
+    console.log(
+      '🚀 ~ file: ProductFoundScreen.js ~ line 123 ~ SubmitApply ~ data_product',
+      data_product,
+    );
+    if (data_product.length > 0) {
+      setProductFiltered(data_product);
+      showToastWithGravityAndOffset('Đã tìm thấy sản phẩm chọn lộc');
+    } else {
+      showToastWithGravityAndOffset('Không tìm thấy kết quả');
+    }
+  };
+
+  const showToastWithGravityAndOffset = toast => {
+    ToastAndroid.showWithGravityAndOffset(
+      toast,
+      ToastAndroid.SHORT,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
   function ChangeNumList() {
     setRow(!row);
   }
@@ -147,44 +238,29 @@ const ProductFoundScreen = ({navigation, route}) => {
   const navigationView = () => (
     <View style={[styles.container, styles.navigationContainer]}>
       <ScrollView style={{alignSelf: 'stretch', marginTop: (20 * width) / 300}}>
-        {content
-          ? content.map((item, i) => {
-              return (
-                <List.Accordion
-                  key={i}
-                  titleStyle={{color: 'black', fontWeight: 'bold'}}
-                  style={{
-                    backgroundColor: 'white',
-                  }}
-                  title={item.title}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                    }}>
-                    {item.body.map((item, j) => {
-                      return (
-                        <TouchableOpacity
-                          key={j}
-                          onPress={() => CheckedItem(i, j)}>
-                          <View
-                            style={{
-                              backgroundColor: 'white',
-                              borderColor: 'grey',
-                              padding: 10,
-                              margin: 4,
-                              borderWidth: item.checked ? 2 : 0.4,
-                            }}>
-                            <Text style={{fontSize: 15}}>{item.title}</Text>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                </List.Accordion>
-              );
-            })
-          : null}
+        <AccordionContainer title={'màu'}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+            }}>
+            {colorsFIlter.map((item, index) => (
+              <ItemColor item={item} />
+            ))}
+          </View>
+        </AccordionContainer>
+        <AccordionContainer title={'kích cỡ'}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+            }}>
+            {SizeFilter.map((item, index) => (
+              <ItemSize item={item} />
+            ))}
+          </View>
+        </AccordionContainer>
+
         <View style={{height: 96}} />
       </ScrollView>
       <View
@@ -205,6 +281,7 @@ const ProductFoundScreen = ({navigation, route}) => {
           titleStyle={{
             color: 'brown',
           }}
+          onPress={SubmitApply}
         />
       </View>
     </View>
@@ -212,7 +289,28 @@ const ProductFoundScreen = ({navigation, route}) => {
 
   const [visible, setVisible] = useState(false);
 
-  const hideMenu = data => {
+  const handleMenu = data => {
+    if (data) {
+      switch (data.id) {
+        case 1:
+          getAllSearchProducts();
+          break;
+        case 2:
+          getPopular();
+          break;
+        case 3:
+          break;
+        case 4:
+          getPricesGraduallyInCrease();
+          break;
+        case 5:
+          getPriceDescending();
+          break;
+        case 6:
+          getProductsLastest();
+          break;
+      }
+    }
     // console.log('hide', data);
 
     setVisible(false);
@@ -328,7 +426,7 @@ const ProductFoundScreen = ({navigation, route}) => {
           visible={visible}
           style={{width: width}}
           // anchor={<Text onPress={showMenu}>Show menu</Text>}
-          onRequestClose={hideMenu}>
+          onRequestClose={handleMenu}>
           {/* <MenuItem onPress={hideMenu}>Menu item 1</MenuItem> */}
 
           {DataMenuItem.map((item, index) => {
@@ -341,7 +439,7 @@ const ProductFoundScreen = ({navigation, route}) => {
                     ? {color: '#8D6E63', fontWeight: 'bold'}
                     : null
                 }
-                onPress={() => hideMenu(item)}>
+                onPress={() => handleMenu(item)}>
                 {item.title}
               </MenuItem>
             );
@@ -357,6 +455,9 @@ const ProductFoundScreen = ({navigation, route}) => {
               data={productFiltered}
               renderItem={renderItemGrid}
               keyExtractor={item => item.id}
+              ListEmptyComponent={() => {
+                return <Text>null</Text>;
+              }}
               numColumns={2}
             />
           ) : (
@@ -364,6 +465,9 @@ const ProductFoundScreen = ({navigation, route}) => {
               key={'#'}
               data={productFiltered}
               renderItem={renderItemList}
+              ListEmptyComponent={() => {
+                return <Text>null</Text>;
+              }}
               keyExtractor={item => item.id}
             />
           )}

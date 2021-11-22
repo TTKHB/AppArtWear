@@ -28,7 +28,6 @@ const FormInput = (props) => {
         </>
     );
 };
-
 const styles = StyleSheet.create({
     icon: {
         width: 20,

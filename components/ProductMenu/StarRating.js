@@ -106,6 +106,8 @@ const StarRating = ({navigation, route}) => {
         setNumRating(NumRating);
         setTotalReviews(totalReviews);
         setLoading(false);
+      } else {
+        setLoading(false);
       }
     }
   }, [reviewsStatistics]);
