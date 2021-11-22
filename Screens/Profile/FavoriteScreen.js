@@ -201,20 +201,7 @@ const FavoriteScreen = ({navigation, i}) => {
              alignSelf: 'center',
              fontSize: 25,
              fontWeight: 'bold' } 
-          // headerStyle: {
-          //     backgroundColor: '#fff',
-          //     borderColor: '#F5F5F5',
-          //     borderWidth: 1
-          //   },
-          //   headerTintColor: '#8D6E63',
-          //   headerTitleStyle: {
-          //     textAlign: 'center',
-          //     alignSelf: 'center',
-          //     fontSize: 28,
-          //     fontWeight: 'bold'
-          //   },
-          //   headerTitleAlign: 'center',
-          // }
+
         }}
         leftComponent={
           <TouchableOpacity

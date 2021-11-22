@@ -2,8 +2,8 @@
 // https://aboutreact.com/react-native-countdown-timer/
 
 // import React in our code
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useCallback } from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import CountDown from 'react-native-countdown-component';
@@ -14,8 +14,8 @@ import moment from 'moment';
 
 const TimeSale = () => {
   const [totalDuration, setTotalDuration] = useState(0);
-
-  useEffect(() => {
+  useFocusEffect(
+  useCallback(() => {
     // Coundown timer for a given expiry date-time
     let date =
       moment()
@@ -24,7 +24,7 @@ const TimeSale = () => {
 
     // Getting the current date-time
     // You can set your own date-time
-    let expirydate = '2021-10-15 04:00:45';
+    let expirydate = '2021-11-20 04:00:45';
 
     let diffr =
       moment
@@ -40,7 +40,7 @@ const TimeSale = () => {
 
     // Settign up the duration of countdown
     setTotalDuration(d);
-  }, []);
+  }, []));
 
   return (
     // <SafeAreaView style={styles.container}>

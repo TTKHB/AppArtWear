@@ -5,15 +5,31 @@ import COLORS from '../../assets/data/colors';
 const { width } = Dimensions.get('screen');
 import Star from '../ProductMenu/Star';
 
+import axios from 'axios';
+
+import baseURL from '../../assets/common/baseUrl';
+import {format} from '../../utils/Methods';
+
 
 // tim kiếm hàng đầu
 const SearchHangDau = ({ item, navigation }) => {
-
+  const UpdateView=(item)=>{
+    axios.put(`${baseURL}products/increase_views/`+item,
+          )
+          .then(function (response) {
+            console.log("view",response);
+            
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+   }
+ 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('HomeNavigator', { screen: 'Product Detail',params: {id: item._id}})}>
-      <View style={styles.card}>
+    
+    <TouchableOpacity onPress={() => {UpdateView(item._id);navigation.navigate('HomeNavigator', { screen: 'Product Detail',params: {id: item._id}})}}>
+      <View style={styles.card } >
         <Image
-          // source={{uri:item.ThumbImg}}
           source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
           style={{ height: 170, width: '100%' }}
         />
@@ -30,11 +46,11 @@ const SearchHangDau = ({ item, navigation }) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-            <Text style={styles.price}>{item.gia} VNĐ</Text>
+            <Text style={styles.price}>{format(item.gia)} VNĐ</Text>
+            <Text style={styles.viewer}>{item.viewer}</Text>
           </View>
         </View>
       </View>
-
     </TouchableOpacity>
   );
 };
@@ -63,5 +79,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     paddingBottom: 2,
   },
+  viewer: {
+    marginRight:15
+  }
 })
 export default SearchHangDau;

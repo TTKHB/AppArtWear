@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import {format} from '../../utils/Methods';
 import IconFavorite from 'react-native-vector-icons/MaterialIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
@@ -32,7 +33,6 @@ const MIN_HEIGHT = Platform.OS === 'ios' ? 90 : 55;
 import Swiper from 'react-native-swiper';
 import {List} from 'react-native-paper';
 import Ship from '../../components/Checkout/ShipDetail';
-import {datauser} from '../../assets/data/ItemUserComment';
 import LoaderProductDetail from '../../components/Home/Loader/LoaderProductDetail';
 import useReviewByProductId from './../../hooks/Reviews/useReviewByProductId';
 import {formatDate} from '../../utils/Methods';
@@ -464,7 +464,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
             {/* Body */}
             <View style={styles.detailsContainer}>
               <Text style={styles.nameText}>{details.ten}</Text>
-              <Text style={styles.priceText}>{details.gia} VNĐ</Text>
+              <Text style={styles.priceText}>{format(details.gia)} VNĐ</Text>
 
               {/* ngôi sao đánh giá sản phảm*/}
               <View style={styles.rate}>

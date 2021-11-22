@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
 const {width} = Dimensions.get('screen');
-
+import {format} from '../../utils/Methods';
 // flash sale
 const ProductFlashSale = ({item, navigation}) => {
   console.log('item cua flash sale', item);
@@ -37,8 +37,8 @@ const ProductFlashSale = ({item, navigation}) => {
 
         <View style={{marginLeft: 4}}>
           <Text style={styles.cardName}>{item.ten}</Text>
-          <Text style={styles.price}>{item.gia} VNĐ</Text>
-          <Text style={styles.price1}>{item.giacu} VNĐ</Text>
+          <Text style={styles.price}>{format(item.gia)} VNĐ</Text>
+        <Text style={styles.price1}>{format(item.giacu)} VNĐ</Text>
         </View>
       </View>
     </TouchableOpacity>
