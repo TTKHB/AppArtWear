@@ -99,7 +99,6 @@ const WaitPayment = ({ navigation }) => {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
                   style={styles.btnMuaLai}>
                   <Text style={{ color: 'white' }}>Theo dõi</Text>
                 </TouchableOpacity>
