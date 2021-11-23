@@ -25,19 +25,9 @@ import {useFocusEffect} from '@react-navigation/native';
 import useLikeHots from '../../hooks/Hot/useLikeHots';
 import {useLogin} from '../../Context/LoginProvider';
 import useUserLiked from './../../hooks/Hot/useUserLiked';
-import {useRef} from 'react';
 
-const renderPagination = (index, total, context) => {
-  return (
-    <View style={styles.paginationStyle}>
-      <Text style={{color: '#0099FF'}}>
-        <Text style={styles.paginationText}>{index + 1}</Text>/{total}
-      </Text>
-    </View>
-  );
-};
 
-export const add = require('../../assets/images/Post.jpg');
+export const add = require('../../assets/images/postt.jpg');
 
 const Post = ({item, item: likeCountProp, navigation}) => {
   console.log('🚀 ~ file: HotScreen.js ~ line 42 ~ Post ~ item', item);
@@ -105,7 +95,6 @@ const Post = ({item, item: likeCountProp, navigation}) => {
       </View> */}
       <Swiper
         style={styles.wrapper}
-        renderPagination={renderPagination}
         loop={true}>
         {item.images.map((image, i) => (
           <View key={i} style={styles.slide}>
@@ -152,11 +141,6 @@ const Post = ({item, item: likeCountProp, navigation}) => {
 };
 
 const HotScreen = ({navigation}) => {
-  const flatRef = useRef();
-  console.log(
-    '🚀 ~ file: HotScreen.js ~ line 156 ~ HotScreen ~ flatRef',
-    flatRef,
-  );
   const {hots} = useHots();
   const [hotsFiltered, setHotsFiltered] = useState([]);
   console.log(
@@ -185,7 +169,6 @@ const HotScreen = ({navigation}) => {
       ) : (
         <View>
           <FlatList
-            ref={flatRef}
             data={hotsFiltered}
             keyExtractor={({id}) => id}
             renderItem={({item}) => (
@@ -195,10 +178,7 @@ const HotScreen = ({navigation}) => {
 
           <View>
             <TouchableOpacity
-              onPress={() => {
-                // navigation.navigate('PostScreen');
-                // flatRef.current.scrollToIndex({index: 1});
-              }}
+              onPress={() => navigation.navigate('PostScreen')}
               style={{marginTop: '-20%', marginLeft: '80%'}}>
               <Image source={add} style={{width: 70, height: 70}} />
             </TouchableOpacity>
@@ -300,14 +280,14 @@ const styles = StyleSheet.create({
   },
 
   wrapper: {
-    height: Dimensions.get('window').height / 1.8,
-    backgroundColor: '#fff',
+    height: Dimensions.get('window').height / 3,
+    backgroundColor: 'white',
   },
   slide: {
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     width: Dimensions.get('window').width / 1.06,
-    height: Dimensions.get('window').height / 1.8,
+    height: Dimensions.get('window').height / 3,
   },
   text: {
     color: '#fff',
