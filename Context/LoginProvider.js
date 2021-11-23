@@ -8,6 +8,7 @@ const LoginProvider = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState({});
   const [loginPending, setLoginPending] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -20,9 +21,9 @@ const LoginProvider = ({children}) => {
 
       if (res.data.success) {
         setProfile(res.data.profile);
-        if(res.data.profile.role !== 'user'){
+        if (res.data.profile.role !== 'user') {
           setIsLoggedIn(false);
-        }else{
+        } else {
           setIsLoggedIn(true);
         }
       } else {
@@ -48,6 +49,8 @@ const LoginProvider = ({children}) => {
         setProfile,
         loginPending,
         setLoginPending,
+        loading,
+        setLoading,
       }}>
       {children}
     </LoginContext.Provider>
