@@ -7,8 +7,8 @@ import {
   Image,
   FlatList,
   TouchableOpacity
-} 
-from 'react-native';
+}
+  from 'react-native';
 
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
@@ -17,15 +17,14 @@ import baseURL from '../../../assets/common/baseUrl';
 import { useLogin } from '../../../Context/LoginProvider';
 
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
+import { styles } from '../../../components/MyOrder/styles/AllOrderStyles';
 
 const AllOder = ({ navigation }) => {
   const { isLoggedIn, profile } = useLogin();
   const [orderList, setorderList] = useState([]);
 
-  // get all cart bang id user
   useFocusEffect(
     useCallback(() => {
-      // Products
       axios
         .get(`${baseURL}orders/get/userorderss/` + profile._id)
         .then(res => {
@@ -35,7 +34,6 @@ const AllOder = ({ navigation }) => {
         .catch(error => {
           console.log('Api call error nha');
         });
-
       return () => {
         setorderList([]);
       };
@@ -83,18 +81,22 @@ const AllOder = ({ navigation }) => {
     return (
       <View style={styles.container1} key={item._id}>
         <View style={styles.container2}>
-          <Text style={{ fontSize: 18, fontWeight: '300', marginTop: 5 }}>{textGiaoHang}</Text>
-          <Badge badgeStyle={{ height: 15, width: 15, borderRadius: 15 }} containerStyle={{ marginTop: 10, marginLeft: 5 }} status={tl1} />
+          <Text style={styles.textGiaoHang}>{textGiaoHang}</Text>
+          <Badge
+            badgeStyle={styles.badge}
+            containerStyle={{ marginTop: 10, marginLeft: 5 }}
+            status={tl1}
+          />
         </View>
         {item.orderitems.map(e => (
           <View style={styles.container3} key={e._id}>
-            <View style={{ width: '30%', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={styles.viewImage}>
               <Image style={styles.imageFlat}
                 source={{ uri: e.product ? e.product.ThumbImg : ' ' }}
               />
             </View>
-            <View style={{ width: '70%' }}>
-              <Text style={{ fontSize: 18, marginTop: '2%', fontWeight: 'bold' }}>
+            <View style={styles.viewItem}>
+              <Text style={styles.textName}>
                 {e.product ? e.product.ten : ' '}
               </Text>
               <Text style={styles.textSoLuong}>
@@ -123,7 +125,6 @@ const AllOder = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-
       </View>
     )
   }
@@ -152,94 +153,5 @@ const AllOder = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  images: {
-    width: 100,
-    height: 100,
-  },
-  container1: {
-    width: '100%',
-    height: 190,
-    backgroundColor: 'white',
-    marginTop: 10,
-    alignItems: 'center'
-
-  },
-  container2: {
-    width: '93%',
-    height: '18%',
-    borderBottomWidth: 0.3,
-    flexDirection: 'row'
-  },
-  container3: {
-    width: '93%',
-    height: '50%',
-    flexDirection: 'row'
-  },
-  container4: {
-    width: '93%',
-    height: '25%',
-    flexDirection: 'row',
-    alignItems: 'center', justifyContent: 'center'
-  },
-  imageFlat: {
-    width: '80%',
-    height: '80%'
-  },
-  textSoLuong: {
-    fontSize: 14,
-    marginTop: 5,
-    color: 'black'
-  },
-  textFlat: {
-    fontSize: 16,
-    marginTop: 5,
-    color: 'red',
-    fontWeight: 'bold'
-  },
-  marginLeft: {
-    marginLeft: 10
-  },
-  Tou: {
-    width: '47%',
-    height: 40,
-    borderRadius: 7,
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
-  },
-  texttou: {
-    fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  ViewRong: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  images: {
-    width: 100,
-    height: 100,
-  }
-});
 
 export default AllOder;
