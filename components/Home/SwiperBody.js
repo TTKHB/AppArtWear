@@ -7,18 +7,7 @@ const {height, width} = Dimensions.get('window');
 const SwiperBody = () => {
   return (
     <View style={styles.bannerGif}>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'row',
-        }}>
-        <Text style={{fontSize: 20, color: 'gray'}}>#</Text>
-        <Text style={{fontSize: 20, fontWeight: '200', fontStyle: 'normal'}}>
-          Thương hiệu ArtWear
-        </Text>
-      </View>
-      <Swiper autoplay horizontal={true}>
+      <Swiper autoplay autoplayTimeout={2.0} horizontal={true}>
         <View style={styles.slide}>
           <Image
             source={require('../../assets/images/Banner/banner4.jpg')}

@@ -7,7 +7,7 @@ const {height, width} = Dimensions.get('window');
 const SwiperItemBody = () => {
   return (
     <View style={styles.bannerGifTwo}>
-      <Swiper autoplay horizontal={true}>
+      <Swiper autoplay autoplayTimeout={2.5} horizontal={true}>
         <View style={styles.slide}>
           <Image
             source={require('../../assets/images/Banner/banner7.jpg')}

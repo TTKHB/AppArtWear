@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,10 +11,10 @@ import {
   Dimensions,
   RefreshControl,
 } from 'react-native';
-import {format} from '../../utils/Methods';
+import { format } from '../../utils/Methods';
 //API
 import axios from 'axios';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import LoaderHome from '../../components/Home/Loader/LoaderHome';
 import Category from '../../components/Home/Category';
@@ -26,13 +26,13 @@ import SwiperHeader from '../../components/Home/SwiperHeader';
 import SwiperBody from '../../components/Home/SwiperBody';
 import SwiperItemBody from '../../components/Home/SwiperItemBody';
 import Carousel from 'react-native-snap-carousel';
-import {DataQuangCao} from '../../components/Home/ItemHome';
+import { DataQuangCao } from '../../components/Home/ItemHome';
 const SLIDER_WIDTH = Dimensions.get('window').width + 10;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 // trang home
-const ProductScreen = ({item, navigation}) => {
+const ProductScreen = ({ item, navigation }) => {
   const [products, setProducts] = useState([]);
   const [flashsales, setFlashsales] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,7 +55,7 @@ const ProductScreen = ({item, navigation}) => {
       getAllProductFlashSale();
       return () => {
         setProducts([]);
-     
+
       };
     }, []),
   );
@@ -82,38 +82,38 @@ const ProductScreen = ({item, navigation}) => {
         console.log('Api call error');
       });
   };
-  const renderItemPhoBien = ({item, index}) => {
+  const renderItemPhoBien = ({ item, index }) => {
     return (
       <TouchableOpacity
         style={styles.viewPopSearch}
         onPress={() =>
           navigation.navigate('HomeNavigator', {
             screen: 'Product Detail',
-            params: {id: item._id},
+            params: { id: item._id },
           })
         }>
-        <View style={{flex: 2}}>
+        <View style={{ flex: 2 }}>
           <Image
-            style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
+            style={{ flex: 1, width: null, height: null, resizeMode: 'cover' }}
             // source={{uri: item.ThumbImg}}
-            source={{uri: item.ThumbImg ? item.ThumbImg : null}}
+            source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
           />
         </View>
         <View style={{}}>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.ten}</Text>
-          <Text style={{fontSize: 16, fontWeight: 'bold', color: 'red'}}>
-          {format(item.gia)}
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.ten}</Text>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'red' }}>
+            {format(item.gia)}
           </Text>
         </View>
       </TouchableOpacity>
     );
   };
 
-  const renderItemImage = ({item, index}) => {
+  const renderItemImage = ({ item, index }) => {
     return (
-      <View style={{marginLeft: '-17%'}}>
+      <View style={{ marginLeft: '-17%' }}>
         <View style={styles.viewPop}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <Image
               style={{
                 flex: 1,
@@ -126,9 +126,9 @@ const ProductScreen = ({item, navigation}) => {
               source={item.image}
             />
           </View>
-          <View style={{margin: 7}}>
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
-            <Text style={{fontSize: 16}}>{item.description}</Text>
+          <View style={{ margin: 7 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.name}</Text>
+            <Text style={{ fontSize: 16 }}>{item.description}</Text>
           </View>
         </View>
       </View>
@@ -159,7 +159,7 @@ const ProductScreen = ({item, navigation}) => {
                   </View>
                 </View>
                 {/* Giờ giảm giá */}
-                <View style={{marginLeft: '18%'}}>
+                <View style={{ marginLeft: '18%' }}>
                   <CountDown />
                 </View>
                 <TouchableOpacity
@@ -169,7 +169,7 @@ const ProductScreen = ({item, navigation}) => {
                     })
                   }>
                   <IconRight
-                    style={{marginTop: 8}}
+                    style={{ marginTop: 8 }}
                     name="chevron-small-right"
                     size={24}
                   />
@@ -178,14 +178,25 @@ const ProductScreen = ({item, navigation}) => {
               <View style={styles.itemContainer}>
                 <FlatList
                   showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={{paddingLeft: 5}}
+                  contentContainerStyle={{ paddingLeft: 5 }}
                   data={flashsales}
                   horizontal
-                  renderItem={({item}) => (
+                  renderItem={({ item }) => (
                     <ProductFlashSale item={item} navigation={navigation} />
                   )}
                 />
               </View>
+            </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <Text style={{ fontSize: 20, color: 'gray' }}>#</Text>
+              <Text style={{ fontSize: 20, fontWeight: '200', fontStyle: 'normal' }}>
+                Thương hiệu ArtWear
+              </Text>
             </View>
             {/* banner Body */}
             <View style={styles.bannerGif}>
@@ -215,10 +226,10 @@ const ProductScreen = ({item, navigation}) => {
             </View>
             <FlatList
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{paddingLeft: 5}}
-              data={products.sort(function(a, b){return b.viewer-a.viewer})}
+              contentContainerStyle={{ paddingLeft: 5 }}
+              data={products.sort(function (a, b) { return b.viewer - a.viewer })}
               horizontal
-              renderItem={({item}) => (
+              renderItem={({ item }) => (
                 <SeacrchProduct item={item} navigation={navigation} />
               )}
             />
@@ -236,7 +247,7 @@ const ProductScreen = ({item, navigation}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.viewDanhMuc}>
-              <View style={{marginTop: 5}}>
+              <View style={{ marginTop: 5 }}>
                 <FlatList
                   showsHorizontalScrollIndicator={false}
                   data={products}
@@ -247,7 +258,7 @@ const ProductScreen = ({item, navigation}) => {
               </View>
             </View>
             {/* Có thể bạn quan tâm */}
-            <View style={{height: 280, marginTop: 5}}>
+            <View style={{ height: 280, marginTop: 5 }}>
               <View>
                 <Text style={styles.textBox}>Có thể bạn quan tâm</Text>
               </View>
