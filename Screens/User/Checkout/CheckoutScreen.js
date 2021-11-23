@@ -30,6 +30,7 @@ import baseURL from '../../../assets/common/baseUrl';
 import VoucherItem from '../../../components/Checkout/VoucherItem';
 
 import { Header, Icon, Avatar, Badge, withBadge } from 'react-native-elements';
+import ItemUser from '../../../components/Checkout/ItemUser';
 
 const CheckoutScreen = ({ navigation, route }) => {
   const { profile } = useLogin();
@@ -74,7 +75,7 @@ const CheckoutScreen = ({ navigation, route }) => {
   const showConfirmDialog = () => {
     return Alert.alert(
       'Rất tiếc thao tác thất bại',
-      'Bạn chưa nhập địa chỉ?',
+      'Bạn chưa nhập đủ thông tin giao hàng',
       [
         {
           text: 'Tiếp tục',
@@ -84,7 +85,7 @@ const CheckoutScreen = ({ navigation, route }) => {
   };
 
   const OrderClick = async () => {
-    if (profile.address == "") {
+    if (profile.address == "" && profile.fullname == "" && profile.phone == "") {
       showConfirmDialog();
     } else {
       {
@@ -100,19 +101,19 @@ const CheckoutScreen = ({ navigation, route }) => {
               orderItems: [{
                 "quantity": e.amount,
                 "product": e.product_id ? e.product_id._id : ' '
-
               }],
               city: profile.address,
               status: "1",
-              phone: "09090909",
-              priceVoucher:IdVoucher,
+              fullname: profile.fullname,
+              phone: profile.phone,
+              priceVoucher: IdVoucher,
               totalFinalPrice: PriceFinal,
               user_id: profile._id,
             })
           }).then(res => res.json())
             .then(data => {
               console.log("is Update successffly!!"),
-              console.log(data)
+                console.log(data)
               navigation.navigate('PaymentNavigator',
                 {
                   screen: 'CheckOutSuccess'
@@ -327,6 +328,32 @@ const CheckoutScreen = ({ navigation, route }) => {
             />
           </>
         )}
+        {/* Thêm Full name và số điện thoại*/}
+        {profile.fullname == '' && profile.phone == '' ? (
+          <>
+            <ItemUser
+              icon="account-circle"
+              iconPhone="phone-call"
+              color="#00008B"
+              name="Họ và tên người mua hàng"
+              phone="Số điện thoại"
+              iconright="angle-right"
+              onPress={() => navigation.navigate('UserNavigator', { screen: 'Infomation' })}
+            />
+          </>
+        ) : (
+          <>
+            <ItemUser
+              icon="account-circle"
+              iconPhone="phone-call"
+              color="#00008B"
+              name={profile.fullname}
+              phone={profile.phone}
+              iconright="angle-right"
+            />
+          </>
+        )}
+
         <View style={styles.content}>
           {/* Sản phẩm thanh toán của tôi */}
           <MyCheckOut icon="shop" name="Art Wear" />
