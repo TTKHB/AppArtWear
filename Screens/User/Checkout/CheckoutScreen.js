@@ -85,7 +85,7 @@ const CheckoutScreen = ({ navigation, route }) => {
   };
 
   const OrderClick = async () => {
-    if (profile.address == "" && profile.fullname == "" && profile.phone == "") {
+    if (profile.address == "" || profile.fullname == "" || profile.phone == "") {
       showConfirmDialog();
     } else {
       {
