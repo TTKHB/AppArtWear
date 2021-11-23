@@ -22,7 +22,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 
 import { useLogin } from '../../../Context/LoginProvider';
-import { styles } from '../../../components/MyOrder/MyOrderStyles';
+import { styles } from '../../../components/MyOrder/styles/MyOrderStyles';
 import { RadioButton } from 'react-native-paper';
 
 import axios from 'axios';
@@ -208,8 +208,8 @@ const OderDetail = ({ navigation, route }) => {
           name="Địa chỉ người nhận"
           iconright="angle-right"
           nameAdress={orderDetail.city}
-          nameUser={user.fullname}
-          Phone={user.phone}
+          nameUser={orderDetail.fullname}
+          Phone={orderDetail.phone}
           iconUser="account-circle"
         />
         {/* Mã đơn hàng */}
