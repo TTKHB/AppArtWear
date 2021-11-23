@@ -56,7 +56,7 @@ const TabView = () => {
             />
             <Tab.Screen
                 component={StarRatingOrder}
-                name='Đánh giá'
+                name='Đã giao'
             />
             <Tab.Screen
                 component={CancelOrder}

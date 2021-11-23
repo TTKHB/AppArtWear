@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   AppRegistry,
   StyleSheet,
@@ -6,90 +6,108 @@ import {
   View,
   Image,
   TouchableOpacity,
+  FlatList
 } from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
-export const ao7 = require('../../../assets/images/huyen.jpg');
-export const car = require('../../../assets/images/car1.jpg');
-const Product = [
-  {
-    id: 1,
-    images: ao7,
-    title: 'Vũ Thị Khánh Huyền',
-    price: '21.000đ',
-    SL: '1',
-  },
-];
 
-const StarRatingOrder = ({navigation}) => {
-  return (
-    <View style={styles.container}>
-      {/* <Image style={styles.images} source={{
-                uri: 'https://www.trangmall.com/Client/upload/News/User_1/2018/12/3/6P2SHv.png',
-            }} />
-            <Text style={styles.welcome}>
-                Đánh giá
-            </Text> */}
-      <FlatList
-        data={Product}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => {
-          return (
-            <View style={styles.container1}>
-              <View style={styles.container2}>
-                <View style={styles.left}>
-                  <View style={styles.giua}>
-                    <Image style={styles.images} source={item.images} />
+export const car = require('../../../assets/images/car1.jpg');
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import baseURL from '../../../assets/common/baseUrl';
+
+import { useLogin } from '../../../Context/LoginProvider';
+
+const StarRatingOrder = ({ navigation }) => {
+  const { profile } = useLogin();
+  const [orderList, setorderList] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      axios
+        .get(`${baseURL}orders/get/userorderss/` + profile._id)
+        .then(res => {
+          setorderList(res.data);
+          console.log(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error nha');
+        });
+
+      return () => {
+        setorderList([]);
+      };
+    }, []),
+  );
+
+  const renderOrder = ({ item }) => {
+    return (
+      <View key={item._id}>
+        {item.status == "4" ? (
+          <>
+            {item.orderitems.map(e => (
+              <View style={styles.container1} key={e._id}>
+                <View style={styles.container2}>
+                  <View style={styles.left}>
+                    <View style={styles.giua}>
+                      <Image style={styles.images}
+                        source={{ uri: e.product ? e.product.ThumbImg : ' ' }}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.right}>
+                    <Text style={styles.textFlat}>
+                      {e.product ? e.product.ten : ' '}
+                    </Text>
+                    <Text style={styles.textFlat1}>
+                      Số lương: x {e.quantity}
+                    </Text>
+                    <Text style={styles.textFlat1}>
+                      {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
+                    </Text>
+                    <Text style={styles.textFlat2}>
+                      Tổng: {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
+                    </Text>
                   </View>
                 </View>
-                <View style={styles.right}>
-                  <Text style={styles.textFlat}>{item.title}</Text>
-                  <Text style={styles.textFlat1}>Số lương: X{item.SL}</Text>
-                  <Text style={styles.textFlat1}>{item.price}</Text>
+                <View style={styles.container3}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Image style={styles.icon} source={car} />
+                      <Text style={{ fontSize: 17, color: '#06AB7D', marginLeft: 10 }}>
+                        Giao hàng thành công
+                      </Text>
+                    </View>
+                    <TouchableOpacity
+                      style={{ marginRight: 6 }}
+                      onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
+                    >
+                      <Text style={{ fontSize: 18, fontWeight: 'bold', color: "#FF6347" }}>Mua lại</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.container3}>
-                <Image style={styles.icon} source={car} />
-                <Text style={{fontSize: 17, color: '#06AB7D', marginLeft: 10}}>
-                  Giao hàng thành công
-                </Text>
-              </View>
-
-              <View style={styles.container5}>
-                <View style={styles.left1}>
-                  <Text style={{fontSize: 16, marginTop: 5}}>
-                    Đánh giá và nhận xét tại đây, trước ngày 24-04-2021
-                  </Text>
-                  <Text style={{color: 'red'}}>
-                    Đánh giá và nhận 200 kim cương
-                  </Text>
-                </View>
-                <View style={styles.right1}>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('UserNavigator', {screen: 'Rating'})
-                    }
-                    style={{
-                      width: '85%',
-                      height: '70%',
-                      backgroundColor: 'red',
-                      borderRadius: 7,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        color: 'white',
-                        fontWeight: 'bold',
-                      }}>
-                      Đánh giá
-                    </Text>
+                <View style={styles.container5}>
+                  <View>
+                    <Text style={styles.textFooter}>Cảm ơn bạn đã mua hàng {"\n"}của Art Wear</Text>
+                  </View>
+                  <TouchableOpacity style={styles.btnDanhGia}
+                    onPress={() => navigation.navigate('UserNavigator', { screen: 'Rating' })}>
+                    <Text style={styles.textDanhGia}>Đánh giá</Text>
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
-          );
-        }}
+            ))}
+          </>
+        ) : null}
+      </View>
+
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={orderList}
+        keyExtractor={item => item._id}
+        renderItem={renderOrder}
       />
     </View>
   );
@@ -114,10 +132,8 @@ const styles = StyleSheet.create({
     height: 222,
     backgroundColor: 'white',
     marginTop: 10,
-    alignItems: 'center',
   },
   container2: {
-    width: '97%',
     height: 110,
     backgroundColor: 'white',
     flexDirection: 'row',
@@ -133,11 +149,11 @@ const styles = StyleSheet.create({
   right: {
     width: '70%',
     height: '100%',
+    marginVertical: 5
   },
   giua: {
-    width: '83%',
-    height: '80%',
-    backgroundColor: 'orange',
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -147,36 +163,42 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textFlat: {
-    fontSize: 19,
-    padding: 7,
+    fontSize: 20,
+    marginLeft: 10,
     fontWeight: 'bold',
   },
   marrgin: {
     marginTop: 15,
   },
   textFlat1: {
-    fontSize: 19,
+    fontSize: 18,
+    marginLeft: 10
+  },
+  textFlat2: {
+    fontSize: 20,
+    marginLeft: 10,
     textAlign: 'right',
+    marginRight: 5,
+    fontWeight: 'bold'
   },
   container3: {
-    width: '97%',
     height: 40,
-    flexDirection: 'row',
     borderBottomWidth: 0.5,
-    alignItems: 'center',
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+    backgroundColor: 'white'
   },
   icon: {
     width: 25,
     height: 25,
   },
   container5: {
-    width: '97%',
-    height: 70,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    marginVertical: 10
   },
   left1: {
-    width: '55%',
-    height: '100%',
     backgroundColor: 'white',
   },
   right1: {
@@ -185,6 +207,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  btnDanhGia: {
+    backgroundColor: 'red',
+    height: 50,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10
+  },
+  textDanhGia: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  textFooter: {
+    fontSize: 16
+  }
 });
 
 export default StarRatingOrder;
