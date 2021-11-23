@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,13 +8,17 @@ import {
   Switch,
   FlatList,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
+import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import baseURL from '../../../assets/common/baseUrl';
+import { useLogin } from '../../../Context/LoginProvider';
 
 export const Back = require('../../../assets/images/back.jpg');
 export const Tim = require('../../../assets/images/timtim.jpg');
 export const tuyen = require('../../../assets/images/ao7.jpg');
 
-const Rating = () => {
+const Rating = ({ navigation, route }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [defaultRating, setdefaultRating] = useState(2);
@@ -23,6 +27,64 @@ const Rating = () => {
     'https://raw.githubusercontent.com/tranhonghan/images/main/star_filled.png';
   const starImgCorner =
     'https://raw.githubusercontent.com/tranhonghan/images/main/star_corner.png';
+
+
+  const idOrder = route.params.item;
+  console.log("id order", idOrder)
+
+  const [orderDetail, setorderDetail] = useState([]);
+  const [orderItem, setOrderItem] = useState([]);
+
+  const [cmtDanhGia, setcmtDanhGia] = useState('');
+
+  const { profile } = useLogin();
+
+  useFocusEffect(
+    useCallback(() => {
+      // Products
+      axios
+        .get(`${baseURL}orders/` + idOrder)
+        .then(res => {
+          setorderDetail(res.data);
+          console.log("Chi tiet order", res.data);
+          setOrderItem(res.data.orderitems);
+          console.log("Item trong order", res.data.orderitems);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+      return () => {
+        setorderDetail([]);
+        setOrderItem([]);
+      };
+    }, []),
+  );
+
+  const DanhGia = async () => {
+    {
+      orderItem.map(e => (
+        fetch(`${baseURL}reviews`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            ratingvalue: defaultRating,
+            review: cmtDanhGia,
+            userid: profile._id,
+            product_id: e.product ? e.product._id : ' '
+          })
+        }).then(res => res.json())
+          .then(data => {
+            console.log("is Update successffly!!"),
+              console.log(data)
+          }).catch(err => {
+            console.log("error", err)
+          })
+      ))
+    }
+  }
+
 
   const CustomRatingBar = () => {
     return (
@@ -37,8 +99,8 @@ const Rating = () => {
                 style={Styles.ImageRating}
                 source={
                   item <= defaultRating
-                    ? {uri: starImgFilled}
-                    : {uri: starImgCorner}
+                    ? { uri: starImgFilled }
+                    : { uri: starImgCorner }
                 }
               />
             </TouchableOpacity>
@@ -48,11 +110,16 @@ const Rating = () => {
     );
   };
 
+  console.log("ngoisao", defaultRating)
+
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: 'red' }}>
       {/* heder---------------------------------------------------------------- */}
       <View style={[Styles.Header, Styles.Shadow]}>
-        <TouchableOpacity style={Styles.TouHeader}>
+        <TouchableOpacity
+          style={Styles.TouHeader}
+          onPress={() => navigation.goBack()}
+        >
           <Image style={Styles.ImageHeader} source={Back} />
         </TouchableOpacity>
         <View
@@ -63,9 +130,6 @@ const Rating = () => {
           }}>
           <Text style={Styles.Text}>Đánh giá sản phẩm</Text>
         </View>
-        <TouchableOpacity style={Styles.TouHeader}>
-          <Text style={Styles.Text}>chọn</Text>
-        </TouchableOpacity>
       </View>
       {/* body------------------------------------------------------------------------- */}
       <View style={Styles.Body}>
@@ -85,26 +149,27 @@ const Rating = () => {
             marginTop: 10,
           }}>
           {/* View2------------------------------------------------ */}
-          <View style={Styles.View2}>
-            <View style={{height: '100%', width: '25%'}}>
-              <Image
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  marginLeft: 10,
-                }}
-                source={tuyen}
-              />
+          {orderItem.map(item => (
+            <View style={Styles.View2} key={item._id}>
+              <View style={{ height: '100%', width: '25%' }}>
+                <Image
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    marginLeft: 10,
+                  }}
+                  source={{ uri: item.product ? item.product.ThumbImg : ' ' }}
+                />
+              </View>
+              <View style={{ height: '100%', width: '75%' }}>
+                <Text
+                  style={{ fontSize: 20, fontWeight: 'bold', marginLeft: 15 }}>
+                  {item.product ? item.product.ten : ' '}
+                </Text>
+                <CustomRatingBar />
+              </View>
             </View>
-            <View style={{height: '100%', width: '75%'}}>
-              <Text
-                style={{fontSize: 20, fontWeight: 'bold', marginLeft: '10%'}}>
-                Áo đẹp Super Saiyan Blue
-              </Text>
-              <CustomRatingBar />
-            </View>
-          </View>
-
+          ))}
           {/* View3------------------------------------------------------- */}
           <View
             style={{
@@ -120,34 +185,39 @@ const Rating = () => {
               numberOfLines={10}
               multiline={true}
               style={[Styles.TextIp]}
+              onChangeText={text => setcmtDanhGia(text)}
+              value={cmtDanhGia}
             />
-            <TouchableOpacity
-              style={{
-                width: '95%',
-                height: 30,
-                backgroundColor: '#3DB2FF',
-                borderRadius: 5,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 5,
-                alignSelf: 'center',
-              }}>
-              <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
-                Gửi
-              </Text>
-            </TouchableOpacity>
           </View>
+
+          <TouchableOpacity
+            style={{
+              width: '95%',
+              height: 30,
+              backgroundColor: '#3DB2FF',
+              borderRadius: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 20,
+              alignSelf: 'center',
+            }}
+            onPress={() => DanhGia()}
+          >
+            <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'white' }}>
+              Gửi
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={[Styles.View3]}>
-          <View style={{width: '85%', height: 60}}>
-            <Text style={{fontSize: 20, marginLeft: 7}}>Đánh giá ẩn danh</Text>
+          <View style={{ width: '85%', height: 60 }}>
+            <Text style={{ fontSize: 20, marginLeft: 7 }}>Đánh giá ẩn danh</Text>
             <Text style={Styles.TextBody}>
               Tên tài khoản của bản sẽ không hiển thị
             </Text>
           </View>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Switch
-              trackColor={{false: '#767577', true: 'blue'}}
+              trackColor={{ false: '#767577', true: 'blue' }}
               thumbColor={isEnabled ? 'yellow' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
@@ -185,6 +255,7 @@ export const Styles = StyleSheet.create({
   },
   Text: {
     fontSize: 20,
+    fontWeight: 'bold'
   },
   TouHeader: {
     width: '15%',

@@ -88,8 +88,17 @@ const StarRatingOrder = ({ navigation }) => {
                   <View>
                     <Text style={styles.textFooter}>Cảm ơn bạn đã mua hàng {"\n"}của Art Wear</Text>
                   </View>
-                  <TouchableOpacity style={styles.btnDanhGia}
-                    onPress={() => navigation.navigate('UserNavigator', { screen: 'Rating' })}>
+
+                  <TouchableOpacity
+                    style={styles.btnDanhGia}
+                    onPress={() =>
+                      navigation.navigate('UserNavigator', {
+                        screen: 'Rating',
+                        params:
+                        {
+                          item: item._id
+                        }
+                      })}>
                     <Text style={styles.textDanhGia}>Đánh giá</Text>
                   </TouchableOpacity>
                 </View>
@@ -101,7 +110,7 @@ const StarRatingOrder = ({ navigation }) => {
 
     );
   }
-
+  
   return (
     <View style={styles.container}>
       <FlatList
