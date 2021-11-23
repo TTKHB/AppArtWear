@@ -138,7 +138,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
               icon="emoticon-excited-outline"
               name={` Đánh giá`}
               onPress={() =>
-                navigation.navigate('TabView', {screen: 'Đánh giá'})
+                navigation.navigate('TabView', {screen: 'Đã giao'})
               }
             />
           </View>
