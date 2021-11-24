@@ -25,7 +25,7 @@ const CancelOder = ({ navigation }) => {
   useFocusEffect(
     useCallback(() => {
       axios
-        .get(`${baseURL}orders/get/userorderss/` + profile._id)
+        .get(`${baseURL}orders/get/userorders/` + profile._id)
         .then(res => {
           setorderList(res.data);
           console.log(res.data)
