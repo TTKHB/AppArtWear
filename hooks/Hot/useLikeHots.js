@@ -22,9 +22,9 @@ const useLikeHots = hot_id => {
       })
       .catch(function (error) {
         // handle error
-        console.log(error);
+        console.error('error here 1', error);
       });
-  }, []);
+  }, [hot_id]);
 
   //get all by hot _id
   useEffect(async () => {
@@ -37,9 +37,9 @@ const useLikeHots = hot_id => {
       })
       .catch(function (error) {
         // handle error
-        console.log(error);
+        console.log('error here 2', error);
       });
-  }, []);
+  }, [hot_id]);
 
   //check user exits into people like
   function checkLikeByUserId(user_id) {

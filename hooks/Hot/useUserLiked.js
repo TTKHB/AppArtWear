@@ -9,21 +9,23 @@ const useUserLiked = (hot_id, user_id) => {
 
   //get all hots
   useEffect(async () => {
-    await axios
-      .get(`${baseURL}like/hot/user?user_id=${user_id}&hot_id=${hot_id}`)
-      .then(function (response) {
-        console.log(
-          '🚀 ~ file: useUserLiked.js ~ line 15 ~ response',
-          response.data,
-          response.data.length > 0,
-        );
-        // handle success
-        setIsUserLiked(response.data.length > 0);
-      })
-      .catch(function (error) {
-        // handle error
-        console.trace(error);
-      });
+    if (user_id) {
+      await axios
+        .get(`${baseURL}like/hot/user?user_id=${user_id}&hot_id=${hot_id}`)
+        .then(function (response) {
+          console.log(
+            '🚀 ~ file: useUserLiked.js ~ line 15 ~ response',
+            response.data,
+            response.data.length > 0,
+          );
+          // handle success
+          setIsUserLiked(response.data.length > 0);
+        })
+        .catch(function (error) {
+          // handle error
+          console.trace(error);
+        });
+    }
   }, []);
 
   return {isUserLiked};

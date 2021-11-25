@@ -26,29 +26,31 @@ import useLikeHots from '../../hooks/Hot/useLikeHots';
 import {useLogin} from '../../Context/LoginProvider';
 import useUserLiked from './../../hooks/Hot/useUserLiked';
 
-
 export const add = require('../../assets/images/postt.jpg');
 
 const Post = ({item, item: likeCountProp, navigation}) => {
   console.log('🚀 ~ file: HotScreen.js ~ line 42 ~ Post ~ item', item);
   const {isLoggedIn, profile} = useLogin();
+  console.log('🚀 ~ file: HotScreen.js ~ line 34 ~ Post ~ profile', profile);
   const {numberOfLike, addLike, removelike, checkLikeByUserId} = useLikeHots(
     item._id,
   );
 
   const {isUserLiked} = useUserLiked(item._id, profile._id);
-  const [isLike, setIsLike] = useState(isUserLiked ? isUserLiked : '');
+  const [isLike, setIsLike] = useState(isUserLiked ? isUserLiked : null);
   const [likeCount, setLikeCount] = useState(0);
 
   const onLikePressed = () => {
-    const amount = isLike ? -1 : 1;
+    if (isLike != null && profile._id) {
+      const amount = isLike ? -1 : 1;
+      setLikeCount(likeCount + amount);
+      setIsLike(!isLike);
 
-    setLikeCount(likeCount + amount);
-    setIsLike(!isLike);
-    if (amount == 1) {
-      addLike(profile ? profile._id : '', item._id);
-    } else {
-      removelike(profile ? profile._id : '', item._id);
+      if (amount == 1) {
+        addLike(profile ? profile._id : '', item._id);
+      } else {
+        removelike(profile ? profile._id : '', item._id);
+      }
     }
   };
 
@@ -93,9 +95,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
       {/* <View style={{ alignItems: 'center' }}>
         <Image source={{ uri: item.imageUri }} style={styles.imageBody} />
       </View> */}
-      <Swiper
-        style={styles.wrapper}
-        loop={true}>
+      <Swiper style={styles.wrapper} loop={true}>
         {item.images.map((image, i) => (
           <View key={i} style={styles.slide}>
             <Image
@@ -120,9 +120,13 @@ const Post = ({item, item: likeCountProp, navigation}) => {
               )}
             </TouchableWithoutFeedback>
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Comment', {hot_id: item._id})
-              }>
+              onPress={() => {
+                console.log(
+                  '🚀 ~ file: HotScreen.js ~ line 122 ~ Post ~ item._id',
+                  item._id,
+                ),
+                  navigation.navigate('Comment', {hot_id: item._id});
+              }}>
               <FontistoIcon name="comment" size={23} color={'#545454'} />
             </TouchableOpacity>
             <Ionicons name="paper-plane-outline" size={25} color={'#545454'} />
@@ -143,10 +147,6 @@ const Post = ({item, item: likeCountProp, navigation}) => {
 const HotScreen = ({navigation}) => {
   const {hots} = useHots();
   const [hotsFiltered, setHotsFiltered] = useState([]);
-  console.log(
-    '🚀 ~ file: HotScreen.js ~ line 142 ~ HotScreen ~ hotsFiltered',
-    hotsFiltered,
-  );
   const [loading, setLoading] = useState(false);
 
   useFocusEffect(

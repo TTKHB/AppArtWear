@@ -54,6 +54,9 @@ const CommentScreen = ({likeCountProp, navigation, route}) => {
 
   useEffect(() => {
     setCommentFiltered(comments);
+    return () => {
+      setCommentFiltered([]);
+    };
   }, [comments]);
 
   const onLikePressed = () => {

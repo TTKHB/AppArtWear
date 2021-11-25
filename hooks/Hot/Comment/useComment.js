@@ -26,7 +26,7 @@ const useComment = hot_id => {
       })
       .catch(function (error) {
         // handle error
-        console.log(error);
+        console.trace(error);
       });
   }
 
