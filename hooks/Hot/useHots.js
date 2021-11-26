@@ -9,6 +9,13 @@ const useHots = () => {
 
   //get all hots
   useEffect(async () => {
+    getAllHots();
+    return () => {
+      setHots([]);
+    };
+  }, []);
+
+  async function getAllHots() {
     await axios
       .get(`${baseURL}hot`)
       .then(function (response) {
@@ -23,9 +30,25 @@ const useHots = () => {
         // handle error
         console.log(error);
       });
-  }, []);
+  }
+  async function addNewHot({user_id, images, content}) {
+    return await axios
+      .post(
+        `${baseURL}hot`,
 
-  return {hots};
+        {user_id, images, content},
+      )
+      .then(function (response) {
+        // handle success
+        return response.status;
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+  }
+
+  return {hots, getAllHots, addNewHot};
 };
 
 export default useHots;

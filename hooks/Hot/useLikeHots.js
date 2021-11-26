@@ -3,6 +3,7 @@ import {View, Text} from 'react-native';
 import {useState, useEffect} from 'react';
 import baseURL from './../../assets/common/baseUrl';
 import axios from './../../assets/data/client copy';
+import {useFocusEffect} from '@react-navigation/native';
 
 const useLikeHots = hot_id => {
   const [numberOfLike, setNumberOfLike] = useState(0);

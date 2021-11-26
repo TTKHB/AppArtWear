@@ -28,6 +28,8 @@ import SizeFilter from '../../assets/data/Filter/SizeFilter';
 import ItemColor from '../../components/Home/Item/ItemColor';
 import DataMenuItem from '../../assets/data/Filter/DataMenuItem';
 import ItemSize from '../../components/Home/Item/ItemSize';
+import ProductNotFound from './../../components/ProductMenu/ProductNotFound';
+import ActivityIndiCatorScreen from './../../Shared/ActivityIndicator/ActivityIndiCatorScreen';
 
 const ProductFoundScreen = ({navigation, route}) => {
   const title = route.params.title;
@@ -37,6 +39,7 @@ const ProductFoundScreen = ({navigation, route}) => {
   const [productFiltered, setProductFiltered] = useState([]);
   const [productAfterFilter, setProductAfterFiltered] = useState([]);
   const [content, setContent] = useState(contents);
+  const [loading, setLoading] = useState(false);
   const [row, setRow] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(DataMenuItem[0]);
   const drawer = useRef(null);
@@ -47,19 +50,19 @@ const ProductFoundScreen = ({navigation, route}) => {
   }, [products]);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`${baseURL}products`)
       .then(function (response) {
         // handle success
         console.log('hello', response.data);
         setProducts(response.data);
+        setLoading(false);
       })
       .catch(function (error) {
         // handle error
         console.log(error);
-      })
-      .then(function () {
-        // always executed
+        setLoading(false);
       });
   }, []);
   const getAllSearchProducts = () => {
@@ -245,7 +248,7 @@ const ProductFoundScreen = ({navigation, route}) => {
               flexWrap: 'wrap',
             }}>
             {colorsFIlter.map((item, index) => (
-              <ItemColor item={item} />
+              <ItemColor key={index} item={item} />
             ))}
           </View>
         </AccordionContainer>
@@ -256,7 +259,7 @@ const ProductFoundScreen = ({navigation, route}) => {
               flexWrap: 'wrap',
             }}>
             {SizeFilter.map((item, index) => (
-              <ItemSize item={item} />
+              <ItemSize key={index} item={item} />
             ))}
           </View>
         </AccordionContainer>
@@ -380,7 +383,9 @@ const ProductFoundScreen = ({navigation, route}) => {
             </TouchableOpacity>
           } //centerComponent
         />
+        {/* header */}
         {/* view dropdownbox */}
+
         <View style={styles.containerBellowHeader}>
           {/* left */}
           <View style={{}}>
@@ -445,33 +450,39 @@ const ProductFoundScreen = ({navigation, route}) => {
             );
           })}
         </Menu>
-
         {/*end view container dropdownbox*/}
         {/* container list products */}
-        <View style={{marginTop: 10, flex: 1}}>
-          {!row ? (
-            <FlatList
-              key={'_'}
-              data={productFiltered}
-              renderItem={renderItemGrid}
-              keyExtractor={item => item.id}
-              ListEmptyComponent={() => {
-                return <Text>null</Text>;
-              }}
-              numColumns={2}
-            />
-          ) : (
-            <FlatList
-              key={'#'}
-              data={productFiltered}
-              renderItem={renderItemList}
-              ListEmptyComponent={() => {
-                return <Text>null</Text>;
-              }}
-              keyExtractor={item => item.id}
-            />
-          )}
-        </View>
+
+        {loading ? (
+          <ActivityIndiCatorScreen />
+        ) : (
+          <View
+            style={{
+              marginTop: 10,
+              flex: 1,
+            }}>
+            {productFiltered.length > 0 ? (
+              !row ? (
+                <FlatList
+                  key={'_'}
+                  data={productFiltered}
+                  renderItem={renderItemGrid}
+                  keyExtractor={item => item.id}
+                  numColumns={2}
+                />
+              ) : (
+                <FlatList
+                  key={'#'}
+                  data={productFiltered}
+                  renderItem={renderItemList}
+                  keyExtractor={item => item.id}
+                />
+              )
+            ) : (
+              <ProductNotFound />
+            )}
+          </View>
+        )}
       </View>
       {/*end container  */}
     </DrawerLayoutAndroid>
