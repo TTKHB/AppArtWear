@@ -32,11 +32,11 @@ import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
 
 TimeAgo.addLocale(vi);
-
+const timeAgo = new TimeAgo('vi-VN');
 export const add = require('../../assets/images/postt.jpg');
 
 const Post = ({item, item: likeCountProp, navigation}) => {
-  const timeAgo = new TimeAgo('vi-VN');
+  
   timeAgo.getLabels('narrow');
   const {isLoggedIn, profile} = useLogin();
   console.log('🚀 ~ file: HotScreen.js ~ line 34 ~ Post ~ profile', profile);
