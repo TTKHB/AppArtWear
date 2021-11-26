@@ -32,7 +32,7 @@ import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
 
 TimeAgo.addLocale(vi);
-const timeAgo = new TimeAgo('vi-VN');
+export const timeAgo = new TimeAgo('vi-VN');
 export const add = require('../../assets/images/postt.jpg');
 
 const Post = ({item, item: likeCountProp, navigation}) => {
