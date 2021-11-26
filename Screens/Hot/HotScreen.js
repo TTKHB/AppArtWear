@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Dimensions,
@@ -17,15 +17,16 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import FontistoIcon from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LoaderHot from '../../components/Home/Loader/LoaderHot';
 import Swiper from 'react-native-swiper';
-import {dataPost} from '../../assets/data/Hot/DataNews';
-import {Tooltip} from 'react-native-elements';
+import { dataPost } from '../../assets/data/Hot/DataNews';
+import { Tooltip } from 'react-native-elements';
 import useHots from './../../hooks/Hot/useHots';
-const {width} = Dimensions.get('window');
-import {useFocusEffect} from '@react-navigation/native';
+const { width } = Dimensions.get('window');
+import { useFocusEffect } from '@react-navigation/native';
 import useLikeHots from '../../hooks/Hot/useLikeHots';
-import {useLogin} from '../../Context/LoginProvider';
+import { useLogin } from '../../Context/LoginProvider';
 import useUserLiked from './../../hooks/Hot/useUserLiked';
 import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
@@ -77,19 +78,21 @@ const Post = ({item, item: likeCountProp, navigation}) => {
     };
   }, [numberOfLike]);
 
+  // const timeAgo = new TimeAgo('vi-VN');
+
   return (
-    <View style={{backgroundColor: 'white'}}>
+    <View style={{ backgroundColor: 'white' }}>
       <View style={styles.containerHeader}>
         <View style={styles.letfHeader}>
           <View style={styles.containerImageHeader}>
             <Image
-              source={{uri: item.user_id ? item.user_id.avatar : null}}
+              source={{ uri: item.user_id ? item.user_id.avatar : null }}
               style={styles.imageHeader}
             />
           </View>
           <View style={{flexDirection: 'column', marginTop: 10}}>
             <Text style={styles.nameHeader}>
-              {item.user_id ? item.user_id.fullname : null}
+              {item.user_id ? item.user_id.fullname : null}{"\t"}<Ionicons name="md-checkmark-circle-sharp" size={20} color={'#66CCFF'} />
             </Text>
             <Text>{timeAgo.format(new Date(item.dateCreated))}</Text>
           </View>
@@ -114,7 +117,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
               <View key={i} style={styles.slide}>
                 <Image
                   style={styles.image}
-                  resizeMode={'contain'}
+                  resizeMode={'stretch'}
                   source={{
                     uri: image,
                   }}
@@ -134,6 +137,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
                 <AntIcon name="hearto" size={25} color={'#545454'} />
               )}
             </TouchableWithoutFeedback>
+            <Text style={styles.likeFooter}>{likeCount}</Text>
             <TouchableOpacity
               onPress={() => {
                 if (profile._id) {
@@ -142,13 +146,15 @@ const Post = ({item, item: likeCountProp, navigation}) => {
               }}>
               <FontistoIcon name="comment" size={23} color={'#545454'} />
             </TouchableOpacity>
-            <Ionicons name="paper-plane-outline" size={25} color={'#545454'} />
+            <Text style={styles.likeFooter}>4</Text>
           </View>
-
-          <FontAwesome name="bookmark-o" size={25} color={'#545454'} />
+          <View style={styles.rightIconsFooter}>
+            <FontAwesome name="bookmark-o" size={25} color={'#545454'} />
+            <FontAwesome5 name="share" size={25} color={'#c0c0c0'} />
+          </View>
         </View>
-        <Text style={styles.likeFooter}>{likeCount} Likes</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        {/* <Text style={styles.likeFooter}>{likeCount} Likes</Text> */}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           {/* <Text style={styles.captionFooter}>{item.caption}</Text>
           <Text style={styles.postedAtFooter}>{item.postedAt}</Text> */}
         </View>
@@ -245,10 +251,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   nameHeader: {
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
     fontWeight: 'bold',
     color: '#3c3c3c',
     fontSize: 18,
+    marginVertical: 5
+  },
+  nameHeaderTime: {
+    // alignSelf: 'center',
+    fontWeight: '500',
+    color: '#808080',
+    fontSize: 13,
   },
 
   imageBody: {
@@ -271,7 +284,14 @@ const styles = StyleSheet.create({
   leftIconsFooter: {
     flexDirection: 'row',
     width: 120,
+    padding: 5,
     justifyContent: 'space-between',
+  },
+  rightIconsFooter: {
+    flexDirection: 'row',
+    width: 80,
+    // padding: 5,
+    justifyContent: 'space-around',
   },
 
   likeFooter: {
