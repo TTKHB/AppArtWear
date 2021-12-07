@@ -38,7 +38,6 @@ const ProductFlashSale = ({item, navigation}) => {
         <View style={{marginLeft: 4}}>
           <Text style={styles.cardName}>{item.ten}</Text>
           <Text style={styles.price}>{format(item.gia)} VNĐ</Text>
-        <Text style={styles.price1}>{format(item.giacu)} VNĐ</Text>
         </View>
       </View>
     </TouchableOpacity>

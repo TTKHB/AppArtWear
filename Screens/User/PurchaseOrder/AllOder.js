@@ -55,7 +55,7 @@ const AllOder = ({ navigation }) => {
     }
     if (item.status == 1) {
       tl1 = "warning",
-        textGiaoHang = "Đơn hàng đang xử lý"
+      textGiaoHang = "Đơn hàng đang xử lý"
       textbtn = "Theo dõi"
     }
     if (item.status == 2) {

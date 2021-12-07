@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {View, Image, Button, TouchableOpacity} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Button, TouchableOpacity } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Splasscreen from '../../Screens/SplashScreen/SplashScreen';
 import Main from '../Main';
 import UserNavigator from '../StackScreen/UserNavigator';
@@ -8,6 +8,7 @@ import HomeNavigator from '../HomeNavigator';
 import CartNavigator from '../CartNavigator';
 import ProductMenu from '../../Screens/Menu/ProductMenu';
 import PaymentNavigator from '../PaymentNavigator';
+import ChatNavigator from '../ChatNavigator';
 
 //Icon
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
@@ -17,46 +18,46 @@ import IconNotification from 'react-native-vector-icons/AntDesign';
 import DrawerNavigator from '../DrawerNavigator';
 import DetailMenu from '../../Screens/Menu/DetailMenu';
 import TabView from '../TabView';
-import {useLogin} from '../../Context/LoginProvider';
+import { useLogin } from '../../Context/LoginProvider';
 
 const Stack = createStackNavigator();
 
 const StackScreen = () => {
-  const {loading} = useLogin();
+  const { loading } = useLogin();
   return (
     <Stack.Navigator>
       {!loading ? (
         <Stack.Screen
           name="SplashScreen"
           component={Splasscreen}
-          options={{header: () => null}}
+          options={{ header: () => null }}
         />
       ) : null}
 
       <Stack.Screen
         name="Main"
         component={Main}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="UserNavigator"
         component={UserNavigator}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="HomeNavigator"
         component={HomeNavigator}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="CartNavigator"
         component={CartNavigator}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="DrawerNavigator"
         component={DrawerNavigator}
-        options={{header: () => null}}
+        options={{ header: () => null }}
       />
       <Stack.Screen
         name="DetailMenu"
@@ -91,7 +92,12 @@ const StackScreen = () => {
       <Stack.Screen
         name="PaymentNavigator"
         component={PaymentNavigator}
-        options={{header: () => null}}
+        options={{ header: () => null }}
+      />
+      <Stack.Screen
+        name="ChatNavigator"
+        component={ChatNavigator}
+        options={{ header: () => null }}
       />
     </Stack.Navigator>
   );

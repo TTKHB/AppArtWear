@@ -14,6 +14,8 @@ import ChatNavigator from './ChatNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import MenuNavigator from './MenuNavigator';
 import HotNavigator from './HotNavigator';
+import TabViewChat from './TabViewChat';
+import ChatScreen from '../Screens/User/Chat/ChatScreen';
 
 //stack
 const Tab = createBottomTabNavigator();
@@ -61,13 +63,25 @@ const Main = props => {
       />
       <Tab.Screen
         name="Chat"
-        component={ChatNavigator}
+        component={TabViewChat}
         options={{
           tabBarIcon: ({ color }) => (
             <IconChat name="chatbubble-ellipses-outline" color={color} size={30} />
           ),
-          headerShown: false,
           tabBarBadge: 3,
+          title: 'Trò chuyện',
+          headerStyle: {
+            backgroundColor: '#8D6E63',
+            borderColor: '#F5F5F5',
+          },
+          headerTintColor: 'black',
+          headerTitleStyle: {
+            alignSelf: 'center',
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: 'white',
+          },
+          headerTitleAlign: 'center',
         }}
       />
       <Tab.Screen
