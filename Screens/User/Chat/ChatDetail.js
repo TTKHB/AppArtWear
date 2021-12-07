@@ -15,6 +15,7 @@ export const Back = require('../../../assets/images/back1.jpg');
 
 import { useLogin } from '../../../Context/LoginProvider';
 import { Styles } from './ChatStyle';
+import baseURL from '../../../assets/common/baseUrl';
 
 export default function ChatDetail({ navigation, route }) {
   const item = route.params.id;
@@ -29,7 +30,7 @@ export default function ChatDetail({ navigation, route }) {
     //Tất cả tin nhắn của người dùng (message by id)
     const getMessages = async () => {
       try {
-        const res = await axios.get("http://192.168.0.101:3000/api/v1/message/" + currentChat?._id);
+        const res = await axios.get(`${baseURL}message/` + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -48,7 +49,7 @@ export default function ChatDetail({ navigation, route }) {
       conversationId: currentChat._id,
     };
     try {
-      const res = await axios.post("http://192.168.0.101:3000/api/v1/message", message);
+      const res = await axios.post(`${baseURL}message`, message);
       setMessages([...messages, res.data]);
       //Gửi xong text input clear text 
       setSoanTin("");

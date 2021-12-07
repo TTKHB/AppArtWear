@@ -16,6 +16,7 @@ import axios from "axios";
 import { useLogin } from '../../../Context/LoginProvider';
 import ChatItem from './ChatItem';
 import { Styles } from './ChatStyle';
+import baseURL from '../../../assets/common/baseUrl';
 
 const ChatScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ const ChatScreen = ({ navigation }) => {
     //Lấy tất cuộc trò chuyện cùa người dùng đó bằng id user
     const getConversations = async () => {
       try {
-        const res = await axios.get("http://192.168.0.101:3000/api/v1/conversation/" + profile._id);
+        const res = await axios.get(`${baseURL}conversation/` + profile._id);
         console.log("list ne", res)
         setConversations(res.data);
       } catch (err) {

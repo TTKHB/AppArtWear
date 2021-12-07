@@ -11,6 +11,7 @@ import vi from 'javascript-time-ago/locale/vi.json';
 TimeAgo.addLocale(vi);
 import axios from "axios";
 import { Styles } from './ChatStyle';
+import baseURL from '../../../assets/common/baseUrl';
 
 export default function Message({ own, message, currentUser }) {
   const timeAgo = new TimeAgo('vi-VN');
@@ -18,7 +19,7 @@ export default function Message({ own, message, currentUser }) {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.0.101:3000/api/v1/users/` + message.sender)
+      .get(`${baseURL}users/` + message.sender)
       .then(res => {
         console.log("tat ca nguoi dung", res.data)
         setUser(res.data)

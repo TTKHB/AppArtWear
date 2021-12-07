@@ -10,6 +10,7 @@ import {
 const { width } = Dimensions.get('screen');
 import axios from "axios";
 import { Styles } from './ChatStyle';
+import baseURL from '../../../assets/common/baseUrl';
 
 export default function ({ item, currentUser, navigation }) {
     console.log('item cuoc trò chuyện', item);
@@ -21,7 +22,7 @@ export default function ({ item, currentUser, navigation }) {
         const friendId = item.members.find((m) => m !== currentUser._id);
         const getUser = async () => {
             try {
-                const res = await axios("http://192.168.0.101:3000/api/v1/users/" + friendId);
+                const res = await axios(`${baseURL}users/` + friendId);
                 setUser(res.data);
                 console.log("Du lieu", res.data)
             } catch (err) {
