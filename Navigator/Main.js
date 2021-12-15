@@ -16,11 +16,12 @@ import MenuNavigator from './MenuNavigator';
 import HotNavigator from './HotNavigator';
 import TabViewChat from './TabViewChat';
 import ChatScreen from '../Screens/User/Chat/ChatScreen';
-
+import { useLogin } from '../Context/LoginProvider';
 //stack
 const Tab = createBottomTabNavigator();
 
-const Main = props => {
+const Main = ({ navigation }) => {
+  const { isLoggedIn } = useLogin();
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -61,29 +62,68 @@ const Main = props => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
-        name="Chat"
-        component={TabViewChat}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <IconChat name="chatbubble-ellipses-outline" color={color} size={30} />
-          ),
-          tabBarBadge: 3,
-          title: 'Trò chuyện',
-          headerStyle: {
-            backgroundColor: '#8D6E63',
-            borderColor: '#F5F5F5',
-          },
-          headerTintColor: 'black',
-          headerTitleStyle: {
-            alignSelf: 'center',
-            fontSize: 24,
-            fontWeight: 'bold',
-            color: 'white',
-          },
-          headerTitleAlign: 'center',
-        }}
-      />
+      {isLoggedIn ? (
+        <>
+          <Tab.Screen
+            name="Chat"
+            component={TabViewChat}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <IconChat name="chatbubble-ellipses-outline" color={color} size={30} />
+              ),
+              tabBarBadge: 3,
+              title: 'Trò chuyện',
+              headerStyle: {
+                backgroundColor: '#8D6E63',
+                borderColor: '#F5F5F5',
+              },
+              headerTintColor: 'black',
+              headerTitleStyle: {
+                alignSelf: 'center',
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: 'white',
+              },
+              headerTitleAlign: 'center',
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <Tab.Screen
+            name="Chat"
+            component={TabViewChat}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <IconChat name="chatbubble-ellipses-outline" color={color} size={30} />
+              ),
+              tabBarBadge: 3,
+              title: 'Trò chuyện',
+              headerStyle: {
+                backgroundColor: '#8D6E63',
+                borderColor: '#F5F5F5',
+              },
+              headerTintColor: 'black',
+              headerTitleStyle: {
+                alignSelf: 'center',
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: 'white',
+              },
+              headerTitleAlign: 'center',
+            }}
+            listeners={{
+              tabPress: (e) => {
+                // Prevent default action
+                e.preventDefault();
+                //Any custom code here
+                navigation.navigate('UserNavigator', { screen: 'Login' })
+              },
+            }}
+          />
+        </>
+      )}
+
       <Tab.Screen
         name="Profile"
         component={ProfileNavigator}
