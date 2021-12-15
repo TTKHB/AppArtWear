@@ -10,18 +10,15 @@ import {
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import axios from "axios";
 import Message from "../../User/Chat/Message";
-
 export const Back = require('../../../assets/images/back1.jpg');
-
 import { useLogin } from '../../../Context/LoginProvider';
 import { Styles } from './ChatStyle';
 import baseURL from '../../../assets/common/baseUrl';
+import { io } from 'socket.io-client';
 
 export default function ChatDetail({ navigation, route }) {
-  const item = route.params.id;
   const user = route.params.user;
   const currentChat = route.params.currentChat;
-
   const { profile } = useLogin();
   const [messages, setMessages] = useState([]);
   const [soantin, setSoanTin] = useState("");
@@ -32,13 +29,13 @@ export default function ChatDetail({ navigation, route }) {
       try {
         const res = await axios.get(`${baseURL}message/` + currentChat?._id);
         setMessages(res.data);
+        console.log("Tin nhắn dau man", res.data)
       } catch (err) {
         console.log(err);
       }
     };
     getMessages();
   }, [currentChat]);
-
   console.log("Tin nhắn user", messages)
 
   //Biến gửi tin nhắn

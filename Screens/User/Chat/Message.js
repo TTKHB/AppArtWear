@@ -5,18 +5,18 @@ import {
   Text,
   Image,
 }
-from 'react-native';
+  from 'react-native';
 import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
 TimeAgo.addLocale(vi);
 import axios from "axios";
 import { Styles } from './ChatStyle';
 import baseURL from '../../../assets/common/baseUrl';
+export const timeAgo = new TimeAgo('vi-VN');
+timeAgo.getLabels('narrow');
 
 export default function Message({ own, message, currentUser }) {
-  const timeAgo = new TimeAgo('vi-VN');
   const [user, setUser] = useState([])
-
   useEffect(() => {
     axios
       .get(`${baseURL}users/` + message.sender)
@@ -50,7 +50,7 @@ export default function Message({ own, message, currentUser }) {
           </View>
           <View style={Styles.messageBottom}>
             <Text>
-              {timeAgo.format(new Date(message.createdAt))}
+              {timeAgo.format(new Date(message.dateCreate))}
             </Text>
           </View>
         </>
@@ -75,7 +75,7 @@ export default function Message({ own, message, currentUser }) {
           </View>
           <View style={Styles.messageBottomTwo}>
             <Text>
-              {timeAgo.format(new Date(message.createdAt))}
+              {timeAgo.format(new Date(message.dateCreate))}
             </Text>
           </View>
         </>

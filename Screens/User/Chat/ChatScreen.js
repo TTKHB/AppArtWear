@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput,
   FlatList,
   SafeAreaView
 }
@@ -55,7 +50,7 @@ const ChatScreen = ({ navigation }) => {
               data={conversations}
               keyExtractor={item => item._id}
               renderItem={({ item }) => (
-                <ChatItem item={item} navigation={navigation} currentUser={profile} />
+                <ChatItem conversation={item} navigation={navigation} currentUser={profile} />
               )}
             />
           </View>

@@ -12,14 +12,15 @@ import axios from "axios";
 import { Styles } from './ChatStyle';
 import baseURL from '../../../assets/common/baseUrl';
 
-export default function ({ item, currentUser, navigation }) {
-    console.log('item cuoc trò chuyện', item);
+export default function ({ conversation, currentUser, navigation }) {
+    console.log('item cuoc trò chuyện', conversation);
     console.log('item người dùng hiện tại', currentUser);
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null);
+    const [currentChat, setCurrentChat] = useState(null);
 
     useEffect(() => {
         //Tìm ra đúng người dùng đó và xuất dự liệu ra (user by id)
-        const friendId = item.members.find((m) => m !== currentUser._id);
+        const friendId = conversation.members.find((m) => m !== currentUser._id);
         const getUser = async () => {
             try {
                 const res = await axios(`${baseURL}users/` + friendId);
@@ -30,17 +31,16 @@ export default function ({ item, currentUser, navigation }) {
             }
         };
         getUser();
-    }, [currentUser, item]);
+    }, [currentUser, conversation]);
 
-    const [currentChat, setCurrentChat] = useState(null);
-    console.log("Trò chuyện hiện tại", currentChat)
+    console.log("currentChat", currentChat)
 
     const onPressDetail = () => {
-        setCurrentChat(item)
+        setCurrentChat(conversation)
         navigation.navigate('ChatNavigator', {
             screen: 'Chat detail',
             params: {
-                id: item,
+                id: conversation,
                 user: user,
                 currentChat: currentChat
             }
