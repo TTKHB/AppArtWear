@@ -11,7 +11,6 @@ import {
   SectionList,
   ScrollView,
 } from 'react-native';
-import {sectionListData, listTab} from '../../assets/data/Menu/ItemMenu';
 import LoaderMenu from '../../components/Home/Loader/LoaderMenu';
 import useDashboard from '../../hooks/Dashboards/useDashboard';
 import useCategories from './../../hooks/Categories/useCategories';
@@ -82,6 +81,7 @@ const MenuScreen = ({navigation}) => {
   //Section List Header (Tiêu đề)
   const renderSectionHeader = ({section}) => {
     return (
+
       <View style={{marginTop: 15, marginLeft: 10}}>
         <Text style={styles.textTab}>{section.title}</Text>
       </View>
@@ -89,11 +89,10 @@ const MenuScreen = ({navigation}) => {
   };
   //List chứa các item Image,name,price, ...
   const renderListItem = ({item}) => {
+    console.log("Bac",item._id);
     return (
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('DrawerNavigator', {screen: 'ProductMenu'})
-        }>
+        onPress={() =>    navigation.navigate('DrawerNavigator', {screen: 'ProductMenu', params: { id_dashboard: item._id},}) }>
         <View key={item._id} style={styles.itemContainer}>
           <View style={styles.itemLogo}>
             <Image style={styles.itemImage} source={{uri: item.image}} />

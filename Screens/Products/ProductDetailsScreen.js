@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
-  ScrollView,
+  ScrollView,  RefreshControl
 } from 'react-native';
 import {format} from '../../utils/Methods';
 import IconFavorite from 'react-native-vector-icons/MaterialIcons';
@@ -153,6 +153,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
   const [expanded, setExpanded] = React.useState(true);
   const handlePress = () => setExpanded(!expanded);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [checkboxColor, setCheckboxColor] = React.useState('');
   const [imagesFilter, setImagesFilter] = React.useState([]);
   const [images, setImages] = React.useState([]);
@@ -276,28 +277,36 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
     }
   }, [images, checkboxColor]);
 
+  const onRefresh = React.useCallback(() => {
+    setLoading(true);
+    getAllProduct();
+    setRefreshing(false);
+  }, []);
   useFocusEffect(
     useCallback(() => {
+      setLoading(true);
       // Products
-      axios
-        .get(`${baseURL}products`)
-        .then(res => {
-          setProducts(res.data);
-          if (loading) {
-            setLoading(false);
-          }
-        })
-        .catch(error => {
-          console.log('Api call error');
-        });
+      getAllProduct();
+      getAllProductDetails ();
       return () => {
         setProducts([]);
+
       };
     }, []),
   );
 
-  useFocusEffect(
-    useCallback(() => {
+  const getAllProduct = () => {
+    axios
+      .get(`${baseURL}products`)
+      .then(res => {
+        setProducts(res.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log('Api call error');
+      });
+  };
+const getAllProductDetails = () => {
       // Products Detail
       axios
         .get(`${baseURL}products/` + id)
@@ -311,11 +320,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
         .catch(error => {
           console.log('Api call error');
         });
-      return () => {
-        setDetails([]);
-      };
-    }, []),
-  );
+};
 
   useFocusEffect(
     useCallback(() => {
@@ -417,7 +422,13 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
           </View>
         }
       />
-      <ScrollView>
+
+{loading ? (
+          <LoaderProductDetail />
+        ) : (
+      <ScrollView  refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
         <TriggeringView onHide={() => console.log('text hidden')}>
           <Animated.ScrollView style={{alignSelf: 'stretch'}}>
             {/* Dialog thêm thành công giỏ hàng */}
@@ -454,6 +465,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
                     <Image
                       style={styles.image}
                       source={{uri: image}}
+                      resizeMode="stretch"
                       // source={{uri: item.ThumbImg ? item.ThumbImg : null}}
                     />
                   </View>
@@ -601,7 +613,7 @@ const ProductDetailsScreen = ({route, navigation, likeCountProp}) => {
           </Animated.ScrollView>
         </TriggeringView>
       </ScrollView>
-
+        )}
       {/* Footer */}
       <View style={styles.footerContainer}>
         <TouchableWithoutFeedback

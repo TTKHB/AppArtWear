@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { StyleSheet, View,Text, FlatList,Dimensions,ScrollView,SafeAreaView } from 'react-native'
+import { StyleSheet, View,Text, FlatList,Dimensions,ScrollView,SafeAreaView,RefreshControl } from 'react-native'
 // import product component
 import SearchHangDau from '../../components/Home/SearchHangDau';
 import SwiperItemBody from '../../components/Home/SwiperItemBody';
@@ -9,13 +9,28 @@ import axios from 'axios';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 const {height, width} = Dimensions.get('window');
-// Menu tìm kiếm hàng đầu
+// Menu tìm kiếm hàng đầu dựa theo lượt viewer
 const MenuSearchHangDau = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [view,setView] = useState([]);
-    useFocusEffect(
-      useCallback(() => {
+    const [refreshing, setRefreshing] = useState(false);
+  
+  const onRefresh = React.useCallback(() => {
+    setLoading(true);
+    getAllMenuSearchHangDau();
+    setRefreshing(false);
+  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setLoading(true);
+      // Products
+      getAllMenuSearchHangDau();
+      return () => {
+        setProducts([]);
+      };
+    }, []),
+  );
+   const getAllMenuSearchHangDau=() => {
         // Products
         axios
           .get(`${baseURL}products`)
@@ -28,21 +43,15 @@ const MenuSearchHangDau = ({ navigation }) => {
           .catch(error => {
             console.log('Api call error');
           });
-          return () => {
-            setProducts([]);
-          };
-        }, []),
-      );
-  
-
+        };
   
     return (
-      
       <SafeAreaView>
       {loading ? (
         <LoaderSearchHangDau/>
       ) : (
-      <ScrollView showsVerticalScrollIndicator={false} >
+      <ScrollView showsVerticalScrollIndicator={false}  refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> }>
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>

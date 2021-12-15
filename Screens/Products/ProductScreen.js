@@ -32,10 +32,10 @@ const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
 const { height, width } = Dimensions.get('window');
 
 // trang home
-const ProductScreen = ({ item, navigation }) => {
+const ProductScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [flashsales, setFlashsales] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   const wait = timeout => {

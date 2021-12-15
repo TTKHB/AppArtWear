@@ -12,11 +12,11 @@ import {cloudinary} from '../../assets/common/cloudinary';
 import {
   parseImgCloudinary,
   getAllLinkFromImageBase64,
-} from './../../utils/handlerCloudinary';
-import useHots from './../../hooks/Hot/useHots';
-import {useLogin} from './../../Context/LoginProvider';
+} from '../../utils/handlerCloudinary';
+import useHots from '../../hooks/Hot/useHots';
+import {useLogin} from '../../Context/LoginProvider';
 import {useNavigation} from '@react-navigation/native';
-import Toast from './../../Shared/Toast/Toast';
+import Toast from '../../Shared/Toast/Toast';
 
 const PostScreen = () => {
   const [image, setImage] = useState([]);

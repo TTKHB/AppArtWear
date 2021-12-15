@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import {View, FlatList,Text, StyleSheet, ScrollView, Dimensions,SafeAreaView} from 'react-native';
+import {View, FlatList,Text, StyleSheet, ScrollView, Dimensions,SafeAreaView,  RefreshControl} from 'react-native';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
 import CountDown from '../../components/Home/CountDown';
 // API
@@ -13,11 +13,28 @@ import LoaderMenuFlashSale from'../../components/Home/Loader/LoaderMenuFlashSale
 const MenuFlashSale = ({navigation}) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
- 
+  const [refreshing, setRefreshing] = useState(false);
 
  
+
+  
+  const onRefresh = React.useCallback(() => {
+    setLoading(true);
+    getMenuFlashSale();
+    setRefreshing(false);
+  }, []);
   useFocusEffect(
     useCallback(() => {
+      setLoading(true);
+      // Products
+      getMenuFlashSale();
+      return () => {
+        setProducts([]);
+
+      };
+    }, []),
+  );
+  const getMenuFlashSale=() => {
       // Products
       axios
         .get(`${baseURL}products`)
@@ -29,17 +46,15 @@ const MenuFlashSale = ({navigation}) => {
         .catch(error => {
           console.log('Api call error');
         });
-      return () => {
-        setProducts([]);
-      };
-    }, []),
-  );
+  };
   return (
     <SafeAreaView>
     {loading ? (
       <LoaderMenuFlashSale />
     ) : (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <View style={styles.container}>
         <View style={{marginTop: 15,alignItems: 'center',justifyContent: 'center'}}>
           <Text style={{fontWeight: 'bold',color:'red'}}>KẾT THÚC</Text>
