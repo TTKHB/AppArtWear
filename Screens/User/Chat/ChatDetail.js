@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,182 +7,105 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import {ScrollView, TextInput} from 'react-native-gesture-handler';
-
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import axios from "axios";
+import Message from "../../User/Chat/Message";
 export const Back = require('../../../assets/images/back1.jpg');
-const chatLeft = [
-  {
-    id: 1,
-    title: 'Shop ban ngon ',
-  },
-];
+import { useLogin } from '../../../Context/LoginProvider';
+import { Styles } from './ChatStyle';
+import baseURL from '../../../assets/common/baseUrl';
+import { io } from 'socket.io-client';
 
-const ChatDetail = ({navigation, route}) => {
-  const {item} = route.params;
-  console.log('abcsd:', item);
+export default function ChatDetail({ navigation, route }) {
+  const user = route.params.user;
+  const currentChat = route.params.currentChat;
+  const { profile } = useLogin();
+  const [messages, setMessages] = useState([]);
+  const [soantin, setSoanTin] = useState("");
+
+  useEffect(() => {
+    //Tất cả tin nhắn của người dùng (message by id)
+    const getMessages = async () => {
+      try {
+        const res = await axios.get(`${baseURL}message/` + currentChat?._id);
+        setMessages(res.data);
+        console.log("Tin nhắn dau man", res.data)
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMessages();
+  }, [currentChat]);
+  console.log("Tin nhắn user", messages)
+
+  //Biến gửi tin nhắn
+  const handleSubmit = async () => {
+    const message = {
+      sender: profile._id,
+      text: soantin,
+      conversationId: currentChat._id,
+    };
+    try {
+      const res = await axios.post(`${baseURL}message`, message);
+      setMessages([...messages, res.data]);
+      //Gửi xong text input clear text 
+      setSoanTin("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View>
-      {/* header------------------------------------------------------------- */}
-      <View style={Styles.Header}>
+      {/* header */}
+      <View style={Styles.HeaderDetail}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={{width: '8%', justifyContent: 'center'}}>
+          style={{ width: '8%', justifyContent: 'center' }}>
           <Image style={Styles.backheader} source={Back} />
         </TouchableOpacity>
-        <View style={{justifyContent: 'center', width: '92%'}}>
-          <Text style={{fontSize: 19, color: 'white', marginLeft: 10}}>
-            {item.Username}
+        <View style={{ justifyContent: 'center', width: '92%' }}>
+          <Text style={{ fontSize: 19, color: 'white', marginLeft: 10, fontWeight: 'bold' }}>
+            {user ? user.fullname : ''}
           </Text>
         </View>
       </View>
-      {/* body-------------------------------------------------------- */}
-      <ScrollView style={Styles.Body}>
+      {/* body */}
+      <ScrollView style={Styles.BodyDetail}>
         <View>
-          <FlatList
-            data={chatLeft}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => {
-              return (
-                <View style={{padding: 10}}>
-                  <View
-                    style={{
-                      borderRadius: 7,
-                      backgroundColor: 'white',
-                      height: 40,
-                      width: '33%',
-                      justifyContent: 'center',
-                    }}>
-                    <Text style={{fontSize: 17, marginLeft: 5}}>
-                      {item.title}
-                    </Text>
-                  </View>
-                </View>
-              );
-            }}
-          />
-        </View>
-        <View>
-          <FlatList
-            data={chatLeft}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => {
-              return (
-                <View style={{padding: 10, alignSelf: 'flex-end'}}>
-                  <View
-                    style={{
-                      borderRadius: 7,
-                      backgroundColor: 'white',
-                      height: 40,
-                      width: '33%',
-                      justifyContent: 'center',
-                    }}>
-                    <Text style={{fontSize: 17, marginLeft: 5}}>
-                      {item.title}
-                    </Text>
-                  </View>
-                </View>
-              );
-            }}
-          />
+          <View style={{
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
+            <View style={{
+              height: '100%',
+              paddingRight: 10
+            }}>
+              {/* Truyền item tin nhắn qua Message (nơi hiện ảnh,tin nhắn, ngày giờ)*/}
+              {messages.map((m) => (
+                <Message message={m} own={m.sender === user._id} key={m._id} />
+              ))}
+            </View>
+          </View>
         </View>
       </ScrollView>
-      {/* chat----------------------------------------------------------------- */}
-      <View style={{height: '12%', width: '100%', backgroundColor: 'white'}}>
+      {/* Send tin nhan */}
+      <View style={{ height: '20%', width: '100%', backgroundColor: 'white' }}>
         <View style={Styles.ButtonChat}>
           <TextInput
+            value={soantin}
+            onChangeText={(e) => setSoanTin(e)}
             placeholder="Soạn tin nhắn"
-            style={{width: '85%', fontSize: 19, marginLeft: 10}}
+            style={{ width: '85%', fontSize: 19, marginLeft: 10 }}
           />
           <TouchableOpacity
-            style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontSize: 22, color: 'blue'}}>Gửi</Text>
+            onPress={handleSubmit}
+            style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 22, color: 'blue' }}>Gửi</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 };
-export default ChatDetail;
 
-export const Styles = StyleSheet.create({
-  Header: {
-    width: '100%',
-    height: '8%',
-    backgroundColor: '#8D6E63',
-    flexDirection: 'row',
-  },
-  backheader: {
-    width: 20,
-    height: 20,
-    marginLeft: 10,
-  },
-  backheader1: {
-    width: 26,
-    height: 26,
-    marginTop: 7,
-  },
-  //body--------------------------------------
-  Body: {
-    width: '100%',
-    height: '86%',
-    backgroundColor: '#D8E3E7',
-  },
-  inner: {
-    padding: 24,
-    flex: 1,
-    justifyContent: 'space-around',
-  },
-  header: {
-    fontSize: 36,
-    marginBottom: 48,
-  },
-  textInput: {
-    height: 40,
-    borderColor: '#000000',
-    borderWidth: 1,
-  },
-  btnContainer: {
-    backgroundColor: 'white',
-    marginTop: 12,
-  },
-  TextChat: {
-    fontSize: 24,
-    color: 'white',
-    fontWeight: 'bold',
-    marginLeft: 8,
-  },
-  ButtonChat: {
-    width: '100%',
-    height: 50,
-    flexDirection: 'row',
-    borderTopWidth: 0.5,
-  },
-  ChatLeft: {
-    width: '45%',
-    height: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  ChatRight: {
-    width: '55%',
-    height: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  Touchat: {
-    width: '25%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ImageAvatar: {
-    width: 35,
-    height: 35,
-    borderRadius: 50,
-  },
-  HederAvt: {
-    width: '80%',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-});

@@ -288,7 +288,7 @@ const OderDetail = ({ navigation, route }) => {
       {/*Footer Button Xác nhận */}
       <View style={styles.footer}>
         <View style={styles.btnItemXacNhan}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigation.goBack()}>
             <Text style={styles.textItemXacNhan}>Xác nhận</Text>
           </TouchableOpacity>
         </View>

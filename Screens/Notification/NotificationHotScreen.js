@@ -151,7 +151,7 @@ const NotificationHotScreen = () => {
           renderItem={({ item }) => <ListPost item={item} />}
           keyExtractor={(item) => item.id}
         />
-        <View style={styles.containerAllBody}>
+        {/* <View style={styles.containerAllBody}>
           <View>
             <Text style={styles.titleBody}>Những người bạn có thể biết</Text>
           </View>
@@ -165,7 +165,7 @@ const NotificationHotScreen = () => {
               Xem tất cả các đề xuất
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         < Text style={styles.notiTitle} > Trước đó</Text >
         <FlatList
