@@ -9,20 +9,17 @@ import {
   TouchableOpacity
 }
 from 'react-native';
-
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../../assets/common/baseUrl';
-
 import { useLogin } from '../../../Context/LoginProvider';
-
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 import { styles } from '../../../components/MyOrder/styles/AllOrderStyles';
 
 const TransPort = ({ navigation }) => {
   const { profile } = useLogin();
   const [orderList, setorderList] = useState([]);
-
+  const [checkorder, setcheckorder] = useState([]);
   useFocusEffect(
     useCallback(() => {
       axios
@@ -41,12 +38,25 @@ const TransPort = ({ navigation }) => {
     }, []),
   );
 
+  useEffect(() => {
+    const checkorderList = orderList.filter(item => {
+      if (item.status == "3") {
+        return item
+      } else {
+        console.log("Ko tim thay order")
+      }
+    })
+    setcheckorder(checkorderList)
+  }, [orderList]);
+
+  console.log("check TransPort list", checkorder)
+
   const renderOrder = ({ item }) => {
     let tl1 = ""
     let textGiaoHang = ""
     let textbtn = ""
 
-    let abcd = () => {
+    let onClickOrder = () => {
       if (item.status == 5) {
         navigation.navigate('CartNavigator', { screen: 'Cart' })
       }
@@ -55,14 +65,12 @@ const TransPort = ({ navigation }) => {
       }
     }
     if (item.status == 3) {
-        tl1 = "primary"
-        textGiaoHang = "Đang vận chuyển"
-        textbtn = "Theo dõi"
-      }
+      tl1 = "primary"
+      textGiaoHang = "Đang vận chuyển"
+      textbtn = "Theo dõi"
+    }
     return (
       <View>
-        {item.status == "3" ? (
-          <>
         <View style={styles.container1} key={item._id}>
           <View style={styles.container2}>
             <Text style={styles.textGiaoHang}>{textGiaoHang}</Text>
@@ -104,24 +112,37 @@ const TransPort = ({ navigation }) => {
               <Text style={styles.texttou}> Xem chi tiết
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.Tou, styles.marginLeft]} onPress={abcd}>
+            <TouchableOpacity style={[styles.Tou, styles.marginLeft]} onPress={onClickOrder}>
               <Text style={styles.texttou}> {textbtn}
               </Text>
             </TouchableOpacity>
           </View>
         </View>
-        </>
-        ) : null}
       </View>
     )
   }
   return (
     <View style={styles.container}>
-      <FlatList
-        data={orderList}
-        keyExtractor={item => item._id}
-        renderItem={renderOrder}
-      />
+      {checkorder.length !== 0 ? (
+        <>
+          <FlatList
+            data={checkorder}
+            keyExtractor={item => item._id}
+            renderItem={renderOrder}
+          />
+        </>
+      ) : (
+        <>
+          <View style={styles.ViewRong}>
+            <Image style={styles.images} source={{
+              uri: 'https://www.trangmall.com/Client/upload/News/User_1/2018/12/3/6P2SHv.png',
+            }} />
+            <Text style={styles.welcome}>
+              Rỗng
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };

@@ -13,13 +13,12 @@ export const car = require('../../../assets/images/car1.jpg');
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../../assets/common/baseUrl';
-
 import { useLogin } from '../../../Context/LoginProvider';
 
 const StarRatingOrder = ({ navigation }) => {
   const { profile } = useLogin();
   const [orderList, setorderList] = useState([]);
-
+  const [checkorder, setcheckorder] = useState([]);
   useFocusEffect(
     useCallback(() => {
       axios
@@ -38,86 +37,110 @@ const StarRatingOrder = ({ navigation }) => {
     }, []),
   );
 
+  useEffect(() => {
+    const checkorderList = orderList.filter(item => {
+      if (item.status == "4") {
+        return item
+      } else {
+        console.log("Ko tim thay order")
+      }
+    })
+    setcheckorder(checkorderList)
+  }, [orderList]);
+
+  console.log("check StarRatingOrder list", checkorder)
+
   const renderOrder = ({ item }) => {
     return (
       <View key={item._id}>
-        {item.status == "4" ? (
-          <>
-            {item.orderitems.map(e => (
-              <View style={styles.container1} key={e._id}>
-                <View style={styles.container2}>
-                  <View style={styles.left}>
-                    <View style={styles.giua}>
-                      <Image style={styles.images}
-                        source={{ uri: e.product ? e.product.ThumbImg : ' ' }}
-                      />
-                    </View>
-                  </View>
-                  <View style={styles.right}>
-                    <Text style={styles.textFlat}>
-                      {e.product ? e.product.ten : ' '}
-                    </Text>
-                    <Text style={styles.textFlat1}>
-                      Số lương: x {e.quantity}
-                    </Text>
-                    <Text style={styles.textFlat1}>
-                      {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
-                    </Text>
-                    <Text style={styles.textFlat2}>
-                      Tổng: {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.container3}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Image style={styles.icon} source={car} />
-                      <Text style={{ fontSize: 17, color: '#06AB7D', marginLeft: 10 }}>
-                        Giao hàng thành công
-                      </Text>
-                    </View>
-                    <TouchableOpacity
-                      style={{ marginRight: 6 }}
-                      onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
-                    >
-                      <Text style={{ fontSize: 18, fontWeight: 'bold', color: "#FF6347" }}>Mua lại</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                <View style={styles.container5}>
-                  <View>
-                    <Text style={styles.textFooter}>Cảm ơn bạn đã mua hàng {"\n"}của Art Wear</Text>
-                  </View>
-
-                  <TouchableOpacity
-                    style={styles.btnDanhGia}
-                    onPress={() =>
-                      navigation.navigate('UserNavigator', {
-                        screen: 'Rating',
-                        params:
-                        {
-                          item: item._id
-                        }
-                      })}>
-                    <Text style={styles.textDanhGia}>Đánh giá</Text>
-                  </TouchableOpacity>
+        {item.orderitems.map(e => (
+          <View style={styles.container1} key={e._id}>
+            <View style={styles.container2}>
+              <View style={styles.left}>
+                <View style={styles.giua}>
+                  <Image style={styles.images}
+                    source={{ uri: e.product ? e.product.ThumbImg : ' ' }}
+                  />
                 </View>
               </View>
-            ))}
-          </>
-        ) : null}
+              <View style={styles.right}>
+                <Text style={styles.textFlat}>
+                  {e.product ? e.product.ten : ' '}
+                </Text>
+                <Text style={styles.textFlat1}>
+                  Số lương: x {e.quantity}
+                </Text>
+                <Text style={styles.textFlat1}>
+                  {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
+                </Text>
+                <Text style={styles.textFlat2}>
+                  Tổng: {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
+                </Text>
+              </View>
+            </View>
+            <View style={styles.container3}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Image style={styles.icon} source={car} />
+                  <Text style={{ fontSize: 17, color: '#06AB7D', marginLeft: 10 }}>
+                    Giao hàng thành công
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={{ marginRight: 6 }}
+                  onPress={() => navigation.navigate('CartNavigator', { screen: 'Cart' })}
+                >
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: "#FF6347" }}>Mua lại</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.container5}>
+              <View>
+                <Text style={styles.textFooter}>Cảm ơn bạn đã mua hàng {"\n"}của Art Wear</Text>
+              </View>
+
+              <TouchableOpacity
+                style={styles.btnDanhGia}
+                onPress={() =>
+                  navigation.navigate('UserNavigator', {
+                    screen: 'Rating',
+                    params:
+                    {
+                      item: item._id
+                    }
+                  })}>
+                <Text style={styles.textDanhGia}>Đánh giá</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
       </View>
 
     );
   }
-  
+
   return (
     <View style={styles.container}>
-      <FlatList
-        data={orderList}
-        keyExtractor={item => item._id}
-        renderItem={renderOrder}
-      />
+      {checkorder.length !== 0 ? (
+        <>
+          <FlatList
+            data={checkorder}
+            keyExtractor={item => item._id}
+            renderItem={renderOrder}
+          />
+        </>
+      ) : (
+        <>
+          <View style={styles.ViewRong}>
+            <Image style={styles.images} source={{
+              uri: 'https://www.trangmall.com/Client/upload/News/User_1/2018/12/3/6P2SHv.png',
+            }} />
+            <Text style={styles.welcome}>
+              Rỗng
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -231,7 +254,22 @@ const styles = StyleSheet.create({
   },
   textFooter: {
     fontSize: 16
-  }
+  },
+  ViewRong: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  images: {
+    width: 100,
+    height: 100,
+  },
 });
 
 export default StarRatingOrder;
