@@ -50,6 +50,7 @@
     "react-native-numeric-input": "^1.9.0",
     "react-native-pager-view": "^5.4.7",
     "react-native-paper": "^4.9.2",
+    "react-native-push-notification": "^8.1.1",
     "react-native-reanimated": "^2.2.0",
     "react-native-rheostat": "^1.0.2",
     "react-native-rounded-checkbox": "^0.1.4",

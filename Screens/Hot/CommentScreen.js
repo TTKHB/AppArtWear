@@ -69,10 +69,10 @@ const CommentScreen = ({likeCountProp, navigation, route}) => {
     setLikeCount(likeCountProp);
   }, []);
 
-  const sendKeyboardSubmit = () => {
-    postComment(comment);
+  const sendKeyboardSubmit = async () => {
+    await postComment(comment);
     setComment(null);
-    getComments();
+    await getComments();
   };
 
   const renderItemComment = ({item}) => {

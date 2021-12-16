@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Dimensions,
@@ -20,23 +20,23 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LoaderHot from '../../components/Home/Loader/LoaderHot';
 import Swiper from 'react-native-swiper';
-import { dataPost } from '../../assets/data/Hot/DataNews';
-import { Tooltip } from 'react-native-elements';
+import {dataPost} from '../../assets/data/Hot/DataNews';
+import {Tooltip} from 'react-native-elements';
 import useHots from './../../hooks/Hot/useHots';
-const { width } = Dimensions.get('window');
-import { useFocusEffect } from '@react-navigation/native';
+const {width} = Dimensions.get('window');
+import {useFocusEffect} from '@react-navigation/native';
 import useLikeHots from '../../hooks/Hot/useLikeHots';
-import { useLogin } from '../../Context/LoginProvider';
+import {useLogin} from '../../Context/LoginProvider';
 import useUserLiked from './../../hooks/Hot/useUserLiked';
 import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
+import {formatDate} from './../../utils/Methods';
 
 TimeAgo.addLocale(vi);
 export const timeAgo = new TimeAgo('vi-VN');
 export const add = require('../../assets/images/postt.jpg');
 
 const Post = ({item, item: likeCountProp, navigation}) => {
-  
   timeAgo.getLabels('narrow');
   const {isLoggedIn, profile} = useLogin();
   console.log('🚀 ~ file: HotScreen.js ~ line 34 ~ Post ~ profile', profile);
@@ -81,18 +81,24 @@ const Post = ({item, item: likeCountProp, navigation}) => {
   // const timeAgo = new TimeAgo('vi-VN');
 
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View style={{backgroundColor: 'white'}}>
       <View style={styles.containerHeader}>
         <View style={styles.letfHeader}>
           <View style={styles.containerImageHeader}>
             <Image
-              source={{ uri: item.user_id ? item.user_id.avatar : null }}
+              source={{uri: item.user_id ? item.user_id.avatar : null}}
               style={styles.imageHeader}
             />
           </View>
           <View style={{flexDirection: 'column', marginTop: 10}}>
             <Text style={styles.nameHeader}>
-              {item.user_id ? item.user_id.fullname : null}{"\t"}<Ionicons name="md-checkmark-circle-sharp" size={20} color={'#66CCFF'} />
+              {item.user_id ? item.user_id.fullname : null}
+              {'\t'}
+              <Ionicons
+                name="md-checkmark-circle-sharp"
+                size={20}
+                color={'#66CCFF'}
+              />
             </Text>
             <Text>{timeAgo.format(new Date(item.dateCreated))}</Text>
           </View>
@@ -112,19 +118,23 @@ const Post = ({item, item: likeCountProp, navigation}) => {
         <Text>{item.content}</Text>
       </View>
       <Swiper style={styles.wrapper} loop={true}>
-        {item.images.length > 0
-          ? item.images.map((image, i) => (
-              <View key={i} style={styles.slide}>
-                <Image
-                  style={styles.image}
-                  resizeMode={'stretch'}
-                  source={{
-                    uri: image,
-                  }}
-                />
-              </View>
-            ))
-          : null}
+        {item.images.length > 0 ? (
+          item.images.map((image, i) => (
+            <View key={i} style={styles.slide}>
+              <Image
+                style={styles.image}
+                resizeMode={'stretch'}
+                source={{
+                  uri: image,
+                }}
+              />
+            </View>
+          ))
+        ) : (
+          <View>
+            <Text>212</Text>
+          </View>
+        )}
       </Swiper>
 
       <View style={styles.containerFooter}>
@@ -154,7 +164,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
           </View>
         </View>
         {/* <Text style={styles.likeFooter}>{likeCount} Likes</Text> */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           {/* <Text style={styles.captionFooter}>{item.caption}</Text>
           <Text style={styles.postedAtFooter}>{item.postedAt}</Text> */}
         </View>
@@ -163,7 +173,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
   );
 };
 
-const HotScreen = ({navigation}) => {
+const HotScreen = ({navigation, goBack}) => {
   const {hots, getAllHots} = useHots();
   const [hotsFiltered, setHotsFiltered] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -173,23 +183,36 @@ const HotScreen = ({navigation}) => {
   }, []);
   const [refreshing, setRefreshing] = useState(false);
 
-  useFocusEffect(
-    useCallback(() => {
-      setLoading(true);
-      setHotsFiltered(hots);
-      setLoading(false);
+  console.log('test goback', navigation.canGoBack());
 
-      return () => {
-        setHotsFiltered([]);
-        setLoading(false);
-      };
-    }, [hots]),
-  );
-  useFocusEffect(
-    useCallback(() => {
-      getAllHots();
-    }, []),
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     setLoading(true);
+  //     setHotsFiltered(hots);
+  //     setLoading(false);
+
+  //     return () => {
+  //       setHotsFiltered([]);
+  //       setLoading(false);
+  //     };
+  //   }, [hots]),
+  // );
+
+  useEffect(() => {
+    setLoading(true);
+    setHotsFiltered(hots);
+    setLoading(false);
+
+    return () => {
+      setHotsFiltered([]);
+      setLoading(false);
+    };
+  }, [hots]);
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     getAllHots();
+  //   }, []),
+  // );
 
   return (
     <SafeAreaView>
@@ -255,7 +278,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#3c3c3c',
     fontSize: 18,
-    marginVertical: 5
+    marginVertical: 5,
   },
   nameHeaderTime: {
     // alignSelf: 'center',
@@ -328,6 +351,9 @@ const styles = StyleSheet.create({
 
   wrapper: {
     height: Dimensions.get('window').height / 3,
+    backgroundColor: 'white',
+  },
+  noImages: {
     backgroundColor: 'white',
   },
   slide: {

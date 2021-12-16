@@ -18,11 +18,26 @@ import DrawerNavigator from '../DrawerNavigator';
 import DetailMenu from '../../Screens/Menu/DetailMenu';
 import TabView from '../TabView';
 import {useLogin} from '../../Context/LoginProvider';
+import {useNavigation} from '@react-navigation/native';
+import useNotificationHot from './../../hooks/Notification/NotificationType/useNotificationHot';
+import {NotificationAndroid} from './../../Shared/Notification/NotificationAndroid';
 
 const Stack = createStackNavigator();
 
 const StackScreen = () => {
   const {loading} = useLogin();
+  const {NotificationHot, getAllNotificationHot} = useNotificationHot();
+  const navigation = useNavigation();
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    NotificationAndroid.createChannel({});
+    NotificationAndroid.initNotification({navigation});
+
+    // NotificationAndroid.initNotification({navigation});
+  }, []);
+
   return (
     <Stack.Navigator>
       {!loading ? (
