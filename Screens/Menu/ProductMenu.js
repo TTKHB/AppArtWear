@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,188 +7,231 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
-  Button,
   FlatList,
 } from 'react-native';
-import IconSearch from 'react-native-vector-icons/Ionicons';
-import IconLove from 'react-native-vector-icons/AntDesign';
-import IconBack from 'react-native-vector-icons/Ionicons';
+import useDashboard from '../../hooks/Dashboards/useDashboard';
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
-import IconFilter from 'react-native-vector-icons/AntDesign';
-
-import {List} from 'react-native-paper';
-
+import {Header, Icon} from 'react-native-elements';
+import {format} from '../../utils/Methods';
 const {height, width} = Dimensions.get('window');
-const numColumns = 2;
-import {DATA} from '../../assets/data/PopularSearch';
+import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
+import baseURL from '../../assets/common/baseUrl';
+import {useLogin} from '../../Context/LoginProvider';
+const ProductMenu = ({navigation, route}) => {
+  const {isLoggedIn, profile} = useLogin();
+  const [cartItems, setCartItems] = useState([]);
+  const {dashboard} = useDashboard();
+  const [products, setProducts] = useState([]);
+  const id_dashboard = route.params.id_dashboard;
+  console.log('Thang', id_dashboard);
+  const [menudashboard,setMenudashboard] = useState([]);
+  useFocusEffect(
+    useCallback(() => {
+      axios
+        .get(`${baseURL}products`)
+        .then(res => {
+          setProducts(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+      return () => {
+        setProducts([]);
+   
+      };
+    }, []),
+  );
+  // find menudashboard
 
-const ProductMenu = ({navigation}) => {
-  const renderItem = ({item, index}) => {
+
+  useEffect(() => {
+    const menu = products.filter((item) => {
+      if (item.styleid == id_dashboard) {
+        return item
+      }
+      else {
+        console.log('Không tìm thấy sản phẩm');
+      }
+    });
+    setMenudashboard(menu)
+    },[products])
+
+  // Carts
+  useFocusEffect(
+    useCallback(() => {
+      // Carts
+      axios
+        .get(`${baseURL}carts/user/` + profile._id)
+        .then(res => {
+          setCartItems(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+      return () => {
+        setCartItems([]);
+      };
+    }, []),
+  );
+
+  const renderItem = ({item}) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('DetailMenu')}>
-        <View style={styles.viewPopSearch}>
-          <View style={{flex: 2}}>
-            <Image
-              style={{flex: 1, width: null, height: null, resizeMode: 'cover'}}
-              source={item.image}
-            />
-          </View>
-          <View style={{flex: 1}}>
-            <Text style={{fontSize: 20, fontWeight: 'bold'}}>{item.name}</Text>
-            <Text style={{fontSize: 18, fontWeight: 'bold', color: 'red'}}>
-              {item.price}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('HomeNavigator', {
+                screen: 'Product Detail',
+                params: {id: item._id},
+              })
+            }>
+            <View style={styles.viewPopSearch}>
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  source={{uri: item.ThumbImg}}
+                  style={{height: 170, width: '100%'}}
+                />
+              </View>
+              <View style={{marginLeft: 4}}>
+                <Text style={styles.cardName}>{item.ten}</Text>
+              </View>
+              <View style={{marginLeft: 4}}>
+                <Text style={styles.price}>{item.gia}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+      </View>
     );
   };
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.navHeader}>
-          <IconBack
-            name="chevron-back"
-            size={28}
-            onPress={() => navigation.goBack()}
-          />
-          <IconSearch
-            name="md-search-outline"
-            size={28}
-            style={{marginRight: 30}}
-          />
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-            Sản phẩm tiện ích
-          </Text>
-          <IconLove name="hearto" size={28} style={{marginLeft: 30}} />
-          <IconCart name="handbag" size={28} />
-        </View>
+      <Header
+        containerStyle={{
+          backgroundColor: '#ffffff',
+          borderColor: '#F5F5F5',
+          borderWidth: 1,
+          width: '100%',
+        }}
+        centerComponent={{
+          text: 'Sản Phẩm',
+          style: {
+            color: '#8D6E63',
+            textAlign: 'center',
+            alignSelf: 'center',
+            fontSize: 25,
+            fontWeight: 'bold',
+          },
+        }}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Icon
+              name="angle-left"
+              size={25}
+              type="font-awesome"
+              color="#000000"
+              style={{marginLeft: 5}}
+            />
+          </TouchableOpacity>
+        }
+        rightComponent={
+          <View
+            style={{
+              flexDirection: 'row',
+              marginRight: 10,
+            }}>
+            {isLoggedIn ? (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('CartNavigator', {screen: 'Cart'})
+                  }>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{marginRight: -8}}>
+                      <IconCart name="handbag" size={24} />
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'red',
+                        height: 20,
+                        width: 20,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{color: 'white', fontWeight: 'bold'}}>
+                        {cartItems.length ? (
+                          <Text>{cartItems.length}</Text>
+                        ) : (
+                          <Text>0</Text>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('UserNavigator', {screen: 'Login'})
+                  }>
+                  <IconCart name="handbag" size={24} />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        }
+      />
+      <View style={styles.bodyContainer}>
+        <ScrollView showsVerticalScrollIndicator={false} horizontal>
+          <FlatList data={menudashboard} numColumns={2} renderItem={renderItem} />
+          <View style={styles.footer}></View>
+        </ScrollView>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.body}>
-          <View style={styles.viewBody}>
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <View style={styles.itemBody}>
-                <Text style={styles.itemText}>Sàng lọc</Text>
-                <IconFilter name="filter" size={28} style={{marginLeft: 10}} />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <View style={{width: 140, marginTop: -8}}>
-                <List.Section>
-                  <List.Accordion
-                    title="Tình trạng"
-                    titleStyle={{
-                      color: 'black',
-                      fontWeight: 'bold',
-                      fontSize: 14,
-                    }}
-                    style={{backgroundColor: '#fff'}}></List.Accordion>
-                </List.Section>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-              <View style={{width: 140, marginTop: -8}}>
-                <List.Section>
-                  <List.Accordion
-                    title="Kiểu dáng"
-                    titleStyle={{
-                      color: 'black',
-                      fontWeight: 'bold',
-                      fontSize: 14,
-                    }}
-                    style={{backgroundColor: '#fff'}}></List.Accordion>
-                </List.Section>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.viewDeXuat}>
-            <ScrollView horizontal>
-              <FlatList
-                numColumns={numColumns} // numColumns 2 nam ngang
-                pagingEnabled={true}
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
-                data={DATA} //set Data
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </ScrollView>
-            <View style={{marginLeft: 4}}></View>
-          </View>
-        </View>
-        <View style={styles.footer}></View>
-      </ScrollView>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F1FF',
-  },
-  header: {
     backgroundColor: '#fff',
-    width: width,
-    height: '5%',
-    justifyContent: 'center',
+ 
   },
-  navHeader: {
+  // Header Style
+  headerContainer: {
+    paddingTop: 0,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
   },
-  body: {
+
+  // Body Style
+  bodyContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  footer: {
-    height: '10%',
-  },
-  textBox: {
-    marginLeft: 15,
-    marginTop: 10,
-    color: '#384F7D',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  viewBody: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-    paddingHorizontal: 5,
-    marginHorizontal: 10,
-  },
-  itemBody: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 0.5,
-    borderColor: '#C0C0C0',
-    height: height / 17.0,
-  },
-  itemText: {
-    fontSize: 16,
-    fontStyle: 'normal',
-    color: '#000000',
-    fontWeight: 'bold',
-  },
-  viewDeXuat: {
-    marginVertical: 5,
-    backgroundColor: '#fff',
-    height: height,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 5,
+    marginTop: 20,
   },
   viewPopSearch: {
-    margin: 10,
-    height: 300,
-    borderColor: '#C0C0C0',
-    borderWidth: 0.3,
-    width: width / 2.2,
+    height: 250,
+    backgroundColor: 'white',
+    elevation: 3,
+    width: width / 2.24,
+    marginVertical: 10,
+    marginHorizontal: 10.5,
+    borderRadius: 5,
+  },
+  cardName: {
+    marginTop: 10,
+    fontSize: 18,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  price: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

@@ -45,7 +45,7 @@ const AllOder = ({ navigation }) => {
     let textGiaoHang = ""
     let textbtn = ""
 
-    let abcd = () => {
+    let onClickOrder = () => {
       if (item.status == 5) {
         navigation.navigate('CartNavigator', { screen: 'Cart' })
       }
@@ -55,7 +55,7 @@ const AllOder = ({ navigation }) => {
     }
     if (item.status == 1) {
       tl1 = "warning",
-        textGiaoHang = "Đơn hàng đang xử lý"
+      textGiaoHang = "Đơn hàng đang xử lý"
       textbtn = "Theo dõi"
     }
     if (item.status == 2) {
@@ -120,7 +120,7 @@ const AllOder = ({ navigation }) => {
             <Text style={styles.texttou}> Xem chi tiết
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.Tou, styles.marginLeft]} onPress={abcd}>
+          <TouchableOpacity style={[styles.Tou, styles.marginLeft]} onPress={onClickOrder}>
             <Text style={styles.texttou}> {textbtn}
             </Text>
           </TouchableOpacity>

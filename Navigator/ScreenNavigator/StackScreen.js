@@ -8,6 +8,7 @@ import HomeNavigator from '../HomeNavigator';
 import CartNavigator from '../CartNavigator';
 import ProductMenu from '../../Screens/Menu/ProductMenu';
 import PaymentNavigator from '../PaymentNavigator';
+import ChatNavigator from '../ChatNavigator';
 
 //Icon
 import IconCart from 'react-native-vector-icons/SimpleLineIcons';
@@ -106,6 +107,11 @@ const StackScreen = () => {
       <Stack.Screen
         name="PaymentNavigator"
         component={PaymentNavigator}
+        options={{header: () => null}}
+      />
+      <Stack.Screen
+        name="ChatNavigator"
+        component={ChatNavigator}
         options={{header: () => null}}
       />
     </Stack.Navigator>

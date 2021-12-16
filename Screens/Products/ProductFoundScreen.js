@@ -2,34 +2,30 @@ import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
-  StatusBar,
   Dimensions,
   FlatList,
   TouchableOpacity,
   DrawerLayoutAndroid,
   StyleSheet,
   ScrollView,
-  Image,
-  Animated,
   ToastAndroid,
 } from 'react-native';
 import {Header, SearchBar, ListItem, Icon, Button} from 'react-native-elements';
 const {width, height} = Dimensions.get('window');
-import {List} from 'react-native-paper';
-import contents from './../../assets/data/contents';
-import ItemGrid from './../../components/Home/ItemGrid';
-import ItemList from './../../components/Home/ItemList';
+import contents from '../../assets/data/contents';
+import ItemGrid from '../../components/Home/ItemGrid';
+import ItemList from '../../components/Home/ItemList';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import axios from '../../assets/data/client';
-import baseURL from './../../assets/common/baseUrl';
+import baseURL from '../../assets/common/baseUrl';
 import AccordionContainer from '../../components/Home/FormContainer/AccordionContainer';
 import colorsFIlter from '../../assets/data/Filter/colorsFIlter';
 import SizeFilter from '../../assets/data/Filter/SizeFilter';
 import ItemColor from '../../components/Home/Item/ItemColor';
 import DataMenuItem from '../../assets/data/Filter/DataMenuItem';
 import ItemSize from '../../components/Home/Item/ItemSize';
-import ProductNotFound from './../../components/ProductMenu/ProductNotFound';
-import ActivityIndiCatorScreen from './../../Shared/ActivityIndicator/ActivityIndiCatorScreen';
+import ProductNotFound from '../../components/ProductMenu/ProductNotFound';
+import ActivityIndiCatorScreen from '../../Shared/ActivityIndicator/ActivityIndiCatorScreen';
 
 const ProductFoundScreen = ({navigation, route}) => {
   const title = route.params.title;

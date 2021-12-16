@@ -11,13 +11,12 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import {Header, Icon} from 'react-native-elements';
+import {Header,Icon} from 'react-native-elements';
 import Star from '../../components/ProductMenu/Star';
-import LoaderFavorite from '../../components/Home/Loader/LoaderFavorite';
-import IconCart from 'react-native-vector-icons/SimpleLineIcons';
-import Ionicons from 'react-native-vector-icons/Feather';
+import LoaderFavorite from '../../components/Home/Loader/LoaderFavorite';;
 import COLORS from '../../assets/data/colors';
 import axios from 'axios';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import {DATA} from '../../assets/data/PopularSearch';

@@ -263,36 +263,8 @@ const HomeNavigator = ({ navigation }) => {
       <Stack.Screen
         name="StarRating"
         component={StarRating}
-        options={{
-          title: 'Đánh giá',
-          headerStyle: {
-            backgroundColor: '#fff',
-            borderColor: '#F5F5F5',
-            borderWidth: 1
-          },
-          headerTintColor: '#8D6E63',
-          headerTitleStyle: {
-            textAlign: 'center',
-            alignSelf: 'center',
-            fontSize: 28,
-            fontWeight: 'bold'
-          },
-          headerTitleAlign: 'center',
-          headerRight: ({ color }) => (
-            <TouchableOpacity
-              style={{
-                flexDirection: 'row',
-                marginRight: 15
-              }}>
-              <IconFavorite
-                name="favorite-outline"
-                size={28}
-                style={{
-                  marginRight: 5
-                }} />
-              <IconCart name="handbag" size={24} />
-            </TouchableOpacity>
-          ),
+       options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

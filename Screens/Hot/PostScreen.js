@@ -6,124 +6,135 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-export const camera = require('../../assets/images/camera.jpg');
+export const camera = require ('../../assets/images/image.jpg');
 import ImagePicker from 'react-native-image-crop-picker';
 import {cloudinary} from '../../assets/common/cloudinary';
 import {
   parseImgCloudinary,
   getAllLinkFromImageBase64,
-} from './../../utils/handlerCloudinary';
-import useHots from './../../hooks/Hot/useHots';
-import {useLogin} from './../../Context/LoginProvider';
+} from '../../utils/handlerCloudinary';
+import useHots from '../../hooks/Hot/useHots';
+import {useLogin} from '../../Context/LoginProvider';
 import {useNavigation} from '@react-navigation/native';
-import Toast from './../../Shared/Toast/Toast';
+import Toast from '../../Shared/Toast/Toast';
 
 const PostScreen = () => {
-  const [image, setImage] = useState([]);
-  const {addNewHot, getAllHots} = useHots();
-  const [content, setContent] = useState('');
-  const [imageBase64, setImageBase64] = useState([]);
-  console.log('🚀 ~ file: PostScreen.js ~ line 20 ~ PostScreen ~ image', image);
-  const bs = React.createRef();
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const {profile} = useLogin();
-  const navigation = useNavigation();
+  const [image, setImage] = useState ([]);
+  const {addNewHot, getAllHots} = useHots ();
+  const [content, setContent] = useState ('');
+  const [imageBase64, setImageBase64] = useState ([]);
+  console.log (
+    '🚀 ~ file: PostScreen.js ~ line 20 ~ PostScreen ~ image',
+    image
+  );
+  const bs = React.createRef ();
+  const [isEnabled, setIsEnabled] = useState (false);
+  const toggleSwitch = () => setIsEnabled (previousState => !previousState);
+  const {profile} = useLogin ();
+  const navigation = useNavigation ();
 
   const createTwoButtonAlert = async () => {
     if (profile._id) {
       let images = [];
 
-      images = await getAllLinkFromImageBase64(imageBase64);
-      console.log(
+      images = await getAllLinkFromImageBase64 (imageBase64);
+      console.log (
         '🚀 ~ file: PostScreen.js ~ line 29 ~ createTwoButtonAlert ~ images',
-        images,
+        images
       );
-      const status = await addNewHot({user_id: profile._id, images, content});
+      const status = await addNewHot ({user_id: profile._id, images, content});
       if (status == 200) {
-        console.log('thanh cong');
-        Toast.showWithText('Đã thêm bài viết mới');
-        navigation.goBack();
+        console.log ('thanh cong');
+        Toast.showWithText ('Đã thêm bài viết mới');
+        navigation.goBack ();
       }
     }
   };
   const choosePhotoFromLibrary = () => {
-    ImagePicker.openPicker({
+    ImagePicker.openPicker ({
       // multiple: true,
       width: 300,
       height: 300,
       cropping: true,
       compressImageQuality: 0.7,
       includeBase64: true,
-    }).then(image => {
-      console.log(image);
+    }).then (image => {
+      console.log (image);
       let base64Img = `data:image/jpg;base64,${image.data}`;
-      setImage(pre => [...pre, image.path]);
-      setImageBase64(pre => [...pre, base64Img]);
+      setImage (pre => [...pre, image.path]);
+      setImageBase64 (pre => [...pre, base64Img]);
       // setImage(image.path);
     });
     // ImagePicker
   };
   return (
-    <View>
-      <View style={{width: '100%', height: '25%', backgroundColor: 'white'}}>
-        <View
-          style={{
-            width: '100%',
-            height: 150,
-            marginTop: 10,
-            marginLeft: 10,
-          }}>
-          <ScrollView horizontal={true}>
-            {image.map((item, i) => {
-              return (
-                <Image
-                  key={i}
-                  style={{width: 150, height: 150, marginHorizontal: 10}}
-                  resizeMode="stretch"
-                  source={{
-                    uri: item
-                      ? item
-                      : 'https://www.w3schools.com/w3css/img_lights.jpg',
-                  }}
-                />
-              );
-            })}
-          </ScrollView>
-        </View>
-      </View>
+    <View  style={{height: '100%', backgroundColor: 'white'}}>
 
       <View
         style={{
           width: '100%',
           height: '65%',
           backgroundColor: 'white',
-        }}>
+        }}
+      >
         <View
           style={{
             backgroundColor: 'white',
-            borderBottomWidth: 1,
-            borderColor: 'brown',
-          }}>
+            width: '100%',
+            height: '100%',
+          }}
+        >
           <TextInput
             value={content}
             onChangeText={setContent}
             placeholder="Do you have any new products today?"
             style={{
-              width: '90%',
+              width: '95%',
               alignSelf: 'center',
-              height: 170,
+              height: 60,
               marginTop: 10,
               textAlignVertical: 'top',
             }}
           />
           <View
+            style={{width: '100%', height: '25%', backgroundColor: 'white'}}
+          >
+            <View
+              style={{
+                width: '95%',
+                height: 300,
+                borderWidth: 0.2,
+                alignSelf: 'center',
+              }}
+            >
+              <ScrollView style={{width: '100%', height: '100%'}} horizontal={true}>
+
+                {image.map ((item, i) => {
+                  return (
+                    <Image
+                      key={i}
+                      style={{width: '100%', height: '100%'}}
+                      resizeMode="stretch"
+                      source={{
+                        uri: item
+                          ? item
+                          : 'https://www.w3schools.com/w3css/img_lights.jpg',
+                      }}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
             style={{
               width: '90%',
               height: 40,
               alignSelf: 'center',
               flexDirection: 'row',
-              alignItems: 'center',
+              marginTop: 20,
             }}>
             <TouchableOpacity
               onPress={choosePhotoFromLibrary}
@@ -132,32 +143,25 @@ const PostScreen = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: 100,
-                height: '85%',
-                backgroundColor: 'pink',
-                borderRadius: 7,
+                height: 60,
               }}>
               <Image source={camera} style={{width: 25, height: 25}} />
-              <Text style={{marginLeft: 3}}>Thêm ảnh</Text>
+              <Text style={{marginLeft: 6, marginTop: -7}}>Thêm ảnh</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: 120,
-                height: '85%',
-                backgroundColor: 'pink',
-                borderRadius: 7,
-                marginLeft: 10,
+                width: 100,
+                height: 60,
+                marginLeft: 170
               }}>
-              <Text>#Thêm Hashtag</Text>
+              <Image source={camera} style={{width: 25, height: 25}} />
+              <Text style={{marginLeft: 6, marginTop: -7}}>Thêm ảnh</Text>
             </TouchableOpacity>
-            <TextInput placeholder="Thêm Hashtag" />
           </View>
-        </View>
-      </View>
-
-      <View style={{width: '100%', height: '10%'}}>
+      <View style={{width: '100%', height: '10%', marginTop: 30}}>
         <TouchableOpacity
           onPress={createTwoButtonAlert}
           style={{
@@ -168,7 +172,8 @@ const PostScreen = () => {
             alignSelf: 'center',
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
+          }}
+        >
           <Text style={{fontSize: 20, color: 'white', fontWeight: 'bold'}}>
             Đăng
           </Text>

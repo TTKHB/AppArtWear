@@ -371,8 +371,7 @@ const styles = StyleSheet.create({
   image: {
     width: Dimensions.get('window').width / 1.06,
     flex: 1,
-    marginHorizontal: 10,
-    borderRadius: 10,
+    marginHorizontal: 12,
   },
   paginationStyle: {
     position: 'absolute',

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,13 +7,17 @@ import {
   ScrollView,
   SafeAreaView,
   TextInput,
+  TouchableOpacity
 } from 'react-native';
 import COLORS from '../../assets/data/colors';
+import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import Comment from './Comment';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import LoaderStarRating from '../../components/Home/Loader/LoaderStarRating';
-
-import {Rating, AirbnbRating} from 'react-native-elements';
+import axios from 'axios';
+import {useFocusEffect} from '@react-navigation/native';
+import baseURL from '../../assets/common/baseUrl';
+import {useLogin} from '../../Context/LoginProvider';
+import {Rating, AirbnbRating,Header,Icon} from 'react-native-elements';
 import useReviewByProductId from './../../hooks/Reviews/useReviewByProductId';
 import useReviewStatistic from './../../hooks/Reviews/useReviewStatistic';
 import {rate, average} from 'average-rating';
@@ -68,7 +72,8 @@ const StarRating = ({navigation, route}) => {
   const [countFiveStar, setcountFiveStar] = useState(0);
   const [NumRating, setNumRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
-
+  const {isLoggedIn, profile} = useLogin();
+  const [cartItems, setCartItems] = useState([]);
   useEffect(() => {
     setLoading(true);
     if (typeof reviewsStatistics !== 'undefined') {
@@ -112,13 +117,111 @@ const StarRating = ({navigation, route}) => {
     }
   }, [reviewsStatistics]);
 
+
+  useFocusEffect(
+    useCallback(() => {
+      // Carts
+      axios
+        .get(`${baseURL}carts/user/` + profile._id)
+        .then(res => {
+          setCartItems(res.data);
+        })
+        .catch(error => {
+          console.log('Api call error');
+        });
+
+      return () => {
+        setCartItems([]);
+      };
+    }, []),
+  );
+
   return (
-    <SafeAreaView>
+    
+          <View style={styles.container}>
+                 {/* Header */}
+      <Header
+        containerStyle={{
+          backgroundColor: '#ffffff',
+          borderColor: '#F5F5F5',
+          borderWidth: 1,
+        }}
+        centerComponent={{   
+          text: 'Yêu thích',
+         style: { color: '#8D6E63',textAlign: 'center',
+             alignSelf: 'center',
+             fontSize: 25,
+             fontWeight: 'bold' } 
+
+        }}
+        leftComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Icon
+              name="angle-left"
+              size={25}
+              type="font-awesome"
+              color="#000000"
+              style={{marginLeft: 5}}
+            />
+          </TouchableOpacity>
+        }
+        rightComponent={
+          <View
+            style={{
+              flexDirection: 'row',
+              marginRight: 10,
+            }}>
+            {isLoggedIn ? (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('CartNavigator', {screen: 'Cart'})
+                  }>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{marginRight: -8}}>
+                      <IconCart name="handbag" size={24} />
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'red',
+                        height: 20,
+                        width: 20,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{color: 'white', fontWeight: 'bold'}}>
+                        {cartItems.length ? (
+                          <Text>{cartItems.length}</Text>
+                        ) : (
+                          <Text>0</Text>
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('UserNavigator', {screen: 'Login'})
+                  }>
+                  <IconCart name="handbag" size={24} />
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        }
+      />
+      <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false}>
         {loading ? (
           <LoaderStarRating />
         ) : (
-          <View style={styles.container}>
             <View style={styles.reviewContainer}>
               <View style={styles.totalWrap}>
                 <View
@@ -142,11 +245,7 @@ const StarRating = ({navigation, route}) => {
                       fractions={1}
                       startingValue={NumRating}
                     />
-                    {/* <Icon name="star" color="orange" size={25} />
-                    <Icon name="star" color="orange" size={25} />
-                    <Icon name="star" color="orange" size={25} />
-                    <Icon name="star" color="orange" size={25} />
-                    <Icon name="star" color="orange" size={25} /> */}
+                    
                   </View>
                 </View>
               </View>
@@ -178,10 +277,11 @@ const StarRating = ({navigation, route}) => {
               {/* Người dùng bình luận */}
               <Comment reviews={reviewsOfProduct} />
             </View>
-          </View>
         )}
       </ScrollView>
     </SafeAreaView>
+          </View>
+
   );
 };
 
