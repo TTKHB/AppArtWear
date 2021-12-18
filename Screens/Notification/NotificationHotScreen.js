@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,10 @@ import {
   FlatList,
   SafeAreaView
 } from 'react-native';
+import { Provider } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5'
+import BottomSheet from './BottomSheet';
+import BottomSheetNotification from './BottomSheetNotification';
 
 const Notification = {
   post: [
@@ -90,6 +93,7 @@ const Notification = {
 }
 
 const ListPost = ({ item }) => {
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
   return (
     <View style={{ backgroundColor: "#fff" }}>
       <TouchableOpacity
@@ -104,9 +108,12 @@ const ListPost = ({ item }) => {
             <Text style={styles.hightlightTxt}>{item.name}</Text> {item.content}</Text>
           <Text style={{ color: '#333' }}>{item.create_at}</Text>
         </View>
-        <TouchableOpacity style={styles.btnOptions}>
+        <TouchableOpacity style={styles.btnOptions} onPress={() => setShowBottomSheet(true)}>
           <FontAwesome5Icon name="ellipsis-h" />
         </TouchableOpacity>
+        <BottomSheet showBottomSheet={showBottomSheet} enableBackdropDismiss onDismiss={() => { setShowBottomSheet(false) }}>
+          <BottomSheetNotification />
+        </BottomSheet>
       </TouchableOpacity>
     </View >
   );
@@ -137,6 +144,7 @@ const ListRecommend = ({ item }) => {
 const NotificationHotScreen = () => {
 
   return (
+    <Provider>
     <SafeAreaView>
       <ScrollView bounces={false} showsHorizontalScrollIndicator={false} style={styles.container}>
         <View style={styles.titleWrapper}>
@@ -175,6 +183,7 @@ const NotificationHotScreen = () => {
         />
       </ScrollView >
     </SafeAreaView>
+    </Provider>
   )
 }
 
