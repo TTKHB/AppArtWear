@@ -5,7 +5,7 @@ import baseURL from './../../assets/common/baseUrl';
 import axios from './../../assets/data/client copy';
 
 const useHots = () => {
-  const [hots, setHots] = useState();
+  const [hots, setHots] = useState([]);
 
   //get all hots
   useEffect(async () => {

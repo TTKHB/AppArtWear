@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   View,
   Dimensions,
@@ -31,6 +31,7 @@ import useUserLiked from './../../hooks/Hot/useUserLiked';
 import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
 import {formatDate} from './../../utils/Methods';
+import {useScroll} from './../../Context/ScrollContext';
 
 TimeAgo.addLocale(vi);
 export const timeAgo = new TimeAgo('vi-VN');
@@ -173,10 +174,47 @@ const Post = ({item, item: likeCountProp, navigation}) => {
   );
 };
 
-const HotScreen = ({navigation, goBack}) => {
+const HotScreen = ({navigation, goBack, route}) => {
   const {hots, getAllHots} = useHots();
   const [hotsFiltered, setHotsFiltered] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [enableScrollViewScroll, setEnableScrollViewScroll] = useState(false);
+  const flatref = useRef(null);
+  const myscroll = useRef(null);
+  const {ScrollingWithId} = useScroll();
+
+  console.log(
+    '🚀 ~ file: HotScreen.js ~ line 183 ~ HotScreen ~ ScrollingWithId',
+    ScrollingWithId,
+  );
+
+  // useEffect(() => {
+  //   //on scroll event and start scrolling
+  if (ScrollingWithId) {
+    const wait = new Promise(resolve => setTimeout(resolve, 500));
+
+    // flatref.current.scrollToIndex({index: 4});
+    // flatref.current.scrollToIndex({index: 6});
+    wait.then(() => {
+      const indexOfHot = hotsFiltered.findIndex(hot => {
+        console.log(
+          '🚀 ~ file: HotScreen.js ~ line 193 ~ //useEffect ~ hot',
+          hot,
+        );
+
+        return hot._id == ScrollingWithId;
+      });
+      console.log(
+        '🚀 ~ file: HotScreen.js ~ line 199 ~ //useEffect ~ indexOfHot',
+        indexOfHot,
+      );
+      if (indexOfHot) {
+        flatref.current.scrollToIndex({index: indexOfHot});
+      }
+    });
+  }
+  // }, [flatref, hotsFiltered]);
+
   const onRefresh = React.useCallback(() => {
     getAllHots();
     setRefreshing(false);
@@ -184,19 +222,6 @@ const HotScreen = ({navigation, goBack}) => {
   const [refreshing, setRefreshing] = useState(false);
 
   console.log('test goback', navigation.canGoBack());
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     setLoading(true);
-  //     setHotsFiltered(hots);
-  //     setLoading(false);
-
-  //     return () => {
-  //       setHotsFiltered([]);
-  //       setLoading(false);
-  //     };
-  //   }, [hots]),
-  // );
 
   useEffect(() => {
     setLoading(true);
@@ -208,40 +233,41 @@ const HotScreen = ({navigation, goBack}) => {
       setLoading(false);
     };
   }, [hots]);
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     getAllHots();
-  //   }, []),
-  // );
 
   return (
-    <SafeAreaView>
+    <View style={{flex: 1}}>
       {loading ? (
         <LoaderHot />
       ) : (
-        <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
-          <View>
-            <FlatList
-              data={hotsFiltered}
-              keyExtractor={({id}) => id}
-              renderItem={({item}) => (
-                <Post item={item} navigation={navigation} />
-              )}
-            />
-          </View>
-        </ScrollView>
+        <View>
+          <FlatList
+            ref={flatref}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            data={hotsFiltered}
+            // getItemLayout={(data, index) => {
+            //   console.log('index', index);
+            //   console.log('data', data);
+            // }}
+            keyExtractor={({id}) => id}
+            renderItem={({item}) => (
+              <Post item={item} navigation={navigation} />
+            )}
+          />
+        </View>
       )}
+
       <View>
         <TouchableOpacity
-          onPress={() => navigation.navigate('PostScreen')}
+          onPress={() => {
+            navigation.navigate('PostScreen');
+          }}
           style={{marginTop: '-20%', marginLeft: '80%'}}>
           <Image source={add} style={{width: 70, height: 70}} />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

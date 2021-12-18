@@ -1,13 +1,17 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import LoginProvider from './Context/LoginProvider';
 import StackScreen from './Navigator/ScreenNavigator/StackScreen';
+import ScrollContext from './Context/ScrollContext';
+
 const App = () => {
   return (
     <LoginProvider>
-      <NavigationContainer>
-        <StackScreen/>
-      </NavigationContainer>
+      <ScrollContext>
+        <NavigationContainer>
+          <StackScreen />
+        </NavigationContainer>
+      </ScrollContext>
     </LoginProvider>
   );
 };

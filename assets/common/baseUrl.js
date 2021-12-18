@@ -1,4 +1,4 @@
-let baseURL = 'https://artwear.herokuapp.com/api/v1/';
+let baseURL = 'http://10.0.2.2:3000/api/v1/';
 export let URL_Cloudinary =
   'https://api.cloudinary.com/v1_1/uploadartwear/image/upload';
 // {
