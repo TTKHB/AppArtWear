@@ -20,8 +20,8 @@ import DetailMenu from '../../Screens/Menu/DetailMenu';
 import TabView from '../TabView';
 import {useLogin} from '../../Context/LoginProvider';
 import {useNavigation} from '@react-navigation/native';
-import useNotificationHot from './../../hooks/Notification/NotificationType/useNotificationHot';
-import {NotificationAndroid} from './../../Shared/Notification/NotificationAndroid';
+import useNotificationHot from '../../hooks/Notification/NotificationType/useNotificationHot';
+import {NotificationAndroid} from '../../Shared/Notification/NotificationAndroid';
 
 const Stack = createStackNavigator();
 

@@ -11,6 +11,7 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Feather';
 import {Header,Icon} from 'react-native-elements';
 import Star from '../../components/ProductMenu/Star';
 import LoaderFavorite from '../../components/Home/Loader/LoaderFavorite';;

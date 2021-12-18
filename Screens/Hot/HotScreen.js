@@ -215,11 +215,11 @@ const HotScreen = ({navigation, goBack}) => {
   // );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView >
       {loading ? (
         <LoaderHot />
       ) : (
-        <ScrollView
+        <ScrollView showsVerticalScrollIndicator={false} horizontal
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
