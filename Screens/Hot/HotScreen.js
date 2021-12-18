@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Dimensions,
@@ -20,33 +20,37 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LoaderHot from '../../components/Home/Loader/LoaderHot';
 import Swiper from 'react-native-swiper';
-import {dataPost} from '../../assets/data/Hot/DataNews';
-import {Tooltip} from 'react-native-elements';
+import { dataPost } from '../../assets/data/Hot/DataNews';
+import { Tooltip } from 'react-native-elements';
 import useHots from './../../hooks/Hot/useHots';
-const {width} = Dimensions.get('window');
-import {useFocusEffect} from '@react-navigation/native';
+const { width } = Dimensions.get('window');
+import { useFocusEffect } from '@react-navigation/native';
 import useLikeHots from '../../hooks/Hot/useLikeHots';
-import {useLogin} from '../../Context/LoginProvider';
+import { useLogin } from '../../Context/LoginProvider';
 import useUserLiked from './../../hooks/Hot/useUserLiked';
 import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
-import {formatDate} from './../../utils/Methods';
+import { formatDate } from './../../utils/Methods';
+import BottomSheet from './BottomSheet';
+import { Provider } from 'react-native-paper';
+import BottomSheetHot from './BottomSheetHot';
 
 TimeAgo.addLocale(vi);
 export const timeAgo = new TimeAgo('vi-VN');
 export const add = require('../../assets/images/postt.jpg');
 
-const Post = ({item, item: likeCountProp, navigation}) => {
+const Post = ({ item, item: likeCountProp, navigation }) => {
   timeAgo.getLabels('narrow');
-  const {isLoggedIn, profile} = useLogin();
+  const { isLoggedIn, profile } = useLogin();
   console.log('🚀 ~ file: HotScreen.js ~ line 34 ~ Post ~ profile', profile);
-  const {numberOfLike, addLike, removelike, checkLikeByUserId} = useLikeHots(
+  const { numberOfLike, addLike, removelike, checkLikeByUserId } = useLikeHots(
     item._id,
   );
 
-  const {isUserLiked} = useUserLiked(item._id, profile._id);
+  const { isUserLiked } = useUserLiked(item._id, profile._id);
   const [isLike, setIsLike] = useState(isUserLiked ? isUserLiked : null);
   const [likeCount, setLikeCount] = useState(0);
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
   const onLikePressed = () => {
     if (isLike != null && profile._id) {
@@ -81,16 +85,16 @@ const Post = ({item, item: likeCountProp, navigation}) => {
   // const timeAgo = new TimeAgo('vi-VN');
 
   return (
-    <View style={{backgroundColor: 'white'}}>
+    <View style={{ backgroundColor: 'white' }}>
       <View style={styles.containerHeader}>
         <View style={styles.letfHeader}>
           <View style={styles.containerImageHeader}>
             <Image
-              source={{uri: item.user_id ? item.user_id.avatar : null}}
+              source={{ uri: item.user_id ? item.user_id.avatar : null }}
               style={styles.imageHeader}
             />
           </View>
-          <View style={{flexDirection: 'column', marginTop: 10}}>
+          <View style={{ flexDirection: 'column', marginTop: 10 }}>
             <Text style={styles.nameHeader}>
               {item.user_id ? item.user_id.fullname : null}
               {'\t'}
@@ -107,14 +111,23 @@ const Post = ({item, item: likeCountProp, navigation}) => {
           <TouchableOpacity style={styles.headerFollow}>
             <Text style={styles.headerFollowText}>Theo dõi</Text>
           </TouchableOpacity>
-          <Icon name="dots-three-vertical" size={16} />
+
+          <TouchableOpacity onPress={() => setShowBottomSheet(true)}>
+            <Icon name="dots-three-vertical" size={16} />
+          </TouchableOpacity>
+          <BottomSheet showBottomSheet={showBottomSheet} enableBackdropDismiss onDismiss={() => { setShowBottomSheet(false) }}>
+            <BottomSheetHot />
+          </BottomSheet>
+
         </View>
       </View>
+
+
 
       {/* <View style={{ alignItems: 'center' }}>
         <Image source={{ uri: item.imageUri }} style={styles.imageBody} />
       </View> */}
-      <View style={{marginLeft: 10, marginVertical: 10}}>
+      <View style={{ marginLeft: 10, marginVertical: 10 }}>
         <Text>{item.content}</Text>
       </View>
       <Swiper style={styles.wrapper} loop={true}>
@@ -151,7 +164,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 if (profile._id) {
-                  navigation.navigate('Comment', {hot_id: item._id});
+                  navigation.navigate('Comment', { hot_id: item._id });
                 }
               }}>
               <FontistoIcon name="comment" size={23} color={'#545454'} />
@@ -164,17 +177,19 @@ const Post = ({item, item: likeCountProp, navigation}) => {
           </View>
         </View>
         {/* <Text style={styles.likeFooter}>{likeCount} Likes</Text> */}
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           {/* <Text style={styles.captionFooter}>{item.caption}</Text>
           <Text style={styles.postedAtFooter}>{item.postedAt}</Text> */}
         </View>
       </View>
-    </View>
+    </View >
+
+
   );
 };
 
-const HotScreen = ({navigation, goBack}) => {
-  const {hots, getAllHots} = useHots();
+const HotScreen = ({ navigation, goBack }) => {
+  const { hots, getAllHots } = useHots();
   const [hotsFiltered, setHotsFiltered] = useState([]);
   const [loading, setLoading] = useState(false);
   const onRefresh = React.useCallback(() => {
@@ -215,33 +230,39 @@ const HotScreen = ({navigation, goBack}) => {
   // );
 
   return (
-    <SafeAreaView>
-      {loading ? (
-        <LoaderHot />
-      ) : (
-        <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
-          <View>
-            <FlatList
-              data={hotsFiltered}
-              keyExtractor={({id}) => id}
-              renderItem={({item}) => (
-                <Post item={item} navigation={navigation} />
-              )}
-            />
-          </View>
-        </ScrollView>
-      )}
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PostScreen')}
-          style={{marginTop: '-20%', marginLeft: '80%'}}>
-          <Image source={add} style={{width: 70, height: 70}} />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    <Provider>
+      <SafeAreaView>
+        {loading ? (
+          <LoaderHot />
+        ) : (
+
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
+
+            <View>
+              <FlatList
+                data={hotsFiltered}
+                keyExtractor={({ id }) => id}
+                renderItem={({ item }) => (
+                  <Post item={item} navigation={navigation} />
+                )}
+              />
+            </View>
+          </ScrollView>
+
+
+        )}
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PostScreen')}
+            style={{ marginTop: '-20%', marginLeft: '80%' }}>
+            <Image source={add} style={{ width: 70, height: 70 }} />
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </Provider>
   );
 };
 const styles = StyleSheet.create({
