@@ -230,35 +230,6 @@ const HotScreen = ({ navigation, goBack }) => {
   // );
 
   return (
-<<<<<<< HEAD
-    <SafeAreaView >
-      {loading ? (
-        <LoaderHot />
-      ) : (
-        <ScrollView showsVerticalScrollIndicator={false} horizontal
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
-          <View>
-            <FlatList
-              data={hotsFiltered}
-              keyExtractor={({id}) => id}
-              renderItem={({item}) => (
-                <Post item={item} navigation={navigation} />
-              )}
-            />
-          </View>
-        </ScrollView>
-      )}
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PostScreen')}
-          style={{marginTop: '-20%', marginLeft: '80%'}}>
-          <Image source={add} style={{width: 70, height: 70}} />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-=======
     <Provider>
       <SafeAreaView>
         {loading ? (
@@ -292,7 +263,6 @@ const HotScreen = ({ navigation, goBack }) => {
         </View>
       </SafeAreaView>
     </Provider>
->>>>>>> 966fc51116d003813f9f728082792e36ed2b6915
   );
 };
 const styles = StyleSheet.create({
