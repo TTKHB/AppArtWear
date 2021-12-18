@@ -1,17 +1,31 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import PushNotification from 'react-native-push-notification';
-import {useNavigation} from '@react-navigation/native';
+import useNotificationHot from './../../hooks/Notification/NotificationType/useNotificationHot';
 
 export const NotificationAndroid = {
+  Status: {
+    SENDING: 1,
+    RECEIVED: 2,
+    NORMAL: 3,
+  },
+  removeAllDeliveredNotifications: () => {
+    PushNotification.removeAllDeliveredNotifications();
+  },
+
   initNotification: ({navigation}) => {
     // Must be outside of any component LifeCycle (such as `componentDidMount`).
     PushNotification.configure({
       // (required) Called when a remote is received or opened, or local notification is opened
       onNotification: async function (notification) {
         console.log('NOTIFICATION:', notification);
+
+        // navigation.navigate('NotificationHotScreen');
+
         // process the notification
-        navigation.navigate('DrawerNavigator', {screen: 'ProductMenu'});
+        navigation.navigate('UserNavigator', {
+          screen: 'NotificationHotScreen',
+        });
 
         // (required) Called when a remote is received or opened, or local notification is opened
         // notification.finish(PushNotificationIOS.FetchResult.NoData);
@@ -35,24 +49,37 @@ export const NotificationAndroid = {
   },
   showNotifications: ({channelId, title, message, largeIconUrl}) => {
     PushNotification.localNotification({
-      channelId: 'test-channel',
-      title: 'you clicked on ',
-      message: 'tets city',
-      largeIconUrl:
-        'https://banner2.cleanpng.com/20180623/iqh/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c40ce333.6524068515297806760528.jpg',
+      channelId: channelId,
+      title: title,
+      message: message,
+      largeIconUrl: largeIconUrl
+        ? largeIconUrl
+        : 'https://banner2.cleanpng.com/20180623/iqh/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c40ce333.6524068515297806760528.jpg',
+      smallIcon: 'ic_test',
       // largeIcon: 'ic_test',
       // largeIcon: 'avatartest',
-      // smallIcon: 'avatartest',
     });
   },
   createChannel: ({channelId, channelName}) => {
     PushNotification.createChannel(
       {
-        channelId: 'test-channel', // (required)
-        channelName: 'My channel', // (required)
+        channelId: channelId, // (required)
+        channelName: channelName, // (required)
       },
       created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
     );
+  },
+  checkExists: ({channelId}) => {
+    let isExist;
+    PushNotification.channelExists(channelId, function (exists) {
+      isExist = exists;
+      console.log(
+        '🚀 ~ file: NotificationAndroid.js ~ line 60 ~ exists',
+        exists,
+      );
+    });
+
+    return isExist;
   },
 };
 

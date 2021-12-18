@@ -368,7 +368,6 @@ const ProductFoundScreen = ({navigation, route}) => {
                 onChangeText={searchedCategory}
                 value={search}
                 disabled
-                autoFocus={false}
                 containerStyle={styles.searchBarStyle}
                 inputContainerStyle={styles.searchBarInputStyle}
                 inputStyle={{
