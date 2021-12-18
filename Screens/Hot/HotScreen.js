@@ -231,33 +231,37 @@ const HotScreen = ({ navigation, goBack }) => {
 
   return (
     <Provider>
-    <SafeAreaView >
-      {loading ? (
-        <LoaderHot />
-      ) : (
-        <ScrollView showsVerticalScrollIndicator={false} 
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }>
-          <View>
-            <FlatList
-              data={hotsFiltered}
-              keyExtractor={({id}) => id}
-              renderItem={({item}) => (
-                <Post item={item} navigation={navigation} />
-              )}
-            />
-          </View>
-        </ScrollView>
-      )}
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('PostScreen')}
-          style={{marginTop: '-20%', marginLeft: '80%'}}>
-          <Image source={add} style={{width: 70, height: 70}} />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      <SafeAreaView>
+        {loading ? (
+          <LoaderHot />
+        ) : (
+
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
+
+            <View>
+              <FlatList
+                data={hotsFiltered}
+                keyExtractor={({ id }) => id}
+                renderItem={({ item }) => (
+                  <Post item={item} navigation={navigation} />
+                )}
+              />
+            </View>
+          </ScrollView>
+
+
+        )}
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PostScreen')}
+            style={{ marginTop: '-20%', marginLeft: '80%' }}>
+            <Image source={add} style={{ width: 70, height: 70 }} />
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </Provider>
   );
 };
