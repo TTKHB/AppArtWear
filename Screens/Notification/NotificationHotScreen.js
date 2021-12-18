@@ -82,9 +82,19 @@ const ListPost = ({item, navigation}) => {
             {timeAgo.format(new Date(item.dateCreated))}
           </Text>
         </View>
-        <TouchableOpacity style={styles.btnOptions}>
+        <TouchableOpacity
+          style={styles.btnOptions}
+          onPress={() => setShowBottomSheet(true)}>
           <FontAwesome5Icon name="ellipsis-h" />
         </TouchableOpacity>
+        <BottomSheet
+          showBottomSheet={showBottomSheet}
+          enableBackdropDismiss
+          onDismiss={() => {
+            setShowBottomSheet(false);
+          }}>
+          <BottomSheetNotification />
+        </BottomSheet>
       </TouchableOpacity>
     </View>
   );

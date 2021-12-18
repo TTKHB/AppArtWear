@@ -55,7 +55,7 @@ const HotNavigator = ({navigation}) => {
         name="PostScreen"
         component={PostScreen}
         options={{
-          headerShown: true,
+          headerShown: false,
         }}
         
       />

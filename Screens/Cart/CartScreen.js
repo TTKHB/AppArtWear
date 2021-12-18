@@ -224,7 +224,11 @@ const CartScreen = ({ navigation }) => {
         style={styles.viewSpQuanTam}
         key={item._id}
       >
-        <TouchableOpacity style={styles.boxSpQuanTam}>
+        <TouchableOpacity style={styles.boxSpQuanTam} onPress={() =>
+        navigation.navigate('HomeNavigator', {
+          screen: 'Product Detail',
+          params: {id: item._id},
+        })}>
           <Image
             style={styles.imageSpQuanTam}
             source={{ uri: item.ThumbImg ? item.ThumbImg : null }}

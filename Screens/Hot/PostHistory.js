@@ -210,6 +210,7 @@ const HotScreen = ({navigation}) => {
       {loading
         ? <LoaderHot />
         : <ScrollView
+       
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
@@ -291,6 +292,7 @@ const HotScreen = ({navigation}) => {
                   Bài viết
                 </Text>
               </View>
+              <ScrollView showsVerticalScrollIndicator={false} horizontal>
               <FlatList
                 data={hotsFiltered}
                 keyExtractor={({id}) => id}
@@ -298,6 +300,7 @@ const HotScreen = ({navigation}) => {
                   <Post item={item} navigation={navigation} />
                 )}
               />
+              </ScrollView>
             </View>
           </ScrollView>}
     </SafeAreaView>

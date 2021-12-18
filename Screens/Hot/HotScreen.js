@@ -48,6 +48,7 @@ const Post = ({item, item: likeCountProp, navigation}) => {
   const {isUserLiked} = useUserLiked(item._id, profile._id);
   const [isLike, setIsLike] = useState(isUserLiked ? isUserLiked : null);
   const [likeCount, setLikeCount] = useState(0);
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
   const onLikePressed = () => {
     if (isLike != null && profile._id) {
@@ -108,7 +109,18 @@ const Post = ({item, item: likeCountProp, navigation}) => {
           <TouchableOpacity style={styles.headerFollow}>
             <Text style={styles.headerFollowText}>Theo dõi</Text>
           </TouchableOpacity>
-          <Icon name="dots-three-vertical" size={16} />
+
+          <TouchableOpacity onPress={() => setShowBottomSheet(true)}>
+            <Icon name="dots-three-vertical" size={16} />
+          </TouchableOpacity>
+          <BottomSheet
+            showBottomSheet={showBottomSheet}
+            enableBackdropDismiss
+            onDismiss={() => {
+              setShowBottomSheet(false);
+            }}>
+            <BottomSheetHot />
+          </BottomSheet>
         </View>
       </View>
 
