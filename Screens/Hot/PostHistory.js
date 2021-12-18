@@ -292,7 +292,7 @@ const HotScreen = ({navigation}) => {
                   Bài viết
                 </Text>
               </View>
-              <ScrollView showsVerticalScrollIndicator={false} horizontal>
+              <ScrollView showsVerticalScrollIndicator={false}>
               <FlatList
                 data={hotsFiltered}
                 keyExtractor={({id}) => id}
