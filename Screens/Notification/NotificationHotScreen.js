@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState,useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -26,6 +26,7 @@ const ListPost = ({ item, navigation }) => {
   const timeAgo = new TimeAgo('vi-VN');
   timeAgo.getLabels('narrow');
   const { setScrollingWithId } = useScroll();
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
   console.log(
     '🚀 ~ file: NotificationHotScreen.js ~ line 101 ~ ListPost ~ item',

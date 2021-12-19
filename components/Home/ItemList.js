@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
-
+import {View, Text, TouchableOpacity, Image,Dimensions} from 'react-native';
+import COLORS from '../../assets/data/colors';
+import {format} from '../../utils/Methods';
+const { width } = Dimensions.get('screen');
 const ItemList = ({item, navigation}) => {
   return (
     <TouchableOpacity
@@ -36,12 +38,12 @@ const ItemList = ({item, navigation}) => {
           </Text>
           <Text
             style={{
-              color: 'peru',
+              color: 'red',
               fontWeight: 'bold',
               fontSize: 18,
-              marginTop: 10,
+              marginTop: 8,
             }}>
-            {item.gia}đ
+             {format(item.gia)} đ
           </Text>
           <Text
             style={{
@@ -50,7 +52,7 @@ const ItemList = ({item, navigation}) => {
               textDecorationStyle: 'solid',
               fontSize: 14,
             }}>
-            1.200.000đ
+            1.200.000 đ
           </Text>
         </View>
       </View>

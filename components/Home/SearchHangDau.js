@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
 import COLORS from '../../assets/data/colors';
+export const senddd = require('../../assets/images/eye.jpg');
 
-const { width } = Dimensions.get('screen');
 import Star from '../ProductMenu/Star';
 
 import axios from 'axios';
 
 import baseURL from '../../assets/common/baseUrl';
 import {format} from '../../utils/Methods';
-
+const { width } = Dimensions.get('screen');
 
 // tim kiếm hàng đầu
 const SearchHangDau = ({ item, navigation }) => {
@@ -45,10 +45,14 @@ const SearchHangDau = ({ item, navigation }) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
+              alignContent: 'center'
             }}>
-            <Text style={styles.price}>{format(item.gia)} VNĐ</Text>
+            <Text style={styles.price}>{format(item.gia)} đ</Text>
+            <Image source={senddd} style={{width: 16, height: 16, marginLeft: 30, marginTop: 2.5}}/>
             <Text style={styles.viewer}>{item.viewer}</Text>
           </View>
+          
         </View>
       </View>
     </TouchableOpacity>
@@ -71,8 +75,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   price: {
-    color: COLORS.black,
+    color: COLORS.red,
     fontSize: 16,
+    fontWeight: 'bold',
   },
   rate: {
     flexDirection: 'row',

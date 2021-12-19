@@ -88,7 +88,12 @@ const PostScreen = () => {
             height: '100%',
             justifyContent: 'center',
           }}>
-          <Image source={back} style={{width: 25, height: 25, marginLeft: 7}} />
+          <TouchableOpacity>
+            <Image
+              source={back}
+              style={{width: 25, height: 25, marginLeft: 7}}
+            />
+          </TouchableOpacity>
         </View>
         <View
           style={{

@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
-
-const ItemGrid = ({item, styles, navigation}) => {
+import {View, Text, TouchableOpacity, Image,StyleSheet,Dimensions} from 'react-native';
+import COLORS from '../../assets/data/colors';
+import {format} from '../../utils/Methods';
+const { width } = Dimensions.get('screen');
+const ItemGrid = ({item, navigation}) => {
   return (
     <TouchableOpacity
       onPress={() => {
@@ -12,7 +14,7 @@ const ItemGrid = ({item, styles, navigation}) => {
       }}>
       <View style={styles.itemStyleTwoColumn}>
         <Image
-          style={styles.tinyLogo}
+          style={{ height: 170, width: '100%' }}
           source={{
             uri: item.ThumbImg
               ? item.ThumbImg
@@ -26,9 +28,9 @@ const ItemGrid = ({item, styles, navigation}) => {
             marginHorizontal: 5,
             marginTop: 5,
           }}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>{item.ten}</Text>
-          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'peru'}}>
-            {item.gia}đ
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>{item.ten}</Text>
+          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'red'}}>
+          {format(item.gia)} đ
           </Text>
           <Text
             style={{
@@ -37,12 +39,21 @@ const ItemGrid = ({item, styles, navigation}) => {
               textDecorationStyle: 'solid',
               fontSize: 14,
             }}>
-            1.200.000đ
+            1.200.000 đ
           </Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
-
+const styles = StyleSheet.create({
+  itemStyleTwoColumn: {
+    height: 250,
+    backgroundColor: COLORS.white,
+    elevation: 2,
+    width: width / 2.24,
+    marginVertical: 15,
+    marginHorizontal:15
+  }
+})
 export default ItemGrid;

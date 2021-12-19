@@ -21,6 +21,7 @@ import IconCart from 'react-native-vector-icons/SimpleLineIcons';
 import {useFocusEffect} from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import {DATA} from '../../assets/data/PopularSearch';
+import {format} from '../../utils/Methods';
 import {useLogin} from '../../Context/LoginProvider';
 const {height, width} = Dimensions.get('window');
 const numColumns = 2;
@@ -90,7 +91,7 @@ const FavoriteScreen = ({navigation, i}) => {
             <View style={styles.rate}>
               <Star ratings={4} reviews={100} />
             </View>
-            <Text style={styles.price}>{item.price} VNĐ</Text>
+            <Text style={styles.price}>{item.price} đ </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -172,7 +173,7 @@ const FavoriteScreen = ({navigation, i}) => {
             <View>
               <Text style={styles.price}>
                 {' '}
-                {item.product_id ? item.product_id.gia : ' '} VNĐ
+                {format(item.product_id ? item.product_id.gia : ' ')} đ
               </Text>
             </View>
             <TouchableOpacity style={styles.iconAddCart}>
