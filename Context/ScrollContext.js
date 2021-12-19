@@ -4,8 +4,15 @@ const ScrollerContext = createContext();
 
 const ScrollContext = ({children}) => {
   const [ScrollingWithId, setScrollingWithId] = useState(0);
+  const [RequestRefresing, setRequestRefresing] = useState(false);
   return (
-    <ScrollerContext.Provider value={{ScrollingWithId, setScrollingWithId}}>
+    <ScrollerContext.Provider
+      value={{
+        ScrollingWithId,
+        setScrollingWithId,
+        RequestRefresing,
+        setRequestRefresing,
+      }}>
       {children}
     </ScrollerContext.Provider>
   );

@@ -6,13 +6,31 @@ import axios from 'axios';
 import {useLogin} from '../../../Context/LoginProvider';
 const useComment = hot_id => {
   const [comments, setComments] = useState([]);
+  const [numberComments, setNumberComments] = useState(0);
   const {isLoggedIn, profile} = useLogin();
 
   //get all number of like
-  useEffect(() => {
-    getComments();
+  useEffect(async () => {
+    await getComments();
+    await getNumberComment();
   }, []);
 
+  async function getNumberComment() {
+    await axios
+      .get(`${baseURL}comment/numbercomment/${hot_id}`)
+      .then(function (response) {
+        console.log(
+          '🚀 ~ file: useHots.js ~ line 11 ~ response',
+          response.data.comments,
+        );
+        // handle success
+        setNumberComments(response.data.comments);
+      })
+      .catch(function (error) {
+        // handle error
+        console.error('error here 1', error);
+      });
+  }
   async function getComments() {
     await axios
       .get(`${baseURL}comment/hots/${hot_id}`)
@@ -50,7 +68,7 @@ const useComment = hot_id => {
       });
   }
 
-  return {comments, getComments, postComment};
+  return {comments, getComments, postComment, numberComments};
 };
 
 export default useComment;

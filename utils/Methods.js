@@ -36,6 +36,18 @@ export const formatDate = date => {
     ('00' + date.getSeconds()).slice(-2);
   return dateStr;
 };
+
+export const getDatesBetween = (startDate, endDate, includeEndDate) => {
+  const dates = [];
+  const currentDate = startDate;
+  while (currentDate < endDate) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  if (includeEndDate) dates.push(endDate);
+  return dates;
+};
+
 export function nonAccentVietnamese(str) {
   str = str.toLowerCase();
   //     We can also use this instead of from line 11 to line 17

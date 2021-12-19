@@ -9,6 +9,11 @@ const useNotificationHot = () => {
   const {setIsLoggedIn, setProfile, setLoginPending} = useLogin();
   const {isLoggedIn, profile} = useLogin();
 
+  const types = {
+    LIKE: '61ba16676a435f4a106593f6',
+    COMMENT: '61bdb3637066c71d70d2d86f',
+  };
+
   React.useEffect(async () => {
     await getAllNotificationHot();
     await getAllNotificationHotByUser();
@@ -19,6 +24,72 @@ const useNotificationHot = () => {
     };
   }, []);
 
+  /**
+   *
+   * @param {*PeopleLiked} @type {String}
+   * @param {*wholiked} @type {ObjectId}
+   * @param {*hot_id} @type {ObjectId}
+   * @param {*user_id} @type {ObjectId}
+   */
+  async function sendNotificationLikeToUser({
+    PeopleLiked,
+    wholiked,
+    hot_id,
+    user_id,
+  }) {
+    const body = {
+      PeopleLiked: PeopleLiked,
+      wholiked: wholiked,
+      NotifyType_id: types.LIKE,
+      hot_id: hot_id,
+      user_id: user_id,
+    };
+
+    await axios
+      .post(`${baseURL}notification_hot`, body)
+      .then(function (response) {
+        console.log(
+          '🚀 ~ file: useNotificationHot.js ~ line 12 ~ response',
+          response,
+        );
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('rror here' + error);
+      });
+  }
+
+  /**
+   *
+   * @param {*PeopleLiked} @type {String}
+   * @param {*wholiked} @type {ObjectId}
+   * @param {*hot_id} @type {ObjectId}
+   * @param {*user_id} @type {ObjectId}
+   */
+  async function sendNotificationCommentToUser() {
+    await axios
+      .post(
+        `${baseURL}notification_hot`,
+
+        {
+          PeopleLiked: PeopleLiked,
+          wholiked: wholiked,
+          NotifyType_id: types.COMMENT,
+          hot_id: hot_id,
+          user_id: user_id,
+        },
+      )
+      .then(function (response) {
+        console.log(
+          '🚀 ~ file: useNotificationHot.js ~ line 12 ~ response',
+          response,
+        );
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('rror here' + error);
+      });
+  }
   async function getAllNotificationHot() {
     await axios
       .get(`${baseURL}notification_hot`)
@@ -49,19 +120,21 @@ const useNotificationHot = () => {
   }
 
   async function getAllNotificationHotByUser() {
-    await axios
-      .get(`${baseURL}notification_hot/user/${profile._id}`)
-      .then(function (response) {
-        console.log(
-          '🚀 ~ file: useNotificationHot.js ~ line 12 ~ response',
-          response,
-        );
-        setNotificationByUser(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log('rror here' + error);
-      });
+    if (profile._id) {
+      await axios
+        .get(`${baseURL}notification_hot/user/${profile._id}`)
+        .then(function (response) {
+          console.log(
+            '🚀 ~ file: useNotificationHot.js ~ line 12 ~ response',
+            response,
+          );
+          setNotificationByUser(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log('rror here' + error);
+        });
+    }
   }
   return {
     NotificationHot: notificationHot,
@@ -69,6 +142,8 @@ const useNotificationHot = () => {
     getNotificationByUser: notificationByUser,
     getAllNotificationHotByUser,
     findById,
+    sendNotificationLikeToUser,
+    sendNotificationCommentToUser,
   };
 };
 

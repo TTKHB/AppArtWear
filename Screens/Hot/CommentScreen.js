@@ -17,29 +17,12 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import useComment from '../../hooks/Hot/Comment/useComment';
 import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
+import useNotificationHot from '../../hooks/Notification/NotificationType/useNotificationHot';
+import {useLogin} from '../../Context/LoginProvider';
+import useLikeHots from '../../hooks/Hot/useLikeHots';
 import {useRoute} from '@react-navigation/native';
-TimeAgo.addLocale(vi);
 
-const user = [
-  {
-    id: 1,
-    image: user1,
-    name: 'Tiến Am Nhạc',
-    textchat: 'âm nhạc còn là music',
-  },
-  {
-    id: 2,
-    image: user1,
-    name: 'Tiến Am Nhạc',
-    textchat: 'âm nhạc còn là music',
-  },
-  {
-    id: 3,
-    image: user1,
-    name: 'Tiến Am Nhạc',
-    textchat: 'âm nhạc còn là music',
-  },
-];
+TimeAgo.addLocale(vi);
 
 /**
  * @param {*hot_id} param0
@@ -50,7 +33,12 @@ const CommentScreen = ({likeCountProp, navigation, route}) => {
   const [comment, setComment] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
   const [commentFiltered, setCommentFiltered] = useState([]);
-  const {comments, getComments, postComment} = useComment(hot_id);
+  const {comments, getComments, postComment, numberComments} =
+    useComment(hot_id);
+  const {findByIdHot} = useLikeHots(hot_id);
+
+  const {sendNotificationCommentToUser} = useNotificationHot();
+  const {isLoggedIn, profile} = useLogin();
 
   useEffect(() => {
     setCommentFiltered(comments);
@@ -70,9 +58,16 @@ const CommentScreen = ({likeCountProp, navigation, route}) => {
   }, []);
 
   const sendKeyboardSubmit = async () => {
+    const item_hot = await findByIdHot(hot_id);
     await postComment(comment);
-    setComment(null);
     await getComments();
+    setComment('');
+    await sendNotificationCommentToUser({
+      PeopleLiked: numberComments,
+      wholiked: profile._id,
+      hot_id: hot_id,
+      user_id: item_hot.user_id._id,
+    });
   };
 
   const renderItemComment = ({item}) => {

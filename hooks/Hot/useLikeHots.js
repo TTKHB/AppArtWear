@@ -54,7 +54,28 @@ const useLikeHots = hot_id => {
     }
     return false;
   }
-
+  /**
+   *
+   * @param {*} hot_id
+   * @returns item into hot
+   */
+  async function findByIdHot(hot_id) {
+    return await axios
+      .get(`${baseURL}hots/${hot_id}`)
+      .then(function (response) {
+        console.log(
+          '🚀 ~ file: useComment.js ~ line 15 ~ response',
+          response.data,
+        );
+        return response.data;
+        // handle success
+        setComments(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.trace(error);
+      });
+  }
   async function addLike(user_id, hot_id) {
     await axios
       .post(`${baseURL}like`, {
@@ -84,7 +105,14 @@ const useLikeHots = hot_id => {
       });
   }
 
-  return {numberOfLike, addLike, removelike, peopleLike, checkLikeByUserId};
+  return {
+    numberOfLike,
+    addLike,
+    removelike,
+    peopleLike,
+    checkLikeByUserId,
+    findByIdHot,
+  };
 };
 
 export default useLikeHots;

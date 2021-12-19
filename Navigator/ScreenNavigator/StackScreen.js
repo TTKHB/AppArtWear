@@ -36,37 +36,40 @@ const StackScreen = () => {
       '🚀 ~ file: StackScreen.js ~ line 37 ~ useEffect ~ NotificationHot',
       getNotificationByUser,
     );
-    for (let i = 0; i < getNotificationByUser.length; i++) {
-      const notifyChild = getNotificationByUser[i];
+    if (getNotificationByUser) {
+      for (let i = 0; i < getNotificationByUser.length; i++) {
+        const notifyChild = getNotificationByUser[i];
 
-      PushNotification.channelExists(notifyChild._id, function (exists) {
-        console.log('🚀 ~ file: StackScreen.js ~ line 50 ~ exists', exists);
-        if (
-          notifyChild.status == NotificationAndroid.Status.SENDING &&
-          !exists
-        ) {
-          console.log('gogo');
-          NotificationAndroid.createChannel({
-            channelId: notifyChild._id,
-            channelName: notifyChild.NotifyType_id.name,
-          });
-          const message = notifyChild.PeopleLiked
-            ? notifyChild.wholiked.fullname +
-              ' và ' +
-              notifyChild.PeopleLiked +
-              notifyChild.NotifyType_id.content
-            : notifyChild.wholiked.fullname +
-              ' ' +
-              notifyChild.NotifyType_id.content;
+        PushNotification.channelExists(notifyChild._id, function (exists) {
+          console.log('🚀 ~ file: StackScreen.js ~ line 50 ~ exists', exists);
+          if (
+            notifyChild.status == NotificationAndroid.Status.SENDING &&
+            !exists
+          ) {
+            console.log('gogo');
+            NotificationAndroid.createChannel({
+              channelId: notifyChild._id,
+              channelName: notifyChild.NotifyType_id.name,
+            });
+            const message =
+              notifyChild.PeopleLiked && notifyChild.PeopleLiked != 0
+                ? notifyChild.wholiked.fullname +
+                  ' và ' +
+                  notifyChild.PeopleLiked +
+                  notifyChild.NotifyType_id.content
+                : notifyChild.wholiked.fullname +
+                  ' ' +
+                  notifyChild.NotifyType_id.content;
 
-          NotificationAndroid.showNotifications({
-            channelId: notifyChild._id,
-            message: message,
-            title: 'Thông báo mới',
-            largeIconUrl: notifyChild.wholiked.avatar,
-          });
-        }
-      });
+            NotificationAndroid.showNotifications({
+              channelId: notifyChild._id,
+              message: message,
+              title: 'Thông báo mới',
+              largeIconUrl: notifyChild.wholiked.avatar,
+            });
+          }
+        });
+      }
     }
   }, 10000);
 
