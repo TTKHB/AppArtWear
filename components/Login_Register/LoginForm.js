@@ -108,7 +108,7 @@ const LoginForm = ({navigation}) => {
     //FormContainer bao bọc toàn bộ các form con bên trong
     <FormContainer>
       <View style={{marginVertical: 10}}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <IconBack name="chevron-back-outline" size={30} />
         </TouchableOpacity>
       </View>

@@ -51,6 +51,7 @@ const LoginProvider = ({children}) => {
         setLoginPending,
         loading,
         setLoading,
+        fetchUser,
       }}>
       {children}
     </LoginContext.Provider>

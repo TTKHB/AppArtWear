@@ -147,7 +147,7 @@ const StarRating = ({navigation, route}) => {
           borderWidth: 1,
         }}
         centerComponent={{   
-          text: 'Yêu thích',
+          text: 'Đánh giá',
          style: { color: '#8D6E63',textAlign: 'center',
              alignSelf: 'center',
              fontSize: 25,

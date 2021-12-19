@@ -8,14 +8,11 @@ import {
   FlatList,
   TouchableOpacity
 }
-  from 'react-native';
-
+from 'react-native';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../../assets/common/baseUrl';
-
 import { useLogin } from '../../../Context/LoginProvider';
-
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 import { styles } from '../../../components/MyOrder/styles/AllOrderStyles';
 
@@ -55,7 +52,7 @@ const AllOder = ({ navigation }) => {
     }
     if (item.status == 1) {
       tl1 = "warning",
-      textGiaoHang = "Đơn hàng đang xử lý"
+        textGiaoHang = "Đơn hàng đang xử lý"
       textbtn = "Theo dõi"
     }
     if (item.status == 2) {
@@ -133,9 +130,7 @@ const AllOder = ({ navigation }) => {
       {orderList.length == "" ? (
         <>
           <View style={styles.ViewRong}>
-            <Image style={styles.images} source={{
-              uri: 'https://www.trangmall.com/Client/upload/News/User_1/2018/12/3/6P2SHv.png',
-            }} />
+            <Image style={styles.images} source={require("../../../assets/icon/browser.jpg")} />
             <Text style={styles.welcome}>
               Rỗng
             </Text>

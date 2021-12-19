@@ -40,6 +40,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 import { styles } from '../../components/Profile/Styles/InfomationStyle';
 
+import { useScroll } from '../../Context/ScrollContext';
+
 const InfomationScreen = ({ navigation, route }) => {
     //Form kiem tra loi
     const isValidForm = () => {
@@ -62,6 +64,7 @@ const InfomationScreen = ({ navigation, route }) => {
         }
         return true;
     }
+    const { setScrollingProfile } = useScroll();
     const [error, setError] = useState('');
     const { profile, setProfile } = useLogin();
     const [fullname, setFullName] = useState(profile.fullname);
@@ -95,6 +98,7 @@ const InfomationScreen = ({ navigation, route }) => {
             }).then(res => res.json())
                 .then(data => {
                     console.log(`${data.fullname}is Update successffly!!`)
+                    setScrollingProfile(true);
                 }).catch(err => {
                     console.log("error", err)
                 })

@@ -130,9 +130,7 @@ const CancelOder = ({ navigation }) => {
       ) : (
         <>
           <View style={styles.ViewRong}>
-            <Image style={styles.images} source={{
-              uri: 'https://www.trangmall.com/Client/upload/News/User_1/2018/12/3/6P2SHv.png',
-            }} />
+          <Image style={styles.images} source={require("../../../assets/icon/browser.jpg")}/>
             <Text style={styles.welcome}>
               Rỗng
             </Text>

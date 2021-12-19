@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {useLogin} from './../../Context/LoginProvider';
-var logo = require('../../assets/images/Banner/LogoArtWear.jpg');
+var logo = require('../../assets/images/logoArtWear.jpg');
 
 const SplashScreen = ({navigation}) => {
   const {setLoading} = useLogin();

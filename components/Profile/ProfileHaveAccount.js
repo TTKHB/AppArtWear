@@ -21,10 +21,12 @@ import {useLogin} from '../../Context/LoginProvider';
 import Service from './ServiceItem/Service';
 import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
+import { useScroll } from '../../Context/ScrollContext';
 const artwear = require('../../assets/images/Banner/SplashScreen.jpg');
 const {height, width} = Dimensions.get('window');
 const ProfileHaveAccount = ({navigation, route}) => {
-  const {setIsLoggedIn, profile} = useLogin();
+  const {setIsLoggedIn, profile, fetchUser} = useLogin();
+  const {ScrollingProfile,setScrollingProfile} = useScroll();
   const onShare = () => {
     try {
       const result = Share.share({
@@ -41,6 +43,12 @@ const ProfileHaveAccount = ({navigation, route}) => {
       alert(error.message);
     }
   };
+
+  if(ScrollingProfile){
+    fetchUser()
+    setScrollingProfile(false)
+  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
