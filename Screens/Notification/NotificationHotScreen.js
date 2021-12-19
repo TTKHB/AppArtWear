@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,20 +16,23 @@ import useNotificationHot from './../../hooks/Notification/NotificationType/useN
 import TimeAgo from 'javascript-time-ago';
 import Icons from '../../assets/common/Icons';
 import Color from '../../assets/common/Color';
-import {useNavigation} from '@react-navigation/native';
-import {useScroll} from './../../Context/ScrollContext';
+import { useNavigation } from '@react-navigation/native';
+import { useScroll } from './../../Context/ScrollContext';
+import BottomSheet from './BottomSheet';
+import BottomSheetNotification from './BottomSheetNotification';
+import { Provider } from 'react-native-paper';
 
-const ListPost = ({item, navigation}) => {
+const ListPost = ({ item, navigation }) => {
   const timeAgo = new TimeAgo('vi-VN');
   timeAgo.getLabels('narrow');
-  const {setScrollingWithId} = useScroll();
+  const { setScrollingWithId } = useScroll();
 
   console.log(
     '🚀 ~ file: NotificationHotScreen.js ~ line 101 ~ ListPost ~ item',
     item,
   );
   return (
-    <View style={{backgroundColor: '#fff'}}>
+    <View style={{ backgroundColor: '#fff' }}>
       <TouchableOpacity
         style={styles.containerList}
         onPress={() => {
@@ -45,17 +48,17 @@ const ListPost = ({item, navigation}) => {
           // navigation.navigate('HotScreen');
         }}>
         <ImageBackground
-          imageStyle={{borderRadius: 64}}
+          imageStyle={{ borderRadius: 64 }}
           style={styles.avatar}
-          source={{uri: item.wholiked.avatar}}>
+          source={{ uri: item.wholiked.avatar }}>
           <View style={styles.notificationIcon}>
             <FontAwesome5Icon
               name={
                 item.NotifyType_id.name == 'like'
                   ? Icons.FontAwesome5Icons.Thumbsup
                   : item.NotifyType_id.name == 'comment'
-                  ? Icons.FontAwesome5Icons.Comments
-                  : ''
+                    ? Icons.FontAwesome5Icons.Comments
+                    : ''
               }
               size={20}
               color={Color.blue2}
@@ -69,7 +72,7 @@ const ListPost = ({item, navigation}) => {
               <Text>
                 {' '}
                 và{' '}
-                <Text style={{fontWeight: 'bold'}}>
+                <Text style={{ fontWeight: 'bold' }}>
                   {item.PeopleLiked} người khác
                 </Text>{' '}
                 {item.NotifyType_id.content}
@@ -78,7 +81,7 @@ const ListPost = ({item, navigation}) => {
               '' + item.NotifyType_id.content
             )}
           </Text>
-          <Text style={{color: '#333'}}>
+          <Text style={{ color: '#333' }}>
             {timeAgo.format(new Date(item.dateCreated))}
           </Text>
         </View>
@@ -101,29 +104,31 @@ const ListPost = ({item, navigation}) => {
 };
 
 const NotificationHotScreen = () => {
-  const {getNotificationByUser} = useNotificationHot();
+  const { getNotificationByUser } = useNotificationHot();
   const navigation = useNavigation();
 
   return (
-    <ScrollView
-      bounces={false}
-      showsHorizontalScrollIndicator={false}
-      style={styles.container}>
-      <View style={styles.titleWrapper}>
-        <Text style={styles.title}>Thông báo</Text>
-        <TouchableOpacity onPress={() => {}} style={styles.btnSearch}>
-          <FontAwesome5Icon name="search" size={18} />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.notiTitle}>Mới</Text>
-      <FlatList
-        data={getNotificationByUser}
-        renderItem={({item}) => (
-          <ListPost navigation={navigation} item={item} />
-        )}
-        keyExtractor={item => item._id}
-      />
-    </ScrollView>
+    <Provider>
+      <ScrollView
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
+        style={styles.container}>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.title}>Thông báo</Text>
+          <TouchableOpacity onPress={() => { }} style={styles.btnSearch}>
+            <FontAwesome5Icon name="search" size={18} />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.notiTitle}>Mới</Text>
+        <FlatList
+          data={getNotificationByUser}
+          renderItem={({ item }) => (
+            <ListPost navigation={navigation} item={item} />
+          )}
+          keyExtractor={item => item._id}
+        />
+      </ScrollView>
+    </Provider>
   );
 };
 
