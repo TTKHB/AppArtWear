@@ -476,7 +476,7 @@ const getAllProductDetails = () => {
             {/* Body */}
             <View style={styles.detailsContainer}>
               <Text style={styles.nameText}>{details.ten}</Text>
-              <Text style={styles.priceText}>{format(details.gia)} VNĐ</Text>
+              <Text style={styles.priceText}>{format(details.gia)} đ</Text>
 
               {/* ngôi sao đánh giá sản phảm*/}
               <View style={styles.rate}>

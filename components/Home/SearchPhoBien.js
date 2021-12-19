@@ -24,13 +24,13 @@ const SearchPhoBien = ({item, navigation}) => {
         <View style={{flexDirection: 'row'}}>
           <Image
             source={{uri: item.ThumbImg ? item.ThumbImg : null}}
-            style={{height: 170, width: '100%'}}
+            style={{height: 180, width: '100%'}}
           />
         </View>
         <View style={{marginLeft: 4}}>
           <Text style={styles.cardName}>{item.ten}</Text>
 
-          <Text style={styles.price}>{format(item.gia)} VNĐ</Text>
+          <Text style={styles.price}>{format(item.gia)} đ</Text>
         </View>
         <View></View>
       </View>

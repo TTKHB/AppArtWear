@@ -19,7 +19,8 @@ import baseURL from '../../assets/common/baseUrl';
 import LoaderHome from '../../components/Home/Loader/LoaderHome';
 import Category from '../../components/Home/Category';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
-import SeacrchProduct from '../../components/Home/SearchHangDau';
+import SearchHangDau from '../../components/Home/SearchHangDau';
+import SearchPhoBien from '../../components/Home/SearchPhoBien';
 import CountDown from '../../components/Home/CountDown';
 import IconRight from 'react-native-vector-icons/Entypo';
 import SwiperHeader from '../../components/Home/SwiperHeader';
@@ -81,32 +82,6 @@ const ProductScreen = ({ navigation }) => {
       .catch(error => {
         console.log('Api call error');
       });
-  };
-  const renderItemPhoBien = ({ item, index }) => {
-    return (
-      <TouchableOpacity
-        style={styles.viewPopSearch}
-        onPress={() =>
-          navigation.navigate('HomeNavigator', {
-            screen: 'Product Detail',
-            params: { id: item._id },
-          })
-        }>
-        <View style={{ flex: 2 }}>
-          <Image
-            style={{ flex: 1, width: null, height: null, resizeMode: 'cover' }}
-            // source={{uri: item.ThumbImg}}
-            source={{ uri: item.ThumbImg ? item.ThumbImg : null }}
-          />
-        </View>
-        <View style={{}}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.ten}</Text>
-          <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'red' }}>
-            {format(item.gia)}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
   };
 
   const renderItemImage = ({ item, index }) => {
@@ -230,10 +205,9 @@ const ProductScreen = ({ navigation }) => {
               data={products.sort(function (a, b) { return b.viewer - a.viewer })}
               horizontal
               renderItem={({ item }) => (
-                <SeacrchProduct item={item} navigation={navigation} />
+                <SearchHangDau item={item} navigation={navigation} />
               )}
             />
-
             {/* Tim kiem pho bien */}
             <View style={styles.flashing}>
               <Text style={styles.flashingTitlee}>Tìm kiếm phổ biến</Text>
@@ -246,17 +220,19 @@ const ProductScreen = ({ navigation }) => {
                 <Text style={styles.allPopularSearch}>Tất cả</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.viewDanhMuc}>
+         
               <View style={{ marginTop: 5 }}>
                 <FlatList
                   showsHorizontalScrollIndicator={false}
                   data={products}
                   horizontal
                   keyExtractor={item => item._id}
-                  renderItem={renderItemPhoBien}
+                  renderItem={({ item }) => (
+                    <SearchPhoBien item={item} navigation={navigation} />
+                  )}
                 />
               </View>
-            </View>
+       
             {/* Có thể bạn quan tâm */}
             <View style={{ height: 280, marginTop: 5 }}>
               <View>
@@ -379,9 +355,6 @@ const styles = StyleSheet.create({
     marginRight: 14,
   },
 
-  viewDanhMuc: {
-    width: 500,
-  },
   textBox: {
     marginLeft: 20,
     marginTop: 10,
@@ -391,8 +364,11 @@ const styles = StyleSheet.create({
   },
   viewPopSearch: {
     height: 250,
-    width: 150,
-    margin: 10,
+    backgroundColor: "white",
+    elevation: 2,
+    width: width / 2.24,
+    marginVertical: 5,
+    marginHorizontal:5
   },
   viewPop: {
     height: height / 4.8,
