@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
 import COLORS from '../../assets/data/colors';
-
+export const senddd = require('../../assets/images/eye.jpg');
 
 import Star from '../ProductMenu/Star';
 
@@ -45,9 +45,11 @@ const SearchHangDau = ({ item, navigation }) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              alignItems: 'center'
+              alignItems: 'center',
+              alignContent: 'center'
             }}>
             <Text style={styles.price}>{format(item.gia)} đ</Text>
+            <Image source={senddd} style={{width: 16, height: 16, marginLeft: 30, marginTop: 2.5}}/>
             <Text style={styles.viewer}>{item.viewer}</Text>
           </View>
           
