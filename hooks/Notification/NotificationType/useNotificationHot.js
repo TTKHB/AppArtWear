@@ -49,21 +49,19 @@ const useNotificationHot = () => {
   }
 
   async function getAllNotificationHotByUser() {
-    if (profile._id != null) {
-      await axios
-        .get(`${baseURL}notification_hot/user/${profile._id}`)
-        .then(function (response) {
-          console.log(
-            '🚀 ~ file: useNotificationHot.js ~ line 12 ~ response',
-            response,
-          );
-          setNotificationByUser(response.data);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log('rror here' + error);
-        });
-    }
+    await axios
+      .get(`${baseURL}notification_hot/user/${profile._id}`)
+      .then(function (response) {
+        console.log(
+          '🚀 ~ file: useNotificationHot.js ~ line 12 ~ response',
+          response,
+        );
+        setNotificationByUser(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('rror here' + error);
+      });
   }
   return {
     NotificationHot: notificationHot,
