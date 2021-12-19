@@ -12,6 +12,7 @@ import CommentScreen from '../Screens/Hot/CommentScreen';
 import PostScreen from '../Screens/Hot/PostScreen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PostHistory from '../Screens/Hot/PostHistory';
+import RepComment from '../Screens/Hot/RepComment';
 
 const HotNavigator = ({navigation}) => {
   return (
@@ -64,6 +65,14 @@ const HotNavigator = ({navigation}) => {
         component={PostHistory}
         options={{
           headerShown: true,
+        }}
+        
+      />
+      <Stack.Screen
+        name="RepComment"
+        component={RepComment}
+        options={{
+          headerShown: false,
         }}
         
       />

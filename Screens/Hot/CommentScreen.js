@@ -10,8 +10,8 @@ import {
   TextInput,
 } from 'react-native';
 export const bback = require('../../assets/images/back.jpg');
-export const user1 = require('../../assets/images/ao7.jpg');
-export const viet = require('../../assets/images/viet.jpg');
+export const senddd = require('../../assets/images/senddd.jpg');
+export const viet = require('../../assets/images/icon.jpg');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import useComment from '../../hooks/Hot/Comment/useComment';
@@ -19,27 +19,6 @@ import TimeAgo from 'javascript-time-ago';
 import vi from 'javascript-time-ago/locale/vi.json';
 import {useRoute} from '@react-navigation/native';
 TimeAgo.addLocale(vi);
-
-const user = [
-  {
-    id: 1,
-    image: user1,
-    name: 'Tiến Am Nhạc',
-    textchat: 'âm nhạc còn là music',
-  },
-  {
-    id: 2,
-    image: user1,
-    name: 'Tiến Am Nhạc',
-    textchat: 'âm nhạc còn là music',
-  },
-  {
-    id: 3,
-    image: user1,
-    name: 'Tiến Am Nhạc',
-    textchat: 'âm nhạc còn là music',
-  },
-];
 
 /**
  * @param {*hot_id} param0
@@ -97,7 +76,10 @@ const CommentScreen = ({likeCountProp, navigation, route}) => {
           </Text>
           <Text style={Styles.comment}>{item.comment}</Text>
           <View style={{flexDirection: 'row', marginTop: 10}}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate('RepComment');
+              
+            }}>
               <Text style={{marginLeft: 10}}>Trả lời</Text>
             </TouchableOpacity>
             <Text style={{marginLeft: 40}}>
@@ -155,19 +137,24 @@ const CommentScreen = ({likeCountProp, navigation, route}) => {
         <View
           style={{
             flexDirection: 'row',
-            width: '90%',
+            width: '100%',
             height: 40,
             backgroundColor: 'white',
             borderWidth: 0.3,
-            borderRadius: 5,
+            backgroundColor: 'white',
+            alignItems: 'center'
           }}>
-          <Image source={viet} style={{width: 23, height: 23, marginTop: 6}} />
+          <Image source={viet} style={{width: 23, height: 23, marginLeft: 5}} />
           <TextInput
             placeholder="Nhập bình luận"
             value={comment}
             onChangeText={text => setComment(text)}
             onSubmitEditing={sendKeyboardSubmit}
+            style={{fontSize: 16, marginLeft: 5,borderWidth: 0.4, width: '80%', height: '80%',padding: 5, borderRadius: 7}}
           />
+          <TouchableOpacity>
+          <Image source={senddd} style={{width: 23, height: 23, marginLeft: 10}}/>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

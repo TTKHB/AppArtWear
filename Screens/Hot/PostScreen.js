@@ -88,7 +88,9 @@ const PostScreen = () => {
             justifyContent: 'center',
           }}
         >
+          <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={back} style={{width: 25, height: 25, marginLeft: 7}} />
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -210,9 +212,10 @@ const PostScreen = () => {
             shadowColor: '#000',
             justifyContent: 'center',
             alignSelf: 'center',
-            borderBottomWidth: 1,
-            borderStartWidth: 1,
-            borderTopWidth :1
+            borderBottomWidth: 2,
+            borderStartWidth: 2,
+            borderTopWidth :2,
+            borderColor: 'grey'
           }}
         >
           <Image source={photo} style={{width: 25, height: 25}} />
@@ -227,9 +230,10 @@ const PostScreen = () => {
             shadowColor: '#000',
             justifyContent: 'center',
             alignSelf: 'center',
-            borderLeftWidth: 1,
-            borderEndWidth: 1,
-            borderWidth: 1,
+            borderLeftWidth: 2,
+            borderEndWidth: 2,
+            borderWidth: 2,
+            borderColor: 'grey'
           }}
         >
           <Image source={album} style={{width: 25, height: 25}} />
@@ -244,9 +248,10 @@ const PostScreen = () => {
             shadowColor: '#000',
             justifyContent: 'center',
             alignSelf: 'center',
-            borderBottomWidth: 1,
-            borderEndWidth: 1,
-            borderTopWidth :1
+            borderBottomWidth: 2,
+            borderEndWidth: 2,
+            borderTopWidth :2,
+            borderColor: 'grey'
           }}
         >
           <Image source={video} style={{width: 25, height: 25}} />

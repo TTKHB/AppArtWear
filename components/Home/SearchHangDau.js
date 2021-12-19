@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import baseURL from '../../assets/common/baseUrl';
 import {format} from '../../utils/Methods';
-
+export const eye = require('../../assets/images/eye.jpg');
 
 // tim kiếm hàng đầu
 const SearchHangDau = ({ item, navigation }) => {
@@ -45,10 +45,13 @@ const SearchHangDau = ({ item, navigation }) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center'
             }}>
             <Text style={styles.price}>{format(item.gia)} VNĐ</Text>
+            <Image source={eye} style={{width: 17, height: 17, marginLeft: 7}}/>
             <Text style={styles.viewer}>{item.viewer}</Text>
           </View>
+          
         </View>
       </View>
     </TouchableOpacity>
