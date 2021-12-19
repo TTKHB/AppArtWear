@@ -67,18 +67,15 @@ const useNotificationHot = () => {
    * @param {*user_id} @type {ObjectId}
    */
   async function sendNotificationCommentToUser() {
+    const body = {
+      PeopleLiked: PeopleLiked,
+      wholiked: wholiked,
+      NotifyType_id: types.LIKE,
+      hot_id: hot_id,
+      user_id: user_id,
+    };
     await axios
-      .post(
-        `${baseURL}notification_hot`,
-
-        {
-          PeopleLiked: PeopleLiked,
-          wholiked: wholiked,
-          NotifyType_id: types.COMMENT,
-          hot_id: hot_id,
-          user_id: user_id,
-        },
-      )
+      .post(`${baseURL}notification_hot`, body)
       .then(function (response) {
         console.log(
           '🚀 ~ file: useNotificationHot.js ~ line 12 ~ response',

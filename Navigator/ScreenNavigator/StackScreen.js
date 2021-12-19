@@ -52,7 +52,7 @@ const StackScreen = () => {
               channelName: notifyChild.NotifyType_id.name,
             });
             const message =
-              notifyChild.PeopleLiked && notifyChild.PeopleLiked != 0
+              notifyChild.PeopleLiked && notifyChild.PeopleLiked != '0'
                 ? notifyChild.wholiked.fullname +
                   ' và ' +
                   notifyChild.PeopleLiked +

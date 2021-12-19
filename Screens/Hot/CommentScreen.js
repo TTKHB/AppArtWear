@@ -176,7 +176,7 @@ const CommentScreen = ({likeCountProp, navigation, route}) => {
               borderRadius: 7,
             }}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => sendKeyboardSubmit()}>
             <Image
               source={senddd}
               style={{width: 23, height: 23, marginLeft: 10}}
