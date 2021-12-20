@@ -81,7 +81,9 @@ const HomeNavigator = ({ navigation }) => {
                   }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={() => navigation.navigate('UserNavigator', { screen: 'SearchScreen' })}
+              >
                 <IconSearch
                   name="search"
                   size={24}
