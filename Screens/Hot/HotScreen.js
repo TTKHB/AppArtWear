@@ -287,8 +287,8 @@ const HotScreen = ({navigation, goBack, route}) => {
             />
           </View>
         )}
-
-        <View>
+      </View>
+      <View>
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('PostScreen');
@@ -297,7 +297,6 @@ const HotScreen = ({navigation, goBack, route}) => {
             <Image source={add} style={{width: 70, height: 70}} />
           </TouchableOpacity>
         </View>
-      </View>
     </Provider>
   );
 };
