@@ -10,7 +10,7 @@ const LoaderHome = () => {
           <SkeletonPlaceholder>
             <View style={{alignItems: 'center'}}>
               <View
-                style={{marginTop: 0, width: 390, height: 480, borderRadius: 4}}
+                style={{marginTop: 0, width: 390, height: 440, borderRadius: 4}}
               />
             </View>
           </SkeletonPlaceholder>

@@ -92,7 +92,7 @@ const MenuScreen = ({navigation}) => {
     console.log("Bac",item._id);
     return (
       <TouchableOpacity
-        onPress={() =>    navigation.navigate('DrawerNavigator', {screen: 'ProductMenu', params: { id_dashboard: item._id},}) }>
+        onPress={() => navigation.navigate('DrawerNavigator', {screen: 'ProductMenu', params: { id_dashboard: item._id},}) }>
         <View key={item._id} style={styles.itemContainer}>
           <View style={styles.itemLogo}>
             <Image style={styles.itemImage} source={{uri: item.image}} />

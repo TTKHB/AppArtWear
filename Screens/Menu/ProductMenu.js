@@ -96,7 +96,7 @@ const ProductMenu = ({navigation, route}) => {
                 <Text style={styles.cardName}>{item.ten}</Text>
               </View>
               <View style={{marginLeft: 4}}>
-                <Text style={styles.price}>{item.gia}</Text>
+                <Text style={styles.price}>{format(item.gia)}</Text>
               </View>
             </View>
           </TouchableOpacity>
