@@ -22,7 +22,7 @@ const ResetPassword = ({navigation}) => {
 
   const PostData = () => {
     if (isValidForm()) {
-      fetch(`http://192.168.0.102:3000/api/v1/users/forgot-Password`, {
+      fetch(`http://10.0.3.2:3000/api/v1/users/forgot-Password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
