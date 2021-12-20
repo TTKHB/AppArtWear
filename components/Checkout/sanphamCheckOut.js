@@ -16,8 +16,8 @@ const sanphamCheckOut = ({ img, name, size, price, textright }) => (
     <Image source={img} style={{ height: 100, width:100, borderColor: '#8D6E63', borderWidth: 0.5 }} />
     <View style={{ flexDirection: 'column' }}>
       <Text style={[styles.itemText, { marginLeft: img ? 10 : 0 }]}>{name}</Text>
-      <Text style={[styles.itemTextSize, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>{size}</Text>
-      <Text style={[styles.itemTextPrice, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>{price} VNĐ</Text>
+      <Text style={[styles.itemTextSize, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>Size {size}</Text>
+      <Text style={[styles.itemTextPrice, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>{price} đ</Text>
       <Text style={[styles.itemTextAmount, { marginLeft: img ? 10 : 0, marginTop: name ? 5 : 0 }]}>x {textright}</Text>
     </View>
   </View>

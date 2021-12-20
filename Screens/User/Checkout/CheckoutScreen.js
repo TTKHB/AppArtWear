@@ -240,9 +240,9 @@ const CheckoutScreen = ({ navigation, route }) => {
     return (
       <View key={item._id} >
         <SanphamCheckOut
-          img={{ uri: item.product_id ? item.product_id.ThumbImg : ' ' }}
+          img={{ uri: item ? item.imageSp : ' ' }}
           name={item.product_id ? item.product_id.ten : ' '}
-          size="size L"
+          size={item ? item.size : ' '}
           price={item.product_id ? item.product_id.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}
           textright={item.amount}
         />
@@ -369,7 +369,7 @@ const CheckoutScreen = ({ navigation, route }) => {
             style={{
               opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
             }}>
-            <View>
+            {/* <View>
               <CheckOutItem
                 iconsale="shopping-sale"
                 color="red"
@@ -377,7 +377,7 @@ const CheckoutScreen = ({ navigation, route }) => {
                 iconright="angle-right"
                 onPress={() => bs.current.snapTo(0)}
               />
-            </View>
+            </View> */}
           </Animated.View>
           {/* Custom đường kẻ ngang*/}
           <View style={styles.divider} />
@@ -489,7 +489,7 @@ const CheckoutScreen = ({ navigation, route }) => {
           <Text style={styles.texttong}>Tổng thanh toán:</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text style={styles.tongprice}>{PriceFinal.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} VNĐ</Text>
+          <Text style={styles.tongprice}>{PriceFinal.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} đ</Text>
           <View style={styles.btnItemOne}>
             <TouchableOpacity>
               <Text style={styles.textItemOne} onPress={() => OrderClick()}>Thanh toán ngay bây giờ</Text>
