@@ -185,10 +185,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   itemContainer: {
-    paddingVertical: 15,
+    paddingVertical: 20,
     alignItems: 'center',
     width: width / 4.9,
     justifyContent: 'center',
+    margin:10
   },
   itemName: {
     fontSize: 16,

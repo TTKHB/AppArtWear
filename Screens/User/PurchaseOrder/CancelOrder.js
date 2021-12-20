@@ -30,7 +30,7 @@ const CancelOder = ({ navigation }) => {
         .catch(error => {
           console.log('Api call error nha');
         });
-
+        
       return () => {
         setorderList([]);
       };
