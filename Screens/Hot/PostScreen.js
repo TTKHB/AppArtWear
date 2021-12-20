@@ -88,7 +88,9 @@ const PostScreen = () => {
             height: '100%',
             justifyContent: 'center',
           }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => {
+              navigation.goBack();
+            }}>
             <Image
               source={back}
               style={{width: 25, height: 25, marginLeft: 7}}
