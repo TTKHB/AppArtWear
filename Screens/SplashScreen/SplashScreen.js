@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {useLogin} from './../../Context/LoginProvider';
-var logo = require('../../assets/images/logoArtWear.jpg');
+var logo = require('../../assets/images/logoArtt.jpg');
 
 const SplashScreen = ({navigation}) => {
   const {setLoading} = useLogin();
@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   logo: {
-    height: '70%',
-    width: '70%',
+    height: '50%',
+    width: '50%',
   },
 });
 
