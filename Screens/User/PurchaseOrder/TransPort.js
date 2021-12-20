@@ -84,7 +84,7 @@ const TransPort = ({ navigation }) => {
             <View style={styles.container3} key={e._id}>
               <View style={styles.viewImage}>
                 <Image style={styles.imageFlat}
-                  source={{ uri: e.product ? e.product.ThumbImg : ' ' }}
+                  source={{ uri: item ? item.imageSp : ' ' }}
                 />
               </View>
               <View style={styles.viewItem}>
@@ -95,7 +95,7 @@ const TransPort = ({ navigation }) => {
                   x {e.quantity}
                 </Text>
                 <Text style={styles.textFlat}>
-                  {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}  VNĐ
+                  {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}  đ
                 </Text>
               </View>
             </View>

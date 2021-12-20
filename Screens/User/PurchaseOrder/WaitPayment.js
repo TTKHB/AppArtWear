@@ -87,7 +87,7 @@ const WaitPayment = ({ navigation }) => {
                 </View>
                 <View >
                   <Text style={[styles.textSize, styles.color]}>
-                    {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}  VNĐ
+                    {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}  đ
                   </Text>
                 </View>
               </View>
@@ -95,7 +95,7 @@ const WaitPayment = ({ navigation }) => {
           ))}
           <View style={styles.view32}>
             <Image style={{ width: 23, height: 23, marginRight: 5 }} source={tt} />
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.totalFinalPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} VNĐ</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.totalFinalPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} đ</Text>
           </View>
           <View style={styles.viewFooter}>
             <View >

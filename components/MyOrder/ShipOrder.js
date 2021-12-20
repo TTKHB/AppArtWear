@@ -8,7 +8,7 @@ const ShipOrder = ({ icon, iconship, name, nameship, onPress }) => (
     <View style={{ flexDirection: 'row', }}>
       <Icon name={icon} size={30} color="#8D6E63" />
       <Text style={[styles.itemText, { marginLeft: icon ? 10 : 0 }]}>{name}</Text>
-      <Text style={styles.iconright}>25.000 VNĐ</Text>
+      <Text style={styles.iconright}>25.000 đ</Text>
     </View>
     <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 2 }}>
       <IconShip name={iconship} size={26} color="#A9A9A9" />

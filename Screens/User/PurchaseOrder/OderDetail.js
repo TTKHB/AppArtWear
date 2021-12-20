@@ -228,9 +228,9 @@ const OderDetail = ({ navigation, route }) => {
           {orderItem.map(item => (
             <View key={item._id} style={{ paddingHorizontal: 10 }}>
               <SanphamOrder
-                img={{ uri: item.product ? item.product.ThumbImg : ' ' }}
+                img={{ uri: orderDetail ? orderDetail.imageSp : ' ' }}
                 name={item.product ? item.product.ten : ' '}
-                size={item.product ? item.product.kichthuoc : ' '}
+                size={orderDetail ? orderDetail.size : ' '}
                 mota={item.product ? item.product.mota : ' '}
                 price={item.product ? item.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}
                 textAmount={item.quantity}

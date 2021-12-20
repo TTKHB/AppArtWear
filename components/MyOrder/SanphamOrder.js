@@ -45,7 +45,7 @@ const SanphamOrder = ({ img, name, size, price, textAmount, mota }) => (
             }
           ]}
         >
-          {size}
+        Size {size}
         </Text>
       </View>
       {/* Mota san pham*/}
@@ -74,7 +74,7 @@ const SanphamOrder = ({ img, name, size, price, textAmount, mota }) => (
                 marginTop: name ? 2 : 0
               }]}
           >
-            {price} VNĐ
+            {price} đ
           </Text>
         </View>
         {/* Quantity san pham*/}

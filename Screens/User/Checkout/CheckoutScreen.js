@@ -102,6 +102,9 @@ const CheckoutScreen = ({ navigation, route }) => {
                 "quantity": e.amount,
                 "product": e.product_id ? e.product_id._id : ' '
               }],
+              imageSp:e.imageSp,
+              size:e.size,
+              color:e.color,
               city: profile.address,
               status: "1",
               fullname: profile.fullname,

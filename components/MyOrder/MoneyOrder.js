@@ -26,7 +26,7 @@ const MoneyOrder = ({
             justifyContent: 'space-between',
         }}>
             <Text style={styles.itemtongphu}>{tongphu}</Text>
-            <Text style={styles.itemTextPricetongphu}>{pricetongphu} VNĐ</Text>
+            <Text style={styles.itemTextPricetongphu}>{pricetongphu} đ</Text>
         </View>
 
         <View style={{
@@ -34,7 +34,7 @@ const MoneyOrder = ({
             justifyContent: 'space-between'
         }}>
             <Text style={styles.itemTextShip}>{phivanchuyen}</Text>
-            <Text style={styles.itemTextPricephiship}>{pricephiship} VNĐ</Text>
+            <Text style={styles.itemTextPricephiship}>{pricephiship} đ</Text>
         </View>
 
         <View style={{
@@ -50,7 +50,7 @@ const MoneyOrder = ({
             justifyContent: 'space-between'
         }}>
             <Text style={styles.itemTextTong}>{tong}</Text>
-            <Text style={styles.itemTextPricetong}>{pricetong} VNĐ</Text>
+            <Text style={styles.itemTextPricetong}>{pricetong} đ</Text>
         </View>
 
     </View>

@@ -59,7 +59,7 @@ const StarRatingOrder = ({ navigation }) => {
               <View style={styles.left}>
                 <View style={styles.giua}>
                   <Image style={styles.images}
-                    source={{ uri: e.product ? e.product.ThumbImg : ' ' }}
+                    source={{ uri: item ? item.imageSp : ' ' }}
                   />
                 </View>
               </View>
@@ -71,10 +71,10 @@ const StarRatingOrder = ({ navigation }) => {
                   Số lương: x {e.quantity}
                 </Text>
                 <Text style={styles.textFlat1}>
-                  {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
+                  {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} đ
                 </Text>
                 <Text style={styles.textFlat2}>
-                  Tổng: {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} VNĐ
+                  Tổng: {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '} đ
                 </Text>
               </View>
             </View>

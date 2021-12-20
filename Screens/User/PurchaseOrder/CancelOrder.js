@@ -76,7 +76,7 @@ const CancelOder = ({ navigation }) => {
               <View style={styles.view21}>
                 <Image
                   style={styles.styleImage}
-                  source={{ uri: e.product ? e.product.ThumbImg : ' ' }}
+                  source={{ uri: item ? item.imageSp : ' ' }}
                 />
               </View>
               <View style={styles.view22}>
@@ -92,7 +92,7 @@ const CancelOder = ({ navigation }) => {
                 </View>
                 <View >
                   <Text style={[styles.textSize, styles.color]}>
-                    {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}  VNĐ
+                    {e.product ? e.product.gia.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.') : ' '}  đ
                   </Text>
                 </View>
               </View>
@@ -100,7 +100,7 @@ const CancelOder = ({ navigation }) => {
           ))}
           <View style={styles.view32}>
             <Image style={{ width: 23, height: 23, marginRight: 5 }} source={tt} />
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.totalFinalPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} VNĐ</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.totalFinalPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.')} đ</Text>
           </View>
 
           <View style={styles.viewFooter}>
