@@ -40,11 +40,10 @@ const onShare = () => {
   }
 };
 
-const abc = () => {
-  Alert.alert('Hello');
-};
-
 const ProfileNoAccount = ({props, navigation}) => {
+  const abc = () => {
+    navigation.navigate('UserNavigator', { screen: 'Login' })
+  };
   return (
     <ScrollView>
       <View style={styles.container}>

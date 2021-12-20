@@ -71,7 +71,7 @@ const Main = ({ navigation }) => {
               tabBarIcon: ({ color }) => (
                 <IconChat name="chatbubble-ellipses-outline" color={color} size={30} />
               ),
-              tabBarBadge: 3,
+              tabBarBadge: 1,
               title: 'Trò chuyện',
               headerStyle: {
                 backgroundColor: '#8D6E63',

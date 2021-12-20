@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -14,19 +14,21 @@ import IconSetting from 'react-native-vector-icons/Feather';
 import IconFavorite from 'react-native-vector-icons/MaterialIcons';
 import ProfileItem from './ProfileItem/ProfileItem';
 import FormOrder from './ProfileItem/myOrder';
-import {Avatar} from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
 import Gift from './ProfileItem/Gift';
-import {signOut} from '../../utils/user';
-import {useLogin} from '../../Context/LoginProvider';
+import { signOut } from '../../utils/user';
+import { useLogin } from '../../Context/LoginProvider';
 import Service from './ServiceItem/Service';
 import MyService from './ServiceItem/myService';
 import InfomationArtWear from './ProfileItem/infomationArtWear';
 import { useScroll } from '../../Context/ScrollContext';
 const artwear = require('../../assets/images/Banner/SplashScreen.jpg');
-const {height, width} = Dimensions.get('window');
-const ProfileHaveAccount = ({navigation, route}) => {
-  const {setIsLoggedIn, profile, fetchUser} = useLogin();
-  const {ScrollingProfile,setScrollingProfile} = useScroll();
+const { height, width } = Dimensions.get('window');
+const ProfileHaveAccount = ({ navigation, route }) => {
+  const { setIsLoggedIn, profile, fetchUser } = useLogin();
+  const { ScrollingProfile, setScrollingProfile } = useScroll();
+  const [orderList, setorderList] = useState([]);
+  const [checkorder, setcheckorder] = useState([]);
   const onShare = () => {
     try {
       const result = Share.share({
@@ -44,7 +46,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
     }
   };
 
-  if(ScrollingProfile){
+  if (ScrollingProfile) {
     fetchUser()
     setScrollingProfile(false)
   }
@@ -54,14 +56,14 @@ const ProfileHaveAccount = ({navigation, route}) => {
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <IconSetting
               name="settings"
               size={24}
               style={styles.iconSetting}
               // onPress={setting}
               onPress={() =>
-                navigation.navigate('UserNavigator', {screen: 'Setting'})
+                navigation.navigate('UserNavigator', { screen: 'Setting' })
               }
             />
             <IconCart
@@ -70,7 +72,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
               style={styles.iconCart}
               // onPress={Cart}
               onPress={() =>
-                navigation.navigate('CartNavigator', {screen: 'Cart'})
+                navigation.navigate('CartNavigator', { screen: 'Cart' })
               }
             />
             <IconFavorite
@@ -90,7 +92,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
                     source={{
                       uri: profile
                         ? profile.avatar ||
-                          'https://res.cloudinary.com/artwear/image/upload/v1632695686/imageUser/LogoUser_khxsbc.jpg'
+                        'https://res.cloudinary.com/artwear/image/upload/v1632695686/imageUser/LogoUser_khxsbc.jpg'
                         : 'https://res.cloudinary.com/artwear/image/upload/v1632695686/imageUser/LogoUser_khxsbc.jpg',
                     }}
                     size={90}
@@ -116,13 +118,13 @@ const ProfileHaveAccount = ({navigation, route}) => {
           />
           {/* Line gạch ngang */}
           <View style={styles.divider} />
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             {/* Chờ thanh toán */}
             <FormOrder
               icon="wallet"
               name={`Chờ thanh \n     toán`}
               onPress={() =>
-                navigation.navigate('TabView', {screen: 'Chờ thanh toán'})
+                navigation.navigate('TabView', { screen: 'Chờ thanh toán' })
               }
             />
             {/* Xử lý hàng */}
@@ -130,7 +132,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
               icon="cube-outline"
               name={`Xử lý hàng`}
               onPress={() =>
-                navigation.navigate('TabView', {screen: 'Xử lý hàng'})
+                navigation.navigate('TabView', { screen: 'Xử lý hàng' })
               }
             />
             {/* Đang vận chuyển */}
@@ -138,7 +140,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
               icon="truck-fast-outline"
               name={` Đang vận \n   chuyển`}
               onPress={() =>
-                navigation.navigate('TabView', {screen: 'Đang vận chuyển'})
+                navigation.navigate('TabView', { screen: 'Đang vận chuyển' })
               }
             />
             {/* Đánh giá */}
@@ -146,7 +148,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
               icon="emoticon-excited-outline"
               name={` Đánh giá`}
               onPress={() =>
-                navigation.navigate('TabView', {screen: 'Đã giao'})
+                navigation.navigate('TabView', { screen: 'Đã giao' })
               }
             />
           </View>
@@ -159,7 +161,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
         <View style={styles.Service}>
           <MyService icon="charity" name="Dịch vụ của tôi" />
           {/* hàng 1 */}
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Service icon="help-circle-outline" name={`Trợ giúp `} />
             <Service icon="brightness-percent" name={`Voucher`} />
             <Service icon="wallet-outline" name={`Ví tiền `} />
@@ -183,7 +185,7 @@ const ProfileHaveAccount = ({navigation, route}) => {
         {/* Thông tin về Art Wear */}
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('UserNavigator', {screen: 'InfomationArtWear'})
+            navigation.navigate('UserNavigator', { screen: 'InfomationArtWear' })
           }>
           <View style={styles.contentArtWear}>
             <InfomationArtWear

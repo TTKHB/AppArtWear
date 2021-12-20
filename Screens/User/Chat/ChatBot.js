@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 const ChatBot =({ navigation, route }) =>{
   return (
-    <View>
-     <Text>ChatBot</Text>
+    <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
+     <Text>Chưa cập nhật</Text>
     </View>
   );
 };
