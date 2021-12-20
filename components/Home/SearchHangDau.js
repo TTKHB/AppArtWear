@@ -2,11 +2,8 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, Dimensions, Image, Alert } from 'react-native';
 import COLORS from '../../assets/data/colors';
 export const senddd = require('../../assets/images/eye.jpg');
-
 import Star from '../ProductMenu/Star';
-
 import axios from 'axios';
-
 import baseURL from '../../assets/common/baseUrl';
 import {format} from '../../utils/Methods';
 const { width } = Dimensions.get('screen');

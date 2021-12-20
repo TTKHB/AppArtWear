@@ -149,7 +149,8 @@ const ProductDetailsScreen = ({ route, navigation, likeCountProp }) => {
   const selectedColor = (index, color) => {
     setCheckboxColor(color);
   };
-
+  
+// favorite
   const UpdateFavorite = () => {
     if (!isLoggedIn) {
       navigation.navigate('UserNavigator', { screen: 'Login' });

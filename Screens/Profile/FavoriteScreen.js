@@ -135,9 +135,6 @@ const FavoriteScreen = ({navigation, i}) => {
         });
     };
     return (
-
-
-
       <TouchableOpacity
         style={styles.viewPopSearch}
         onPress={() =>

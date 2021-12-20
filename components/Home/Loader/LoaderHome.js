@@ -7,12 +7,6 @@ const LoaderHome = () => {
     <SafeAreaView style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>
         <SkeletonPlaceholder>
-          {/* the loai */}
-          <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'center', marginBottom: 15, marginTop: 45,}}>
-              <View style={{width: width / 3.25, height: 45, borderRadius: 4}} />
-              <View style={{margin:5,width: width / 3.25, height: 45, borderRadius: 4}} />
-              <View style={{width: width / 3.25, height: 45, borderRadius: 4}} />
-            </View>
           {/* Banner */}
           <SkeletonPlaceholder>
             <View style={{alignItems: 'center'}}>

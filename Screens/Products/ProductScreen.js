@@ -17,7 +17,6 @@ import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import baseURL from '../../assets/common/baseUrl';
 import LoaderHome from '../../components/Home/Loader/LoaderHome';
-import Category from '../../components/Home/Category';
 import ProductFlashSale from '../../components/Home/ProductFlashSale';
 import SearchHangDau from '../../components/Home/SearchHangDau';
 import SearchPhoBien from '../../components/Home/SearchPhoBien';
@@ -120,8 +119,7 @@ const ProductScreen = ({ navigation }) => {
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
-            {/* thể loại */}
-            <Category />
+            
             {/* banner Header */}
             <SwiperHeader />
             {/* Flash Sales */}
