@@ -100,6 +100,7 @@ const HomeNavigator = ({ navigation }) => {
                   flexDirection: 'row',
                   marginRight: 10,
                 }}>
+              {isLoggedIn ? (
                 <TouchableOpacity
                   onPress={() => navigation.navigate('UserNavigator', { screen: 'FavoriteScreen' })}
                 >
@@ -110,7 +111,22 @@ const HomeNavigator = ({ navigation }) => {
                     style={{
                       marginRight: 10
                     }} />
+               
                 </TouchableOpacity>
+                     ):(
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('UserNavigator', { screen: 'Login' })}
+                >
+                  <IconFavorite
+                    name="favorite-outline"
+                    size={28}
+  
+                    style={{
+                      marginRight: 10
+                    }} />
+                    </TouchableOpacity>
+               )}
                 {isLoggedIn ? (
                   <>
                     <TouchableOpacity
