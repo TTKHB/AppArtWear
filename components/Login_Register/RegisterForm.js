@@ -39,7 +39,7 @@ const validationSchema = Yup.object({
     .required('Chưa nhập mật khẩu!'),
   confirmPassword: Yup.string().equals(
     [Yup.ref('password'), null],
-    'Xác nhận mật khẩu không trùng khớp!',
+    'mật khẩu không khớp!',
   ),
 });
 
